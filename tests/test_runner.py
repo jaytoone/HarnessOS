@@ -6,6 +6,7 @@ from pathlib import Path
 from unittest.mock import patch, AsyncMock, MagicMock
 
 from runner import run_experiment_a, run_experiment_b, _save_results
+from constants import CONTEXT_LENGTHS, POSITIONS, REPEATS, DEFAULT_MODEL
 
 
 def _make_dashboard_mock():
@@ -40,6 +41,15 @@ def test_save_results_includes_summary(tmp_path: Path) -> None:
     files = list(tmp_path.glob("exp_*.json"))
     data = json.loads(files[0].read_text())
     assert data["summary"]["total"] == 5
+
+
+def test_save_results_uses_default_model(tmp_path: Path) -> None:
+    """결과 JSON의 model 필드가 DEFAULT_MODEL 상수와 일치한다."""
+    with patch("runner.RESULTS_DIR", tmp_path):
+        _save_results("exp", [])
+    files = list(tmp_path.glob("exp_*.json"))
+    data = json.loads(files[0].read_text())
+    assert data["model"] == DEFAULT_MODEL
 
 
 def test_save_results_ioerror_propagates(tmp_path: Path) -> None:
