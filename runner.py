@@ -18,6 +18,7 @@ from typing import Any
 from dotenv import load_dotenv
 load_dotenv()
 
+from constants import CONTEXT_LENGTHS, POSITIONS, REPEATS, DEFAULT_MODEL
 from dashboard import Dashboard, DashboardState
 from experiments.context_memory.tasks import build_recall_prompt
 from experiments.context_memory.evaluator import evaluate_recall
@@ -25,9 +26,6 @@ from experiments.coding_failure.tasks import get_coding_tasks
 from experiments.coding_failure.evaluator import run_openhands_task, detect_failure_inflection, StepResult
 
 RESULTS_DIR = Path("results")
-CONTEXT_LENGTHS = [1_000, 10_000, 50_000, 100_000]
-POSITIONS = ["front", "middle", "back"]
-REPEATS = 3
 
 
 async def run_experiment_a() -> None:
@@ -114,7 +112,7 @@ def _save_results(name: str, steps: list[dict[str, Any]], summary: dict[str, Any
     path = RESULTS_DIR / f"{name}_{ts}.json"
     data: dict[str, Any] = {
         "experiment": name,
-        "model": "minimax/MiniMax-M2.5",
+        "model": DEFAULT_MODEL,
         "timestamp": datetime.now().isoformat(),
         "steps": steps,
         "summary": summary or {},

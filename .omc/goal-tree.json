@@ -1,20 +1,10 @@
 {
-  "root_goal": "커버리지 90%+: run_openhands_task agent_state 경로 및 window 실패율 로직 테스트",
-  "original_goal": "AutoCode runner.py 및 evaluator 코드 개선 — 테스트 커버리지 향상 및 에러 핸들링 강화",
+  "root_goal": "AutoCode 코드 품질 강화 — 상수 중앙화, 타입 힌트 완성, 개발 도구",
+  "original_goal": "AutoCode 코드 품질 강화 — 상수 중앙화, 타입 힌트 완성, 개발 도구",
   "level": 0,
   "sub_goals": [],
-  "evolution_count": 4,
-  "evolution_history": [
-    {"iteration": 1, "goal": "AutoCode runner.py 및 evaluator 코드 개선 — 테스트 커버리지 향상 및 에러 핸들링 강화", "score": 0.833, "rationale": "impact 향상 위해 runner.py 비동기 오류 경로 추가"},
-    {"iteration": 2, "goal": "coverage 향상 — runner.py 비동기 오류 경로 테스트 추가", "score": 0.8525, "rationale": "coding_failure/evaluator.py retry 없음"},
-    {"iteration": 3, "goal": "coding_failure/evaluator.py 재시도 로직 추가 및 커버리지 측정 강화", "score": 0.8875, "rationale": "_poll_until_done 미커버"},
-    {"iteration": 4, "goal": "커버리지 76% → 85%+: _poll_until_done 경로 테스트", "score": 0.9075, "rationale": "lines 119-135, 148-154 미커버 — quality 한계"}
-  ],
+  "evolution_count": 0,
+  "evolution_history": [],
   "reward_spec": {"primary_metric": "task completion", "threshold": "all acceptance criteria met"},
-  "history": [
-    {"iteration": 1, "outcome": "success", "phase": "phase_5", "judgment": "YES"},
-    {"iteration": 2, "outcome": "success", "phase": "phase_5", "judgment": "YES"},
-    {"iteration": 3, "outcome": "success", "phase": "phase_5", "judgment": "YES"},
-    {"iteration": 4, "outcome": "success", "phase": "phase_5", "judgment": "YES"}
-  ]
+  "history": []
 }
