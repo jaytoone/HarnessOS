@@ -8,6 +8,7 @@ from experiments.coding_failure.evaluator import (
     _create_conversation,
     _analyze_events,
     run_openhands_task,
+    detect_failure_inflection,
     StepResult,
 )
 
@@ -215,6 +216,25 @@ def test_poll_until_done_ignores_connect_error() -> None:
     assert state == "error"
 
 
+def test_poll_until_done_extracts_state_from_change_agent_state() -> None:
+    """change_agent_state 액션도 터미널 상태로 인식."""
+    events = [
+        {"action": "change_agent_state", "extras": {"agent_state": "stopped"}}
+    ]
+    mock_resp = MagicMock()
+    mock_resp.status_code = 200
+    mock_resp.json.return_value = {"trajectory": events}
+
+    async def run():
+        async with httpx.AsyncClient() as client:
+            with patch.object(client, "get", new_callable=AsyncMock, return_value=mock_resp), \
+                 patch("asyncio.sleep", new_callable=AsyncMock):
+                return await _poll_until_done(client, "cid-4")
+
+    _, state = asyncio.run(run())
+    assert state == "stopped"
+
+
 def test_poll_until_done_timeout_when_max_wait_exceeded() -> None:
     """MAX_WAIT_SEC 초과 시 ([], 'timeout') 반환."""
     import experiments.coding_failure.evaluator as ev_mod
@@ -236,3 +256,89 @@ def test_poll_until_done_timeout_when_max_wait_exceeded() -> None:
     events, state = asyncio.run(run())
     assert state == "timeout"
     assert events == []
+
+
+# ── run_openhands_task 성공/타임아웃/에러 상태 ─────────────────────────────────
+
+def test_run_openhands_task_success_path() -> None:
+    """정상 완료(finished) 시 StepResult(success) 반환."""
+    events = [{"action": "finish"}]
+    with patch(
+        "experiments.coding_failure.evaluator._create_conversation",
+        new_callable=AsyncMock,
+        return_value="cid-ok",
+    ), patch(
+        "experiments.coding_failure.evaluator._poll_until_done",
+        new_callable=AsyncMock,
+        return_value=(events, "finished"),
+    ):
+        result = asyncio.run(run_openhands_task(1, "do it"))
+
+    assert result.status == "success"
+    assert result.step == 1
+    assert result.error is None
+
+
+def test_run_openhands_task_timeout_returns_timeout_result() -> None:
+    """폴링 타임아웃 시 StepResult(timeout) 반환."""
+    with patch(
+        "experiments.coding_failure.evaluator._create_conversation",
+        new_callable=AsyncMock,
+        return_value="cid-timeout",
+    ), patch(
+        "experiments.coding_failure.evaluator._poll_until_done",
+        new_callable=AsyncMock,
+        return_value=([], "timeout"),
+    ):
+        result = asyncio.run(run_openhands_task(2, "slow task"))
+
+    assert result.status == "timeout"
+    assert result.error == "agent timeout"
+
+
+def test_run_openhands_task_agent_error_state_overrides_status() -> None:
+    """final_state=error 이면 _analyze_events 결과와 무관하게 failure 반환."""
+    events = [{"action": "finish"}]  # _analyze_events would say "success"
+    with patch(
+        "experiments.coding_failure.evaluator._create_conversation",
+        new_callable=AsyncMock,
+        return_value="cid-err",
+    ), patch(
+        "experiments.coding_failure.evaluator._poll_until_done",
+        new_callable=AsyncMock,
+        return_value=(events, "error"),
+    ):
+        result = asyncio.run(run_openhands_task(3, "bad task"))
+
+    assert result.status == "failure"
+    assert result.error == "agent reached error state"
+
+
+# ── detect_failure_inflection: window 비율 로직 ───────────────────────────────
+
+def test_detect_failure_inflection_window_rate_doubling() -> None:
+    """이전 구간 대비 실패율 2배 이상 시 해당 구간 첫 스텝 반환."""
+    # steps 1-5: 1 failure (rate=1), steps 6-10: 2 failures (rate=2 = 2x)
+    results = []
+    for i in range(1, 6):
+        status = "failure" if i == 3 else "success"
+        results.append(StepResult(i, status, i * 1000, 100, None))
+    for i in range(6, 11):
+        status = "failure" if i in (7, 9) else "success"
+        results.append(StepResult(i, status, i * 1000, 100, None))
+
+    inflection = detect_failure_inflection(results)
+    assert inflection == 6
+
+
+def test_detect_failure_inflection_window_no_prev_failures_skips() -> None:
+    """이전 구간 실패가 0이면 window 비율 로직 스킵 → None."""
+    # steps 1-5: all success (prev_failures=0), steps 6-10: isolated failures (not consecutive)
+    statuses = ["success"] * 5 + ["failure", "success", "failure", "success", "success"]
+    results = [
+        StepResult(i + 1, statuses[i], (i + 1) * 1000, 100, None)
+        for i in range(10)
+    ]
+    # prev_failures=0 → rate check skipped; no consecutive failures → None
+    inflection = detect_failure_inflection(results)
+    assert inflection is None
