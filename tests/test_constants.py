@@ -17,3 +17,10 @@ def test_repeats_positive() -> None:
 
 def test_default_model_nonempty() -> None:
     assert isinstance(DEFAULT_MODEL, str) and len(DEFAULT_MODEL) > 0
+
+
+def test_results_dir_is_path() -> None:
+    from constants import RESULTS_DIR
+    from pathlib import Path
+    assert isinstance(RESULTS_DIR, Path)
+    assert str(RESULTS_DIR) == "results"
