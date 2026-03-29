@@ -18,14 +18,14 @@ from typing import Any
 from dotenv import load_dotenv
 load_dotenv()
 
-from constants import CONTEXT_LENGTHS, POSITIONS, REPEATS, DEFAULT_MODEL
+from constants import CONTEXT_LENGTHS, POSITIONS, REPEATS, DEFAULT_MODEL, RESULTS_DIR
 from dashboard import Dashboard, DashboardState
 from experiments.context_memory.tasks import build_recall_prompt
 from experiments.context_memory.evaluator import evaluate_recall
 from experiments.coding_failure.tasks import get_coding_tasks
 from experiments.coding_failure.evaluator import run_openhands_task, detect_failure_inflection, StepResult
 
-RESULTS_DIR = Path("results")
+
 
 
 async def run_experiment_a() -> None:
