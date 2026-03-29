@@ -17,7 +17,7 @@ class DashboardState:
     model: str = "MiniMax-M2.5"
     total_steps: int = 0
     current_step: int = 0
-    results: list[dict] = field(default_factory=list)
+    results: list[dict[str, Any]] = field(default_factory=list)
     start_time: float = field(default_factory=time.monotonic)
 
 def render(state: DashboardState) -> Panel:
@@ -63,23 +63,23 @@ def render(state: DashboardState) -> Panel:
     )
 
 class Dashboard:
-    def __init__(self, state: DashboardState):
+    def __init__(self, state: DashboardState) -> None:
         self.state = state
         self._live = Live(render(state), refresh_per_second=1, console=console)
 
-    def __enter__(self):
+    def __enter__(self) -> 'Dashboard':
         self._live.__enter__()
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, *args: Any) -> None:
         self._live.__exit__(*args)
 
-    def update(self, **kwargs):
+    def update(self, **kwargs: Any) -> None:
         for k, v in kwargs.items():
             setattr(self.state, k, v)
         self._live.update(render(self.state))
 
-    def add_result(self, result: dict):
+    def add_result(self, result: dict[str, Any]) -> None:
         self.state.results.append(result)
         self.state.current_step = result.get("step", self.state.current_step)
         self._live.update(render(self.state))

@@ -5,6 +5,7 @@ Usage:
   python runner.py --exp a   # 실험 A: 기억력 저하
   python runner.py --exp b   # 실험 B: 코딩 실수 시점
 """
+from __future__ import annotations
 import argparse
 import asyncio
 import json
@@ -12,6 +13,7 @@ import os
 import time
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -20,7 +22,7 @@ from dashboard import Dashboard, DashboardState
 from experiments.context_memory.tasks import build_recall_prompt
 from experiments.context_memory.evaluator import evaluate_recall
 from experiments.coding_failure.tasks import get_coding_tasks
-from experiments.coding_failure.evaluator import run_openhands_task, detect_failure_inflection
+from experiments.coding_failure.evaluator import run_openhands_task, detect_failure_inflection, StepResult
 
 RESULTS_DIR = Path("results")
 CONTEXT_LENGTHS = [1_000, 10_000, 50_000, 100_000]
@@ -28,11 +30,11 @@ POSITIONS = ["front", "middle", "back"]
 REPEATS = 3
 
 
-async def run_experiment_a():
+async def run_experiment_a() -> None:
     """실험 A: Lost-in-the-Middle 기억력 저하 측정."""
     total = len(CONTEXT_LENGTHS) * len(POSITIONS) * REPEATS
     state = DashboardState(experiment="A - 기억력 저하", total_steps=total)
-    all_results = []
+    all_results: list[dict[str, Any]] = []
     step = 0
 
     with Dashboard(state) as dash:
@@ -49,7 +51,7 @@ async def run_experiment_a():
                         context_tokens=ctx_len,
                         position=position,
                     )
-                    row = {
+                    row: dict[str, Any] = {
                         "step": step,
                         "context_tokens": ctx_len,
                         "position": position,
@@ -67,16 +69,16 @@ async def run_experiment_a():
     print(f"\n실험 A 완료: {sum(1 for r in all_results if r['status']=='success')}/{total} 성공")
 
 
-async def run_experiment_b():
+async def run_experiment_b() -> None:
     """실험 B: OpenHands 코딩 실수 시점 측정."""
     tasks = get_coding_tasks()
     state = DashboardState(experiment="B - 코딩 실수 시점", total_steps=len(tasks))
-    all_results = []
+    all_results: list[dict[str, Any]] = []
 
     with Dashboard(state) as dash:
         for task in tasks:
             result = await run_openhands_task(task.step, task.prompt)
-            row = {
+            row: dict[str, Any] = {
                 "step": result.step,
                 "status": result.status,
                 "context_tokens": result.context_tokens,
@@ -88,14 +90,13 @@ async def run_experiment_b():
             all_results.append(row)
             dash.add_result(row)
 
-    from experiments.coding_failure.evaluator import StepResult
     step_results = [
         StepResult(r["step"], r["status"], r["context_tokens"], r["duration_ms"], r["error"])
         for r in all_results
     ]
     inflection = detect_failure_inflection(step_results)
 
-    summary = {
+    summary: dict[str, Any] = {
         "total_steps": len(tasks),
         "success_rate": sum(1 for r in all_results if r["status"] == "success") / len(tasks),
         "failure_inflection_step": inflection,
@@ -107,11 +108,11 @@ async def run_experiment_b():
     print(f"\n실험 B 완료. 실패 급증 시점: 스텝 {inflection}")
 
 
-def _save_results(name: str, steps: list, summary: dict | None = None):
+def _save_results(name: str, steps: list[dict[str, Any]], summary: dict[str, Any] | None = None) -> None:
     RESULTS_DIR.mkdir(exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     path = RESULTS_DIR / f"{name}_{ts}.json"
-    data = {
+    data: dict[str, Any] = {
         "experiment": name,
         "model": "minimax/MiniMax-M2.5",
         "timestamp": datetime.now().isoformat(),
@@ -122,7 +123,7 @@ def _save_results(name: str, steps: list, summary: dict | None = None):
     print(f"결과 저장: {path}")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="LLM 장기 컨텍스트 실험")
     parser.add_argument("--exp", choices=["a", "b"], required=True, help="실험 선택: a=기억력, b=코딩실수")
     args = parser.parse_args()

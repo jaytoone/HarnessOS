@@ -2,10 +2,13 @@ import time
 import asyncio
 from dataclasses import dataclass
 import httpx
+from typing import Any
 
 OPENHANDS_URL = "http://localhost:3000"
-POLL_INTERVAL = 2.0
-MAX_WAIT_SEC = 300  # 5분 타임아웃
+POLL_INTERVAL = 3.0
+MAX_WAIT_SEC = 360  # 6분 타임아웃
+
+TERMINAL_STATES = {"finished", "error", "stopped", "awaiting_user_input"}
 
 @dataclass
 class StepResult:
@@ -15,78 +18,124 @@ class StepResult:
     duration_ms: int
     error: str | None
 
+
+async def _create_conversation(client: httpx.AsyncClient, prompt: str) -> str:
+    resp = await client.post(
+        f"{OPENHANDS_URL}/api/conversations",
+        json={"initial_user_msg": prompt, "conversation_trigger": "gui"},
+        timeout=30.0,
+    )
+    resp.raise_for_status()
+    data: dict[str, str] = resp.json()
+    return data["conversation_id"]
+
+
+async def _poll_until_done(client: httpx.AsyncClient, cid: str) -> tuple[list[dict[str, Any]], str]:
+    """
+    trajectory 폴링. agent_state_changed 이벤트로 완료 감지.
+    반환: (events, final_agent_state)
+    """
+    elapsed = 0.0
+    last_state = "loading"
+
+    while elapsed < MAX_WAIT_SEC:
+        await asyncio.sleep(POLL_INTERVAL)
+        elapsed += POLL_INTERVAL
+
+        try:
+            resp = await client.get(
+                f"{OPENHANDS_URL}/api/conversations/{cid}/trajectory",
+                timeout=httpx.Timeout(30.0, read=60.0),
+            )
+        except (httpx.ReadTimeout, httpx.ConnectError):
+            continue
+
+        if resp.status_code != 200:
+            continue
+
+        data: dict[str, list[dict[str, Any]]] = resp.json()
+        events = data.get("trajectory", [])
+
+        # agent_state_changed 이벤트에서 최신 상태 추출
+        for ev in reversed(events):
+            action = ev.get("action", "") or ev.get("observation", "")
+            if action in ("agent_state_changed", "change_agent_state"):
+                state = ev.get("extras", {}).get("agent_state", "")
+                if state:
+                    last_state = state
+                    break
+
+        if last_state in TERMINAL_STATES:
+            return events, last_state
+
+    return [], "timeout"
+
+
+def _analyze_events(events: list[dict[str, Any]]) -> tuple[str, str | None]:
+    """events에서 success/failure 판정."""
+    if not events:
+        return "failure", "no events"
+
+    # 마지막 finish 이벤트 확인
+    for ev in reversed(events):
+        action = ev.get("action", "")
+        if action == "finish":
+            return "success", None
+
+    # error 키워드 탐색
+    for ev in reversed(events):
+        content = str(ev.get("observation", "") or ev.get("content", "") or "")
+        if any(kw in content.lower() for kw in ["error", "exception", "traceback", "failed", "exit code 1"]):
+            return "failure", content[:200]
+
+    # finish 없이 awaiting_user_input → 태스크 완료로 간주
+    return "success", None
+
+
 async def run_openhands_task(step: int, prompt: str) -> StepResult:
-    """OpenHands에 태스크 전송 후 trajectory 폴링으로 결과 수집."""
+    """OpenHands에 태스크 전송 → trajectory 폴링 → 결과 반환."""
     start = time.monotonic()
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        # 대화 생성
-        resp = await client.post(
-            f"{OPENHANDS_URL}/api/conversations",
-            json={"initial_user_msg": prompt, "conversation_trigger": "gui"},
-        )
-        resp.raise_for_status()
-        conversation_id = resp.json()["conversation_id"]
+    async with httpx.AsyncClient() as client:
+        try:
+            cid = await _create_conversation(client, prompt)
+        except Exception as e:
+            return StepResult(step, "failure", 0,
+                             int((time.monotonic()-start)*1000), f"create failed: {e}")
 
-        # trajectory 폴링
-        elapsed = 0.0
-        last_event_count = 0
-        stable_count = 0
+        events, final_state = await _poll_until_done(client, cid)
 
-        while elapsed < MAX_WAIT_SEC:
-            await asyncio.sleep(POLL_INTERVAL)
-            elapsed += POLL_INTERVAL
+    duration_ms = int((time.monotonic() - start) * 1000)
 
-            traj_resp = await client.get(
-                f"{OPENHANDS_URL}/api/conversations/{conversation_id}/trajectory"
-            )
-            if traj_resp.status_code != 200:
-                continue
+    if final_state == "timeout":
+        return StepResult(step, "timeout", 0, duration_ms, "agent timeout")
 
-            events = traj_resp.json().get("trajectory", [])
-            if len(events) == last_event_count:
-                stable_count += 1
-                if stable_count >= 3:  # 6초간 새 이벤트 없으면 완료
-                    break
-            else:
-                stable_count = 0
-                last_event_count = len(events)
+    context_tokens = sum(len(str(e)) // 4 for e in events)
+    status, error = _analyze_events(events)
 
-        duration_ms = int((time.monotonic() - start) * 1000)
+    # error 상태면 실패
+    if final_state == "error":
+        status = "failure"
+        if not error:
+            error = "agent reached error state"
 
-        # 결과 분석
-        if elapsed >= MAX_WAIT_SEC:
-            return StepResult(step, "timeout", 0, duration_ms, "timeout exceeded")
+    return StepResult(step, status, context_tokens, duration_ms, error)
 
-        # 마지막 이벤트에서 오류 감지
-        error_msg = None
-        for event in reversed(events):
-            content = str(event.get("observation", "") or event.get("action", ""))
-            if any(kw in content.lower() for kw in ["error", "exception", "traceback", "failed"]):
-                error_msg = content[:200]
-                break
-
-        status = "failure" if error_msg else "success"
-        context_tokens = sum(len(str(e)) // 4 for e in events)  # 근사치
-
-        return StepResult(step, status, context_tokens, duration_ms, error_msg)
 
 def detect_failure_inflection(results: list[StepResult]) -> int | None:
     """
     실패 급증 시점(스텝 번호) 반환.
     조건: 연속 2회 실패 OR 구간(5스텝) 실패율이 이전 구간 대비 2배 이상.
     """
-    # 조건 1: 연속 2회 실패
     for i in range(1, len(results)):
-        if results[i].status == "failure" and results[i-1].status == "failure":
+        if results[i].status != "success" and results[i-1].status != "success":
             return results[i-1].step
 
-    # 조건 2: 구간 실패율 2배 이상
     if len(results) >= 10:
-        prev_failures = sum(1 for r in results[:5] if r.status == "failure")
+        prev_failures = sum(1 for r in results[:5] if r.status != "success")
         for start in range(5, len(results) - 4):
             window = results[start:start+5]
-            curr_failures = sum(1 for r in window if r.status == "failure")
+            curr_failures = sum(1 for r in window if r.status != "success")
             if prev_failures > 0 and curr_failures >= prev_failures * 2:
                 return window[0].step
             prev_failures = curr_failures
