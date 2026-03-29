@@ -1,0 +1,25 @@
+{
+  "tried_strategies": [
+    {"goal": "AutoCode runner.py 및 evaluator 코드 개선 — 테스트 커버리지 향상 및 에러 핸들링 강화", "score": 0.833, "iteration": 1, "outcome": "evolved", "weak_dim": "impact"},
+    {"goal": "coverage 향상 — runner.py 비동기 오류 경로 테스트 추가", "score": 0.8525, "iteration": 2, "outcome": "evolved", "weak_dim": "impact"},
+    {"goal": "coding_failure/evaluator.py 재시도 로직 추가 및 커버리지 측정 강화", "score": 0.8875, "iteration": 3, "outcome": "evolved", "weak_dim": "completeness"},
+    {"goal": "커버리지 76% → 85%+: _poll_until_done 및 dashboard 미커버 경로 테스트", "score": 0.9075, "iteration": 4, "outcome": "evolved", "weak_dim": "quality"},
+    {"goal": "커버리지 90%+: run_openhands_task agent_state 경로 및 window 실패율 로직 테스트", "score": 0.935, "iteration": 5, "outcome": "user_stopped", "weak_dim": "none"}
+  ],
+  "dead_ends": [],
+  "known_facts": [
+    "context_memory/evaluator.py: call_minimax has retry logic (429 + transient errors)",
+    "coding_failure/evaluator.py: _create_conversation now has retry (429 + transient, 2 retries)",
+    "tests: 41/41 passing after iteration 5",
+    "coverage: 92.49% total (coding_failure/evaluator.py: 99%, runner.py: 82%)",
+    "pytest.ini: --cov configured, threshold 60%",
+    "stop signal: infinite-stop.txt created by user, loop terminated gracefully"
+  ],
+  "uncertain": [],
+  "dimensions_explored": {
+    "impact": 0.93,
+    "quality": 0.93,
+    "completeness": 0.97,
+    "efficiency": 0.91
+  }
+}
