@@ -19,15 +19,28 @@ class StepResult:
     error: str | None
 
 
-async def _create_conversation(client: httpx.AsyncClient, prompt: str) -> str:
-    resp = await client.post(
-        f"{OPENHANDS_URL}/api/conversations",
-        json={"initial_user_msg": prompt, "conversation_trigger": "gui"},
-        timeout=30.0,
-    )
-    resp.raise_for_status()
-    data: dict[str, str] = resp.json()
-    return data["conversation_id"]
+async def _create_conversation(
+    client: httpx.AsyncClient, prompt: str, *, _retries: int = 2
+) -> str:
+    last_exc: Exception = RuntimeError("unreachable")
+    for attempt in range(_retries + 1):
+        try:
+            resp = await client.post(
+                f"{OPENHANDS_URL}/api/conversations",
+                json={"initial_user_msg": prompt, "conversation_trigger": "gui"},
+                timeout=30.0,
+            )
+            if resp.status_code == 429 and attempt < _retries:
+                await asyncio.sleep(2 ** attempt)
+                continue
+            resp.raise_for_status()
+            data: dict[str, str] = resp.json()
+            return data["conversation_id"]
+        except (httpx.HTTPStatusError, httpx.TransportError) as exc:
+            last_exc = exc
+            if attempt < _retries:
+                await asyncio.sleep(2 ** attempt)
+    raise last_exc
 
 
 async def _poll_until_done(client: httpx.AsyncClient, cid: str) -> tuple[list[dict[str, Any]], str]:
