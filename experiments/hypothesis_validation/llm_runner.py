@@ -75,7 +75,7 @@ class LLMTaskResult:
         )
 
 
-@dataclass
+@dataclass(frozen=True)
 class LLMExperimentResult:
     """Full LLM experiment result aggregating all task results."""
 
@@ -137,24 +137,21 @@ def run_llm_experiment(
     eng_strategy = LLMEngineeringStrategy(client=client, model=model)
     hyp_strategy = LLMHypothesisStrategy(client=client, model=model)
 
-    result = LLMExperimentResult(
+    return LLMExperimentResult(
         model=model,
         trials_per_task=trials_per_task,
         max_attempts=max_attempts,
+        task_results=[
+            LLMTaskResult(
+                task_id=task.id,
+                category=task.category,
+                trials=trials_per_task,
+                engineering_results=[eng_strategy.run(task, max_attempts=max_attempts) for _ in range(trials_per_task)],
+                hypothesis_results=[hyp_strategy.run(task, max_attempts=max_attempts) for _ in range(trials_per_task)],
+            )
+            for task in tasks
+        ],
     )
-
-    for task in tasks:
-        eng_results = [eng_strategy.run(task, max_attempts=max_attempts) for _ in range(trials_per_task)]
-        hyp_results = [hyp_strategy.run(task, max_attempts=max_attempts) for _ in range(trials_per_task)]
-        result.task_results.append(LLMTaskResult(
-            task_id=task.id,
-            category=task.category,
-            trials=trials_per_task,
-            engineering_results=eng_results,
-            hypothesis_results=hyp_results,
-        ))
-
-    return result
 
 
 def save_llm_results(result: LLMExperimentResult, output_dir: str = "results") -> str:

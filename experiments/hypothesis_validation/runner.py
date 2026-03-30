@@ -46,7 +46,7 @@ class TaskResult:
     hypothesis_result: StrategyResult | None = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class ExperimentResult:
     """Full experiment result containing all task results and configuration."""
 
@@ -123,17 +123,18 @@ def run_experiment(
 
     eng = EngineeringStrategy()
     hyp = HypothesisStrategy()
-    result = ExperimentResult(max_attempts=max_attempts)
-
-    for task in tasks:
-        result.task_results.append(TaskResult(
-            task_id=task.id,
-            category=task.category,
-            engineering_result=eng.run(task, max_attempts),
-            hypothesis_result=hyp.run(task, max_attempts),
-        ))
-
-    return result
+    return ExperimentResult(
+        max_attempts=max_attempts,
+        task_results=[
+            TaskResult(
+                task_id=task.id,
+                category=task.category,
+                engineering_result=eng.run(task, max_attempts),
+                hypothesis_result=hyp.run(task, max_attempts),
+            )
+            for task in tasks
+        ],
+    )
 
 
 # ---------------------------------------------------------------------------
