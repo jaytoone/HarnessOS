@@ -377,40 +377,43 @@ def test_hypothesis_strategy_cumulative_token_tracking(simple_task, mock_respons
 
 def test_llm_task_result_pass_at_1() -> None:
     """LLMTaskResult의 engineering_pass_at_1이 성공 비율을 올바르게 계산하는지 확인한다."""
-    task_result = LLMTaskResult(task_id="A1", category="simple", trials=3)
-
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
 
-    task_result.engineering_results = [
-        LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=True, total_attempts=1),
-        LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=False, total_attempts=3),
-        LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=True, total_attempts=2),
-    ]
+    task_result = LLMTaskResult(
+        task_id="A1", category="simple", trials=3,
+        engineering_results=[
+            LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=True, total_attempts=1),
+            LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=False, total_attempts=3),
+            LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=True, total_attempts=2),
+        ],
+    )
     assert task_result.engineering_pass_at_1 == pytest.approx(2 / 3)
 
 
 def test_llm_task_result_avg_attempts() -> None:
     """LLMTaskResult의 hypothesis_avg_attempts가 평균 시도 횟수를 올바르게 계산하는지 확인한다."""
-    task_result = LLMTaskResult(task_id="A1", category="simple", trials=2)
-
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
 
-    task_result.hypothesis_results = [
-        LLMStrategyResult(task_id="A1", strategy="llm_hypothesis", solved=True, total_attempts=1),
-        LLMStrategyResult(task_id="A1", strategy="llm_hypothesis", solved=True, total_attempts=3),
-    ]
+    task_result = LLMTaskResult(
+        task_id="A1", category="simple", trials=2,
+        hypothesis_results=[
+            LLMStrategyResult(task_id="A1", strategy="llm_hypothesis", solved=True, total_attempts=1),
+            LLMStrategyResult(task_id="A1", strategy="llm_hypothesis", solved=True, total_attempts=3),
+        ],
+    )
     assert task_result.hypothesis_avg_attempts == 2.0
 
 
 def test_llm_task_result_avg_attempts_unsolved() -> None:
     """미해결 가설 전략 결과에서 hypothesis_avg_attempts가 inf를 반환하는지 확인한다."""
-    task_result = LLMTaskResult(task_id="A1", category="simple", trials=1)
-
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
 
-    task_result.hypothesis_results = [
-        LLMStrategyResult(task_id="A1", strategy="llm_hypothesis", solved=False, total_attempts=5),
-    ]
+    task_result = LLMTaskResult(
+        task_id="A1", category="simple", trials=1,
+        hypothesis_results=[
+            LLMStrategyResult(task_id="A1", strategy="llm_hypothesis", solved=False, total_attempts=5),
+        ],
+    )
     assert task_result.hypothesis_avg_attempts == float("inf")
 
 
@@ -418,10 +421,12 @@ def test_llm_task_result_engineering_avg_attempts_unsolved() -> None:
     """미해결 엔지니어링 전략 결과에서 engineering_avg_attempts가 inf를 반환하는지 확인한다."""
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
 
-    task_result = LLMTaskResult(task_id="A1", category="simple", trials=1)
-    task_result.engineering_results = [
-        LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=False, total_attempts=5),
-    ]
+    task_result = LLMTaskResult(
+        task_id="A1", category="simple", trials=1,
+        engineering_results=[
+            LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=False, total_attempts=5),
+        ],
+    )
     assert task_result.engineering_avg_attempts == float("inf")
 
 
@@ -559,15 +564,16 @@ def test_save_llm_results_includes_task_stats(tmp_path) -> None:
     from experiments.hypothesis_validation.llm_runner import save_llm_results
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
 
-    result = LLMExperimentResult()
-    tr = LLMTaskResult(task_id="A1", category="simple", trials=1)
-    tr.engineering_results = [
-        LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=True, total_attempts=1)
-    ]
-    tr.hypothesis_results = [
-        LLMStrategyResult(task_id="A1", strategy="llm_hypothesis", solved=True, total_attempts=1)
-    ]
-    result.task_results = [tr]
+    tr = LLMTaskResult(
+        task_id="A1", category="simple", trials=1,
+        engineering_results=[
+            LLMStrategyResult(task_id="A1", strategy="llm_engineering", solved=True, total_attempts=1)
+        ],
+        hypothesis_results=[
+            LLMStrategyResult(task_id="A1", strategy="llm_hypothesis", solved=True, total_attempts=1)
+        ],
+    )
+    result = LLMExperimentResult(task_results=[tr])
 
     saved_path = save_llm_results(result, output_dir=str(tmp_path))
     import json

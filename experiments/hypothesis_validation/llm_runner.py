@@ -18,7 +18,7 @@ from experiments.hypothesis_validation.llm_strategies import (
 from experiments.hypothesis_validation.tasks import DebugTask, get_debug_tasks
 
 
-@dataclass
+@dataclass(frozen=True)
 class LLMTaskResult:
     """Per-task LLM experiment result with pass@1 and attempt statistics."""
 
@@ -144,21 +144,15 @@ def run_llm_experiment(
     )
 
     for task in tasks:
-        task_result = LLMTaskResult(
+        eng_results = [eng_strategy.run(task, max_attempts=max_attempts) for _ in range(trials_per_task)]
+        hyp_results = [hyp_strategy.run(task, max_attempts=max_attempts) for _ in range(trials_per_task)]
+        result.task_results.append(LLMTaskResult(
             task_id=task.id,
             category=task.category,
             trials=trials_per_task,
-        )
-
-        for _ in range(trials_per_task):
-            task_result.engineering_results.append(
-                eng_strategy.run(task, max_attempts=max_attempts)
-            )
-            task_result.hypothesis_results.append(
-                hyp_strategy.run(task, max_attempts=max_attempts)
-            )
-
-        result.task_results.append(task_result)
+            engineering_results=eng_results,
+            hypothesis_results=hyp_results,
+        ))
 
     return result
 
