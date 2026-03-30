@@ -1,9 +1,10 @@
-from experiments.coding_failure.tasks import get_coding_tasks, CodingTask
+import asyncio
 from unittest.mock import patch, AsyncMock
+
 from experiments.coding_failure.evaluator import (
     run_openhands_task, StepResult, detect_failure_inflection
 )
-import asyncio
+from experiments.coding_failure.tasks import get_coding_tasks, CodingTask
 
 def test_get_coding_tasks_returns_20() -> None:
     tasks = get_coding_tasks()

@@ -1,9 +1,11 @@
-import pytest
-import httpx
-from experiments.context_memory.tasks import build_recall_prompt, count_tokens
-from unittest.mock import patch, AsyncMock, MagicMock
-from experiments.context_memory.evaluator import evaluate_recall, call_minimax, RecallResult
 import asyncio
+from unittest.mock import patch, AsyncMock, MagicMock
+
+import httpx
+import pytest
+
+from experiments.context_memory.evaluator import evaluate_recall, call_minimax, RecallResult
+from experiments.context_memory.tasks import build_recall_prompt, count_tokens
 
 def test_build_recall_prompt_contains_secret() -> None:
     prompt, answer = build_recall_prompt(
