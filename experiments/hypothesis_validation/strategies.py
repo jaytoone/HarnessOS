@@ -473,6 +473,7 @@ class EngineeringStrategy:
     """
 
     def run(self, task: DebugTask, max_attempts: int = 5) -> StrategyResult:
+        """태스크에 대해 엔지니어링 전략 시도를 순서대로 실행하고 StrategyResult를 반환."""
         attempts_code = ENGINEERING_ATTEMPTS.get(task.id, [])
         results: list[AttemptResult] = []
 
@@ -518,6 +519,7 @@ class HypothesisStrategy:
     """
 
     def run(self, task: DebugTask, max_attempts: int = 5) -> StrategyResult:
+        """태스크에 대해 가설 전략 시도를 순서대로 실행하고 StrategyResult를 반환."""
         attempts_data = HYPOTHESIS_ATTEMPTS.get(task.id, [])
         results: list[AttemptResult] = []
 

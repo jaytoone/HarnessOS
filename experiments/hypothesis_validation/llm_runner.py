@@ -28,18 +28,21 @@ class LLMTaskResult:
 
     @property
     def engineering_pass_at_1(self) -> float:
+        """엔지니어링 전략의 pass@1 비율."""
         if not self.engineering_results:
             return 0.0
         return sum(1 for r in self.engineering_results if r.solved) / len(self.engineering_results)
 
     @property
     def hypothesis_pass_at_1(self) -> float:
+        """가설 전략의 pass@1 비율."""
         if not self.hypothesis_results:
             return 0.0
         return sum(1 for r in self.hypothesis_results if r.solved) / len(self.hypothesis_results)
 
     @property
     def engineering_avg_attempts(self) -> float:
+        """엔지니어링 전략의 성공한 시도 평균 횟수 (해결 없으면 inf)."""
         solved = [r for r in self.engineering_results if r.solved]
         if not solved:
             return float("inf")
@@ -47,6 +50,7 @@ class LLMTaskResult:
 
     @property
     def hypothesis_avg_attempts(self) -> float:
+        """가설 전략의 성공한 시도 평균 횟수 (해결 없으면 inf)."""
         solved = [r for r in self.hypothesis_results if r.solved]
         if not solved:
             return float("inf")
@@ -54,6 +58,7 @@ class LLMTaskResult:
 
     @property
     def engineering_total_tokens(self) -> int:
+        """엔지니어링 전략 전체 토큰 사용량 합계."""
         return sum(
             r.total_input_tokens + r.total_output_tokens
             for r in self.engineering_results
@@ -61,6 +66,7 @@ class LLMTaskResult:
 
     @property
     def hypothesis_total_tokens(self) -> int:
+        """가설 전략 전체 토큰 사용량 합계."""
         return sum(
             r.total_input_tokens + r.total_output_tokens
             for r in self.hypothesis_results
@@ -77,6 +83,7 @@ class LLMExperimentResult:
 
     @property
     def engineering_overall_pass_rate(self) -> float:
+        """전체 태스크에 대한 엔지니어링 전략의 평균 pass@1 비율."""
         if not self.task_results:
             return 0.0
         return sum(r.engineering_pass_at_1 for r in self.task_results) / len(
@@ -85,6 +92,7 @@ class LLMExperimentResult:
 
     @property
     def hypothesis_overall_pass_rate(self) -> float:
+        """전체 태스크에 대한 가설 전략의 평균 pass@1 비율."""
         if not self.task_results:
             return 0.0
         return sum(r.hypothesis_pass_at_1 for r in self.task_results) / len(
@@ -93,10 +101,12 @@ class LLMExperimentResult:
 
     @property
     def engineering_total_tokens(self) -> int:
+        """전체 태스크에 대한 엔지니어링 전략 토큰 사용량 합계."""
         return sum(r.engineering_total_tokens for r in self.task_results)
 
     @property
     def hypothesis_total_tokens(self) -> int:
+        """전체 태스크에 대한 가설 전략 토큰 사용량 합계."""
         return sum(r.hypothesis_total_tokens for r in self.task_results)
 
 
