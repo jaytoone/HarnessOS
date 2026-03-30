@@ -14,9 +14,9 @@ from models import Category
 class APIRequestHandler(BaseHTTPRequestHandler):
     """HTTP request handler with routing dictionary."""
     
-    store: Store = None  # Will be set when server starts
-    
-    def _send_json_response(self, status_code: int, data: any) -> None:
+    store: Store | None = None  # Will be set when server starts
+
+    def _send_json_response(self, status_code: int, data: Any) -> None:
         """Send a JSON response."""
         self.send_response(status_code)
         self.send_header('Content-Type', 'application/json')
