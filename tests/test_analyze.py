@@ -330,6 +330,9 @@ def test_run_hypothesis_pipeline_success(tmp_path: Path, capsys: pytest.CaptureF
     assert "3/4" in out
     assert "4/4" in out
     assert "PASS" in out or "FAIL" in out
+    # Formatted report includes category table
+    assert "simple" in out
+    assert "assumption" in out
     # At least one result file should exist
     json_files = list(tmp_path.glob("*.json"))
     assert json_files
