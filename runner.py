@@ -22,8 +22,6 @@ from experiments.coding_failure.tasks import get_coding_tasks
 from experiments.coding_failure.evaluator import run_openhands_task, detect_failure_inflection, StepResult
 
 
-
-
 async def run_experiment_a() -> None:
     """실험 A: Lost-in-the-Middle 기억력 저하 측정."""
     total = len(CONTEXT_LENGTHS) * len(POSITIONS) * REPEATS
