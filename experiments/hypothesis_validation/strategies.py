@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from experiments.hypothesis_validation.tasks import DebugTask
 
 
-@dataclass
+@dataclass(frozen=True)
 class AttemptResult:
     attempt_num: int
     success: bool

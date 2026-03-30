@@ -28,7 +28,7 @@ from experiments.hypothesis_validation.strategies import (
 from experiments.hypothesis_validation.tasks import DebugTask, get_debug_tasks
 
 
-@dataclass
+@dataclass(frozen=True)
 class ConfigIssue:
     task_id: str
     issue: str

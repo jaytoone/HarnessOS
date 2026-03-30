@@ -25,7 +25,7 @@ from experiments.hypothesis_validation.tasks import DebugTask
 # ---------------------------------------------------------------------------
 
 
-@dataclass
+@dataclass(frozen=True)
 class LLMAttemptResult(AttemptResult):
     input_tokens: int = 0
     output_tokens: int = 0

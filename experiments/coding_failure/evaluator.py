@@ -12,7 +12,7 @@ MAX_WAIT_SEC = 360  # 6분 타임아웃
 
 TERMINAL_STATES = {"finished", "error", "stopped", "awaiting_user_input"}
 
-@dataclass
+@dataclass(frozen=True)
 class StepResult:
     step: int
     status: str  # "success" | "failure" | "timeout"

@@ -9,7 +9,7 @@ import httpx
 MINIMAX_API_URL = "https://api.minimax.io/v1/chat/completions"
 MINIMAX_MODEL = "MiniMax-M2.5"
 
-@dataclass
+@dataclass(frozen=True)
 class RecallResult:
     is_correct: bool
     expected: str
