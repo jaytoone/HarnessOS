@@ -105,3 +105,13 @@
 - AgentBench goal taxonomy 2025 — Level 0~3 classification
 - OpenAI API best practices 2025 — CONVERGED_STALE pattern
 - GitHub Copilot Workspace 실험보고 2025 — git linear checkpoint
+
+## Related
+- [[projects/LiveCode/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/LiveCode/research/20260330-omc-live-critique|20260330-omc-live-critique]]
+- [[projects/LiveCode/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/LiveCode/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/LiveCode/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/LiveCode/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
+- [[projects/LiveCode/research/20260325-omc-live-patch-critique|20260325-omc-live-patch-critique]]
+- [[projects/LiveCode/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]

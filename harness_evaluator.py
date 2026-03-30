@@ -361,16 +361,8 @@ def save_verdict(verdict: HarnessVerdict) -> Path:
     return path
 
 
-def load_latest_verdict(experiment: str) -> HarnessVerdict | None:
-    """특정 실험의 가장 최근 하네스 평가 결과를 로드."""
-    if not HARNESS_EVAL_DIR.exists():
-        return None
-
-    paths = sorted(HARNESS_EVAL_DIR.glob(f"{experiment}_eval_*.json"), reverse=True)
-    if not paths:
-        return None
-
-    data = json.loads(paths[0].read_text())
+def _verdict_from_dict(data: dict[str, Any]) -> HarnessVerdict:
+    """JSON 딕셔너리에서 HarnessVerdict 객체를 복원."""
     return HarnessVerdict(
         experiment=data["experiment"],
         passed=data["passed"],
@@ -382,3 +374,15 @@ def load_latest_verdict(experiment: str) -> HarnessVerdict | None:
         suggestions=data.get("suggestions", []),
         timestamp=data.get("timestamp", ""),
     )
+
+
+def load_latest_verdict(experiment: str) -> HarnessVerdict | None:
+    """특정 실험의 가장 최근 하네스 평가 결과를 로드."""
+    if not HARNESS_EVAL_DIR.exists():
+        return None
+
+    paths = sorted(HARNESS_EVAL_DIR.glob(f"{experiment}_eval_*.json"), reverse=True)
+    if not paths:
+        return None
+
+    return _verdict_from_dict(json.loads(paths[0].read_text()))

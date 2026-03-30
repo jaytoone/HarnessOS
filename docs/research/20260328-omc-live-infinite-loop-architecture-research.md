@@ -109,3 +109,11 @@
 - https://arxiv.org/abs/2505.02709 — Goal Drift benchmark (May 2025)
 - https://arxiv.org/abs/2511.16043 — Agent0 (co-evolution, Nov 2025)
 - https://www.letta.com/blog/benchmarking-ai-agent-memory — Letta LoCoMo benchmark
+
+## Related
+- [[projects/LiveCode/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/LiveCode/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/LiveCode/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
+- [[projects/LiveCode/research/20260325-omc-autopilot-loop-vs-agent-research-trends|20260325-omc-autopilot-loop-vs-agent-research-trends]]
+- [[projects/LiveCode/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/LiveCode/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

@@ -290,3 +290,7 @@ trap 'on_failure "$PROJECT"' ERR
 - [CondensationAction 무한루프 이슈](https://github.com/OpenHands/OpenHands/issues/8630)
 - [OpenHands Daytona 통합](https://openhands.daytona.io/)
 - [OpenHands CLI](https://github.com/OpenHands/OpenHands-CLI)
+
+## Related
+- [[projects/LiveCode/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/LiveCode/research/20260323-openhands-docker-permission-solution|20260323-openhands-docker-permission-solution]]

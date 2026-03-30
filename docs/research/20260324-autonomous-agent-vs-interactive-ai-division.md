@@ -52,3 +52,9 @@ Claude가 직접 Broadcaster 코드를 수동으로 수정하는 이유 - 자율
 - https://www.permit.io/blog/human-in-the-loop-for-ai-agents-best-practices-frameworks-use-cases-and-demo
 - https://www.stackai.com/insights/human-in-the-loop-ai-agents-how-to-design-approval-workflows-for-safe-and-scalable-automation
 - https://www.auxiliobits.com/blog/how-to-choose-between-autonomous-and-human-in-the-loop-agents/
+
+## Related
+- [[projects/LiveCode/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/LiveCode/research/20260324-openhands-autonomous-global-setup|20260324-openhands-autonomous-global-setup]]
+- [[projects/LiveCode/research/20260323-openhands-docker-permission-solution|20260323-openhands-docker-permission-solution]]
+- [[projects/LiveCode/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

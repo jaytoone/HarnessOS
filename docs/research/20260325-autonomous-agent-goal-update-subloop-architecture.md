@@ -226,3 +226,7 @@ P(Self-attributing) > P(Self-navigating) > P(Self-questioning).
 - https://www.philschmid.de/agents-inner-outer-loop — Inner/Outer Loop 이분법 (2026)
 - https://neurips.cc/ — GCRL Goal-Conditioned RL (NeurIPS 2024)
 - https://www.microsoft.com/research/articles/magentic-one — Magentic-One 이중 루프 실패 처리 (2025)
+
+## Related
+- [[projects/LiveCode/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/LiveCode/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

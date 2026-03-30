@@ -955,3 +955,11 @@ git commit -m "feat: complete LLM long-context experiment system"
 - [ ] `python runner.py --help` 정상 출력 확인
 - [ ] 실험 A 소요 예상 시간: 약 30~60분 (API 호출 36회)
 - [ ] 실험 B 소요 예상 시간: 약 60~120분 (OpenHands 20스텝)
+
+## Related
+- [[projects/LiveCode/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
+- [[projects/LiveCode/research/20260325-omc-live-patch-critique|20260325-omc-live-patch-critique]]
+- [[projects/LiveCode/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/LiveCode/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/LiveCode/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
+- [[projects/LiveCode/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

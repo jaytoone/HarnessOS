@@ -90,3 +90,12 @@ omc-live outer loop ↔ Scientific research cycle:
 - [Drug Discovery Agents](https://arxiv.org/abs/2510.27130)
 - [Materials Science Agent](https://arxiv.org/abs/2512.19458)
 - [AI Medical Devices Regulation 2025](https://intuitionlabs.ai/articles/ai-medical-devices-regulation-2025)
+
+## Related
+- [[projects/LiveCode/research/20260330-omc-live-critique|20260330-omc-live-critique]]
+- [[projects/LiveCode/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/LiveCode/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/LiveCode/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/LiveCode/research/20260325-omc-live-patch-critique|20260325-omc-live-patch-critique]]
+- [[projects/LiveCode/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
+- [[projects/LiveCode/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

@@ -211,3 +211,7 @@ GET http://localhost:3000/api/conversations/{conversation_id}/trajectory
 | 설계·지휘 | Claude Code | 스펙 작성, 실험 설계, 결과 분석 |
 | 자율 실행 | OpenHands (MiniMax M2.5) | 실험 코드 작성·실행, 태스크 수행 |
 | 공유 저장소 | `/home/jayone/Project/AutoCode` | 양쪽 모두 접근 |
+
+## Related
+- [[projects/LiveCode/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
+- [[projects/LiveCode/research/20260323-openhands-docker-permission-solution|20260323-openhands-docker-permission-solution]]

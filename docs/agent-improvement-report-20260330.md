@@ -125,3 +125,6 @@
 - [ ] 하네스 안티패턴 세트 정의 및 자동 감지 로직 (P2-5)
 - [ ] 실제 LLM 실험 실행 및 결과 기록 (ANTHROPIC_API_KEY 필요, 비용 발생)
 - [ ] Agent Flywheel 아키텍처 설계 문서 작성 (P3-6)
+
+## Related
+- [[projects/LiveCode/research/20260330-hypothesis-vs-engineering-thinking|20260330-hypothesis-vs-engineering-thinking]]

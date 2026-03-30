@@ -63,3 +63,11 @@
 - /home/jayone/.claude/skills/omc-live/SKILL.md (직접 분석)
 - docs/research/20260326-omc-live-self-evolving-outer-loop.md (전 세션 연구)
 - docs/research/20260325-omc-live-patch-critique.md (이전 패치 평론)
+
+## Related
+- [[projects/LiveCode/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/LiveCode/research/20260330-omc-live-critique|20260330-omc-live-critique]]
+- [[projects/LiveCode/research/20260325-omc-live-patch-critique|20260325-omc-live-patch-critique]]
+- [[projects/LiveCode/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/LiveCode/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
+- [[projects/LiveCode/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

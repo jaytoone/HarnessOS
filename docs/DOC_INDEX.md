@@ -25,3 +25,13 @@
 - [2026-03-28 omc-live 과학 연구 / 고전문 분야 확장성](research/20260328-omc-live-science-research-domain-expansion.md)
 - [2026-03-30 자율 에이전트 인사이트 수집 및 LiveCode 개선 보고서](agent-improvement-report-20260330.md)
 - [2026-03-30 omc-live / omc-live-infinite 스킬 전문 평론](research/20260330-omc-live-critique.md)
+
+## Related
+- [[projects/LiveCode/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/LiveCode/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/LiveCode/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
+- [[projects/LiveCode/research/20260323-openhands-docker-permission-solution|20260323-openhands-docker-permission-solution]]
+- [[projects/LiveCode/research/20260324-openhands-autonomous-global-setup|20260324-openhands-autonomous-global-setup]]
+- [[projects/LiveCode/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
+- [[projects/LiveCode/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/LiveCode/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]

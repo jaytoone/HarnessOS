@@ -127,7 +127,7 @@ def analyze_llm_hypothesis(data: dict[str, Any]) -> None:
 
 def show_harness_trend(experiment: str | None = None) -> None:
     """하네스 평가 결과 추이 출력 (cross-run comparison)."""
-    from harness_evaluator import HARNESS_EVAL_DIR, HarnessVerdict, compare_runs
+    from harness_evaluator import HARNESS_EVAL_DIR, compare_runs, _verdict_from_dict
 
     if not HARNESS_EVAL_DIR.exists():
         print(f"하네스 평가 결과 없음: {HARNESS_EVAL_DIR}/")
@@ -167,21 +167,7 @@ def show_harness_trend(experiment: str | None = None) -> None:
 
         print(f"[{exp_name}] — {len(paths)}개 실행 기록")
 
-        # 직렬화 방식으로 로드
-        verdicts: list[HarnessVerdict] = []
-        for p in paths:
-            data = json.loads(p.read_text())
-            verdicts.append(HarnessVerdict(
-                experiment=data["experiment"],
-                passed=data["passed"],
-                score=data["score"],
-                success_rate=data["success_rate"],
-                avg_duration_ms=data["avg_duration_ms"],
-                total_steps=data["total_steps"],
-                issues=data.get("issues", []),
-                suggestions=data.get("suggestions", []),
-                timestamp=data.get("timestamp", ""),
-            ))
+        verdicts = [_verdict_from_dict(json.loads(p.read_text())) for p in paths]
 
         for i, v in enumerate(verdicts):
             ts = v.timestamp[:16]

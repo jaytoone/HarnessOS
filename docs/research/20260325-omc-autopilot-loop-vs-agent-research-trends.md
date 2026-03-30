@@ -181,3 +181,8 @@ FACT-13의 Cost 차원 평가가 설계에 없음. Opus 다중 호출로 단일 
 - https://www.swebench.com/ — SWE-bench 리더보드 (2025)
 - https://jatinganhotra.dev/blog/swe-agents/2025/06/05/swe-bench-verified-discriminative-subsets.html — SWE-bench discriminative analysis
 - https://neurips.cc/virtual/2024/106575 — ADAS 워크샵 (NeurIPS 2024)
+
+## Related
+- [[projects/LiveCode/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/LiveCode/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
+- [[projects/LiveCode/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

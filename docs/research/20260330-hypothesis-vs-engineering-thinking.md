@@ -24,3 +24,6 @@
 - https://arxiv.org/pdf/2511.08866 (BioVerge Agent)
 - https://arxiv.org/abs/2502.11881 (Hypothesis-Driven ToM)
 - https://llm-stats.com/benchmarks/swe-bench-verified
+
+## Related
+- [[projects/LiveCode/research/20260323-hypothesis-driven-agent-research|20260323-hypothesis-driven-agent-research]]
