@@ -175,7 +175,7 @@ def _diagnose_context_memory(
             )
             suggestions.append(
                 f"'{worst_pos}' 위치의 프롬프트 설계를 강화하세요 "
-                f"(예: 비밀 코드 앞뒤에 구분자 추가)."
+                "(예: 비밀 코드 앞뒤에 구분자 추가)."
             )
 
     # 긴 컨텍스트에서의 성능 저하 검사
@@ -214,7 +214,7 @@ def _diagnose_coding_failure(
             issues.append(f"카테고리 '{cat}'의 성공률이 {rate:.1%}로 매우 낮음")
             suggestions.append(
                 f"'{cat}' 카테고리의 태스크 난이도를 조정하거나 "
-                f"단계적 힌트를 제공하세요."
+                "단계적 힌트를 제공하세요."
             )
 
     # 실패 급증 시점 조기 발생 검사
