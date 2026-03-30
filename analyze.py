@@ -214,8 +214,8 @@ def run_hypothesis_pipeline() -> None:
     print("[1/4] Pre-mortem 검증...")
     issues = validate_experiment_config()
     if issues:
-        for issue in issues:
-            print(f"  ❌ {issue.task_id}: {issue.issue}")
+        for cfg_issue in issues:
+            print(f"  ❌ {cfg_issue.task_id}: {cfg_issue.issue}")
         print("검증 실패 — 실험을 중단합니다.")
         sys.exit(1)
     print("  ✓ 모든 태스크 검증 통과\n")
