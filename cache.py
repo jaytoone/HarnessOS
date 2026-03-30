@@ -1,14 +1,14 @@
 """TTL-based caching decorator for Store using the Decorator pattern."""
 import time
 from typing import Any
-from store import InMemoryStore, BaseStore
+from store import BaseStore
 from models import Product
 
 
 class CachedStore(BaseStore):
     """Decorator class that adds TTL-based caching to an InMemoryStore."""
 
-    def __init__(self, store: InMemoryStore, ttl: float = 60.0) -> None:
+    def __init__(self, store: BaseStore, ttl: float = 60.0) -> None:
         self._store = store
         self._ttl = ttl
         self._cache: dict[str, tuple[Any, float]] = {}
