@@ -4,6 +4,8 @@ Adapted for deterministic exec-based evaluation (no Monte Carlo).
 Each task has exactly one engineering and one hypothesis result.
 """
 from dataclasses import dataclass, field
+
+from constants import DebugTaskCategory
 from experiments.hypothesis_validation.runner import ExperimentResult, TaskResult
 
 
@@ -11,7 +13,7 @@ from experiments.hypothesis_validation.runner import ExperimentResult, TaskResul
 class CategoryStats:
     """Aggregated per-category success/attempt statistics for both strategies."""
 
-    category: str
+    category: DebugTaskCategory
     eng_solved: int
     eng_total: int
     hyp_solved: int
@@ -29,7 +31,7 @@ class TaskDetail:
     """Per-task outcome detail for both engineering and hypothesis strategies."""
 
     task_id: str
-    category: str
+    category: DebugTaskCategory
     eng_solved: bool
     eng_attempts: int
     hyp_solved: bool

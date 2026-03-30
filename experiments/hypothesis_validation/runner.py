@@ -17,7 +17,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from constants import RESULTS_DIR
+from constants import RESULTS_DIR, DebugTaskCategory
 
 from experiments.hypothesis_validation.strategies import (
     EngineeringStrategy,
@@ -41,7 +41,7 @@ class TaskResult:
     """Paired engineering and hypothesis strategy results for a single task."""
 
     task_id: str
-    category: str
+    category: DebugTaskCategory
     engineering_result: StrategyResult | None = None
     hypothesis_result: StrategyResult | None = None
 
