@@ -41,8 +41,8 @@ async def call_minimax(prompt: str, *, _retries: int = 2) -> str:
                     await asyncio.sleep(2 ** attempt)
                     continue
                 resp.raise_for_status()
-                data: dict[str, object] = resp.json()
-                content: str = data["choices"][0]["message"]["content"]  # type: ignore[index]
+                data = resp.json()
+                content: str = data["choices"][0]["message"]["content"]
                 return content.strip()
             except (httpx.HTTPStatusError, httpx.TransportError) as exc:
                 last_exc = exc
