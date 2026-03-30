@@ -9,8 +9,9 @@ Validity note: attempt code was written by the researcher to represent
 upper bound of each strategy, not actual LLM behavior.
 """
 from dataclasses import dataclass, field
-from typing import Any, Literal
+from typing import Any
 
+from constants import StrategyName
 from experiments.hypothesis_validation.tasks import DebugTask
 
 
@@ -31,7 +32,7 @@ class StrategyResult:
     """Aggregated result for one strategy run on a single task."""
 
     task_id: str
-    strategy: Literal["engineering", "hypothesis"]
+    strategy: StrategyName
     solved: bool
     attempts: list[AttemptResult] = field(default_factory=list)
     total_attempts: int = 0

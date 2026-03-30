@@ -8,6 +8,9 @@ ExperimentName = Literal["context_memory", "coding_failure", "hypothesis_validat
 # 가설 검증 실험 디버그 태스크 카테고리
 DebugTaskCategory = Literal["simple", "causal", "assumption"]
 
+# 전략 식별자 (결정론적 + LLM 포함)
+StrategyName = Literal["engineering", "hypothesis", "llm_engineering", "llm_hypothesis"]
+
 # 비밀 코드 위치 타입
 Position = Literal["front", "middle", "back"]
 PositionOrUnknown = Literal["front", "middle", "back", "unknown"]
