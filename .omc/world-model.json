@@ -1,37 +1,33 @@
 {
-  "tried_strategies": [
-    {"goal": "runner.py 성공 경로 테스트 추가 + main() 함수 커버리지", "score": 0.955, "iteration": 1, "outcome": "evolved", "weak_dim": "impact"},
-    {"goal": "context_memory evaluator 예외 경로 100% 커버", "score": 0.965, "iteration": 2, "outcome": "evolved", "weak_dim": "quality"},
-    {"goal": "tasks.py/evaluator 미커버 경로 완성", "score": 0.969, "iteration": 3, "outcome": "evolved", "weak_dim": "quality"},
-    {"goal": "pragma:no cover로 100% 커버리지 달성", "score": 0.975, "iteration": 4, "outcome": "evolved", "weak_dim": "quality"},
-    {"goal": "conftest.py 공유 픽스처 추가", "score": 0.980, "iteration": 5, "outcome": "evolved", "weak_dim": "efficiency"},
-    {"goal": "test_runner.py fixture 마이그레이션", "score": 0.988, "iteration": 6, "outcome": "evolved", "weak_dim": "efficiency"},
-    {"goal": "docstring + pytest threshold 95% 강화", "score": 0.990, "iteration": 7, "outcome": "plateau", "weak_dim": "efficiency"},
-    {"goal": "[ESCAPE1] runner.py/constants.py/dashboard.py 미사용 import 제거", "score": 0.995, "iteration": 10, "outcome": "escaped", "weak_dim": "efficiency"},
-    {"goal": "[ESCAPE2] analyze.py 결과 분석 스크립트 + 100% 커버리지", "score": 0.998, "iteration": 13, "outcome": "converged", "weak_dim": "none"}
-  ],
+  "tried_strategies": [],
   "dead_ends": [],
   "known_facts": [
-    "tests: 77/77 passing (v3 session)",
-    "coverage: 100% total (306 statements)",
-    "pytest.ini: --cov-fail-under=95",
-    "analyze.py: 신규 모듈, 결과 분석 자동화",
-    "runner.py: pragma:no cover on __main__ guard",
-    "dashboard.py: Self type, unused import 제거",
-    "tests/__init__.py: pycache conflict 해결",
-    "tests/conftest.py: dashboard_mock 공유 픽스처"
+    "Chrome 읽기목록 49개 파싱 완료 (OffClaw parse_reading_list)",
+    "에이전트 관련 핵심 URL 8개 식별",
+    "LiveCode: AutoCode 시스템, omc-live-infinite 루프 운영중",
+    "이전 세션: score=0.998 (100% 테스트 커버리지 달성)"
   ],
   "uncertain": [],
   "dimensions_explored": {
-    "completeness": 1.0,
-    "impact": 1.0,
-    "quality": 1.0,
-    "efficiency": 0.99
+    "completeness": 0.0,
+    "impact": 0.0,
+    "quality": 0.0,
+    "efficiency": 0.0
   },
   "best_score_vector": {
-    "completeness": 1.0,
-    "impact": 1.0,
-    "quality": 1.0,
-    "efficiency": 0.99
-  }
+    "completeness": 0.0,
+    "impact": 0.0,
+    "quality": 0.0,
+    "efficiency": 0.0
+  },
+  "reading_list_targets": [
+    {"url": "https://bcho.tistory.com/1508", "title": "AI 코딩의 발전단계 - 하네스 엔지니어링과 완전 자율형 에이전트"},
+    {"url": "https://news.hada.io/topic?id=27863", "title": "장기 실행 애플리케이션 개발을 위한 하네스 설계"},
+    {"url": "https://wikidocs.net/blog/@jaehong/9556/", "title": "LM으로 수만 줄 프로젝트 유지: 아키텍트-개발자-리뷰어 멀티 에이전트 워크플로우"},
+    {"url": "https://news.hada.io/topic?id=27706", "title": "Andrej Karpathy가 말하는 코드 에이전트, AutoResearch"},
+    {"url": "https://discuss.pytorch.kr/t/autoresearchclaw-ai/9329", "title": "AutoResearchClaw: 완전 자율 AI 연구 에이전트"},
+    {"url": "https://www.marktechpost.com/2026/03/20/a-coding-implementation-showcasing-clawteams-multi-agent-swarm-orchestration-with-openai-function-calling/", "title": "Multi-Agent Swarm Orchestration"},
+    {"url": "https://news.hada.io/topic?id=27750", "title": "Impeccable - AI 하네스가 더 디자인 잘하게 만들기"},
+    {"url": "https://news.hada.io/topic?id=27858", "title": "속도를 늦춰야 빨라진다"}
+  ]
 }

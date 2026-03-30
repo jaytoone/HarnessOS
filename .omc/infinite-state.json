@@ -1,15 +1,11 @@
 {
-  "status": "CONVERGED",
-  "session_id": "inf-20260329-v3",
-  "current_iteration": 13,
-  "root_goal": "AutoCode 코드 품질 강화 — 테스트 커버리지 100%, import 정리, analyze.py 신규 모듈",
-  "original_goal": "AutoCode runner.py 성공 경로 커버리지 + main() 함수 테스트",
-  "evolution_count": 2,
-  "best_score": 0.998,
-  "final_score": 0.998,
-  "total_iterations": 13,
-  "total_sessions": 1,
+  "status": "ROTATING",
+  "session_id": "inf-hypothesis-upgrade-20260330",
+  "current_iteration": 0,
+  "root_goal": "가설 기반 실험을 실제 검증 가능한 수준으로 업그레이드 — 시뮬레이션 → 실측 기반",
+  "original_goal": "현재 시뮬레이션 실험의 한계를 솔직히 분석하고, 진짜 측정 가능한 실험 설계로 교체한다",
+  "evolution_count": 0,
+  "best_score": 0.0,
   "plateau_count": 0,
-  "escape_attempts": 2,
-  "world_model_path": ".omc/world-model.json"
+  "escape_attempts": 0
 }
