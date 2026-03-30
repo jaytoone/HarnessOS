@@ -1,12 +1,9 @@
-from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
-from rich.console import Console
+from rich.console import Console, Group
 from rich.live import Live
 from rich.table import Table
 from rich.panel import Panel
-from rich.progress import Progress, BarColumn, TextColumn
-from rich.console import Group
 import time
 
 console = Console()

@@ -1,5 +1,4 @@
 """AutoCode 실험 상수."""
-from __future__ import annotations
 from pathlib import Path
 
 # 실험 A: 컨텍스트 길이 / 위치 / 반복 설정
