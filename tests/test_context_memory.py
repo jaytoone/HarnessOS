@@ -93,3 +93,40 @@ def test_evaluate_recall_case_insensitive() -> None:
             prompt="...", expected="ALPHA-7734", context_tokens=500,
         ))
     assert result.is_correct is True
+
+
+def test_call_minimax_retries_on_transport_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    """TransportError 발생 시 재시도 후 성공."""
+    monkeypatch.setenv("MINIMAX_API_KEY", "test-key")
+    call_count = 0
+
+    async def mock_post(*args: object, **kwargs: object) -> MagicMock:
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            raise httpx.TransportError("network error")
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.raise_for_status.return_value = None
+        mock_resp.json.return_value = {"choices": [{"message": {"content": "RESULT"}}]}
+        return mock_resp
+
+    with patch("httpx.AsyncClient.post", side_effect=mock_post), \
+         patch("asyncio.sleep", new_callable=AsyncMock):
+        result = asyncio.run(call_minimax("prompt", _retries=2))
+
+    assert result == "RESULT"
+    assert call_count == 2
+
+
+def test_call_minimax_exhausts_retries_raises(monkeypatch: pytest.MonkeyPatch) -> None:
+    """재시도를 모두 소진하면 마지막 예외가 전파된다."""
+    monkeypatch.setenv("MINIMAX_API_KEY", "test-key")
+
+    async def mock_post(*args: object, **kwargs: object) -> None:
+        raise httpx.TransportError("always fails")
+
+    with patch("httpx.AsyncClient.post", side_effect=mock_post), \
+         patch("asyncio.sleep", new_callable=AsyncMock):
+        with pytest.raises(httpx.TransportError, match="always fails"):
+            asyncio.run(call_minimax("prompt", _retries=2))
