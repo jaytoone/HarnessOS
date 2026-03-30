@@ -4,7 +4,7 @@ Runs both LLM strategies (engineering vs hypothesis) on debug tasks.
 Supports multiple trials per task for statistical validity (pass@k).
 """
 import json
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
