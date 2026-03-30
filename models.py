@@ -9,10 +9,13 @@ ProductDict: TypeAlias = dict[str, Any]
 
 @dataclass
 class Category:
+    """Product category with a name and description."""
+
     name: str
     description: str
 
     def to_dict(self) -> CategoryDict:
+        """Serialize to a plain dict."""
         return {
             'name': self.name,
             'description': self.description
@@ -20,6 +23,7 @@ class Category:
 
     @classmethod
     def from_dict(cls, data: CategoryDict) -> 'Category':
+        """Deserialize from a plain dict."""
         return cls(
             name=data['name'],
             description=data['description']
@@ -28,12 +32,15 @@ class Category:
 
 @dataclass
 class Product:
+    """Store product with name, price, quantity, and optional category."""
+
     name: str
     price: float
     quantity: int
     category: Category | None = None
 
     def to_dict(self) -> ProductDict:
+        """Serialize to a plain dict."""
         return {
             'name': self.name,
             'price': self.price,
@@ -43,6 +50,7 @@ class Product:
 
     @classmethod
     def from_dict(cls, data: ProductDict) -> 'Product':
+        """Deserialize from a plain dict."""
         category_data: CategoryDict | None = data.get('category')
         category = Category.from_dict(category_data) if category_data else None
         return cls(
