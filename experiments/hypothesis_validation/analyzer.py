@@ -49,8 +49,9 @@ class AnalysisReport:
 def analyze_results(result: ExperimentResult) -> AnalysisReport:
     """Analyze experiment results and produce a report."""
     report = AnalysisReport()
+    by_category: dict[str, list[TaskResult]] = {}
 
-    # Collect task details
+    # Single pass: build task details and group by category simultaneously
     for tr in result.task_results:
         eng = tr.engineering_result
         hyp = tr.hypothesis_result
@@ -68,10 +69,6 @@ def analyze_results(result: ExperimentResult) -> AnalysisReport:
             hypothesis_text=hyp_text,
         )
         report.task_details.append(detail)
-
-    # Group by category
-    by_category: dict[str, list[TaskResult]] = {}
-    for tr in result.task_results:
         by_category.setdefault(tr.category, []).append(tr)
 
     total_eng_solved = 0
