@@ -37,7 +37,7 @@ class TaskDetail:
     hypothesis_text: str = ""
 
 
-@dataclass
+@dataclass(frozen=True)
 class AnalysisReport:
     """Full analysis report comparing engineering vs hypothesis-driven strategy."""
 
@@ -54,7 +54,7 @@ class AnalysisReport:
 
 def analyze_results(result: ExperimentResult) -> AnalysisReport:
     """Analyze experiment results and produce a report."""
-    report = AnalysisReport()
+    task_details: list[TaskDetail] = []
     by_category: dict[str, list[TaskResult]] = {}
 
     # Single pass: build task details and group by category simultaneously
@@ -65,7 +65,7 @@ def analyze_results(result: ExperimentResult) -> AnalysisReport:
         if hyp and hyp.attempts:
             hyp_text = hyp.attempts[0].hypothesis or ""
 
-        detail = TaskDetail(
+        task_details.append(TaskDetail(
             task_id=tr.task_id,
             category=tr.category,
             eng_solved=eng.solved if eng else False,
@@ -73,8 +73,7 @@ def analyze_results(result: ExperimentResult) -> AnalysisReport:
             hyp_solved=hyp.solved if hyp else False,
             hyp_attempts=hyp.total_attempts if hyp else 0,
             hypothesis_text=hyp_text,
-        )
-        report.task_details.append(detail)
+        ))
         by_category.setdefault(tr.category, []).append(tr)
 
     total_eng_solved = 0
@@ -84,6 +83,7 @@ def analyze_results(result: ExperimentResult) -> AnalysisReport:
     total_hyp_attempts = 0
     total_first_correct = 0
     total_first_hypotheses = 0
+    category_stats: list[CategoryStats] = []
 
     for cat in ["simple", "causal", "assumption"]:
         task_results = by_category.get(cat, [])
@@ -116,7 +116,7 @@ def analyze_results(result: ExperimentResult) -> AnalysisReport:
         eng_aa = eng_attempts_sum / count if count > 0 else 0.0
         hyp_aa = hyp_attempts_sum / count if count > 0 else 0.0
 
-        stats = CategoryStats(
+        category_stats.append(CategoryStats(
             category=cat,
             eng_solved=eng_solved,
             eng_total=count,
@@ -128,8 +128,7 @@ def analyze_results(result: ExperimentResult) -> AnalysisReport:
             hyp_avg_attempts=hyp_aa,
             advantage=hyp_sr - eng_sr,
             attempt_savings=eng_aa - hyp_aa,
-        )
-        report.category_stats.append(stats)
+        ))
 
         total_eng_solved += eng_solved
         total_hyp_solved += hyp_solved
@@ -137,20 +136,19 @@ def analyze_results(result: ExperimentResult) -> AnalysisReport:
         total_eng_attempts += eng_attempts_sum
         total_hyp_attempts += hyp_attempts_sum
 
-    report.overall_eng_success = total_eng_solved / total_tasks if total_tasks > 0 else 0.0
-    report.overall_hyp_success = total_hyp_solved / total_tasks if total_tasks > 0 else 0.0
-    report.overall_eng_avg_attempts = total_eng_attempts / total_tasks if total_tasks > 0 else 0.0
-    report.overall_hyp_avg_attempts = total_hyp_attempts / total_tasks if total_tasks > 0 else 0.0
+    best = max(category_stats, key=lambda s: s.attempt_savings) if category_stats else None
 
-    if report.category_stats:
-        best = max(report.category_stats, key=lambda s: s.attempt_savings)
-        report.best_advantage_category = best.category
-        report.best_advantage_value = best.attempt_savings
-
-    if total_first_hypotheses > 0:
-        report.hypothesis_first_accuracy = total_first_correct / total_first_hypotheses
-
-    return report
+    return AnalysisReport(
+        category_stats=category_stats,
+        task_details=task_details,
+        overall_eng_success=total_eng_solved / total_tasks if total_tasks > 0 else 0.0,
+        overall_hyp_success=total_hyp_solved / total_tasks if total_tasks > 0 else 0.0,
+        overall_eng_avg_attempts=total_eng_attempts / total_tasks if total_tasks > 0 else 0.0,
+        overall_hyp_avg_attempts=total_hyp_attempts / total_tasks if total_tasks > 0 else 0.0,
+        best_advantage_category=best.category if best else "",
+        best_advantage_value=best.attempt_savings if best else 0.0,
+        hypothesis_first_accuracy=total_first_correct / total_first_hypotheses if total_first_hypotheses > 0 else 0.0,
+    )
 
 
 def format_report(report: AnalysisReport) -> str:
