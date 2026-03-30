@@ -9,6 +9,7 @@ from experiments.context_memory.evaluator import evaluate_recall, call_minimax, 
 from experiments.context_memory.tasks import build_recall_prompt, count_tokens
 
 def test_build_recall_prompt_contains_secret() -> None:
+    """build_recall_prompt가 프롬프트에 비밀 코드를 포함하고 answer로 반환한다."""
     prompt, answer = build_recall_prompt(
         context_tokens=1000,
         position="front",
@@ -18,12 +19,14 @@ def test_build_recall_prompt_contains_secret() -> None:
     assert answer == "ALPHA-7734"
 
 def test_build_recall_prompt_token_count_approximate() -> None:
+    """생성된 프롬프트 토큰 수가 목표 ±20% 범위 내에 있다."""
     prompt, _ = build_recall_prompt(context_tokens=1000, position="middle", secret="TEST-0001")
     tokens = count_tokens(prompt)
     # 허용 오차 20%
     assert 800 <= tokens <= 1200
 
 def test_positions_place_secret_correctly() -> None:
+    """모든 position 값에서 비밀 코드가 프롬프트 내에 포함된다."""
     for position in ["front", "middle", "back"]:
         prompt, answer = build_recall_prompt(
             context_tokens=500, position=position, secret="XYZ-9999"

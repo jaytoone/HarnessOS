@@ -8,10 +8,12 @@ from experiments.coding_failure.evaluator import (
 from experiments.coding_failure.tasks import get_coding_tasks, CodingTask
 
 def test_get_coding_tasks_returns_20() -> None:
+    """get_coding_tasks()가 20개 태스크를 반환한다."""
     tasks = get_coding_tasks()
     assert len(tasks) == 20
 
 def test_tasks_have_required_fields() -> None:
+    """모든 CodingTask가 step, prompt 필수 필드를 갖는다."""
     tasks = get_coding_tasks()
     for t in tasks:
         assert isinstance(t.step, int)
@@ -20,6 +22,7 @@ def test_tasks_have_required_fields() -> None:
         assert len(t.prompt) > 10
 
 def test_task_difficulty_increases() -> None:
+    """후반 태스크(16-20)의 평균 프롬프트 길이가 초반(1-5)보다 길다."""
     tasks = get_coding_tasks()
     # 스텝 1-5: 단순 / 16-20: 복잡 (프롬프트 길이로 간접 측정)
     simple_avg = sum(len(t.prompt) for t in tasks[:5]) / 5
