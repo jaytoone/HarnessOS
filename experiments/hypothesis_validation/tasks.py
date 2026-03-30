@@ -6,6 +6,7 @@
   C (assumption): wrong implicit assumptions
 """
 from dataclasses import dataclass, field
+from typing import Any
 
 
 @dataclass
@@ -16,7 +17,7 @@ class DebugTask:
     buggy_code: str
     correct_code: str
     bug_description: str
-    test_cases: list[dict] = field(default_factory=list)
+    test_cases: list[dict[str, Any]] = field(default_factory=list)
 
 
 def get_debug_tasks() -> list[DebugTask]:

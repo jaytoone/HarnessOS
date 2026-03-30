@@ -9,6 +9,8 @@ Validity note: attempt code was written by the researcher to represent
 upper bound of each strategy, not actual LLM behavior.
 """
 from dataclasses import dataclass, field
+from typing import Any
+
 from experiments.hypothesis_validation.tasks import DebugTask
 
 
@@ -34,7 +36,7 @@ class StrategyResult:
 def _execute_attempt(
     attempt_code: str,
     func_name: str,
-    test_cases: list[dict],
+    test_cases: list[dict[str, Any]],
 ) -> tuple[int, int, bool]:
     """Execute attempt code and run test cases against it.
 
