@@ -142,7 +142,7 @@ def test_run_openhands_task_create_failure_returns_failure_result() -> None:
 
 # ── _poll_until_done ──────────────────────────────────────────────────────────
 
-from experiments.coding_failure.evaluator import _poll_until_done, TERMINAL_STATES
+from experiments.coding_failure.evaluator import _poll_until_done
 
 
 def test_poll_until_done_returns_events_on_terminal_state() -> None:

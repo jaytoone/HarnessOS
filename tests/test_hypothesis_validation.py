@@ -1,6 +1,4 @@
 """Tests for hypothesis_validation experiment (exec-based, deterministic)."""
-import unicodedata
-
 from experiments.hypothesis_validation.tasks import get_debug_tasks, DebugTask
 from experiments.hypothesis_validation.strategies import (
     EngineeringStrategy,
