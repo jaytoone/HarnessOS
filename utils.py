@@ -26,17 +26,8 @@ def from_csv(csv_string: str) -> InMemoryStore:
             quantity = int(parts[2])
             category_name = parts[3] if parts[3] else None
             
-            category = None
-            if category_name:
-                category = Category.from_dict({'name': category_name, 'description': ''})
-            
-            product = Product.from_dict({
-                'name': name,
-                'price': price,
-                'quantity': quantity,
-                'category': category.to_dict() if category else None
-            })
-            store.add_product(product)
+            category = Category(name=category_name, description="") if category_name else None
+            store.add_product(Product(name=name, price=price, quantity=quantity, category=category))
     
     return store
 
