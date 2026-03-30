@@ -1,6 +1,6 @@
 """Debug tasks for hypothesis-vs-engineering experiment.
 
-9 buggy Python functions across 3 difficulty categories:
+12 buggy Python functions across 3 difficulty categories (4 per category):
   A (simple): obvious bugs
   B (causal): requires causal reasoning
   C (assumption): wrong implicit assumptions
@@ -20,7 +20,7 @@ class DebugTask:
 
 
 def get_debug_tasks() -> list[DebugTask]:
-    """Return all 9 debug tasks."""
+    """Return all 12 debug tasks."""
     return [
         # --- Category A: Simple (obvious bugs) ---
         DebugTask(
@@ -173,6 +173,84 @@ def get_debug_tasks() -> list[DebugTask]:
                 {"input": {"a": 1, "b": 2, "c": 1, "d": 3}, "expected": False},
             ],
         ),
+        DebugTask(
+            id="A4",
+            category="simple",
+            function_name="binary_search",
+            buggy_code=(
+                "def binary_search(arr, target):\n"
+                "    low, high = 0, len(arr) - 1\n"
+                "    while low < high:\n"
+                "        mid = (low + high) // 2\n"
+                "        if arr[mid] == target:\n"
+                "            return mid\n"
+                "        elif arr[mid] < target:\n"
+                "            low = mid + 1\n"
+                "        else:\n"
+                "            high = mid - 1\n"
+                "    return -1\n"
+            ),
+            correct_code=(
+                "def binary_search(arr, target):\n"
+                "    low, high = 0, len(arr) - 1\n"
+                "    while low <= high:\n"
+                "        mid = (low + high) // 2\n"
+                "        if arr[mid] == target:\n"
+                "            return mid\n"
+                "        elif arr[mid] < target:\n"
+                "            low = mid + 1\n"
+                "        else:\n"
+                "            high = mid - 1\n"
+                "    return -1\n"
+            ),
+            bug_description=(
+                "Off-by-one: `while low < high` terminates before checking when "
+                "low==high, missing the last candidate element."
+            ),
+            test_cases=[
+                {"input": {"arr": [1, 3, 5, 7, 9], "target": 7}, "expected": 3},
+                {"input": {"arr": [1, 3, 5, 7, 9], "target": 9}, "expected": 4},
+                {"input": {"arr": [2], "target": 2}, "expected": 0},
+                {"input": {"arr": [1, 2, 3], "target": 5}, "expected": -1},
+            ],
+        ),
+        DebugTask(
+            id="B4",
+            category="causal",
+            function_name="is_balanced_parens",
+            buggy_code=(
+                "def is_balanced_parens(s):\n"
+                "    count = 0\n"
+                "    for c in s:\n"
+                "        if c == '(':\n"
+                "            count += 1\n"
+                "        elif c == ')':\n"
+                "            count -= 1\n"
+                "    return count == 0\n"
+            ),
+            correct_code=(
+                "def is_balanced_parens(s):\n"
+                "    count = 0\n"
+                "    for c in s:\n"
+                "        if c == '(':\n"
+                "            count += 1\n"
+                "        elif c == ')':\n"
+                "            count -= 1\n"
+                "        if count < 0:\n"
+                "            return False\n"
+                "    return count == 0\n"
+            ),
+            bug_description=(
+                "Counter ends at 0 for invalid ')(' sequence because cancellation "
+                "obscures ordering. Must detect when count goes negative."
+            ),
+            test_cases=[
+                {"input": {"s": "(())"}, "expected": True},
+                {"input": {"s": ")("}, "expected": False},
+                {"input": {"s": "(()"}, "expected": False},
+                {"input": {"s": "()()"}, "expected": True},
+            ],
+        ),
         # --- Category C: Wrong Assumption ---
         DebugTask(
             id="C1",
@@ -252,6 +330,32 @@ def get_debug_tasks() -> list[DebugTask]:
                 {"input": {"items": [4, 5]}, "expected": [4, 5]},
                 # Third call: buggy result=[1,2,3,4,5] (no new items), correct=[1,2]
                 {"input": {"items": [1, 2]}, "expected": [1, 2]},
+            ],
+        ),
+        DebugTask(
+            id="C4",
+            category="assumption",
+            function_name="format_currency",
+            buggy_code=(
+                "def format_currency(amount):\n"
+                "    return f'${amount:.2f}'\n"
+            ),
+            correct_code=(
+                "from decimal import Decimal, ROUND_HALF_UP\n"
+                "def format_currency(amount):\n"
+                "    d = Decimal(str(amount)).quantize("
+                "Decimal('0.01'), rounding=ROUND_HALF_UP)\n"
+                "    return f'${d}'\n"
+            ),
+            bug_description=(
+                "Assumes float can represent decimal fractions exactly. "
+                "Binary float gives wrong rounding for values like 2.675 → $2.67 "
+                "instead of $2.68."
+            ),
+            test_cases=[
+                {"input": {"amount": 10.0}, "expected": "$10.00"},
+                {"input": {"amount": 2.675}, "expected": "$2.68"},
+                {"input": {"amount": 1.005}, "expected": "$1.01"},
             ],
         ),
     ]

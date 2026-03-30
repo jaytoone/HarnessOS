@@ -31,7 +31,7 @@ from experiments.hypothesis_validation.analyzer import (
 
 def test_get_debug_tasks_returns_9() -> None:
     tasks = get_debug_tasks()
-    assert len(tasks) == 9
+    assert len(tasks) == 12
 
 
 def test_tasks_have_all_categories() -> None:
@@ -40,12 +40,12 @@ def test_tasks_have_all_categories() -> None:
     assert categories == {"simple", "causal", "assumption"}
 
 
-def test_tasks_have_3_per_category() -> None:
+def test_tasks_have_4_per_category() -> None:
     tasks = get_debug_tasks()
     counts: dict[str, int] = {}
     for t in tasks:
         counts[t.category] = counts.get(t.category, 0) + 1
-    assert counts == {"simple": 3, "causal": 3, "assumption": 3}
+    assert counts == {"simple": 4, "causal": 4, "assumption": 4}
 
 
 def test_all_tasks_have_test_cases() -> None:
@@ -285,7 +285,7 @@ def test_run_experiment_returns_valid_structure() -> None:
 
 def test_run_experiment_default_tasks() -> None:
     result = run_experiment(max_attempts=5)
-    assert len(result.task_results) == 9
+    assert len(result.task_results) == 12
 
 
 def test_all_tasks_solved_by_both_strategies() -> None:
@@ -314,7 +314,7 @@ def test_analyze_results_produces_report() -> None:
 def test_analyze_results_has_task_details() -> None:
     result = run_experiment(max_attempts=5)
     report = analyze_results(result)
-    assert len(report.task_details) == 9
+    assert len(report.task_details) == 12
     for d in report.task_details:
         assert d.task_id
         assert d.category in {"simple", "causal", "assumption"}
@@ -497,7 +497,7 @@ def test_to_harness_format_feeds_into_harness_evaluator() -> None:
     verdict = evaluate_harness(data)
     assert verdict.experiment == "hypothesis_validation"
     assert verdict.score >= 0.0
-    assert verdict.total_steps == 18  # 9 tasks × 2 strategies
+    assert verdict.total_steps == 24  # 12 tasks × 2 strategies
 
 
 # --- hypothesis_validation harness diagnosis tests ---
@@ -578,7 +578,7 @@ def test_full_pipeline_validate_run_harness(tmp_path) -> None:
 
     # Run deterministic experiment
     result = run_experiment(max_attempts=5)
-    assert len(result.task_results) == 9
+    assert len(result.task_results) == 12
 
     # Convert to harness format and evaluate
     data = to_harness_format(result)

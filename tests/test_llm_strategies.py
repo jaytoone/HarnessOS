@@ -421,7 +421,7 @@ def test_run_llm_experiment_runs_all_tasks(mock_response_factory):
         client=client,
     )
 
-    assert len(result.task_results) == 9
+    assert len(result.task_results) == 12
     for tr in result.task_results:
         assert len(tr.engineering_results) == 1
         assert len(tr.hypothesis_results) == 1
@@ -499,7 +499,7 @@ def test_run_llm_experiment_default_tasks(mock_response_factory):
     client = MagicMock()
     client.messages.create.return_value = mock_response_factory("no code", 10, 5)
     result = run_llm_experiment(tasks=None, trials_per_task=1, max_attempts=1, client=client)
-    assert len(result.task_results) == 9
+    assert len(result.task_results) == 12
 
 
 # ---------------------------------------------------------------------------

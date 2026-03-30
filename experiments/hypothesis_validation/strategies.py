@@ -229,6 +229,60 @@ ENGINEERING_ATTEMPTS: dict[str, list[str]] = {
             "    return result\n"
         ),
     ],
+    # --- A4: binary search off-by-one in loop termination ---
+    "A4": [
+        # Attempt 1: Fix `< high` to `<= high` (obvious spot, correct immediately)
+        (
+            "def binary_search(arr, target):\n"
+            "    low, high = 0, len(arr) - 1\n"
+            "    while low <= high:\n"
+            "        mid = (low + high) // 2\n"
+            "        if arr[mid] == target:\n"
+            "            return mid\n"
+            "        elif arr[mid] < target:\n"
+            "            low = mid + 1\n"
+            "        else:\n"
+            "            high = mid - 1\n"
+            "    return -1\n"
+        ),
+    ],
+    # --- B4: balanced parens — counter doesn't catch early close ---
+    "B4": [
+        # Attempt 1: Check counts separately (same logical error — order still ignored)
+        (
+            "def is_balanced_parens(s):\n"
+            "    return s.count('(') == s.count(')')\n"
+        ),
+        # Attempt 2: Track running count; return False when negative (correct)
+        (
+            "def is_balanced_parens(s):\n"
+            "    count = 0\n"
+            "    for c in s:\n"
+            "        if c == '(':\n"
+            "            count += 1\n"
+            "        elif c == ')':\n"
+            "            count -= 1\n"
+            "        if count < 0:\n"
+            "            return False\n"
+            "    return count == 0\n"
+        ),
+    ],
+    # --- C4: float currency formatting ---
+    "C4": [
+        # Attempt 1: Use round() first — same binary float precision issue
+        (
+            "def format_currency(amount):\n"
+            "    return f'${round(amount, 2):.2f}'\n"
+        ),
+        # Attempt 2: Use Decimal with str() to avoid float imprecision (correct)
+        (
+            "from decimal import Decimal, ROUND_HALF_UP\n"
+            "def format_currency(amount):\n"
+            "    d = Decimal(str(amount)).quantize("
+            "Decimal('0.01'), rounding=ROUND_HALF_UP)\n"
+            "    return f'${d}'\n"
+        ),
+    ],
 }
 
 
@@ -340,6 +394,53 @@ HYPOTHESIS_ATTEMPTS: dict[str, list[tuple[str, str]]] = {
             "    return result\n",
             "mutable default list persists across calls; "
             "use None sentinel and create fresh list per call",
+        ),
+    ],
+    # --- A4: binary search off-by-one ---
+    "A4": [
+        (
+            "def binary_search(arr, target):\n"
+            "    low, high = 0, len(arr) - 1\n"
+            "    while low <= high:\n"
+            "        mid = (low + high) // 2\n"
+            "        if arr[mid] == target:\n"
+            "            return mid\n"
+            "        elif arr[mid] < target:\n"
+            "            low = mid + 1\n"
+            "        else:\n"
+            "            high = mid - 1\n"
+            "    return -1\n",
+            "loop bound `< high` terminates before checking when low==high; "
+            "the single remaining candidate is skipped; fix to `<= high`",
+        ),
+    ],
+    # --- B4: balanced parens counter ---
+    "B4": [
+        (
+            "def is_balanced_parens(s):\n"
+            "    count = 0\n"
+            "    for c in s:\n"
+            "        if c == '(':\n"
+            "            count += 1\n"
+            "        elif c == ')':\n"
+            "            count -= 1\n"
+            "        if count < 0:\n"
+            "            return False\n"
+            "    return count == 0\n",
+            "counter cancels out for ')(' ending at 0, hiding invalid ordering; "
+            "a negative count means a closing paren appeared before its opener",
+        ),
+    ],
+    # --- C4: float currency formatting ---
+    "C4": [
+        (
+            "from decimal import Decimal, ROUND_HALF_UP\n"
+            "def format_currency(amount):\n"
+            "    d = Decimal(str(amount)).quantize("
+            "Decimal('0.01'), rounding=ROUND_HALF_UP)\n"
+            "    return f'${d}'\n",
+            "binary float cannot represent 0.675 exactly (stored slightly below); "
+            "str(amount) preserves the decimal string, Decimal gives exact arithmetic",
         ),
     ],
 }

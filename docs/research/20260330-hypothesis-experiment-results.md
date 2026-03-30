@@ -1,6 +1,6 @@
 # Hypothesis-Driven vs Engineering-Only Debugging: Experiment Results
-**Date**: 2026-03-30 (updated 2026-03-30 v3)
-**Method**: Deterministic evaluation with actual code execution (v3 — C3 redesigned, LLM API layer added)
+**Date**: 2026-03-30 (updated 2026-03-30 v4)
+**Method**: Deterministic evaluation with actual code execution (v4 — 12 tasks, 4 per category)
 
 ## Experiment Design
 
@@ -8,7 +8,7 @@
 "Engineering-only thinking (pattern matching + retry) hits a performance ceiling on hard problems. Hypothesis-driven thinking (explicit cause hypothesis + verification) raises that ceiling by reducing the number of attempts needed."
 
 ### Method
-- 9 buggy Python functions across 3 difficulty categories (3 per category)
+- 12 buggy Python functions across 3 difficulty categories (4 per category)
 - Two strategies with researcher-coded attempt sequences
 - Each attempt is actual Python code, run against real test cases
 - No probability models, no Monte Carlo simulation, no randomness
@@ -28,11 +28,11 @@
 
 | Category | Eng Solved | Hyp Solved | Eng Avg Attempts | Hyp Avg Attempts | Attempt Savings |
 |----------|------------|------------|------------------|------------------|-----------------|
-| Simple | 3/3 | 3/3 | 1.0 | 1.0 | 0.0 |
-| Causal | 3/3 | 3/3 | 1.7 | 1.0 | +0.7 |
-| Assumption | 3/3 | 3/3 | 2.0 | 1.0 | +1.0 |
+| Simple | 4/4 | 4/4 | 1.0 | 1.0 | 0.0 |
+| Causal | 4/4 | 4/4 | 1.75 | 1.0 | +0.75 |
+| Assumption | 4/4 | 4/4 | 2.0 | 1.0 | +1.0 |
 
-**Overall**: Both strategies solve all 9 tasks. Engineering: avg 1.6 attempts. Hypothesis: avg 1.0 attempts.
+**Overall**: Both strategies solve all 12 tasks. Engineering: avg 1.58 attempts. Hypothesis: avg 1.0 attempts.
 
 ### Per-Task Details
 
@@ -41,18 +41,21 @@
 | A1 | Off-by-one (range) | 1 | 1 | Range upper bound off by 1 |
 | A2 | Wrong operator (!= vs ==) | 1 | 1 | Comparison operator inverted |
 | A3 | Missing edge case (div/0) | 1 | 1 | Missing b==0 guard |
+| A4 | Loop bound off-by-one (binary search) | 1 | 1 | `< high` misses last candidate |
 | B1 | List mutation during iteration | 2 | 1 | Mutation during iteration skips elements |
 | B2 | Closure variable capture | 2 | 1 | Closure captures loop var by reference |
 | B3 | Float equality comparison | 1 | 1 | Direct == fails on floats |
+| B4 | Counter hides ordering (balanced parens) | 2 | 1 | Negative count = early close before open |
 | C1 | Unicode normalization | 4 | 1 | Combining characters need NFC normalization |
 | C2 | Empty input handling | 1 | 1 | max() on empty sequence |
 | C3 | Mutable default list (collect_unique) | 1 | 1 | List default persists across calls |
+| C4 | Float currency rounding | 2 | 1 | Binary float precision → Decimal(str(x)) |
 
 ## Key Findings
 
-1. **No difference on simple bugs (A1-A3)**: Both strategies solve obvious bugs in 1 attempt. For simple bugs, hypothesis overhead adds no value.
+1. **No difference on simple bugs (A1-A4)**: Both strategies solve obvious bugs in 1 attempt. For simple bugs, hypothesis overhead adds no value.
 
-2. **Moderate advantage on causal bugs (B1, B2)**: Engineering takes 2 attempts on tasks requiring causal understanding (closure capture, iterator mutation). Hypothesis identifies root cause on first attempt. B3 (float comparison) is straightforward enough that engineering also solves it in 1 attempt.
+2. **Moderate advantage on causal bugs (B1, B2, B4)**: Engineering takes 2 attempts on tasks requiring causal understanding (closure capture, iterator mutation, counter ordering). Hypothesis identifies root cause on first attempt. B3 (float comparison) is straightforward enough that engineering also solves it in 1 attempt.
 
 3. **Largest advantage on assumption bugs (C1)**: The unicode normalization bug (C1) shows the starkest difference: engineering tries 4 approaches (strip ASCII, list-based counting, encode/decode, finally NFC normalize) while hypothesis immediately identifies "combining characters need NFC" and solves in 1 attempt. C2 and C3 are simple enough that both strategies solve in 1 attempt.
 
@@ -145,3 +148,5 @@ save_llm_results()             ← JSON to results/llm_hypothesis_validation_*.j
 - [[projects/LiveCode/research/20260323-hypothesis-driven-agent-research|20260323-hypothesis-driven-agent-research]]
 - [[projects/LiveCode/research/20260330-hypothesis-vs-engineering-thinking|20260330-hypothesis-vs-engineering-thinking]]
 - [[projects/LiveCode/research/20260330-harness-engineering|20260330-harness-engineering]]
+- [[projects/LiveCode/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
+- [[projects/LiveCode/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
