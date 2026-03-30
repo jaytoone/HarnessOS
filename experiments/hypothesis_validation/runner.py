@@ -7,11 +7,17 @@ each task is run exactly once per strategy.
 Pipeline:
   validate_experiment_config()  ← pre-mortem (P1-2)
   run_experiment()               ← deterministic execution
+  save_results()                 ← persist to results/ JSON
   to_harness_format()            ← convert for harness evaluator
   evaluate_harness()             ← optional auto-quality-check
 """
+import json
 from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
 from typing import Any
+
+from constants import RESULTS_DIR
 
 from experiments.hypothesis_validation.strategies import (
     EngineeringStrategy,
@@ -227,3 +233,35 @@ def to_harness_format(result: ExperimentResult) -> dict[str, Any]:
         "steps": steps,
         "summary": summary,
     }
+
+
+def save_results(
+    result: ExperimentResult,
+    output_dir: Path | None = None,
+    model: str = "deterministic",
+) -> Path:
+    """Persist ExperimentResult to a JSON file in results/.
+
+    The saved format matches what analyze.py expects for hypothesis_validation:
+    {experiment, model, timestamp, steps, summary}.
+
+    Args:
+        result: The experiment result to save.
+        output_dir: Directory to save to (defaults to RESULTS_DIR).
+        model: Label for the 'model' field (deterministic for researcher-coded runs).
+
+    Returns:
+        Path to the saved JSON file.
+    """
+    if output_dir is None:
+        output_dir = RESULTS_DIR
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    data = to_harness_format(result)
+    data["model"] = model
+    data["timestamp"] = datetime.now().isoformat()
+
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    path = output_dir / f"hypothesis_validation_{ts}.json"
+    path.write_text(json.dumps(data, indent=2))
+    return path
