@@ -118,15 +118,20 @@ async def run_openhands_task(step: int, prompt: str) -> StepResult:
         try:
             cid = await _create_conversation(client, prompt)
         except Exception as e:
-            return StepResult(step, "failure", 0,
-                             int((time.monotonic()-start)*1000), f"create failed: {e}")
+            return StepResult(
+                step=step,
+                status="failure",
+                context_tokens=0,
+                duration_ms=int((time.monotonic() - start) * 1000),
+                error=f"create failed: {e}",
+            )
 
         events, final_state = await _poll_until_done(client, cid)
 
     duration_ms = int((time.monotonic() - start) * 1000)
 
     if final_state == "timeout":
-        return StepResult(step, "timeout", 0, duration_ms, "agent timeout")
+        return StepResult(step=step, status="timeout", context_tokens=0, duration_ms=duration_ms, error="agent timeout")
 
     context_tokens = sum(len(str(e)) // 4 for e in events)
     status, error = _analyze_events(events)
@@ -137,7 +142,7 @@ async def run_openhands_task(step: int, prompt: str) -> StepResult:
         if not error:
             error = "agent reached error state"
 
-    return StepResult(step, status, context_tokens, duration_ms, error)
+    return StepResult(step=step, status=status, context_tokens=context_tokens, duration_ms=duration_ms, error=error)
 
 
 def detect_failure_inflection(results: list[StepResult]) -> int | None:
