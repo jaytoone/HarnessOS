@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from typing import Any, Literal
 
 
-@dataclass
+@dataclass(frozen=True)
 class DebugTask:
     """A buggy Python function with test cases for hypothesis-vs-engineering evaluation."""
 

@@ -51,7 +51,7 @@ THRESHOLDS: dict[str, QualityThreshold] = {
 
 # ── 평가 결과 ──────────────────────────────────────────────────────────────────
 
-@dataclass
+@dataclass(frozen=True)
 class HarnessVerdict:
     """하네스 평가 판정 결과."""
     experiment: str

@@ -7,7 +7,7 @@ CategoryDict: TypeAlias = dict[str, str]
 ProductDict: TypeAlias = dict[str, Any]
 
 
-@dataclass
+@dataclass(frozen=True)
 class Category:
     """Product category with a name and description."""
 
@@ -30,7 +30,7 @@ class Category:
         )
 
 
-@dataclass
+@dataclass(frozen=True)
 class Product:
     """Store product with name, price, quantity, and optional category."""
 

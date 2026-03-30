@@ -10,7 +10,7 @@ class EventType(Enum):
     PRODUCT_REMOVED = "product_removed"
 
 
-@dataclass
+@dataclass(frozen=True)
 class Event:
     """Event class to store event information."""
     event_type: EventType
