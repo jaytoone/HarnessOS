@@ -8,7 +8,7 @@ from typing import Protocol
 from store import InMemoryStore, BaseStore
 from cache import CachedStore
 from events import event_manager, Event, EventType
-from api import APIRequestHandler, create_app
+from api import create_app
 from models import Product, Category
 
 
