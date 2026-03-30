@@ -108,6 +108,7 @@ class LLMEngineeringStrategy:
         self.model = model
 
     def run(self, task: DebugTask, max_attempts: int = 5) -> LLMStrategyResult:
+        """태스크에 대해 엔지니어링 전략으로 LLM 수정 시도를 실행하고 LLMStrategyResult를 반환."""
         results: list[AttemptResult] = []
         total_input = 0
         total_output = 0
@@ -192,6 +193,7 @@ class LLMHypothesisStrategy:
         self.model = model
 
     def run(self, task: DebugTask, max_attempts: int = 5) -> LLMStrategyResult:
+        """태스크에 대해 가설 전략으로 LLM 수정 시도를 실행하고 LLMStrategyResult를 반환."""
         results: list[AttemptResult] = []
         total_input = 0
         total_output = 0
