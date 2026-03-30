@@ -1,6 +1,6 @@
 # Hypothesis-Driven vs Engineering-Only Debugging: Experiment Results
-**Date**: 2026-03-30
-**Method**: Deterministic evaluation with actual code execution (v2 -- replaces probability model)
+**Date**: 2026-03-30 (updated 2026-03-30 v3)
+**Method**: Deterministic evaluation with actual code execution (v3 — C3 redesigned, LLM API layer added)
 
 ## Experiment Design
 
@@ -46,7 +46,7 @@
 | B3 | Float equality comparison | 1 | 1 | Direct == fails on floats |
 | C1 | Unicode normalization | 4 | 1 | Combining characters need NFC normalization |
 | C2 | Empty input handling | 1 | 1 | max() on empty sequence |
-| C3 | Mutable default argument | 1 | 1 | Dict default persists across calls |
+| C3 | Mutable default list (collect_unique) | 1 | 1 | List default persists across calls |
 
 ## Key Findings
 
@@ -82,11 +82,23 @@
 - The engineering strategy represents "typical wrong approaches" but actual LLMs may find shortcuts.
 
 ### Path to Real Experiment
-1. Replace researcher-coded attempts with actual LLM API calls (Claude, GPT-4) using two prompt templates.
-2. Measure pass@k (k=1, 3, 5) across both strategies on the same test cases.
-3. Record actual token consumption per strategy.
-4. Expand to 50-100 diverse debugging tasks from real codebases.
-5. Add a "mixed" strategy baseline (hypothesis on first failure, engineering otherwise).
+
+**Steps 1-3 are now IMPLEMENTED** (`experiments/hypothesis_validation/llm_strategies.py`, `llm_runner.py`):
+
+| Step | Status | Notes |
+|------|--------|-------|
+| 1. Real LLM API calls (Claude) with two prompt templates | ✅ Done | `LLMEngineeringStrategy`, `LLMHypothesisStrategy` |
+| 2. Measure pass@k (k=1, 3, 5) via `trials_per_task` | ✅ Done | `run_llm_experiment(trials_per_task=k)` |
+| 3. Record actual token consumption per strategy | ✅ Done | `total_input_tokens`, `total_output_tokens` per result |
+| 4. Expand to 50-100 diverse tasks from real codebases | ⬜ Future | Requires SWE-Bench subset or manual curation |
+| 5. Add "mixed" strategy baseline | ⬜ Future | hypothesis on first failure, engineering otherwise |
+
+**To run the real LLM experiment** (requires `ANTHROPIC_API_KEY`):
+```python
+from experiments.hypothesis_validation.llm_runner import run_llm_experiment, save_llm_results
+result = run_llm_experiment(trials_per_task=3, max_attempts=5)
+path = save_llm_results(result)
+```
 
 ## Implications for Autonomous Evolution Harness
 
@@ -100,10 +112,36 @@
 2. **Hypothesis logging**: Record hypotheses in evolution logs for cross-iteration pattern analysis.
 3. **Attempt budget**: Set different retry budgets by category (simple: 1-2, causal: 2-3, assumption: 3-5).
 
+## Pipeline Architecture (v3)
+
+```
+validate_experiment_config()   ← pre-mortem: checks all task bugs are testable
+    ↓
+run_experiment()               ← researcher-coded exec-based (deterministic)
+    ↓
+to_harness_format()            ← convert to step-based harness format
+    ↓
+evaluate_harness()             ← auto quality assessment (harness_evaluator.py)
+    ↓ (optional — requires ANTHROPIC_API_KEY)
+run_llm_experiment()           ← real Claude API calls, pass@k, token tracking
+    ↓
+save_llm_results()             ← JSON to results/llm_hypothesis_validation_*.json
+```
+
+**Harness self-evaluation**: score=1.0 (passed=True, 0 issues) on the 9-task researcher-coded run.
+
 ## Source Code
 - Tasks: `experiments/hypothesis_validation/tasks.py`
-- Strategies: `experiments/hypothesis_validation/strategies.py`
-- Runner: `experiments/hypothesis_validation/runner.py`
+- Strategies (researcher-coded): `experiments/hypothesis_validation/strategies.py`
+- Strategies (LLM): `experiments/hypothesis_validation/llm_strategies.py`
+- Runner (researcher): `experiments/hypothesis_validation/runner.py`
+- Runner (LLM): `experiments/hypothesis_validation/llm_runner.py`
 - Analyzer: `experiments/hypothesis_validation/analyzer.py`
-- Tests: `tests/test_hypothesis_validation.py`
+- Tests: `tests/test_hypothesis_validation.py`, `tests/test_llm_strategies.py`
+- Harness evaluator: `harness_evaluator.py`
 - Research background: `docs/research/20260330-hypothesis-vs-engineering-thinking.md`
+
+## Related
+- [[projects/LiveCode/research/20260323-hypothesis-driven-agent-research|20260323-hypothesis-driven-agent-research]]
+- [[projects/LiveCode/research/20260330-hypothesis-vs-engineering-thinking|20260330-hypothesis-vs-engineering-thinking]]
+- [[projects/LiveCode/research/20260330-harness-engineering|20260330-harness-engineering]]
