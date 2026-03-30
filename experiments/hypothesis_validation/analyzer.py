@@ -58,7 +58,7 @@ class AnalysisReport:
 def analyze_results(result: ExperimentResult) -> AnalysisReport:
     """Analyze experiment results and produce a report."""
     task_details: list[TaskDetail] = []
-    by_category: dict[str, list[TaskResult]] = {}
+    by_category: dict[DebugTaskCategory, list[TaskResult]] = {}
 
     # Single pass: build task details and group by category simultaneously
     for tr in result.task_results:
