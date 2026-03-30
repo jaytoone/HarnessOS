@@ -636,10 +636,10 @@ def test_full_pipeline_validate_run_harness(tmp_path) -> None:
 
 
 def test_save_results_writes_json(tmp_path) -> None:
-    """save_results() persists experiment to a loadable JSON file."""
+    """save_results() persists experiment to a loadable JSON file and returns (path, data)."""
     import json
     result = run_experiment(max_attempts=5)
-    path = save_results(result, output_dir=tmp_path)
+    path, returned_data = save_results(result, output_dir=tmp_path)
     assert path.exists()
     data = json.loads(path.read_text())
     assert data["experiment"] == "hypothesis_validation"
@@ -647,6 +647,9 @@ def test_save_results_writes_json(tmp_path) -> None:
     assert "timestamp" in data
     assert len(data["steps"]) == 24  # 12 tasks × 2 strategies
     assert "by_category" in data["summary"]
+    # returned_data matches saved JSON (avoids redundant to_harness_format call in callers)
+    assert returned_data["experiment"] == data["experiment"]
+    assert returned_data["steps"] == data["steps"]
 
 
 def test_save_results_default_dir(tmp_path, monkeypatch) -> None:
@@ -655,7 +658,7 @@ def test_save_results_default_dir(tmp_path, monkeypatch) -> None:
     from experiments.hypothesis_validation import runner as runner_mod
     monkeypatch.setattr(runner_mod, "RESULTS_DIR", tmp_path)
     result = run_experiment(max_attempts=5)
-    path = save_results(result)
+    path, _ = save_results(result)
     assert path.parent == tmp_path
     data = json.loads(path.read_text())
     assert data["experiment"] == "hypothesis_validation"

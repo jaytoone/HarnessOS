@@ -234,7 +234,7 @@ def save_results(
     result: ExperimentResult,
     output_dir: Path | None = None,
     model: str = "deterministic",
-) -> Path:
+) -> tuple[Path, dict[str, Any]]:
     """Persist ExperimentResult to a JSON file in results/.
 
     The saved format matches what analyze.py expects for hypothesis_validation:
@@ -246,7 +246,8 @@ def save_results(
         model: Label for the 'model' field (deterministic for researcher-coded runs).
 
     Returns:
-        Path to the saved JSON file.
+        (path, data) — path to saved JSON file and the harness-format data dict.
+        Returning data avoids a redundant to_harness_format() call in callers.
     """
     if output_dir is None:
         output_dir = RESULTS_DIR
@@ -259,4 +260,4 @@ def save_results(
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     path = output_dir / f"hypothesis_validation_{ts}.json"
     path.write_text(json.dumps(data, indent=2))
-    return path
+    return path, data

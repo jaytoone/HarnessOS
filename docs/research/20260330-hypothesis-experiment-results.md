@@ -1,5 +1,5 @@
 # Hypothesis-Driven vs Engineering-Only Debugging: Experiment Results
-**Date**: 2026-03-30 (updated 2026-03-30 v4)
+**Date**: 2026-03-30 (updated 2026-03-30 v5)
 **Method**: Deterministic evaluation with actual code execution (v4 — 12 tasks, 4 per category)
 
 ## Experiment Design
@@ -115,23 +115,53 @@ path = save_llm_results(result)
 2. **Hypothesis logging**: Record hypotheses in evolution logs for cross-iteration pattern analysis.
 3. **Attempt budget**: Set different retry budgets by category (simple: 1-2, causal: 2-3, assumption: 3-5).
 
-## Pipeline Architecture (v3)
+## Pipeline Architecture (v5)
+
+**One-command execution** (recommended):
+```bash
+python3 analyze.py --run
+```
+
+This runs the full deterministic pipeline and prints a formatted research report:
 
 ```
 validate_experiment_config()   ← pre-mortem: checks all task bugs are testable
     ↓
 run_experiment()               ← researcher-coded exec-based (deterministic)
     ↓
-to_harness_format()            ← convert to step-based harness format
+save_results()                 ← JSON to results/hypothesis_validation_*.json
+    ↓ (returns path + data dict — single to_harness_format() call)
+analyze_results() + format_report()   ← per-category table + per-task hypothesis text
     ↓
 evaluate_harness()             ← auto quality assessment (harness_evaluator.py)
+    ↓
+save_verdict()                 ← harness verdict to harness_eval/
     ↓ (optional — requires ANTHROPIC_API_KEY)
 run_llm_experiment()           ← real Claude API calls, pass@k, token tracking
     ↓
 save_llm_results()             ← JSON to results/llm_hypothesis_validation_*.json
 ```
 
-**Harness self-evaluation**: score=1.0 (passed=True, 0 issues) on the 9-task researcher-coded run.
+**Harness self-evaluation**: score=1.0 (passed=True, 0 issues) on the 12-task researcher-coded run.
+
+**Sample --run output** (step [3/4]):
+```
+=== Hypothesis vs Engineering Experiment Results ===
+(Deterministic exec-based evaluation, no probability model)
+
+Overall:  Engineering=100.0% (avg 1.6 attempts)  Hypothesis=100.0% (avg 1.0 attempts)
+
+Category     Eng    Hyp  Eng Att  Hyp Att  Savings
+-------------------------------------------------------
+simple       4/ 4   4/ 4     1.0     1.0    +0.0
+causal       4/ 4   4/ 4     1.8     1.0    +0.8
+assumption   4/ 4   4/ 4     2.0     1.0    +1.0
+
+--- Per-Task Details ---
+  ...
+Best attempt savings category: assumption (+1.0 attempts)
+First hypothesis accuracy: 100.0%
+```
 
 ## Source Code
 - Tasks: `experiments/hypothesis_validation/tasks.py`

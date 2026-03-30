@@ -205,7 +205,6 @@ def run_hypothesis_pipeline() -> None:
         validate_experiment_config,
         run_experiment,
         save_results,
-        to_harness_format,
     )
     from harness_evaluator import evaluate_harness, save_verdict
 
@@ -222,16 +221,13 @@ def run_hypothesis_pipeline() -> None:
 
     print("[2/4] 실험 실행 중...")
     result = run_experiment(max_attempts=5)
-    path = save_results(result)
+    path, data = save_results(result)
     print(f"  ✓ {len(result.task_results)}개 태스크 완료 → {path.name}\n")
 
     print("[3/4] 결과 분석...")
     from experiments.hypothesis_validation.analyzer import analyze_results, format_report
     report = analyze_results(result)
     print(format_report(report))
-    data = to_harness_format(result)
-    data["model"] = "deterministic"
-    data["timestamp"] = path.stem.split("_", 2)[-1]
 
     print("\n[4/4] 하네스 평가...")
     verdict = evaluate_harness(data)
