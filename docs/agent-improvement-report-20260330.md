@@ -107,12 +107,21 @@
 
 ---
 
-## 4. 다음 세션 TODO
+## 4. TODO / 진행 현황
 
-- [ ] `validate_experiment_config()` Pre-mortem 함수 구현 (P1-2)
-- [ ] runner.py에 harness_evaluator 통합: 실험 완료 후 자동 평가 실행
-- [ ] 컨텍스트 리셋 메커니즘 설계 및 구현 (P1-3)
-- [ ] compare_runs를 활용한 CLI 대시보드 명령어 추가 (예: `python analyze.py --harness-trend`)
+### 완료 (2026-03-30 세션)
+- [x] `validate_experiment_config()` Pre-mortem 함수 구현 (P1-2) — `experiments/hypothesis_validation/runner.py`
+- [x] runner.py에 harness_evaluator 통합 — `to_harness_format()` bridge + `hypothesis_validation` threshold 추가
+- [x] harness 자동 평가: `evaluate_harness()` → score=1.0 달성
+- [x] 가설 실험 LLM API 계층 구현 — `llm_strategies.py`, `llm_runner.py` (pass@k, 토큰 추적)
+- [x] analyze.py hypothesis/LLM 실험 분석 지원
+- [x] C3 재설계 (cached_fibonacci → collect_unique): 실제 버그를 테스트로 검출 가능
+- [x] 177 tests / 99.47% coverage
+
+### 미완료 (향후 세션)
+- [ ] 컨텍스트 리셋 메커니즘 설계 및 구현 (P1-3) — 장기 실험 대상
+- [ ] compare_runs CLI 대시보드 (예: `python analyze.py --harness-trend`) (P1-5)
 - [ ] 다중 평가자 토론 시스템 프로토타입 (P2-4)
 - [ ] 하네스 안티패턴 세트 정의 및 자동 감지 로직 (P2-5)
+- [ ] 실제 LLM 실험 실행 및 결과 기록 (ANTHROPIC_API_KEY 필요, 비용 발생)
 - [ ] Agent Flywheel 아키텍처 설계 문서 작성 (P3-6)
