@@ -34,7 +34,7 @@ class ConfigIssue:
     issue: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class TaskResult:
     task_id: str
     category: str
@@ -120,10 +120,12 @@ def run_experiment(
     result = ExperimentResult(max_attempts=max_attempts)
 
     for task in tasks:
-        tr = TaskResult(task_id=task.id, category=task.category)
-        tr.engineering_result = eng.run(task, max_attempts)
-        tr.hypothesis_result = hyp.run(task, max_attempts)
-        result.task_results.append(tr)
+        result.task_results.append(TaskResult(
+            task_id=task.id,
+            category=task.category,
+            engineering_result=eng.run(task, max_attempts),
+            hypothesis_result=hyp.run(task, max_attempts),
+        ))
 
     return result
 
