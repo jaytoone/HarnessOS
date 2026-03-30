@@ -6,13 +6,13 @@
   C (assumption): wrong implicit assumptions
 """
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Literal
 
 
 @dataclass
 class DebugTask:
     id: str
-    category: str  # "simple" | "causal" | "assumption"
+    category: Literal["simple", "causal", "assumption"]
     function_name: str
     buggy_code: str
     correct_code: str
