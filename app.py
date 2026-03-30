@@ -3,32 +3,12 @@ Main application that connects all components (Store, Cache, Events, API)
 using dependency injection pattern.
 """
 from http.server import HTTPServer
-from typing import Protocol
 
 from store import InMemoryStore, BaseStore
 from cache import CachedStore
 from events import event_manager, Event, EventType
 from api import create_app
 from models import Product, Category
-
-
-# Protocol classes for dependency injection
-class StoreProtocol(Protocol):
-    """Protocol defining the store interface."""
-    
-    def add_product(self, product: Product) -> None: ...
-    def remove_product(self, product_name: str) -> bool: ...
-    def get_total_value(self) -> float: ...
-    def search_by_name(self, query: str) -> list[Product]: ...
-
-
-class CacheProtocol(Protocol):
-    """Protocol defining the cache interface."""
-    
-    def add_product(self, product: Product) -> None: ...
-    def remove_product(self, product_name: str) -> bool: ...
-    def get_total_value(self) -> float: ...
-    def search_by_name(self, query: str) -> list[Product]: ...
 
 
 # Dependency Injection Container
