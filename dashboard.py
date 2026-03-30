@@ -2,8 +2,9 @@ from dataclasses import dataclass, field
 from typing import Any, Self
 from rich.console import Console, Group
 from rich.live import Live
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
+from rich.text import Text
 import time
 
 console = Console()
@@ -52,7 +53,6 @@ def render(state: DashboardState) -> Panel:
             str(r.get("context_tokens", "-")),
         )
 
-    from rich.text import Text
     return Panel(
         Group(Text.from_markup(header + "\n"), table),
         title="[bold]LLM 장기 컨텍스트 실험[/]",
