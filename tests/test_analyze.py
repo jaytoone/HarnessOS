@@ -1,6 +1,7 @@
 """analyze.py 결과 분석 스크립트 테스트."""
 import json
 from pathlib import Path
+from typing import Any
 from unittest.mock import patch
 
 import pytest
@@ -8,7 +9,7 @@ import pytest
 from analyze import analyze_context_memory, analyze_coding_failure, main
 
 
-def _write_result(path: Path, experiment: str, steps: list, summary: dict | None = None) -> Path:
+def _write_result(path: Path, experiment: str, steps: list[dict[str, Any]], summary: dict[str, Any] | None = None) -> Path:
     data = {
         "experiment": experiment,
         "model": "test/model",

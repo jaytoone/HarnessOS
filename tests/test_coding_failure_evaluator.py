@@ -1,5 +1,6 @@
 """coding_failure/evaluator.py 오류 경로 테스트."""
 import asyncio
+from typing import Any
 from unittest.mock import patch, AsyncMock, MagicMock
 
 import httpx
@@ -14,7 +15,7 @@ from experiments.coding_failure.evaluator import (
 )
 
 
-def _mock_resp(status_code: int, body: dict) -> MagicMock:
+def _mock_resp(status_code: int, body: dict[str, Any]) -> MagicMock:
     m = MagicMock()
     m.status_code = status_code
     m.json.return_value = body
