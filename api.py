@@ -7,14 +7,14 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from typing import Any
 from urllib.parse import urlparse, parse_qs
 
-from store import Store, Product
-from models import Category
+from store import BaseStore, Store
+from models import Category, Product
 
 
 class APIRequestHandler(BaseHTTPRequestHandler):
     """HTTP request handler with routing dictionary."""
-    
-    store: Store | None = None  # Will be set when server starts
+
+    store: BaseStore | None = None  # Will be set when server starts
 
     def _send_json_response(self, status_code: int, data: Any) -> None:
         """Send a JSON response."""
@@ -138,13 +138,13 @@ class APIRequestHandler(BaseHTTPRequestHandler):
             self._send_json_response(404, {'error': f'Product "{product_name}" not found'})
 
 
-def create_app(store: Store) -> type:
+def create_app(store: BaseStore) -> type:
     """Create the API application with the given store."""
     APIRequestHandler.store = store
     return APIRequestHandler
 
 
-def run_server(store: Store, host: str = '0.0.0.0', port: int = 8000) -> None:
+def run_server(store: BaseStore, host: str = '0.0.0.0', port: int = 8000) -> None:
     """Run the API server."""
     handler_class = create_app(store)
     server = HTTPServer((host, port), handler_class)
