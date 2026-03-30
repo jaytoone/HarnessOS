@@ -541,3 +541,25 @@ def test_hypothesis_first_attempt_solves_all_tasks() -> None:
             f"Hyp failed on {t.id} with 1 attempt: "
             f"{result.attempts[0].tests_passed}/{result.attempts[0].tests_total}"
         )
+
+
+# --- Strategy edge case: max_attempts truncation ---
+
+
+def test_engineering_max_attempts_break_and_unsolved() -> None:
+    """Engineering: when len(attempts) > max_attempts, break triggered → unsolved return."""
+    # C1 has 4 engineering attempts; capping at 3 forces the break path
+    task = [t for t in get_debug_tasks() if t.id == "C1"][0]
+    eng = EngineeringStrategy()
+    result = eng.run(task, max_attempts=3)
+    assert result.solved is False
+    assert result.total_attempts == 3  # only 3 attempts ran, break on 4th
+
+
+def test_hypothesis_max_attempts_zero_break() -> None:
+    """Hypothesis: max_attempts=0 triggers break on first iteration → empty/unsolved."""
+    task = get_debug_tasks()[0]  # A1
+    hyp = HypothesisStrategy()
+    result = hyp.run(task, max_attempts=0)
+    assert result.solved is False
+    assert result.total_attempts == 0
