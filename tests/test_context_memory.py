@@ -1,5 +1,6 @@
 """context_memory evaluator 및 tasks 단위 테스트."""
 import asyncio
+from typing import Any
 from unittest.mock import patch, AsyncMock, MagicMock
 
 import httpx
@@ -70,7 +71,7 @@ def test_call_minimax_retries_on_429(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("MINIMAX_API_KEY", "test-key")
     call_count = 0
 
-    def make_mock_response(status_code: int, body: dict) -> MagicMock:
+    def make_mock_response(status_code: int, body: dict[str, Any]) -> MagicMock:
         mock_resp = MagicMock()
         mock_resp.status_code = status_code
         mock_resp.json.return_value = body
