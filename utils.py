@@ -1,5 +1,5 @@
 """Store serialization utilities: CSV export (to_csv) and import (from_csv)."""
-from store import Store, InMemoryStore
+from store import BaseStore, InMemoryStore
 from models import Product, Category
 
 
@@ -32,7 +32,7 @@ def from_csv(csv_string: str) -> InMemoryStore:
     return store
 
 
-def to_csv(store: InMemoryStore) -> str:
+def to_csv(store: BaseStore) -> str:
     """Convert a Store's product list to CSV format string."""
     if not store.products:
         return "name,price,quantity,category\n"
