@@ -13,6 +13,8 @@ MINIMAX_MODEL = "MiniMax-M2.5"
 
 @dataclass(frozen=True)
 class RecallResult:
+    """Result of a single context-memory recall test."""
+
     is_correct: bool
     expected: str
     got: str

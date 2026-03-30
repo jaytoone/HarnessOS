@@ -4,6 +4,8 @@ from typing import Literal
 
 @dataclass(frozen=True)
 class CodingTask:
+    """A single progressive coding challenge step."""
+
     step: int
     prompt: str
     category: Literal["simple", "multi_file", "refactor", "architecture"]

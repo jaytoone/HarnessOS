@@ -20,6 +20,8 @@ from experiments.hypothesis_validation.tasks import DebugTask, get_debug_tasks
 
 @dataclass
 class LLMTaskResult:
+    """Per-task LLM experiment result with pass@1 and attempt statistics."""
+
     task_id: str
     category: str
     trials: int
@@ -75,6 +77,8 @@ class LLMTaskResult:
 
 @dataclass
 class LLMExperimentResult:
+    """Full LLM experiment result aggregating all task results."""
+
     task_results: list[LLMTaskResult] = field(default_factory=list)
     model: str = "claude-haiku-4-5-20251001"
     trials_per_task: int = 1

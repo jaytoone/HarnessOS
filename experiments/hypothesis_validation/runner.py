@@ -30,12 +30,16 @@ from experiments.hypothesis_validation.tasks import DebugTask, get_debug_tasks
 
 @dataclass(frozen=True)
 class ConfigIssue:
+    """A configuration validation issue for a specific task."""
+
     task_id: str
     issue: str
 
 
 @dataclass(frozen=True)
 class TaskResult:
+    """Paired engineering and hypothesis strategy results for a single task."""
+
     task_id: str
     category: str
     engineering_result: StrategyResult | None = None

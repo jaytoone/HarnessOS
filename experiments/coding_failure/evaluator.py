@@ -14,6 +14,8 @@ TERMINAL_STATES = {"finished", "error", "stopped", "awaiting_user_input"}
 
 @dataclass(frozen=True)
 class StepResult:
+    """Single coding step execution result from OpenHands."""
+
     step: int
     status: Literal["success", "failure", "timeout"]
     context_tokens: int

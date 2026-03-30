@@ -27,6 +27,8 @@ from experiments.hypothesis_validation.tasks import DebugTask
 
 @dataclass(frozen=True)
 class LLMAttemptResult(AttemptResult):
+    """AttemptResult extended with LLM token usage and raw response."""
+
     input_tokens: int = 0
     output_tokens: int = 0
     raw_response: str = ""
@@ -35,6 +37,8 @@ class LLMAttemptResult(AttemptResult):
 
 @dataclass
 class LLMStrategyResult(StrategyResult):
+    """StrategyResult extended with aggregated LLM token usage."""
+
     total_input_tokens: int = 0
     total_output_tokens: int = 0
     attempts: list[AttemptResult] = field(default_factory=list)

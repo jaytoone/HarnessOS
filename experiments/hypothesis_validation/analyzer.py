@@ -9,6 +9,8 @@ from experiments.hypothesis_validation.runner import ExperimentResult, TaskResul
 
 @dataclass(frozen=True)
 class CategoryStats:
+    """Aggregated per-category success/attempt statistics for both strategies."""
+
     category: str
     eng_solved: int
     eng_total: int
@@ -24,6 +26,8 @@ class CategoryStats:
 
 @dataclass(frozen=True)
 class TaskDetail:
+    """Per-task outcome detail for both engineering and hypothesis strategies."""
+
     task_id: str
     category: str
     eng_solved: bool
@@ -35,6 +39,8 @@ class TaskDetail:
 
 @dataclass
 class AnalysisReport:
+    """Full analysis report comparing engineering vs hypothesis-driven strategy."""
+
     category_stats: list[CategoryStats] = field(default_factory=list)
     task_details: list[TaskDetail] = field(default_factory=list)
     overall_eng_success: float = 0.0
