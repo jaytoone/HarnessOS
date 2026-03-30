@@ -1,25 +1,37 @@
 {
   "tried_strategies": [
-    {"goal": "AutoCode runner.py 및 evaluator 코드 개선 — 테스트 커버리지 향상 및 에러 핸들링 강화", "score": 0.833, "iteration": 1, "outcome": "evolved", "weak_dim": "impact"},
-    {"goal": "coverage 향상 — runner.py 비동기 오류 경로 테스트 추가", "score": 0.8525, "iteration": 2, "outcome": "evolved", "weak_dim": "impact"},
-    {"goal": "coding_failure/evaluator.py 재시도 로직 추가 및 커버리지 측정 강화", "score": 0.8875, "iteration": 3, "outcome": "evolved", "weak_dim": "completeness"},
-    {"goal": "커버리지 76% → 85%+: _poll_until_done 및 dashboard 미커버 경로 테스트", "score": 0.9075, "iteration": 4, "outcome": "evolved", "weak_dim": "quality"},
-    {"goal": "커버리지 90%+: run_openhands_task agent_state 경로 및 window 실패율 로직 테스트", "score": 0.935, "iteration": 5, "outcome": "user_stopped", "weak_dim": "none"}
+    {"goal": "runner.py 성공 경로 테스트 추가 + main() 함수 커버리지", "score": 0.955, "iteration": 1, "outcome": "evolved", "weak_dim": "impact"},
+    {"goal": "context_memory evaluator 예외 경로 100% 커버", "score": 0.965, "iteration": 2, "outcome": "evolved", "weak_dim": "quality"},
+    {"goal": "tasks.py/evaluator 미커버 경로 완성", "score": 0.969, "iteration": 3, "outcome": "evolved", "weak_dim": "quality"},
+    {"goal": "pragma:no cover로 100% 커버리지 달성", "score": 0.975, "iteration": 4, "outcome": "evolved", "weak_dim": "quality"},
+    {"goal": "conftest.py 공유 픽스처 추가", "score": 0.980, "iteration": 5, "outcome": "evolved", "weak_dim": "efficiency"},
+    {"goal": "test_runner.py fixture 마이그레이션", "score": 0.988, "iteration": 6, "outcome": "evolved", "weak_dim": "efficiency"},
+    {"goal": "docstring + pytest threshold 95% 강화", "score": 0.990, "iteration": 7, "outcome": "plateau", "weak_dim": "efficiency"},
+    {"goal": "[ESCAPE1] runner.py/constants.py/dashboard.py 미사용 import 제거", "score": 0.995, "iteration": 10, "outcome": "escaped", "weak_dim": "efficiency"},
+    {"goal": "[ESCAPE2] analyze.py 결과 분석 스크립트 + 100% 커버리지", "score": 0.998, "iteration": 13, "outcome": "converged", "weak_dim": "none"}
   ],
   "dead_ends": [],
   "known_facts": [
-    "context_memory/evaluator.py: call_minimax has retry logic (429 + transient errors)",
-    "coding_failure/evaluator.py: _create_conversation now has retry (429 + transient, 2 retries)",
-    "tests: 41/41 passing after iteration 5",
-    "coverage: 92.49% total (coding_failure/evaluator.py: 99%, runner.py: 82%)",
-    "pytest.ini: --cov configured, threshold 60%",
-    "stop signal: infinite-stop.txt created by user, loop terminated gracefully"
+    "tests: 77/77 passing (v3 session)",
+    "coverage: 100% total (306 statements)",
+    "pytest.ini: --cov-fail-under=95",
+    "analyze.py: 신규 모듈, 결과 분석 자동화",
+    "runner.py: pragma:no cover on __main__ guard",
+    "dashboard.py: Self type, unused import 제거",
+    "tests/__init__.py: pycache conflict 해결",
+    "tests/conftest.py: dashboard_mock 공유 픽스처"
   ],
   "uncertain": [],
   "dimensions_explored": {
-    "impact": 0.93,
-    "quality": 0.93,
-    "completeness": 0.97,
-    "efficiency": 0.91
+    "completeness": 1.0,
+    "impact": 1.0,
+    "quality": 1.0,
+    "efficiency": 0.99
+  },
+  "best_score_vector": {
+    "completeness": 1.0,
+    "impact": 1.0,
+    "quality": 1.0,
+    "efficiency": 0.99
   }
 }
