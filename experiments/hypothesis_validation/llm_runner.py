@@ -180,5 +180,13 @@ def save_llm_results(result: LLMExperimentResult, output_dir: str = "results") -
             for tr in result.task_results
         ],
     }
+    def _finite(v: float) -> float | None:
+        """Replace float infinity with None for RFC-compliant JSON output."""
+        return None if v == float("inf") or v == float("-inf") else v
+
+    for task_dict in data["tasks"]:
+        task_dict["engineering_avg_attempts"] = _finite(task_dict["engineering_avg_attempts"])
+        task_dict["hypothesis_avg_attempts"] = _finite(task_dict["hypothesis_avg_attempts"])
+
     path.write_text(json.dumps(data, indent=2))
     return str(path)
