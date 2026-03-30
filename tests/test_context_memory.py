@@ -119,6 +119,13 @@ def test_call_minimax_retries_on_transport_error(monkeypatch: pytest.MonkeyPatch
     assert call_count == 2
 
 
+def test_build_recall_prompt_invalid_position() -> None:
+    """알 수 없는 position 입력 시 ValueError 발생."""
+    from experiments.context_memory.tasks import build_recall_prompt
+    with pytest.raises(ValueError, match="Unknown position"):
+        build_recall_prompt(context_tokens=500, position="left")
+
+
 def test_call_minimax_exhausts_retries_raises(monkeypatch: pytest.MonkeyPatch) -> None:
     """재시도를 모두 소진하면 마지막 예외가 전파된다."""
     monkeypatch.setenv("MINIMAX_API_KEY", "test-key")

@@ -112,6 +112,14 @@ def test_analyze_events_error_keyword_returns_failure() -> None:
     assert err is not None
 
 
+def test_analyze_events_no_finish_no_error_returns_success() -> None:
+    """finish 없고 에러 키워드도 없으면 awaiting_user_input으로 간주해 success 반환."""
+    events = [{"action": "cmd", "observation": "Task done, waiting for input"}]
+    status, err = _analyze_events(events)
+    assert status == "success"
+    assert err is None
+
+
 # ── run_openhands_task 통합 ───────────────────────────────────────────────────
 
 def test_run_openhands_task_create_failure_returns_failure_result() -> None:
