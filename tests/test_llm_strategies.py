@@ -4,6 +4,7 @@ Uses mocked Anthropic client to avoid actual API calls in CI.
 Tests: prompt construction, code extraction, hypothesis extraction,
 strategy behavior, token tracking, runner integration.
 """
+from typing import Callable
 from unittest.mock import MagicMock, patch
 
 from anthropic.types import TextBlock
@@ -36,9 +37,9 @@ def simple_task() -> DebugTask:
 
 
 @pytest.fixture
-def mock_response_factory():
+def mock_response_factory() -> Callable[[str, int, int], MagicMock]:
     """Creates a mock Anthropic API response with given text and token counts."""
-    def factory(text: str, input_tokens: int = 100, output_tokens: int = 50):
+    def factory(text: str, input_tokens: int = 100, output_tokens: int = 50) -> MagicMock:
         response = MagicMock()
         text_block = MagicMock(spec=TextBlock)
         text_block.text = text
@@ -50,7 +51,7 @@ def mock_response_factory():
 
 
 @pytest.fixture
-def mock_client(mock_response_factory):
+def mock_client(mock_response_factory: Callable[[str, int, int], MagicMock]) -> MagicMock:
     """Anthropic client mock that always returns a correct fix on first attempt."""
     correct_code = (
         "def find_max_subarray(arr, k):\n"

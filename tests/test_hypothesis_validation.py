@@ -1,4 +1,5 @@
 """Tests for hypothesis_validation experiment (exec-based, deterministic)."""
+from typing import Any
 from experiments.hypothesis_validation.tasks import get_debug_tasks, DebugTask
 from experiments.hypothesis_validation.strategies import (
     EngineeringStrategy,
@@ -60,7 +61,7 @@ def test_all_tasks_have_test_cases() -> None:
 # --- Code correctness tests (exec-based) ---
 
 
-def _run_code(code: str, func_name: str):
+def _run_code(code: str, func_name: str) -> Any:
     """Helper: compile code and extract the named function.
 
     Uses compile+exec on trusted test fixture strings (not user input).
