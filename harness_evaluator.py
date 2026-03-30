@@ -12,7 +12,7 @@ References:
   - MetaClaw: cross-run learning with time-decay lessons
 """
 import json
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -346,18 +346,7 @@ def save_verdict(verdict: HarnessVerdict) -> Path:
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     path = HARNESS_EVAL_DIR / f"{verdict.experiment}_eval_{ts}.json"
 
-    data: dict[str, Any] = {
-        "experiment": verdict.experiment,
-        "passed": verdict.passed,
-        "score": verdict.score,
-        "success_rate": verdict.success_rate,
-        "avg_duration_ms": verdict.avg_duration_ms,
-        "total_steps": verdict.total_steps,
-        "issues": verdict.issues,
-        "suggestions": verdict.suggestions,
-        "timestamp": verdict.timestamp,
-    }
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+    path.write_text(json.dumps(asdict(verdict), ensure_ascii=False, indent=2))
     return path
 
 
