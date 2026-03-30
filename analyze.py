@@ -4,11 +4,13 @@
 Usage:
   python analyze.py                      # 모든 실험 결과 출력
   python analyze.py --run                # 결정론적 가설 검증 실험 실행 및 분석
+  python analyze.py --run-llm            # LLM 가설 검증 실험 실행 (ANTHROPIC_API_KEY 필요)
   python analyze.py --harness-trend      # 하네스 평가 추이 (cross-run)
   python analyze.py --harness-trend context_memory  # 특정 실험 추이
 """
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 from constants import RESULTS_DIR
@@ -241,6 +243,36 @@ def run_hypothesis_pipeline() -> None:
         print(f"  → {suggestion}")
 
 
+def run_llm_pipeline(trials: int = 3, max_attempts: int = 5) -> None:
+    """Run the real LLM hypothesis validation experiment.
+
+    Requires ANTHROPIC_API_KEY. Calls Claude API and records pass@1 rates
+    and token consumption for engineering vs hypothesis strategies.
+    """
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        print("오류: ANTHROPIC_API_KEY 환경 변수가 설정되지 않았습니다.")
+        print("  export ANTHROPIC_API_KEY=sk-ant-...")
+        sys.exit(1)
+
+    from experiments.hypothesis_validation.llm_runner import (
+        run_llm_experiment,
+        save_llm_results,
+    )
+
+    print(
+        f"=== LLM Hypothesis Validation — trials={trials}, max_attempts={max_attempts} ===\n"
+    )
+
+    print("[1/2] 실험 실행 중 (실제 API 호출)...")
+    result = run_llm_experiment(trials_per_task=trials, max_attempts=max_attempts)
+    path_str = save_llm_results(result)
+    print(f"  ✓ {len(result.task_results)}개 태스크 완료 → {Path(path_str).name}\n")
+
+    print("[2/2] 결과 분석...")
+    data = json.loads(Path(path_str).read_text())
+    analyze_llm_hypothesis(data)
+
+
 def main(args_list: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="실험 결과 분석")
     parser.add_argument(
@@ -255,6 +287,11 @@ def main(args_list: list[str] | None = None) -> None:
         action="store_true",
         help="결정론적 가설 검증 실험을 실행하고 분석 출력",
     )
+    parser.add_argument(
+        "--run-llm",
+        action="store_true",
+        help="LLM 가설 검증 실험 실행 (ANTHROPIC_API_KEY 필요)",
+    )
     args = parser.parse_args(args_list)
 
     if args.harness_trend is not None:
@@ -264,6 +301,10 @@ def main(args_list: list[str] | None = None) -> None:
 
     if args.run:
         run_hypothesis_pipeline()
+        return
+
+    if args.run_llm:
+        run_llm_pipeline()
         return
 
     paths = sorted(RESULTS_DIR.glob("*.json")) if RESULTS_DIR.exists() else []

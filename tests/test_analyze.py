@@ -411,3 +411,63 @@ def test_run_hypothesis_pipeline_with_issues(tmp_path: Path, capsys: pytest.Capt
     out = capsys.readouterr().out
     assert "성공률 낮음" in out
     assert "태스크 난이도 조정" in out
+
+
+# --- run_llm_pipeline tests ---
+
+
+def test_run_llm_pipeline_no_api_key(capsys: pytest.CaptureFixture) -> None:
+    """ANTHROPIC_API_KEY 없으면 에러 메시지 후 sys.exit(1)."""
+    from analyze import run_llm_pipeline
+    with patch.dict("os.environ", {}, clear=True):
+        # Remove API key from env
+        env_without_key = {k: v for k, v in __import__("os").environ.items()
+                           if k != "ANTHROPIC_API_KEY"}
+        with patch("os.environ.get", return_value=None):
+            with pytest.raises(SystemExit) as exc:
+                run_llm_pipeline()
+    assert exc.value.code == 1
+    assert "ANTHROPIC_API_KEY" in capsys.readouterr().out
+
+
+def test_run_llm_pipeline_success(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """run_llm_pipeline() 성공 경로: 실험 실행 + 결과 분석 출력."""
+    import json
+    from analyze import run_llm_pipeline
+    from unittest.mock import MagicMock
+
+    # Fake LLM result file
+    llm_data = {
+        "model": "claude-haiku-4-5-20251001",
+        "trials_per_task": 1,
+        "engineering_overall_pass_rate": 0.9,
+        "hypothesis_overall_pass_rate": 1.0,
+        "engineering_total_tokens": 5000,
+        "hypothesis_total_tokens": 6000,
+        "tasks": [{"task_id": "A1"}],
+    }
+    result_file = tmp_path / "llm_hypothesis_validation_20260330.json"
+    result_file.write_text(json.dumps(llm_data))
+
+    fake_result = MagicMock()
+    fake_result.task_results = [MagicMock()]
+
+    with patch("os.environ.get", return_value="sk-ant-fake"), \
+         patch("experiments.hypothesis_validation.llm_runner.run_llm_experiment",
+               return_value=fake_result), \
+         patch("experiments.hypothesis_validation.llm_runner.save_llm_results",
+               return_value=str(result_file)):
+        run_llm_pipeline(trials=1)
+
+    out = capsys.readouterr().out
+    assert "1/2" in out
+    assert "2/2" in out
+    assert "claude-haiku" in out
+
+
+def test_main_run_llm_flag(capsys: pytest.CaptureFixture) -> None:
+    """--run-llm 플래그가 run_llm_pipeline을 호출한다."""
+    from analyze import main
+    with patch("analyze.run_llm_pipeline") as mock_run:
+        main(["--run-llm"])
+    mock_run.assert_called_once()

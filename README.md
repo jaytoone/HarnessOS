@@ -56,6 +56,10 @@ python3 analyze.py
 # 실험 C 전체 파이프라인 (실행 + 분석 + 하네스 평가)
 python3 analyze.py --run
 
+# 실험 C LLM 버전 (실제 Claude API 호출, ANTHROPIC_API_KEY 필요)
+export ANTHROPIC_API_KEY=sk-ant-...
+python3 analyze.py --run-llm
+
 # 하네스 평가 추이 (cross-run)
 python3 analyze.py --harness-trend
 ```
