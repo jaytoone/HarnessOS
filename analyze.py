@@ -199,7 +199,8 @@ def run_hypothesis_pipeline() -> None:
     """Run the full deterministic hypothesis validation pipeline.
 
     Executes: validate_experiment_config → run_experiment → save_results
-    → evaluate_harness, then prints analysis.
+    → analyze_results + format_report (full research report)
+    → evaluate_harness + save_verdict (quality gate).
     """
     from experiments.hypothesis_validation.runner import (
         validate_experiment_config,

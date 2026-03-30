@@ -71,7 +71,7 @@
 ### What This Experiment Does NOT Show
 - Whether a real LLM given a "hypothesis-first" prompt would actually follow the hypothesis reasoning path.
 - Whether a real LLM given a "just fix it" prompt would actually produce the inefficient attempts modeled here.
-- External validity: the 9 tasks and researcher-coded attempts may not represent real-world debugging distributions.
+- External validity: the 12 tasks and researcher-coded attempts may not represent real-world debugging distributions.
 
 ### Why This Is Still Useful
 - Demonstrates the **theoretical upper bound** of hypothesis-driven strategy's advantage over symptom-driven strategy.
