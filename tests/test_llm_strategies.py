@@ -31,6 +31,7 @@ from experiments.hypothesis_validation.tasks import DebugTask, get_debug_tasks
 
 @pytest.fixture
 def simple_task() -> DebugTask:
+    """첫 번째 디버그 태스크(A1: off-by-one)를 반환하는 픽스처."""
     return get_debug_tasks()[0]  # A1: off-by-one
 
 

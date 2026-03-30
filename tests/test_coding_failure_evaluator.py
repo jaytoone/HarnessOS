@@ -96,10 +96,12 @@ def test_create_conversation_raises_on_transport_error() -> None:
 # ── _analyze_events ───────────────────────────────────────────────────────────
 
 def test_analyze_events_empty_returns_failure() -> None:
+    """이벤트가 없으면 ('failure', 'no events') 반환."""
     assert _analyze_events([]) == ("failure", "no events")
 
 
 def test_analyze_events_finish_action_returns_success() -> None:
+    """finish 액션이 있으면 ('success', None) 반환."""
     events = [{"action": "finish"}]
     status, err = _analyze_events(events)
     assert status == "success"
@@ -107,6 +109,7 @@ def test_analyze_events_finish_action_returns_success() -> None:
 
 
 def test_analyze_events_error_keyword_returns_failure() -> None:
+    """observation에 에러 키워드가 있으면 ('failure', ...) 반환."""
     events = [{"action": "cmd", "observation": "Traceback: error occurred"}]
     status, err = _analyze_events(events)
     assert status == "failure"

@@ -150,6 +150,7 @@ def test_analyze_hypothesis_validation_by_category(capsys: pytest.CaptureFixture
 
 
 def test_analyze_hypothesis_validation_empty(capsys: pytest.CaptureFixture) -> None:
+    """스텝이 없는 가설 검증 결과는 '(no steps)' 출력."""
     from analyze import analyze_hypothesis_validation
     analyze_hypothesis_validation({"steps": [], "summary": {}})
     out = capsys.readouterr().out
@@ -177,6 +178,7 @@ def test_analyze_llm_hypothesis_output(capsys: pytest.CaptureFixture) -> None:
 
 
 def test_analyze_llm_hypothesis_empty_tasks(capsys: pytest.CaptureFixture) -> None:
+    """태스크가 없는 LLM 가설 결과는 '(no tasks)' 출력."""
     from analyze import analyze_llm_hypothesis
     analyze_llm_hypothesis({"tasks": []})
     out = capsys.readouterr().out
