@@ -3,6 +3,7 @@
 
 Usage:
   python analyze.py                      # 모든 실험 결과 출력
+  python analyze.py --run                # 결정론적 가설 검증 실험 실행 및 분석
   python analyze.py --harness-trend      # 하네스 평가 추이 (cross-run)
   python analyze.py --harness-trend context_memory  # 특정 실험 추이
 """
@@ -217,7 +218,7 @@ def run_hypothesis_pipeline() -> None:
             print(f"  ❌ {issue.task_id}: {issue.issue}")
         print("검증 실패 — 실험을 중단합니다.")
         sys.exit(1)
-    print(f"  ✓ 검증 통과 ({len(validate_experiment_config.__module__)})\n")
+    print("  ✓ 모든 태스크 검증 통과\n")
 
     print("[2/4] 실험 실행 중...")
     result = run_experiment(max_attempts=5)
