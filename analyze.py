@@ -13,10 +13,11 @@ import json
 import os
 import sys
 from pathlib import Path
+from typing import Any
 from constants import RESULTS_DIR
 
 
-def analyze_context_memory(data: dict) -> None:
+def analyze_context_memory(data: dict[str, Any]) -> None:
     """컨텍스트 메모리 실험 결과를 위치/길이별로 요약 출력."""
     steps = data["steps"]
     total = len(steps)
@@ -48,7 +49,7 @@ def analyze_context_memory(data: dict) -> None:
         print(f"    {label:10s}: {sum(hits)}/{len(hits)} ({sum(hits)/len(hits)*100:.0f}%)")
 
 
-def analyze_coding_failure(data: dict) -> None:
+def analyze_coding_failure(data: dict[str, Any]) -> None:
     """코딩 실패 실험 결과를 성공률과 실패 급증 시점으로 요약 출력."""
     steps = data["steps"]
     total = len(steps)
@@ -67,7 +68,7 @@ def analyze_coding_failure(data: dict) -> None:
         print("  실패 급증 시점: 감지되지 않음")
 
 
-def analyze_hypothesis_validation(data: dict) -> None:
+def analyze_hypothesis_validation(data: dict[str, Any]) -> None:
     """결정론적 가설 검증 실험 결과를 전략별/카테고리별로 요약 출력."""
     steps = data["steps"]
     total = len(steps)
@@ -102,7 +103,7 @@ def analyze_hypothesis_validation(data: dict) -> None:
             )
 
 
-def analyze_llm_hypothesis(data: dict) -> None:
+def analyze_llm_hypothesis(data: dict[str, Any]) -> None:
     """LLM 가설 검증 실험 결과를 전략별 pass@1 및 토큰 사용량으로 요약 출력."""
     tasks = data.get("tasks", [])
     if not tasks:
