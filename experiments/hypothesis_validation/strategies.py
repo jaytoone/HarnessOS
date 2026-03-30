@@ -220,15 +220,12 @@ ENGINEERING_ATTEMPTS: dict[str, list[str]] = {
     "C3": [
         # Attempt 1: Use None sentinel pattern (correct)
         (
-            "def cached_fibonacci(n, cache=None):\n"
-            "    if cache is None:\n"
-            "        cache = {}\n"
-            "    if n in cache:\n"
-            "        return cache[n]\n"
-            "    if n <= 1:\n"
-            "        return n\n"
-            "    result = cached_fibonacci(n - 1, cache) + cached_fibonacci(n - 2, cache)\n"
-            "    cache[n] = result\n"
+            "def collect_unique(items, result=None):\n"
+            "    if result is None:\n"
+            "        result = []\n"
+            "    for item in items:\n"
+            "        if item not in result:\n"
+            "            result.append(item)\n"
             "    return result\n"
         ),
     ],
@@ -334,18 +331,15 @@ HYPOTHESIS_ATTEMPTS: dict[str, list[tuple[str, str]]] = {
     # --- C3: mutable default argument ---
     "C3": [
         (
-            "def cached_fibonacci(n, cache=None):\n"
-            "    if cache is None:\n"
-            "        cache = {}\n"
-            "    if n in cache:\n"
-            "        return cache[n]\n"
-            "    if n <= 1:\n"
-            "        return n\n"
-            "    result = cached_fibonacci(n - 1, cache) + cached_fibonacci(n - 2, cache)\n"
-            "    cache[n] = result\n"
+            "def collect_unique(items, result=None):\n"
+            "    if result is None:\n"
+            "        result = []\n"
+            "    for item in items:\n"
+            "        if item not in result:\n"
+            "            result.append(item)\n"
             "    return result\n",
-            "mutable default dict persists across calls; "
-            "use None sentinel and create fresh dict per call",
+            "mutable default list persists across calls; "
+            "use None sentinel and create fresh list per call",
         ),
     ],
 }

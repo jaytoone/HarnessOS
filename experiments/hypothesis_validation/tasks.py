@@ -224,34 +224,34 @@ def get_debug_tasks() -> list[DebugTask]:
         DebugTask(
             id="C3",
             category="assumption",
-            function_name="cached_fibonacci",
+            function_name="collect_unique",
             buggy_code=(
-                "def cached_fibonacci(n, cache={}):\n"
-                "    if n in cache:\n"
-                "        return cache[n]\n"
-                "    if n <= 1:\n"
-                "        return n\n"
-                "    result = cached_fibonacci(n - 1) + cached_fibonacci(n - 2)\n"
-                "    cache[n] = result\n"
+                "def collect_unique(items, result=[]):\n"
+                "    for item in items:\n"
+                "        if item not in result:\n"
+                "            result.append(item)\n"
                 "    return result\n"
             ),
             correct_code=(
-                "def cached_fibonacci(n, cache=None):\n"
-                "    if cache is None:\n"
-                "        cache = {}\n"
-                "    if n in cache:\n"
-                "        return cache[n]\n"
-                "    if n <= 1:\n"
-                "        return n\n"
-                "    result = cached_fibonacci(n - 1, cache) + cached_fibonacci(n - 2, cache)\n"
-                "    cache[n] = result\n"
+                "def collect_unique(items, result=None):\n"
+                "    if result is None:\n"
+                "        result = []\n"
+                "    for item in items:\n"
+                "        if item not in result:\n"
+                "            result.append(item)\n"
                 "    return result\n"
             ),
-            bug_description="Mutable default argument shares state across calls; intended as per-call cache but persists.",
+            bug_description=(
+                "Mutable default list persists across calls. "
+                "Second call sees items accumulated from the first call."
+            ),
             test_cases=[
-                {"input": {"n": 0}, "expected": 0},
-                {"input": {"n": 1}, "expected": 1},
-                {"input": {"n": 10}, "expected": 55},
+                # First call: empty start — buggy and correct both pass
+                {"input": {"items": [1, 2, 3]}, "expected": [1, 2, 3]},
+                # Second call: buggy result=[1,2,3,4,5] (not reset), correct=[4,5]
+                {"input": {"items": [4, 5]}, "expected": [4, 5]},
+                # Third call: buggy result=[1,2,3,4,5] (no new items), correct=[1,2]
+                {"input": {"items": [1, 2]}, "expected": [1, 2]},
             ],
         ),
     ]

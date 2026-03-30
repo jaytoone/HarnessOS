@@ -41,6 +41,11 @@ THRESHOLDS: dict[str, QualityThreshold] = {
         max_avg_duration_ms=60_000,
         min_steps=5,
     ),
+    "hypothesis_validation": QualityThreshold(
+        min_success_rate=0.8,   # both strategies should solve most tasks
+        max_avg_duration_ms=0,  # no duration constraint (deterministic)
+        min_steps=9,            # minimum 9 tasks
+    ),
 }
 
 
@@ -127,6 +132,8 @@ def evaluate_harness(data: dict[str, Any]) -> HarnessVerdict:
         _diagnose_context_memory(steps, issues, suggestions)
     elif experiment == "coding_failure":
         _diagnose_coding_failure(steps, data.get("summary", {}), issues, suggestions)
+    elif experiment == "hypothesis_validation":
+        _diagnose_hypothesis_validation(steps, data.get("summary", {}), issues, suggestions)
 
     # ── 종합 점수 계산 ──
     score = _compute_score(success_rate, avg_duration, total, threshold)
@@ -219,6 +226,37 @@ def _diagnose_coding_failure(
         )
         suggestions.append(
             "초반 태스크 난이도를 낮추거나 에이전트 워밍업 단계를 추가하세요."
+        )
+
+
+def _diagnose_hypothesis_validation(
+    steps: list[dict[str, Any]],
+    summary: dict[str, Any],
+    issues: list[str],
+    suggestions: list[str],
+) -> None:
+    """hypothesis_validation 실험 전용 진단."""
+    # 전략별 성공률 비교
+    by_strategy: dict[str, list[bool]] = {}
+    for s in steps:
+        strategy = s.get("strategy", "unknown")
+        by_strategy.setdefault(strategy, []).append(s.get("status") == "success")
+
+    for strategy, results in by_strategy.items():
+        rate = sum(results) / len(results) if results else 0.0
+        if rate < 0.8:
+            issues.append(f"전략 '{strategy}' 성공률 {rate:.1%}가 기준 80% 미달")
+            suggestions.append(
+                f"'{strategy}' 전략의 attempt 시퀀스 또는 프롬프트를 점검하세요."
+            )
+
+    # 카테고리별 attempt 평균 비교 (hypothesis 이점 확인)
+    eng_avg = summary.get("engineering_avg_attempts", 0.0)
+    hyp_avg = summary.get("hypothesis_avg_attempts", 0.0)
+    if eng_avg > 0 and hyp_avg > 0 and (eng_avg - hyp_avg) < 0.3:
+        suggestions.append(
+            "두 전략 간 attempt 차이가 작습니다. "
+            "가설 기반 접근의 이점이 뚜렷한 harder 태스크를 추가하세요."
         )
 
 

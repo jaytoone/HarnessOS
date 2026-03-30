@@ -12,7 +12,13 @@ from experiments.hypothesis_validation.strategies import (
     ENGINEERING_ATTEMPTS,
     HYPOTHESIS_ATTEMPTS,
 )
-from experiments.hypothesis_validation.runner import run_experiment, ExperimentResult
+from experiments.hypothesis_validation.runner import (
+    run_experiment,
+    validate_experiment_config,
+    to_harness_format,
+    ExperimentResult,
+    ConfigIssue,
+)
 from experiments.hypothesis_validation.analyzer import (
     analyze_results,
     format_report,
@@ -376,6 +382,153 @@ def test_all_tasks_have_hypothesis_attempts() -> None:
     for t in tasks:
         assert t.id in HYPOTHESIS_ATTEMPTS, f"Missing hyp attempts for {t.id}"
         assert len(HYPOTHESIS_ATTEMPTS[t.id]) >= 1
+
+
+# --- validate_experiment_config tests ---
+
+
+def test_validate_config_all_clear_with_real_tasks() -> None:
+    issues = validate_experiment_config()
+    assert issues == [], f"Expected no issues, got: {issues}"
+
+
+def test_validate_config_detects_no_test_cases() -> None:
+    bad_task = DebugTask(
+        id="X1",
+        category="simple",
+        function_name="foo",
+        buggy_code="def foo(): return 0",
+        correct_code="def foo(): return 1",
+        bug_description="wrong return",
+        test_cases=[],
+    )
+    issues = validate_experiment_config([bad_task])
+    assert any("no test cases" in i.issue for i in issues)
+    assert issues[0].task_id == "X1"
+
+
+def test_validate_config_detects_wrong_correct_code() -> None:
+    bad_task = DebugTask(
+        id="X2",
+        category="simple",
+        function_name="add",
+        buggy_code="def add(a, b): return a - b",
+        correct_code="def add(a, b): return a - b",  # same as buggy = still wrong
+        bug_description="wrong op",
+        test_cases=[{"input": {"a": 1, "b": 2}, "expected": 3}],
+    )
+    issues = validate_experiment_config([bad_task])
+    assert any("correct_code fails" in i.issue for i in issues)
+
+
+def test_validate_config_detects_bug_not_testable() -> None:
+    bad_task = DebugTask(
+        id="X3",
+        category="simple",
+        function_name="add",
+        buggy_code="def add(a, b): return a + b",  # correct code as buggy
+        correct_code="def add(a, b): return a + b",
+        bug_description="no bug",
+        test_cases=[{"input": {"a": 1, "b": 2}, "expected": 3}],
+    )
+    issues = validate_experiment_config([bad_task])
+    assert any("buggy_code passes" in i.issue for i in issues)
+
+
+def test_validate_config_returns_list_of_config_issues() -> None:
+    issues = validate_experiment_config()
+    assert isinstance(issues, list)
+    for issue in issues:
+        assert isinstance(issue, ConfigIssue)
+
+
+# --- to_harness_format tests ---
+
+
+def test_to_harness_format_structure() -> None:
+    result = run_experiment(tasks=get_debug_tasks()[:3], max_attempts=5)
+    data = to_harness_format(result)
+    assert data["experiment"] == "hypothesis_validation"
+    assert isinstance(data["steps"], list)
+    assert isinstance(data["summary"], dict)
+
+
+def test_to_harness_format_step_count() -> None:
+    """3 tasks × 2 strategies = 6 steps."""
+    result = run_experiment(tasks=get_debug_tasks()[:3], max_attempts=5)
+    data = to_harness_format(result)
+    assert len(data["steps"]) == 6
+
+
+def test_to_harness_format_step_fields() -> None:
+    result = run_experiment(tasks=get_debug_tasks()[:1], max_attempts=5)
+    data = to_harness_format(result)
+    for step in data["steps"]:
+        assert "task_id" in step
+        assert "strategy" in step
+        assert step["strategy"] in {"engineering", "hypothesis"}
+        assert step["status"] in {"success", "failure"}
+        assert "attempts" in step
+
+
+def test_to_harness_format_summary_keys() -> None:
+    result = run_experiment(max_attempts=5)
+    data = to_harness_format(result)
+    summary = data["summary"]
+    assert "task_count" in summary
+    assert "engineering_solved" in summary
+    assert "hypothesis_solved" in summary
+    assert "engineering_avg_attempts" in summary
+    assert "hypothesis_avg_attempts" in summary
+
+
+def test_to_harness_format_all_tasks_success() -> None:
+    """All 9 tasks solved → all steps should be success."""
+    result = run_experiment(max_attempts=10)
+    data = to_harness_format(result)
+    assert all(s["status"] == "success" for s in data["steps"])
+
+
+def test_to_harness_format_feeds_into_harness_evaluator() -> None:
+    """Output of to_harness_format should pass evaluate_harness without error."""
+    from harness_evaluator import evaluate_harness
+    result = run_experiment(max_attempts=5)
+    data = to_harness_format(result)
+    verdict = evaluate_harness(data)
+    assert verdict.experiment == "hypothesis_validation"
+    assert verdict.score >= 0.0
+    assert verdict.total_steps == 18  # 9 tasks × 2 strategies
+
+
+# --- hypothesis_validation harness diagnosis tests ---
+
+
+def test_harness_evaluator_hypothesis_validation_threshold() -> None:
+    """Both strategies solve all tasks → should pass harness threshold."""
+    from harness_evaluator import evaluate_harness, THRESHOLDS
+    assert "hypothesis_validation" in THRESHOLDS
+    result = run_experiment(max_attempts=10)
+    data = to_harness_format(result)
+    verdict = evaluate_harness(data)
+    assert verdict.passed is True
+
+
+def test_harness_evaluator_hypothesis_low_success_rate() -> None:
+    """Inject low success rate → harness should flag it."""
+    from harness_evaluator import evaluate_harness
+    data = {
+        "experiment": "hypothesis_validation",
+        "steps": [
+            {"task_id": "A1", "category": "simple", "strategy": "engineering",
+             "status": "failure", "attempts": 5, "duration_ms": 0},
+            {"task_id": "A1", "category": "simple", "strategy": "hypothesis",
+             "status": "failure", "attempts": 5, "duration_ms": 0},
+        ] * 5,  # 10 steps all failing
+        "summary": {"engineering_avg_attempts": 0.0, "hypothesis_avg_attempts": 0.0},
+    }
+    verdict = evaluate_harness(data)
+    assert verdict.passed is False
+    assert any("성공률" in issue for issue in verdict.issues)
 
 
 def test_hypothesis_first_attempt_solves_all_tasks() -> None:
