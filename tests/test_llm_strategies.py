@@ -406,7 +406,7 @@ def test_llm_task_result_engineering_avg_attempts_unsolved():
 
 
 def test_run_llm_experiment_runs_all_tasks(mock_response_factory):
-    """Runner should produce results for all 9 tasks."""
+    """Runner should produce results for all 12 tasks."""
     tasks = get_debug_tasks()
 
     # Provide a client that returns wrong answers (won't solve — that's OK for this test)
@@ -498,7 +498,7 @@ def test_llm_task_result_empty_pass_at_1():
 
 
 def test_run_llm_experiment_default_tasks(mock_response_factory):
-    """Passing tasks=None should default to all 9 tasks."""
+    """Passing tasks=None should default to all 12 tasks."""
     client = MagicMock()
     client.messages.create.return_value = mock_response_factory("no code", 10, 5)
     result = run_llm_experiment(tasks=None, trials_per_task=1, max_attempts=1, client=client)

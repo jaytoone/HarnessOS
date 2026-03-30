@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for AutoCode tests."""
+"""Shared pytest fixtures for LiveCode tests."""
 import pytest
 from unittest.mock import MagicMock
 

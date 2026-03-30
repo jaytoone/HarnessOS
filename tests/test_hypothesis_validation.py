@@ -30,7 +30,7 @@ from experiments.hypothesis_validation.analyzer import (
 # --- Task structure tests ---
 
 
-def test_get_debug_tasks_returns_9() -> None:
+def test_get_debug_tasks_returns_12() -> None:
     tasks = get_debug_tasks()
     assert len(tasks) == 12
 
@@ -521,7 +521,7 @@ def test_to_harness_format_summary_keys() -> None:
 
 
 def test_to_harness_format_all_tasks_success() -> None:
-    """All 9 tasks solved → all steps should be success."""
+    """All 12 tasks solved → all steps should be success."""
     result = run_experiment(max_attempts=10)
     data = to_harness_format(result)
     assert all(s["status"] == "success" for s in data["steps"])

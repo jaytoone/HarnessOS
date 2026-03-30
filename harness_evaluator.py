@@ -44,7 +44,7 @@ THRESHOLDS: dict[str, QualityThreshold] = {
     "hypothesis_validation": QualityThreshold(
         min_success_rate=0.8,   # both strategies should solve most tasks
         max_avg_duration_ms=0,  # no duration constraint (deterministic)
-        min_steps=9,            # minimum 9 tasks
+        min_steps=9,            # minimum 9 steps (12 tasks × 2 strategies = 24 steps, threshold is lenient)
     ),
 }
 
