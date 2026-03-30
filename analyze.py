@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""실험 결과 JSON 파일 분석 및 요약 리포트 출력."""
+"""실험 결과 JSON 파일 분석 및 요약 리포트 출력.
+
+Usage:
+  python analyze.py                      # 모든 실험 결과 출력
+  python analyze.py --harness-trend      # 하네스 평가 추이 (cross-run)
+  python analyze.py --harness-trend context_memory  # 특정 실험 추이
+"""
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -97,7 +104,99 @@ def analyze_llm_hypothesis(data: dict) -> None:
         print(f"  토큰 오버헤드 (Hypothesis): {tok_diff:+,} ({tok_diff/eng_tok*100:+.1f}%)")
 
 
-def main() -> None:
+def show_harness_trend(experiment: str | None = None) -> None:
+    """하네스 평가 결과 추이 출력 (cross-run comparison)."""
+    from harness_evaluator import HARNESS_EVAL_DIR, HarnessVerdict, compare_runs
+
+    if not HARNESS_EVAL_DIR.exists():
+        print(f"하네스 평가 결과 없음: {HARNESS_EVAL_DIR}/")
+        print("  먼저 실험을 실행하고 evaluate_harness()로 평가하세요.")
+        return
+
+    # 실험 유형 결정
+    if experiment:
+        pattern = f"{experiment}_eval_*.json"
+        exp_names = [experiment]
+    else:
+        # 모든 실험 유형 자동 감지
+        all_files = list(HARNESS_EVAL_DIR.glob("*_eval_*.json"))
+        exp_names_set: set[str] = set()
+        for f in all_files:
+            parts = f.stem.split("_eval_")
+            if parts:
+                exp_names_set.add(parts[0])
+        exp_names = sorted(exp_names_set)
+
+    if not exp_names:
+        print("하네스 평가 기록 없음.")
+        return
+
+    # 지정 실험 필터 시 실제 파일 존재 여부 확인
+    if experiment:
+        matching = list(HARNESS_EVAL_DIR.glob(f"{experiment}_eval_*.json"))
+        if not matching:
+            print(f"'{experiment}' 실험의 하네스 평가 기록 없음.")
+            return
+
+    print("=== 하네스 평가 추이 (Cross-Run Comparison) ===\n")
+
+    for exp_name in exp_names:
+        paths = sorted(HARNESS_EVAL_DIR.glob(f"{exp_name}_eval_*.json"))
+        if not paths:
+            continue
+
+        print(f"[{exp_name}] — {len(paths)}개 실행 기록")
+
+        # 직렬화 방식으로 로드
+        verdicts: list[HarnessVerdict] = []
+        for p in paths:
+            data = json.loads(p.read_text())
+            verdicts.append(HarnessVerdict(
+                experiment=data["experiment"],
+                passed=data["passed"],
+                score=data["score"],
+                success_rate=data["success_rate"],
+                avg_duration_ms=data["avg_duration_ms"],
+                total_steps=data["total_steps"],
+                issues=data.get("issues", []),
+                suggestions=data.get("suggestions", []),
+                timestamp=data.get("timestamp", ""),
+            ))
+
+        for i, v in enumerate(verdicts):
+            ts = v.timestamp[:16]
+            status = "✓" if v.passed else "✗"
+            line = f"  {i+1}. [{ts}] {status} score={v.score:.3f}  rate={v.success_rate:.1%}"
+            if i > 0:
+                comparison = compare_runs(v, verdicts[i - 1])
+                trend_sym = {"improving": "↑", "regressing": "↓", "stable": "→"}[comparison["trend"]]
+                line += f"  {trend_sym} Δscore={comparison['delta_score']:+.3f}"
+            print(line)
+
+        if len(verdicts) >= 2:
+            first, last = verdicts[0], verdicts[-1]
+            overall = compare_runs(last, first)
+            print(f"  전체 추이: {overall['trend']} | Δscore={overall['delta_score']:+.3f} "
+                  f"({len(verdicts)} runs)")
+        print()
+
+
+def main(args_list: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="실험 결과 분석")
+    parser.add_argument(
+        "--harness-trend",
+        nargs="?",
+        const="",
+        metavar="EXPERIMENT",
+        help="하네스 평가 추이 출력 (선택적으로 실험 이름 지정)",
+    )
+    args = parser.parse_args(args_list)
+
+    if args.harness_trend is not None:
+        exp_filter = args.harness_trend or None
+        show_harness_trend(exp_filter)
+        return
+
     paths = sorted(RESULTS_DIR.glob("*.json")) if RESULTS_DIR.exists() else []
 
     if not paths:

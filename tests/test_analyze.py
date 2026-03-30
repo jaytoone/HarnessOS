@@ -68,7 +68,7 @@ def test_main_no_results_dir(tmp_path: Path, capsys: pytest.CaptureFixture) -> N
     """결과 디렉터리 없으면 안내 메시지 출력 후 종료."""
     with patch("analyze.RESULTS_DIR", tmp_path / "nonexistent"):
         with pytest.raises(SystemExit) as exc:
-            main()
+            main([])
     assert exc.value.code == 0
     assert "결과 파일 없음" in capsys.readouterr().out
 
@@ -77,7 +77,7 @@ def test_main_unknown_experiment_type(tmp_path: Path, capsys: pytest.CaptureFixt
     """알 수 없는 experiment 타입은 스텝 수만 출력."""
     _write_result(tmp_path, "custom_experiment", [{"status": "success"}])
     with patch("analyze.RESULTS_DIR", tmp_path):
-        main()
+        main([])
     out = capsys.readouterr().out
     assert "스텝 수" in out
 
@@ -92,7 +92,7 @@ def test_main_analyzes_all_files(tmp_path: Path, capsys: pytest.CaptureFixture) 
     ], summary={"failure_inflection_step": None, "failure_inflection_tokens": None})
 
     with patch("analyze.RESULTS_DIR", tmp_path):
-        main()
+        main([])
 
     out = capsys.readouterr().out
     assert "2개 파일" in out
@@ -170,7 +170,7 @@ def test_main_hypothesis_validation_type(tmp_path: Path, capsys: pytest.CaptureF
     path = tmp_path / "hypothesis_validation_20260101_000000.json"
     path.write_text(json.dumps(data))
     with patch("analyze.RESULTS_DIR", tmp_path):
-        main()
+        main([])
     out = capsys.readouterr().out
     assert "9개" in out
 
@@ -193,6 +193,87 @@ def test_main_llm_hypothesis_type(tmp_path: Path, capsys: pytest.CaptureFixture)
     path = tmp_path / "llm_hypothesis_validation_20260101_000000.json"
     path.write_text(json.dumps(data))
     with patch("analyze.RESULTS_DIR", tmp_path):
-        main()
+        main([])
     out = capsys.readouterr().out
     assert "claude-haiku" in out
+
+
+# --- show_harness_trend tests ---
+
+
+def test_show_harness_trend_no_directory(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """harness_eval 디렉터리 없으면 안내 메시지."""
+    from analyze import show_harness_trend
+    with patch("harness_evaluator.HARNESS_EVAL_DIR", tmp_path / "nonexistent"):
+        show_harness_trend()
+    out = capsys.readouterr().out
+    assert "없음" in out
+
+
+def test_show_harness_trend_with_two_runs(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """2회 실행 기록 → 추이 출력."""
+    import json
+    from analyze import show_harness_trend
+
+    # 두 개의 평가 파일 생성
+    for i, score in enumerate([0.7, 0.9]):
+        data = {
+            "experiment": "test_exp",
+            "passed": score > 0.8,
+            "score": score,
+            "success_rate": score,
+            "avg_duration_ms": 1000.0,
+            "total_steps": 5,
+            "issues": [],
+            "suggestions": [],
+            "timestamp": f"2026-03-30T0{i}:00:00",
+        }
+        (tmp_path / f"test_exp_eval_2026033{i}.json").write_text(json.dumps(data))
+
+    with patch("harness_evaluator.HARNESS_EVAL_DIR", tmp_path):
+        show_harness_trend("test_exp")
+
+    out = capsys.readouterr().out
+    assert "test_exp" in out
+    assert "0.700" in out or "0.7" in out
+    assert "0.900" in out or "0.9" in out
+    assert "↑" in out or "improving" in out
+
+
+def test_show_harness_trend_no_matching_exp(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """지정한 실험 기록 없으면 '없음' 출력."""
+    from analyze import show_harness_trend
+    with patch("harness_evaluator.HARNESS_EVAL_DIR", tmp_path):
+        show_harness_trend("nonexistent_exp")
+    out = capsys.readouterr().out
+    assert "없음" in out
+
+
+def test_show_harness_trend_all_experiments(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """experiment 인자 없으면 모든 실험 표시."""
+    import json
+    from analyze import show_harness_trend
+
+    for exp in ["exp_a", "exp_b"]:
+        data = {
+            "experiment": exp, "passed": True, "score": 0.8,
+            "success_rate": 0.8, "avg_duration_ms": 0, "total_steps": 5,
+            "issues": [], "suggestions": [], "timestamp": "2026-03-30T00:00:00",
+        }
+        (tmp_path / f"{exp}_eval_20260330.json").write_text(json.dumps(data))
+
+    with patch("harness_evaluator.HARNESS_EVAL_DIR", tmp_path):
+        show_harness_trend(None)
+
+    out = capsys.readouterr().out
+    assert "exp_a" in out
+    assert "exp_b" in out
+
+
+def test_main_harness_trend_flag(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """--harness-trend 플래그가 show_harness_trend를 호출한다."""
+    from analyze import main
+    with patch("harness_evaluator.HARNESS_EVAL_DIR", tmp_path / "no"):
+        main(["--harness-trend"])
+    out = capsys.readouterr().out
+    assert "없음" in out or "추이" in out
