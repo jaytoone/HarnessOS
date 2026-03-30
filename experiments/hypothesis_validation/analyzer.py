@@ -49,7 +49,7 @@ class AnalysisReport:
     overall_hyp_success: float = 0.0
     overall_eng_avg_attempts: float = 0.0
     overall_hyp_avg_attempts: float = 0.0
-    best_advantage_category: str = ""
+    best_advantage_category: DebugTaskCategory | None = None
     best_advantage_value: float = 0.0
     hypothesis_first_accuracy: float = 0.0
 
@@ -147,7 +147,7 @@ def analyze_results(result: ExperimentResult) -> AnalysisReport:
         overall_hyp_success=total_hyp_solved / total_tasks if total_tasks > 0 else 0.0,
         overall_eng_avg_attempts=total_eng_attempts / total_tasks if total_tasks > 0 else 0.0,
         overall_hyp_avg_attempts=total_hyp_attempts / total_tasks if total_tasks > 0 else 0.0,
-        best_advantage_category=best.category if best else "",
+        best_advantage_category=best.category if best else None,
         best_advantage_value=best.attempt_savings if best else 0.0,
         hypothesis_first_accuracy=total_first_correct / total_first_hypotheses if total_first_hypotheses > 0 else 0.0,
     )
@@ -196,7 +196,7 @@ def format_report(report: AnalysisReport) -> str:
 
     lines.append("")
     lines.append(
-        f"Best attempt savings category: {report.best_advantage_category} "
+        f"Best attempt savings category: {report.best_advantage_category or 'none'} "
         f"({report.best_advantage_value:+.1f} attempts)"
     )
     lines.append(f"First hypothesis accuracy: {report.hypothesis_first_accuracy:.1%}")
