@@ -1,6 +1,7 @@
 """Product store: BaseStore abstract class and InMemoryStore implementation with persistence."""
 import json
 from abc import ABC, abstractmethod
+from pathlib import Path
 from models import Product
 from events import event_manager, Event, EventType
 
@@ -77,17 +78,14 @@ class InMemoryStore(BaseStore):
         query_lower = query.lower()
         return [p for p in self._products if query_lower in p.name.lower()]
 
-    def save_to_file(self, filepath: str) -> None:
+    def save_to_file(self, filepath: str | Path) -> None:
         """Save the store data to a JSON file."""
         data = [product.to_dict() for product in self._products]
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
+        Path(filepath).write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    def load_from_file(self, filepath: str) -> None:
+    def load_from_file(self, filepath: str | Path) -> None:
         """Load the store data from a JSON file."""
-        with open(filepath, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        self._products = [Product.from_dict(item) for item in data]
+        self._products = [Product.from_dict(item) for item in json.loads(Path(filepath).read_text(encoding="utf-8"))]
 
 
 # Backward compatibility alias
