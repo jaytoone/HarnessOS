@@ -1,3 +1,4 @@
+"""Rich-based live dashboard for experiment progress display."""
 from dataclasses import dataclass, field
 from typing import Any, Self
 from rich.console import Console, Group

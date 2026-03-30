@@ -1,3 +1,4 @@
+"""Context-memory recall evaluator using MiniMax API."""
 import asyncio
 import os
 import time

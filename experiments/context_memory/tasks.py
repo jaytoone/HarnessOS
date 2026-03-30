@@ -1,3 +1,4 @@
+"""Context-memory task builders: padding generation and recall prompt construction."""
 import random
 import string
 

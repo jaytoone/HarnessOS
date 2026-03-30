@@ -1,3 +1,4 @@
+"""Coding-failure evaluator: OpenHands task execution and result analysis."""
 import asyncio
 import time
 from dataclasses import dataclass
