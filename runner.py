@@ -117,6 +117,7 @@ def _save_results(name: str, steps: list[dict[str, Any]], summary: dict[str, Any
 
 
 def main() -> None:
+    """CLI 진입점: --exp 인자로 실험 A(기억력) 또는 B(코딩실수)를 선택해 실행."""
     parser = argparse.ArgumentParser(description="LLM 장기 컨텍스트 실험")
     parser.add_argument("--exp", choices=["a", "b"], required=True, help="실험 선택: a=기억력, b=코딩실수")
     args = parser.parse_args()
