@@ -1,3 +1,4 @@
+"""coding_failure evaluator 및 tasks 통합 테스트."""
 import asyncio
 from unittest.mock import patch, AsyncMock
 

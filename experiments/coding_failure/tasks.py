@@ -1,3 +1,4 @@
+"""Coding-failure task definitions: 20-step progressive coding challenges."""
 from dataclasses import dataclass
 
 @dataclass
