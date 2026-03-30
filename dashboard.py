@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Self
 from rich.console import Console, Group
 from rich.live import Live
 from rich.table import Table
@@ -64,7 +64,7 @@ class Dashboard:
         self.state = state
         self._live = Live(render(state), refresh_per_second=1, console=console)
 
-    def __enter__(self) -> 'Dashboard':
+    def __enter__(self) -> Self:
         self._live.__enter__()
         return self
 
