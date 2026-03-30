@@ -83,7 +83,13 @@ async def run_experiment_b() -> None:
             dash.add_result(row)
 
     step_results = [
-        StepResult(r["step"], r["status"], r["context_tokens"], r["duration_ms"], r["error"])
+        StepResult(
+            step=r["step"],
+            status=r["status"],
+            context_tokens=r["context_tokens"],
+            duration_ms=r["duration_ms"],
+            error=r["error"],
+        )
         for r in all_results
     ]
     inflection = detect_failure_inflection(step_results)
