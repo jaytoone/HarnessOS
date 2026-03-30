@@ -1,6 +1,7 @@
 """Context-memory task builders: padding generation and recall prompt construction."""
 import random
 import string
+from typing import Literal
 
 import tiktoken
 
@@ -29,7 +30,7 @@ def generate_padding(target_tokens: int) -> str:
 
 def build_recall_prompt(
     context_tokens: int,
-    position: str,  # "front" | "middle" | "back"
+    position: Literal["front", "middle", "back"],
     secret: str | None = None,
 ) -> tuple[str, str]:
     """

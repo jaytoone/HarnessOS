@@ -3,6 +3,7 @@ import asyncio
 import os
 import time
 from dataclasses import dataclass
+from typing import Literal
 
 import httpx
 
@@ -15,7 +16,7 @@ class RecallResult:
     expected: str
     got: str
     context_tokens: int
-    position: str
+    position: Literal["front", "middle", "back", "unknown"]
     duration_ms: int
 
 async def call_minimax(prompt: str, *, _retries: int = 2) -> str:
@@ -55,7 +56,7 @@ async def evaluate_recall(
     prompt: str,
     expected: str,
     context_tokens: int,
-    position: str = "unknown",
+    position: Literal["front", "middle", "back", "unknown"] = "unknown",
 ) -> RecallResult:
     """MiniMax API를 호출하여 기억 재현 정확도를 측정하고 RecallResult를 반환."""
     start = time.monotonic()
