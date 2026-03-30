@@ -11,6 +11,12 @@ DebugTaskCategory = Literal["simple", "causal", "assumption"]
 # 전략 식별자 (결정론적 + LLM 포함)
 StrategyName = Literal["engineering", "hypothesis", "llm_engineering", "llm_hypothesis"]
 
+# 코딩 실패 실험 태스크 카테고리
+CodingTaskCategory = Literal["simple", "multi_file", "refactor", "architecture"]
+
+# OpenHands 태스크 실행 상태
+TaskStatus = Literal["success", "failure", "timeout"]
+
 # 비밀 코드 위치 타입
 Position = Literal["front", "middle", "back"]
 PositionOrUnknown = Literal["front", "middle", "back", "unknown"]

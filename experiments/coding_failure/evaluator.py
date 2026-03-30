@@ -2,9 +2,11 @@
 import asyncio
 import time
 from dataclasses import dataclass
-from typing import Any, Literal
+from typing import Any
 
 import httpx
+
+from constants import TaskStatus
 
 OPENHANDS_URL = "http://localhost:3000"
 POLL_INTERVAL = 3.0
@@ -17,7 +19,7 @@ class StepResult:
     """Single coding step execution result from OpenHands."""
 
     step: int
-    status: Literal["success", "failure", "timeout"]
+    status: TaskStatus
     context_tokens: int
     duration_ms: int
     error: str | None
@@ -89,7 +91,7 @@ async def _poll_until_done(client: httpx.AsyncClient, cid: str) -> tuple[list[di
     return [], "timeout"
 
 
-def _analyze_events(events: list[dict[str, Any]]) -> tuple[str, str | None]:
+def _analyze_events(events: list[dict[str, Any]]) -> tuple[TaskStatus, str | None]:
     """events에서 success/failure 판정."""
     if not events:
         return "failure", "no events"

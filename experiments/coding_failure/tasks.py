@@ -1,6 +1,8 @@
 """Coding-failure task definitions: 20-step progressive coding challenges."""
 from dataclasses import dataclass
-from typing import Literal
+
+from constants import CodingTaskCategory
+
 
 @dataclass(frozen=True)
 class CodingTask:
@@ -8,7 +10,7 @@ class CodingTask:
 
     step: int
     prompt: str
-    category: Literal["simple", "multi_file", "refactor", "architecture"]
+    category: CodingTaskCategory
 
 def get_coding_tasks() -> list[CodingTask]:
     """20단계 점진적 코딩 태스크 목록 반환."""
