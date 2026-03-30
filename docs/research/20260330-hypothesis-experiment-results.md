@@ -147,7 +147,7 @@ analyze_results() + format_report()   ← per-category table + per-task hypothes
     ↓
 evaluate_harness()             ← auto quality assessment (harness_evaluator.py)
     ↓
-save_verdict()                 ← harness verdict to harness_eval/
+save_verdict()                 ← harness verdict to results/harness_evals/
     ↓ (optional — requires ANTHROPIC_API_KEY)
 run_llm_experiment()           ← real Claude API calls, pass@k, token tracking
     ↓

@@ -64,7 +64,7 @@ python3 analyze.py --run-llm
 python3 analyze.py --harness-trend
 ```
 
-결과 JSON: `results/` | 하네스 평가: `harness_eval/`
+결과 JSON: `results/` | 하네스 평가: `results/harness_evals/`
 
 ## 테스트
 
