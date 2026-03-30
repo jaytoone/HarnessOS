@@ -168,7 +168,7 @@ def _diagnose_context_memory(
         max_rate = max(rates.values())
         min_rate = min(rates.values())
         if max_rate - min_rate > 0.3:
-            worst_pos = min(rates, key=rates.get)  # type: ignore[arg-type]
+            worst_pos = min(rates, key=lambda k: rates[k])
             issues.append(
                 f"위치별 성공률 편차가 {max_rate - min_rate:.1%}로 큼 "
                 f"(최저: {worst_pos} {min_rate:.1%})"
