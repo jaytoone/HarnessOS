@@ -12,6 +12,8 @@ console = Console()
 
 @dataclass
 class DashboardState:
+    """Mutable live-progress state for the Rich dashboard."""
+
     experiment: str = ""
     model: str = "MiniMax-M2.5"
     total_steps: int = 0
@@ -62,6 +64,8 @@ def render(state: DashboardState) -> Panel:
     )
 
 class Dashboard:
+    """Context-manager wrapper around Rich Live for experiment progress display."""
+
     def __init__(self, state: DashboardState) -> None:
         self.state = state
         self._live = Live(render(state), refresh_per_second=1, console=console)
