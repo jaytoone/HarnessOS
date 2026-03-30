@@ -93,6 +93,18 @@ def test_evaluate_harness_unknown_experiment() -> None:
     assert verdict.success_rate == 1.0
 
 
+def test_evaluate_harness_coding_failure_routes_to_diagnose() -> None:
+    """evaluate_harness가 coding_failure 진단 경로를 통과한다 (line 134 커버)."""
+    steps = [
+        {"step": i, "status": "success", "duration_ms": 500}
+        for i in range(1, 6)
+    ]
+    data = {"experiment": "coding_failure", "steps": steps, "summary": {}}
+    verdict = evaluate_harness(data)
+    assert verdict.experiment == "coding_failure"
+    assert verdict.total_steps == 5
+
+
 # ── context_memory 진단 ────────────────────────────────────────────────────────
 
 def test_diagnose_context_memory_position_variance() -> None:

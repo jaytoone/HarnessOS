@@ -285,6 +285,32 @@ def test_show_harness_trend_no_matching_exp(tmp_path: Path, capsys: pytest.Captu
     assert "없음" in out
 
 
+def test_show_harness_trend_file_disappears_between_globs(capsys: pytest.CaptureFixture) -> None:
+    """auto-detect 후 파일이 사라진 경우 continue 경로 커버 (방어 코드 line 160)."""
+    from analyze import show_harness_trend
+    from unittest.mock import MagicMock
+
+    fake_dir = MagicMock()
+    fake_dir.exists.return_value = True
+
+    # auto-detect glob returns one file → exp_names = ["ghost_exp"]
+    ghost_file = MagicMock()
+    ghost_file.stem = "ghost_exp_eval_20260330"
+
+    def side_effect_glob(pattern: str):
+        if "*_eval_*" in pattern:   # first call: all-files auto-detect
+            return [ghost_file]
+        return []                    # second call: per-exp glob, file "gone"
+
+    fake_dir.glob.side_effect = side_effect_glob
+
+    with patch("harness_evaluator.HARNESS_EVAL_DIR", fake_dir):
+        show_harness_trend(None)
+
+    out = capsys.readouterr().out
+    assert "추이" in out  # header printed, but no exp entry (continue taken)
+
+
 def test_show_harness_trend_all_experiments(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
     """experiment 인자 없으면 모든 실험 표시."""
     import json
