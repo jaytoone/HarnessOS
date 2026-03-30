@@ -131,7 +131,6 @@ def show_harness_trend(experiment: str | None = None) -> None:
 
     # 실험 유형 결정
     if experiment:
-        pattern = f"{experiment}_eval_*.json"
         exp_names = [experiment]
     else:
         # 모든 실험 유형 자동 감지
