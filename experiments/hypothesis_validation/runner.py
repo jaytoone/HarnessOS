@@ -170,6 +170,45 @@ def to_harness_format(result: ExperimentResult) -> dict[str, Any]:
                 hyp_solved += 1
                 hyp_total_attempts += hyp_r.total_attempts
 
+    # Per-category breakdown
+    by_category: dict[str, dict[str, Any]] = {}
+    for tr in result.task_results:
+        cat = tr.category
+        if cat not in by_category:
+            by_category[cat] = {
+                "eng_attempts": [], "hyp_attempts": [],
+                "eng_solved": 0, "hyp_solved": 0, "count": 0,
+            }
+        entry = by_category[cat]
+        entry["count"] += 1
+        if tr.engineering_result is not None:
+            if tr.engineering_result.solved:
+                entry["eng_solved"] += 1
+                entry["eng_attempts"].append(tr.engineering_result.total_attempts)
+        if tr.hypothesis_result is not None:
+            if tr.hypothesis_result.solved:
+                entry["hyp_solved"] += 1
+                entry["hyp_attempts"].append(tr.hypothesis_result.total_attempts)
+
+    category_stats: dict[str, dict[str, Any]] = {}
+    for cat, entry in by_category.items():
+        eng_avg_cat = (
+            sum(entry["eng_attempts"]) / len(entry["eng_attempts"])
+            if entry["eng_attempts"] else 0.0
+        )
+        hyp_avg_cat = (
+            sum(entry["hyp_attempts"]) / len(entry["hyp_attempts"])
+            if entry["hyp_attempts"] else 0.0
+        )
+        category_stats[cat] = {
+            "count": entry["count"],
+            "engineering_solved": entry["eng_solved"],
+            "hypothesis_solved": entry["hyp_solved"],
+            "engineering_avg_attempts": round(eng_avg_cat, 2),
+            "hypothesis_avg_attempts": round(hyp_avg_cat, 2),
+            "attempt_savings": round(eng_avg_cat - hyp_avg_cat, 2),
+        }
+
     summary: dict[str, Any] = {
         "task_count": task_count,
         "engineering_solved": eng_solved,
@@ -180,6 +219,7 @@ def to_harness_format(result: ExperimentResult) -> dict[str, Any]:
         "hypothesis_avg_attempts": (
             hyp_total_attempts / hyp_solved if hyp_solved else 0.0
         ),
+        "by_category": category_stats,
     }
 
     return {

@@ -259,6 +259,24 @@ def _diagnose_hypothesis_validation(
             "가설 기반 접근의 이점이 뚜렷한 harder 태스크를 추가하세요."
         )
 
+    # 카테고리 다양성 검사: 단일 카테고리만 있으면 외적 타당도 위험
+    categories = {s.get("category", "unknown") for s in steps if s.get("category")}
+    if len(categories) == 1:
+        suggestions.append(
+            f"태스크가 '{next(iter(categories))}' 카테고리에만 집중되어 있습니다. "
+            "simple/causal/assumption 3개 카테고리를 포함하면 외적 타당도가 높아집니다."
+        )
+
+    # 태스크 수 적정성 검사: 전략당 5개 미만이면 통계적 유의성 경고
+    task_count = summary.get("task_count", len(steps) // 2 if steps else 0)
+    if 0 < task_count < 5:
+        issues.append(
+            f"태스크 수({task_count}개)가 통계적 유의성을 위한 최소 기준(5개) 미달"
+        )
+        suggestions.append(
+            "최소 5개 이상의 태스크로 실험을 확장하세요."
+        )
+
 
 def _compute_score(
     success_rate: float,

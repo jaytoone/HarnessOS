@@ -82,6 +82,19 @@ def analyze_hypothesis_validation(data: dict) -> None:
         savings = eng_avg - hyp_avg
         print(f"  Hypothesis 이점: {savings:+.1f} 시도 절약 ({savings/eng_avg*100:.0f}% 효율)")
 
+    by_category = summary.get("by_category", {})
+    if by_category:
+        print("  카테고리별 breakdown:")
+        for cat in sorted(by_category):
+            cs = by_category[cat]
+            eng_c = cs.get("engineering_avg_attempts", 0.0)
+            hyp_c = cs.get("hypothesis_avg_attempts", 0.0)
+            savings_c = cs.get("attempt_savings", 0.0)
+            print(
+                f"    {cat:10s}: Eng={eng_c:.1f} Hyp={hyp_c:.1f} "
+                f"(절약 {savings_c:+.1f})"
+            )
+
 
 def analyze_llm_hypothesis(data: dict) -> None:
     tasks = data.get("tasks", [])

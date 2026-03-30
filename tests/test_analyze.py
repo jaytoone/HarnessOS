@@ -121,6 +121,33 @@ def test_analyze_hypothesis_validation_output(capsys: pytest.CaptureFixture) -> 
     assert "이점" in out
 
 
+def test_analyze_hypothesis_validation_by_category(capsys: pytest.CaptureFixture) -> None:
+    """by_category 있으면 카테고리별 breakdown 출력."""
+    from analyze import analyze_hypothesis_validation
+    data = {
+        "steps": [{"status": "success"}] * 18,
+        "summary": {
+            "task_count": 9,
+            "engineering_solved": 9,
+            "hypothesis_solved": 9,
+            "engineering_avg_attempts": 1.6,
+            "hypothesis_avg_attempts": 1.0,
+            "by_category": {
+                "simple": {"engineering_avg_attempts": 1.0, "hypothesis_avg_attempts": 1.0, "attempt_savings": 0.0},
+                "causal": {"engineering_avg_attempts": 1.7, "hypothesis_avg_attempts": 1.0, "attempt_savings": 0.7},
+                "assumption": {"engineering_avg_attempts": 2.0, "hypothesis_avg_attempts": 1.0, "attempt_savings": 1.0},
+            },
+        },
+    }
+    analyze_hypothesis_validation(data)
+    out = capsys.readouterr().out
+    assert "카테고리별" in out
+    assert "simple" in out
+    assert "causal" in out
+    assert "assumption" in out
+    assert "+1.0" in out
+
+
 def test_analyze_hypothesis_validation_empty(capsys: pytest.CaptureFixture) -> None:
     from analyze import analyze_hypothesis_validation
     analyze_hypothesis_validation({"steps": [], "summary": {}})

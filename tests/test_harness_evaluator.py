@@ -278,3 +278,37 @@ def test_hypothesis_validation_small_attempt_difference_suggestion() -> None:
     }
     verdict = evaluate_harness(data)
     assert any("attempt 차이" in s for s in verdict.suggestions)
+
+
+def test_hypothesis_validation_single_category_suggestion() -> None:
+    """단일 카테고리만 있으면 외적 타당도 제안."""
+    from harness_evaluator import evaluate_harness
+    steps = [
+        {"task_id": f"A{i}", "category": "simple", "strategy": s,
+         "status": "success", "attempts": 1, "duration_ms": 0}
+        for i in range(5) for s in ("engineering", "hypothesis")
+    ]
+    data = {
+        "experiment": "hypothesis_validation",
+        "steps": steps,
+        "summary": {"task_count": 5, "engineering_avg_attempts": 1.5, "hypothesis_avg_attempts": 1.0},
+    }
+    verdict = evaluate_harness(data)
+    assert any("카테고리" in s for s in verdict.suggestions)
+
+
+def test_hypothesis_validation_too_few_tasks_issue() -> None:
+    """태스크 수 < 5이면 통계적 유의성 이슈 플래그."""
+    from harness_evaluator import evaluate_harness
+    steps = [
+        {"task_id": f"T{i}", "category": "causal", "strategy": s,
+         "status": "success", "attempts": 1, "duration_ms": 0}
+        for i in range(3) for s in ("engineering", "hypothesis")
+    ]
+    data = {
+        "experiment": "hypothesis_validation",
+        "steps": steps,
+        "summary": {"task_count": 3, "engineering_avg_attempts": 1.5, "hypothesis_avg_attempts": 1.0},
+    }
+    verdict = evaluate_harness(data)
+    assert any("통계적 유의성" in issue for issue in verdict.issues)
