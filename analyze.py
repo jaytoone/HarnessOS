@@ -194,6 +194,53 @@ def show_harness_trend(experiment: str | None = None) -> None:
         print()
 
 
+def run_hypothesis_pipeline() -> None:
+    """Run the full deterministic hypothesis validation pipeline.
+
+    Executes: validate_experiment_config → run_experiment → save_results
+    → evaluate_harness, then prints analysis.
+    """
+    from experiments.hypothesis_validation.runner import (
+        validate_experiment_config,
+        run_experiment,
+        save_results,
+        to_harness_format,
+    )
+    from harness_evaluator import evaluate_harness, save_verdict
+
+    print("=== Hypothesis Validation — 전체 파이프라인 실행 ===\n")
+
+    print("[1/4] Pre-mortem 검증...")
+    issues = validate_experiment_config()
+    if issues:
+        for issue in issues:
+            print(f"  ❌ {issue.task_id}: {issue.issue}")
+        print("검증 실패 — 실험을 중단합니다.")
+        sys.exit(1)
+    print(f"  ✓ 검증 통과 ({len(validate_experiment_config.__module__)})\n")
+
+    print("[2/4] 실험 실행 중...")
+    result = run_experiment(max_attempts=5)
+    path = save_results(result)
+    print(f"  ✓ {len(result.task_results)}개 태스크 완료 → {path.name}\n")
+
+    print("[3/4] 결과 분석...")
+    data = to_harness_format(result)
+    data["model"] = "deterministic"
+    data["timestamp"] = path.stem.split("_", 2)[-1]
+    analyze_hypothesis_validation(data)
+
+    print("\n[4/4] 하네스 평가...")
+    verdict = evaluate_harness(data)
+    save_verdict(verdict)
+    status = "✓ PASS" if verdict.passed else "✗ FAIL"
+    print(f"  {status}  score={verdict.score:.3f}  issues={len(verdict.issues)}")
+    for issue in verdict.issues:
+        print(f"  ⚠ {issue}")
+    for suggestion in verdict.suggestions:
+        print(f"  → {suggestion}")
+
+
 def main(args_list: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="실험 결과 분석")
     parser.add_argument(
@@ -203,11 +250,20 @@ def main(args_list: list[str] | None = None) -> None:
         metavar="EXPERIMENT",
         help="하네스 평가 추이 출력 (선택적으로 실험 이름 지정)",
     )
+    parser.add_argument(
+        "--run",
+        action="store_true",
+        help="결정론적 가설 검증 실험을 실행하고 분석 출력",
+    )
     args = parser.parse_args(args_list)
 
     if args.harness_trend is not None:
         exp_filter = args.harness_trend or None
         show_harness_trend(exp_filter)
+        return
+
+    if args.run:
+        run_hypothesis_pipeline()
         return
 
     paths = sorted(RESULTS_DIR.glob("*.json")) if RESULTS_DIR.exists() else []

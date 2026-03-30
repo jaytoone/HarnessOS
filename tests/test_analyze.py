@@ -313,3 +313,72 @@ def test_main_harness_trend_flag(tmp_path: Path, capsys: pytest.CaptureFixture) 
         main(["--harness-trend"])
     out = capsys.readouterr().out
     assert "없음" in out or "추이" in out
+
+
+# --- run_hypothesis_pipeline tests ---
+
+
+def test_run_hypothesis_pipeline_success(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """run_hypothesis_pipeline() 성공 경로: 4단계 출력 및 파일 생성."""
+    from analyze import run_hypothesis_pipeline
+    with patch("experiments.hypothesis_validation.runner.RESULTS_DIR", tmp_path), \
+         patch("harness_evaluator.HARNESS_EVAL_DIR", tmp_path):
+        run_hypothesis_pipeline()
+    out = capsys.readouterr().out
+    assert "1/4" in out
+    assert "2/4" in out
+    assert "3/4" in out
+    assert "4/4" in out
+    assert "PASS" in out or "FAIL" in out
+    # At least one result file should exist
+    json_files = list(tmp_path.glob("*.json"))
+    assert json_files
+
+
+def test_run_hypothesis_pipeline_config_failure(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """설정 검증 실패 시 sys.exit(1) 호출."""
+    from analyze import run_hypothesis_pipeline
+    from experiments.hypothesis_validation.runner import ConfigIssue
+    fake_issue = ConfigIssue(task_id="Z1", issue="test failure")
+    with patch(
+        "experiments.hypothesis_validation.runner.validate_experiment_config",
+        return_value=[fake_issue],
+    ):
+        with pytest.raises(SystemExit) as exc:
+            run_hypothesis_pipeline()
+    assert exc.value.code == 1
+    out = capsys.readouterr().out
+    assert "검증 실패" in out
+
+
+def test_main_run_flag(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """--run 플래그가 run_hypothesis_pipeline을 호출한다."""
+    from analyze import main
+    with patch("analyze.run_hypothesis_pipeline") as mock_run:
+        main(["--run"])
+    mock_run.assert_called_once()
+
+
+def test_run_hypothesis_pipeline_with_issues(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """하네스 verdict에 issue/suggestion 있을 때 해당 줄 출력."""
+    import json
+    from analyze import run_hypothesis_pipeline
+    from harness_evaluator import HarnessVerdict
+
+    fake_verdict = HarnessVerdict(
+        experiment="hypothesis_validation",
+        passed=False,
+        score=0.6,
+        success_rate=0.6,
+        avg_duration_ms=0.0,
+        total_steps=12,
+        issues=["성공률 낮음"],
+        suggestions=["태스크 난이도 조정"],
+    )
+    with patch("experiments.hypothesis_validation.runner.RESULTS_DIR", tmp_path), \
+         patch("harness_evaluator.HARNESS_EVAL_DIR", tmp_path), \
+         patch("harness_evaluator.evaluate_harness", return_value=fake_verdict):
+        run_hypothesis_pipeline()
+    out = capsys.readouterr().out
+    assert "성공률 낮음" in out
+    assert "태스크 난이도 조정" in out
