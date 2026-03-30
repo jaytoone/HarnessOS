@@ -163,6 +163,35 @@ Best attempt savings category: assumption (+1.0 attempts)
 First hypothesis accuracy: 100.0%
 ```
 
+## How to Add New Tasks
+
+1. **Define the task** in `experiments/hypothesis_validation/tasks.py`:
+```python
+DebugTask(
+    id="D1",               # unique ID (category letter + number)
+    category="causal",     # "simple" | "causal" | "assumption"
+    function_name="my_fn",
+    buggy_code="def my_fn(x): ...",    # code with the bug
+    correct_code="def my_fn(x): ...", # fixed version
+    test_cases=[
+        {"input": {"x": 1}, "expected": 2},
+        # Include a test that catches the bug specifically
+    ],
+)
+```
+
+2. **Add attempt sequences** in `experiments/hypothesis_validation/strategies.py`:
+   - `ENGINEERING_ATTEMPTS["D1"]`: list of code strings (symptom-driven attempts)
+   - `HYPOTHESIS_ATTEMPTS["D1"]`: list of `(code, hypothesis_text)` tuples
+
+3. **Validate**: `python3 analyze.py --run` runs `validate_experiment_config()` first,
+   which checks: (a) correct_code passes all tests, (b) buggy_code fails at least one.
+
+4. **Category guidance**:
+   - `simple`: obvious bugs solvable by inspection (off-by-one, wrong operator)
+   - `causal`: requires tracing cause-effect (closure capture, mutation during iteration)
+   - `assumption`: wrong implicit assumption (unicode encoding, mutable defaults, float precision)
+
 ## Source Code
 - Tasks: `experiments/hypothesis_validation/tasks.py`
 - Strategies (researcher-coded): `experiments/hypothesis_validation/strategies.py`
