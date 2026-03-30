@@ -1,7 +1,7 @@
 """Product store: BaseStore abstract class and InMemoryStore implementation with persistence."""
 import json
 from abc import ABC, abstractmethod
-from models import Product, Category, ProductDict
+from models import Product
 from events import event_manager, Event, EventType
 
 

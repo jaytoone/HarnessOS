@@ -5,7 +5,7 @@ Uses routing dictionary approach.
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from typing import Any
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse
 
 from store import BaseStore, Store
 from models import Category, Product
