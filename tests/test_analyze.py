@@ -98,3 +98,101 @@ def test_main_analyzes_all_files(tmp_path: Path, capsys: pytest.CaptureFixture) 
     assert "2개 파일" in out
     assert "context_memory" in out
     assert "coding_failure" in out
+
+
+def test_analyze_hypothesis_validation_output(capsys: pytest.CaptureFixture) -> None:
+    """hypothesis_validation 분석: 전략별 해결 수 및 이점 출력."""
+    from analyze import analyze_hypothesis_validation
+    data = {
+        "steps": [{"status": "success"}] * 18,
+        "summary": {
+            "task_count": 9,
+            "engineering_solved": 9,
+            "hypothesis_solved": 9,
+            "engineering_avg_attempts": 1.6,
+            "hypothesis_avg_attempts": 1.0,
+        },
+    }
+    analyze_hypothesis_validation(data)
+    out = capsys.readouterr().out
+    assert "9개" in out
+    assert "1.6" in out
+    assert "1.0" in out
+    assert "이점" in out
+
+
+def test_analyze_hypothesis_validation_empty(capsys: pytest.CaptureFixture) -> None:
+    from analyze import analyze_hypothesis_validation
+    analyze_hypothesis_validation({"steps": [], "summary": {}})
+    out = capsys.readouterr().out
+    assert "no steps" in out
+
+
+def test_analyze_llm_hypothesis_output(capsys: pytest.CaptureFixture) -> None:
+    """LLM 실험 결과 분석: pass@1 및 토큰 차이 출력."""
+    from analyze import analyze_llm_hypothesis
+    data = {
+        "model": "claude-haiku-4-5-20251001",
+        "trials_per_task": 3,
+        "engineering_overall_pass_rate": 0.889,
+        "hypothesis_overall_pass_rate": 1.0,
+        "engineering_total_tokens": 10000,
+        "hypothesis_total_tokens": 12000,
+        "tasks": [{}],
+    }
+    analyze_llm_hypothesis(data)
+    out = capsys.readouterr().out
+    assert "claude-haiku" in out
+    assert "88.9%" in out
+    assert "100.0%" in out
+    assert "+2,000" in out or "2000" in out
+
+
+def test_analyze_llm_hypothesis_empty_tasks(capsys: pytest.CaptureFixture) -> None:
+    from analyze import analyze_llm_hypothesis
+    analyze_llm_hypothesis({"tasks": []})
+    out = capsys.readouterr().out
+    assert "no tasks" in out
+
+
+def test_main_hypothesis_validation_type(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """main()이 hypothesis_validation 타입을 올바르게 처리한다."""
+    data = {
+        "experiment": "hypothesis_validation",
+        "model": "test",
+        "timestamp": "2026-01-01T00:00:00",
+        "steps": [{"status": "success"}] * 18,
+        "summary": {
+            "task_count": 9, "engineering_solved": 9, "hypothesis_solved": 9,
+            "engineering_avg_attempts": 1.6, "hypothesis_avg_attempts": 1.0,
+        },
+    }
+    path = tmp_path / "hypothesis_validation_20260101_000000.json"
+    path.write_text(json.dumps(data))
+    with patch("analyze.RESULTS_DIR", tmp_path):
+        main()
+    out = capsys.readouterr().out
+    assert "9개" in out
+
+
+def test_main_llm_hypothesis_type(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """main()이 llm_hypothesis_validation 파일을 올바르게 처리한다."""
+    data = {
+        "experiment": "llm_hypothesis_validation",
+        "model": "claude-haiku-4-5-20251001",
+        "timestamp": "2026-01-01T00:00:00",
+        "steps": [],
+        "summary": {},
+        "trials_per_task": 1,
+        "engineering_overall_pass_rate": 0.9,
+        "hypothesis_overall_pass_rate": 1.0,
+        "engineering_total_tokens": 5000,
+        "hypothesis_total_tokens": 6000,
+        "tasks": [{}],
+    }
+    path = tmp_path / "llm_hypothesis_validation_20260101_000000.json"
+    path.write_text(json.dumps(data))
+    with patch("analyze.RESULTS_DIR", tmp_path):
+        main()
+    out = capsys.readouterr().out
+    assert "claude-haiku" in out

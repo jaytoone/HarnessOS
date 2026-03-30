@@ -255,3 +255,26 @@ def test_load_latest_verdict_no_directory() -> None:
     with patch("harness_evaluator.HARNESS_EVAL_DIR", Path("/tmp/nonexistent_dir_xyz")):
         loaded = load_latest_verdict("anything")
     assert loaded is None
+
+
+def test_hypothesis_validation_small_attempt_difference_suggestion() -> None:
+    """When eng/hyp attempts are similar, harness suggests adding harder tasks."""
+    from harness_evaluator import evaluate_harness
+    data = {
+        "experiment": "hypothesis_validation",
+        "steps": [
+            {"task_id": f"A{i}", "category": "simple", "strategy": "engineering",
+             "status": "success", "attempts": 1, "duration_ms": 0}
+            for i in range(9)
+        ] + [
+            {"task_id": f"A{i}", "category": "simple", "strategy": "hypothesis",
+             "status": "success", "attempts": 1, "duration_ms": 0}
+            for i in range(9)
+        ],
+        "summary": {
+            "engineering_avg_attempts": 1.1,
+            "hypothesis_avg_attempts": 1.0,
+        },
+    }
+    verdict = evaluate_harness(data)
+    assert any("attempt 차이" in s for s in verdict.suggestions)
