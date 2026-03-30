@@ -5,7 +5,7 @@ Uses routing dictionary approach.
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 
 from store import BaseStore, Store
 from models import Category, Product
@@ -127,8 +127,7 @@ class APIRequestHandler(BaseHTTPRequestHandler):
     def _delete_product(self, product_name: str) -> None:
         """DELETE /products/{name} - Delete a product by name."""
         # URL decode the product name
-        import urllib.parse
-        product_name = urllib.parse.unquote(product_name)
+        product_name = unquote(product_name)
         
         success = self.store.remove_product(product_name)
         
