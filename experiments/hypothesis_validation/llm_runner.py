@@ -110,7 +110,7 @@ def run_llm_experiment(
     """Run real LLM-based strategy comparison.
 
     Args:
-        tasks: Tasks to run. Defaults to all 9 debug tasks.
+        tasks: Tasks to run. Defaults to all 12 debug tasks.
         model: Claude model to use.
         trials_per_task: Number of independent trials per task (for pass@k).
         max_attempts: Max fix attempts per trial.
@@ -157,6 +157,7 @@ def save_llm_results(result: LLMExperimentResult, output_dir: str = "results") -
 
     # Convert to serializable dict (skip complex nested objects, keep key stats)
     data = {
+        "experiment": "llm_hypothesis_validation",
         "model": result.model,
         "trials_per_task": result.trials_per_task,
         "max_attempts": result.max_attempts,
