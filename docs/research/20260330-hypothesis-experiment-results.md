@@ -79,6 +79,18 @@
 - The attempt sequences themselves document real debugging anti-patterns (e.g., "strip non-ASCII characters" as a response to unicode bugs).
 - Provides a concrete framework for testing with real LLM calls in future work.
 
+### Statistical Power Note
+
+With n=4 tasks per category, **point estimates should not be treated as reliable statistics**:
+- No confidence intervals are computed (n=4 is below any meaningful significance threshold).
+- "100% first-hypothesis accuracy" = 12/12 researcher-designed hypotheses, not random draws.
+- The advantage magnitudes (+0.75, +1.0 attempts) are illustrative, not statistically validated.
+
+**Minimum sample sizes** for real statistical validation:
+- To detect a 0.5-attempt difference with 80% power (α=0.05): ~16 tasks per category.
+- For hypothesis testing across 3 categories: 48+ tasks total.
+- This experiment's 12 tasks establish the research design; the LLM experiment (Step 4) would provide statistical validity.
+
 ### Researcher Bias Disclosure
 - Attempt sequences were designed by the researcher, who was aware of the expected outcome.
 - The hypothesis strategy is "idealized" -- real agents may form incorrect hypotheses.
@@ -204,8 +216,8 @@ DebugTask(
 - Research background: `docs/research/20260330-hypothesis-vs-engineering-thinking.md`
 
 ## Related
-- [[projects/LiveCode/research/20260323-hypothesis-driven-agent-research|20260323-hypothesis-driven-agent-research]]
 - [[projects/LiveCode/research/20260330-hypothesis-vs-engineering-thinking|20260330-hypothesis-vs-engineering-thinking]]
+- [[projects/LiveCode/research/20260323-hypothesis-driven-agent-research|20260323-hypothesis-driven-agent-research]]
 - [[projects/LiveCode/research/20260330-harness-engineering|20260330-harness-engineering]]
-- [[projects/LiveCode/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
 - [[projects/LiveCode/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/LiveCode/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
