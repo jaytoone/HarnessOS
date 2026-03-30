@@ -446,7 +446,7 @@ HYPOTHESIS_ATTEMPTS: dict[str, list[tuple[str, str]]] = {
 }
 
 
-@dataclass
+@dataclass(frozen=True)
 class ExperimentMetadata:
     """Explicit validity declaration for this experiment."""
 
