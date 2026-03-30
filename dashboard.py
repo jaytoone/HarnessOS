@@ -20,6 +20,7 @@ class DashboardState:
     start_time: float = field(default_factory=time.monotonic)
 
 def render(state: DashboardState) -> Panel:
+    """DashboardState를 Rich Panel로 렌더링하여 반환."""
     elapsed = int(time.monotonic() - state.start_time)
     progress_pct = int(state.current_step / max(state.total_steps, 1) * 100)
     bar = "█" * (progress_pct // 5) + "░" * (20 - progress_pct // 5)
@@ -73,11 +74,13 @@ class Dashboard:
         self._live.__exit__(*args)
 
     def update(self, **kwargs: Any) -> None:
+        """state 필드를 일괄 업데이트하고 대시보드를 재렌더링."""
         for k, v in kwargs.items():
             setattr(self.state, k, v)
         self._live.update(render(self.state))
 
     def add_result(self, result: dict[str, Any]) -> None:
+        """결과 딕셔너리를 results 목록에 추가하고 대시보드를 재렌더링."""
         self.state.results.append(result)
         self.state.current_step = result.get("step", self.state.current_step)
         self._live.update(render(self.state))

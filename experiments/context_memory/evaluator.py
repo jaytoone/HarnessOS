@@ -57,6 +57,7 @@ async def evaluate_recall(
     context_tokens: int,
     position: str = "unknown",
 ) -> RecallResult:
+    """MiniMax API를 호출하여 기억 재현 정확도를 측정하고 RecallResult를 반환."""
     start = time.monotonic()
     got = await call_minimax(prompt)
     duration_ms = int((time.monotonic() - start) * 1000)
