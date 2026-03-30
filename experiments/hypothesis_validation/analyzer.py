@@ -4,6 +4,7 @@ Adapted for deterministic exec-based evaluation (no Monte Carlo).
 Each task has exactly one engineering and one hypothesis result.
 """
 from dataclasses import dataclass, field
+from typing import get_args
 
 from constants import DebugTaskCategory
 from experiments.hypothesis_validation.runner import ExperimentResult, TaskResult
@@ -87,7 +88,7 @@ def analyze_results(result: ExperimentResult) -> AnalysisReport:
     total_first_hypotheses = 0
     category_stats: list[CategoryStats] = []
 
-    for cat in ["simple", "causal", "assumption"]:
+    for cat in get_args(DebugTaskCategory):
         task_results = by_category.get(cat, [])
         eng_solved = 0
         hyp_solved = 0

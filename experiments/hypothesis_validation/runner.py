@@ -157,7 +157,7 @@ def to_harness_format(result: ExperimentResult) -> dict[str, Any]:
     task_count = len(result.task_results)
 
     # Single pass: build steps and accumulate overall + per-category stats
-    by_category: dict[str, dict[str, Any]] = {}
+    by_category: dict[DebugTaskCategory, dict[str, Any]] = {}
     for tr in result.task_results:
         cat = tr.category
         if cat not in by_category:
@@ -200,7 +200,7 @@ def to_harness_format(result: ExperimentResult) -> dict[str, Any]:
                 entry["hyp_solved"] += 1
                 entry["hyp_attempts"].append(hyp_r.total_attempts)
 
-    category_stats: dict[str, dict[str, Any]] = {}
+    category_stats: dict[DebugTaskCategory, dict[str, Any]] = {}
     for cat, entry in by_category.items():
         eng_avg_cat = (
             sum(entry["eng_attempts"]) / len(entry["eng_attempts"])
