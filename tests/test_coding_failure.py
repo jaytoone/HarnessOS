@@ -1,11 +1,6 @@
 """coding_failure evaluator 및 tasks 통합 테스트."""
-import asyncio
-from unittest.mock import patch, AsyncMock
-
-from experiments.coding_failure.evaluator import (
-    run_openhands_task, StepResult, detect_failure_inflection
-)
-from experiments.coding_failure.tasks import get_coding_tasks, CodingTask
+from experiments.coding_failure.evaluator import StepResult, detect_failure_inflection
+from experiments.coding_failure.tasks import get_coding_tasks
 
 def test_get_coding_tasks_returns_20() -> None:
     """get_coding_tasks()가 20개 태스크를 반환한다."""
