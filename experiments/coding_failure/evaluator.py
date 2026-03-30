@@ -2,7 +2,7 @@
 import asyncio
 import time
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Literal
 
 import httpx
 
@@ -15,7 +15,7 @@ TERMINAL_STATES = {"finished", "error", "stopped", "awaiting_user_input"}
 @dataclass(frozen=True)
 class StepResult:
     step: int
-    status: str  # "success" | "failure" | "timeout"
+    status: Literal["success", "failure", "timeout"]
     context_tokens: int
     duration_ms: int
     error: str | None
