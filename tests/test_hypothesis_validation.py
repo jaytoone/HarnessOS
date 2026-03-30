@@ -563,3 +563,35 @@ def test_hypothesis_max_attempts_zero_break() -> None:
     result = hyp.run(task, max_attempts=0)
     assert result.solved is False
     assert result.total_attempts == 0
+
+
+# --- Full pipeline integration test ---
+
+
+def test_full_pipeline_validate_run_harness(tmp_path) -> None:
+    """End-to-end: validate_config → run_experiment → to_harness_format → evaluate_harness → save_verdict."""
+    from harness_evaluator import evaluate_harness, save_verdict
+
+    # Pre-mortem: all tasks must be testable
+    issues = validate_experiment_config()
+    assert issues == [], f"Config issues: {issues}"
+
+    # Run deterministic experiment
+    result = run_experiment(max_attempts=5)
+    assert len(result.task_results) == 9
+
+    # Convert to harness format and evaluate
+    data = to_harness_format(result)
+    verdict = evaluate_harness(data)
+    assert verdict.passed is True
+    assert verdict.score >= 0.9
+
+    # Persist verdict (should not raise)
+    from unittest.mock import patch
+    with patch("harness_evaluator.HARNESS_EVAL_DIR", tmp_path):
+        path = save_verdict(verdict)
+    assert path.exists()
+    import json
+    saved = json.loads(path.read_text())
+    assert saved["experiment"] == "hypothesis_validation"
+    assert saved["passed"] is True

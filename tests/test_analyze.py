@@ -201,6 +201,15 @@ def test_main_llm_hypothesis_type(tmp_path: Path, capsys: pytest.CaptureFixture)
 # --- show_harness_trend tests ---
 
 
+def test_show_harness_trend_dir_exists_no_eval_files(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """디렉터리는 있지만 *_eval_*.json 파일이 없으면 '기록 없음' 출력."""
+    from analyze import show_harness_trend
+    with patch("harness_evaluator.HARNESS_EVAL_DIR", tmp_path):
+        show_harness_trend(None)
+    out = capsys.readouterr().out
+    assert "없음" in out
+
+
 def test_show_harness_trend_no_directory(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
     """harness_eval 디렉터리 없으면 안내 메시지."""
     from analyze import show_harness_trend
