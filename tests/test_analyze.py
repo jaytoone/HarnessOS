@@ -456,7 +456,7 @@ def test_run_llm_pipeline_success(tmp_path: Path, capsys: pytest.CaptureFixture)
          patch("experiments.hypothesis_validation.llm_runner.run_llm_experiment",
                return_value=fake_result), \
          patch("experiments.hypothesis_validation.llm_runner.save_llm_results",
-               return_value=str(result_file)):
+               return_value=result_file):
         run_llm_pipeline(trials=1)
 
     out = capsys.readouterr().out

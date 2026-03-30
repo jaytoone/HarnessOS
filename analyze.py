@@ -12,7 +12,6 @@ import argparse
 import json
 import os
 import sys
-from pathlib import Path
 from typing import Any
 from constants import RESULTS_DIR
 
@@ -255,11 +254,11 @@ def run_llm_pipeline(trials: int = 3, max_attempts: int = 5) -> None:
 
     print("[1/2] 실험 실행 중 (실제 API 호출)...")
     result = run_llm_experiment(trials_per_task=trials, max_attempts=max_attempts)
-    path_str = save_llm_results(result)
-    print(f"  ✓ {len(result.task_results)}개 태스크 완료 → {Path(path_str).name}\n")
+    path = save_llm_results(result)
+    print(f"  ✓ {len(result.task_results)}개 태스크 완료 → {path.name}\n")
 
     print("[2/2] 결과 분석...")
-    data = json.loads(Path(path_str).read_text())
+    data = json.loads(path.read_text())
     analyze_llm_hypothesis(data)
 
 
