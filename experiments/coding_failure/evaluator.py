@@ -1,8 +1,9 @@
-import time
 import asyncio
+import time
 from dataclasses import dataclass
-import httpx
 from typing import Any
+
+import httpx
 
 OPENHANDS_URL = "http://localhost:3000"
 POLL_INTERVAL = 3.0

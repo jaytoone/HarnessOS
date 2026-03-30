@@ -1,7 +1,8 @@
+import asyncio
 import os
 import time
-import asyncio
 from dataclasses import dataclass
+
 import httpx
 
 MINIMAX_API_URL = "https://api.minimax.io/v1/chat/completions"
