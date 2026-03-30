@@ -31,17 +31,20 @@ from experiments.hypothesis_validation.analyzer import (
 
 
 def test_get_debug_tasks_returns_12() -> None:
+    """디버그 태스크 목록이 정확히 12개인지 확인한다."""
     tasks = get_debug_tasks()
     assert len(tasks) == 12
 
 
 def test_tasks_have_all_categories() -> None:
+    """태스크 카테고리 집합이 simple/causal/assumption 세 가지인지 검증한다."""
     tasks = get_debug_tasks()
     categories = {t.category for t in tasks}
     assert categories == {"simple", "causal", "assumption"}
 
 
 def test_tasks_have_4_per_category() -> None:
+    """각 카테고리별로 태스크가 정확히 4개씩 존재하는지 확인한다."""
     tasks = get_debug_tasks()
     counts: dict[str, int] = {}
     for t in tasks:
@@ -50,6 +53,7 @@ def test_tasks_have_4_per_category() -> None:
 
 
 def test_all_tasks_have_test_cases() -> None:
+    """모든 태스크에 최소 2개 이상의 테스트 케이스가 있는지 확인한다."""
     tasks = get_debug_tasks()
     for t in tasks:
         assert len(t.test_cases) >= 2, f"Task {t.id} has too few test cases"
@@ -70,6 +74,7 @@ def _run_code(code: str, func_name: str):
 
 
 def test_correct_code_passes_a1() -> None:
+    """A1 태스크의 정답 코드가 모든 테스트 케이스를 통과하는지 확인한다."""
     task = [t for t in get_debug_tasks() if t.id == "A1"][0]
     fn = _run_code(task.correct_code, "find_max_subarray")
     assert fn([1, 3, 2, 5, 1], 2) == [2, 5]
@@ -78,6 +83,7 @@ def test_correct_code_passes_a1() -> None:
 
 
 def test_buggy_code_fails_a1() -> None:
+    """A1 태스크의 버그 코드가 예상대로 오답을 반환하는지 검증한다."""
     task = [t for t in get_debug_tasks() if t.id == "A1"][0]
     fn = _run_code(task.buggy_code, "find_max_subarray")
     result = fn([5, 1, 1, 1, 9], 2)
@@ -85,6 +91,7 @@ def test_buggy_code_fails_a1() -> None:
 
 
 def test_correct_code_passes_a2() -> None:
+    """A2 태스크의 정답 코드가 팰린드롬을 올바르게 판별하는지 확인한다."""
     task = [t for t in get_debug_tasks() if t.id == "A2"][0]
     fn = _run_code(task.correct_code, "is_palindrome")
     assert fn("racecar") is True
@@ -92,12 +99,14 @@ def test_correct_code_passes_a2() -> None:
 
 
 def test_buggy_code_fails_a2() -> None:
+    """A2 태스크의 버그 코드가 팰린드롬을 잘못 판별하는지 검증한다."""
     task = [t for t in get_debug_tasks() if t.id == "A2"][0]
     fn = _run_code(task.buggy_code, "is_palindrome")
     assert fn("racecar") is not True
 
 
 def test_correct_code_passes_a3() -> None:
+    """A3 태스크의 정답 코드가 0 나누기를 안전하게 처리하는지 확인한다."""
     task = [t for t in get_debug_tasks() if t.id == "A3"][0]
     fn = _run_code(task.correct_code, "safe_divide")
     assert fn(10, 2) == 5.0
@@ -105,6 +114,7 @@ def test_correct_code_passes_a3() -> None:
 
 
 def test_buggy_code_fails_a3() -> None:
+    """A3 태스크의 버그 코드가 ZeroDivisionError를 발생시키는지 검증한다."""
     import pytest
     task = [t for t in get_debug_tasks() if t.id == "A3"][0]
     fn = _run_code(task.buggy_code, "safe_divide")
@@ -113,6 +123,7 @@ def test_buggy_code_fails_a3() -> None:
 
 
 def test_correct_code_passes_b1() -> None:
+    """B1 태스크의 정답 코드가 중복 요소를 올바르게 제거하는지 확인한다."""
     task = [t for t in get_debug_tasks() if t.id == "B1"][0]
     fn = _run_code(task.correct_code, "remove_duplicates")
     assert fn([1, 2, 3, 2, 1]) == [1, 2, 3]
@@ -120,6 +131,7 @@ def test_correct_code_passes_b1() -> None:
 
 
 def test_buggy_code_fails_b1() -> None:
+    """B1 태스크의 버그 코드가 중복 제거에 실패하는지 검증한다."""
     task = [t for t in get_debug_tasks() if t.id == "B1"][0]
     fn = _run_code(task.buggy_code, "remove_duplicates")
     result = fn([1, 1, 1, 1])
@@ -127,6 +139,7 @@ def test_buggy_code_fails_b1() -> None:
 
 
 def test_correct_code_passes_b2() -> None:
+    """B2 태스크의 정답 코드가 클로저 승수 함수를 올바르게 생성하는지 확인한다."""
     task = [t for t in get_debug_tasks() if t.id == "B2"][0]
     fn = _run_code(task.correct_code, "make_multipliers")
     multipliers = fn(4)
@@ -134,6 +147,7 @@ def test_correct_code_passes_b2() -> None:
 
 
 def test_buggy_code_fails_b2() -> None:
+    """B2 태스크의 버그 코드가 클로저 캡처 오류로 모두 같은 값을 반환하는지 검증한다."""
     task = [t for t in get_debug_tasks() if t.id == "B2"][0]
     fn = _run_code(task.buggy_code, "make_multipliers")
     multipliers = fn(4)
@@ -142,6 +156,7 @@ def test_buggy_code_fails_b2() -> None:
 
 
 def test_correct_code_passes_c1() -> None:
+    """C1 태스크의 정답 코드가 유니코드 정규화 후 고유 문자 수를 올바르게 계산하는지 확인한다."""
     task = [t for t in get_debug_tasks() if t.id == "C1"][0]
     fn = _run_code(task.correct_code, "count_unique_chars")
     assert fn("hello") == 4
@@ -149,6 +164,7 @@ def test_correct_code_passes_c1() -> None:
 
 
 def test_buggy_code_fails_c1() -> None:
+    """C1 태스크의 버그 코드가 유니코드 합성 문자를 2개로 잘못 세는지 검증한다."""
     task = [t for t in get_debug_tasks() if t.id == "C1"][0]
     fn = _run_code(task.buggy_code, "count_unique_chars")
     assert fn("e\u0301") == 2
@@ -158,6 +174,7 @@ def test_buggy_code_fails_c1() -> None:
 
 
 def test_execute_attempt_correct_code() -> None:
+    """올바른 코드를 실행하면 모든 케이스가 통과하고 solved=True인지 확인한다."""
     code = "def add(a, b):\n    return a + b\n"
     cases = [
         {"input": {"a": 1, "b": 2}, "expected": 3},
@@ -170,6 +187,7 @@ def test_execute_attempt_correct_code() -> None:
 
 
 def test_execute_attempt_wrong_code() -> None:
+    """잘못된 코드를 실행하면 passed=0이고 solved=False인지 확인한다."""
     code = "def add(a, b):\n    return a - b\n"
     cases = [
         {"input": {"a": 1, "b": 2}, "expected": 3},
@@ -181,6 +199,7 @@ def test_execute_attempt_wrong_code() -> None:
 
 
 def test_execute_attempt_syntax_error() -> None:
+    """구문 오류가 있는 코드를 실행하면 passed=0이고 solved=False인지 확인한다."""
     code = "def add(a, b)\n    return a + b\n"  # missing colon
     cases = [{"input": {"a": 1, "b": 2}, "expected": 3}]
     passed, total, solved = _execute_attempt(code, "add", cases)
@@ -189,6 +208,7 @@ def test_execute_attempt_syntax_error() -> None:
 
 
 def test_execute_attempt_runtime_error() -> None:
+    """런타임 오류를 유발하는 코드를 실행하면 passed=0이고 solved=False인지 확인한다."""
     code = "def div(a, b):\n    return a / b\n"
     cases = [{"input": {"a": 1, "b": 0}, "expected": None}]
     passed, total, solved = _execute_attempt(code, "div", cases)
@@ -209,6 +229,7 @@ def test_execute_attempt_multipliers_check() -> None:
 
 
 def test_engineering_strategy_returns_valid_result() -> None:
+    """엔지니어링 전략 실행 결과가 유효한 StrategyResult 구조인지 확인한다."""
     task = get_debug_tasks()[0]
     eng = EngineeringStrategy()
     result = eng.run(task, max_attempts=5)
@@ -219,6 +240,7 @@ def test_engineering_strategy_returns_valid_result() -> None:
 
 
 def test_hypothesis_strategy_returns_valid_result() -> None:
+    """가설 전략 실행 결과가 유효한 StrategyResult 구조이며 가설 필드를 포함하는지 확인한다."""
     task = get_debug_tasks()[0]
     hyp = HypothesisStrategy()
     result = hyp.run(task, max_attempts=5)
@@ -274,6 +296,7 @@ def test_attempt_result_has_test_counts() -> None:
 
 
 def test_run_experiment_returns_valid_structure() -> None:
+    """run_experiment가 유효한 ExperimentResult 구조를 반환하는지 확인한다."""
     tasks = get_debug_tasks()[:2]
     result = run_experiment(tasks=tasks, max_attempts=3)
     assert isinstance(result, ExperimentResult)
@@ -285,6 +308,7 @@ def test_run_experiment_returns_valid_structure() -> None:
 
 
 def test_run_experiment_default_tasks() -> None:
+    """기본 태스크로 run_experiment를 실행하면 12개의 결과가 반환되는지 확인한다."""
     result = run_experiment(max_attempts=5)
     assert len(result.task_results) == 12
 
@@ -303,6 +327,7 @@ def test_all_tasks_solved_by_both_strategies() -> None:
 
 
 def test_analyze_results_produces_report() -> None:
+    """analyze_results가 3개 카테고리 통계를 포함한 AnalysisReport를 반환하는지 확인한다."""
     result = run_experiment(max_attempts=5)
     report = analyze_results(result)
     assert isinstance(report, AnalysisReport)
@@ -313,6 +338,7 @@ def test_analyze_results_produces_report() -> None:
 
 
 def test_analyze_results_has_task_details() -> None:
+    """분석 리포트에 12개 태스크의 상세 결과가 포함되는지 확인한다."""
     result = run_experiment(max_attempts=5)
     report = analyze_results(result)
     assert len(report.task_details) == 12
@@ -375,6 +401,7 @@ def test_to_harness_format_includes_category_breakdown() -> None:
 
 
 def test_format_report_contains_categories() -> None:
+    """포맷된 리포트 텍스트에 세 카테고리명과 전략명이 포함되는지 확인한다."""
     result = run_experiment(max_attempts=5)
     report = analyze_results(result)
     text = format_report(report)
@@ -386,6 +413,7 @@ def test_format_report_contains_categories() -> None:
 
 
 def test_format_report_contains_per_task_details() -> None:
+    """포맷된 리포트에 개별 태스크 ID와 가설 정보가 포함되는지 확인한다."""
     result = run_experiment(max_attempts=5)
     report = analyze_results(result)
     text = format_report(report)
@@ -399,6 +427,7 @@ def test_format_report_contains_per_task_details() -> None:
 
 
 def test_experiment_metadata_fields() -> None:
+    """ExperimentMetadata의 simulation_type, limitation, what_this_does_not_prove 필드를 검증한다."""
     meta = ExperimentMetadata()
     assert meta.simulation_type == "researcher_coded_attempts"
     assert "researcher" in meta.limitation
@@ -409,6 +438,7 @@ def test_experiment_metadata_fields() -> None:
 
 
 def test_all_tasks_have_engineering_attempts() -> None:
+    """모든 태스크에 엔지니어링 시도 코드가 최소 1개 이상 정의되어 있는지 확인한다."""
     tasks = get_debug_tasks()
     for t in tasks:
         assert t.id in ENGINEERING_ATTEMPTS, f"Missing eng attempts for {t.id}"
@@ -416,6 +446,7 @@ def test_all_tasks_have_engineering_attempts() -> None:
 
 
 def test_all_tasks_have_hypothesis_attempts() -> None:
+    """모든 태스크에 가설 전략 시도 코드가 최소 1개 이상 정의되어 있는지 확인한다."""
     tasks = get_debug_tasks()
     for t in tasks:
         assert t.id in HYPOTHESIS_ATTEMPTS, f"Missing hyp attempts for {t.id}"
@@ -426,11 +457,13 @@ def test_all_tasks_have_hypothesis_attempts() -> None:
 
 
 def test_validate_config_all_clear_with_real_tasks() -> None:
+    """실제 태스크로 validate_experiment_config를 실행하면 이슈가 없는지 확인한다."""
     issues = validate_experiment_config()
     assert issues == [], f"Expected no issues, got: {issues}"
 
 
 def test_validate_config_detects_no_test_cases() -> None:
+    """테스트 케이스가 없는 태스크에 대해 config 검증이 이슈를 감지하는지 확인한다."""
     bad_task = DebugTask(
         id="X1",
         category="simple",
@@ -446,6 +479,7 @@ def test_validate_config_detects_no_test_cases() -> None:
 
 
 def test_validate_config_detects_wrong_correct_code() -> None:
+    """정답 코드가 테스트를 통과하지 못할 때 config 검증이 이슈를 감지하는지 확인한다."""
     bad_task = DebugTask(
         id="X2",
         category="simple",
@@ -460,6 +494,7 @@ def test_validate_config_detects_wrong_correct_code() -> None:
 
 
 def test_validate_config_detects_bug_not_testable() -> None:
+    """버그 코드가 테스트를 통과할 때(버그 미검출) config 검증이 이슈를 감지하는지 확인한다."""
     bad_task = DebugTask(
         id="X3",
         category="simple",
@@ -474,6 +509,7 @@ def test_validate_config_detects_bug_not_testable() -> None:
 
 
 def test_validate_config_returns_list_of_config_issues() -> None:
+    """validate_experiment_config가 ConfigIssue 인스턴스의 리스트를 반환하는지 확인한다."""
     issues = validate_experiment_config()
     assert isinstance(issues, list)
     for issue in issues:
@@ -484,6 +520,7 @@ def test_validate_config_returns_list_of_config_issues() -> None:
 
 
 def test_to_harness_format_structure() -> None:
+    """to_harness_format 출력이 experiment, steps, summary 키를 포함하는지 확인한다."""
     result = run_experiment(tasks=get_debug_tasks()[:3], max_attempts=5)
     data = to_harness_format(result)
     assert data["experiment"] == "hypothesis_validation"
@@ -499,6 +536,7 @@ def test_to_harness_format_step_count() -> None:
 
 
 def test_to_harness_format_step_fields() -> None:
+    """harness 포맷 각 스텝에 task_id, strategy, status, attempts 필드가 있는지 확인한다."""
     result = run_experiment(tasks=get_debug_tasks()[:1], max_attempts=5)
     data = to_harness_format(result)
     for step in data["steps"]:
@@ -510,6 +548,7 @@ def test_to_harness_format_step_fields() -> None:
 
 
 def test_to_harness_format_summary_keys() -> None:
+    """harness 포맷 summary에 필수 통계 키들이 모두 포함되는지 확인한다."""
     result = run_experiment(max_attempts=5)
     data = to_harness_format(result)
     summary = data["summary"]

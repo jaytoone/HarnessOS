@@ -78,11 +78,13 @@ def mock_client(mock_response_factory):
 
 
 def test_extract_code_python_block():
+    """python 태그가 있는 코드 블록에서 코드를 올바르게 추출하는지 확인한다."""
     text = "```python\ndef foo():\n    return 1\n```"
     assert _extract_code(text) == "def foo():\n    return 1"
 
 
 def test_extract_code_bare_block():
+    """python 태그 없는 빈 코드 블록에서도 코드를 추출하는지 확인한다."""
     text = "``` \ndef foo():\n    return 1\n```"
     # No 'python' tag but still a code block
     result = _extract_code(text)
@@ -90,6 +92,7 @@ def test_extract_code_bare_block():
 
 
 def test_extract_code_fallback_def_line():
+    """코드 블록이 없을 때 def 행부터 코드를 폴백 추출하는지 확인한다."""
     text = "Here is the fix:\ndef foo():\n    return 1"
     result = _extract_code(text)
     assert result is not None
@@ -97,11 +100,13 @@ def test_extract_code_fallback_def_line():
 
 
 def test_extract_code_no_code_returns_none():
+    """코드가 전혀 없는 텍스트에서 _extract_code가 None을 반환하는지 확인한다."""
     text = "I cannot determine the fix from this description."
     assert _extract_code(text) is None
 
 
 def test_extract_code_with_import():
+    """import 문이 포함된 코드 블록을 import까지 포함해 추출하는지 확인한다."""
     text = "```python\nimport unicodedata\ndef foo(s):\n    return unicodedata.normalize('NFC', s)\n```"
     code = _extract_code(text)
     assert code is not None
@@ -114,21 +119,25 @@ def test_extract_code_with_import():
 
 
 def test_extract_hypothesis_standard():
+    """표준 Hypothesis: 형식의 텍스트에서 가설 문자열을 올바르게 추출하는지 확인한다."""
     text = "Hypothesis: The range upper bound is off by one.\n```python\n...\n```"
     assert _extract_hypothesis(text) == "The range upper bound is off by one."
 
 
 def test_extract_hypothesis_lowercase():
+    """소문자 hypothesis: 형식의 가설도 올바르게 추출하는지 확인한다."""
     text = "hypothesis: closure captures loop variable by reference"
     assert _extract_hypothesis(text) == "closure captures loop variable by reference"
 
 
 def test_extract_hypothesis_missing_returns_none():
+    """Hypothesis: 패턴이 없을 때 _extract_hypothesis가 None을 반환하는지 확인한다."""
     text = "```python\ndef foo(): pass\n```"
     assert _extract_hypothesis(text) is None
 
 
 def test_extract_hypothesis_multiword():
+    """여러 단어로 구성된 긴 가설 문자열을 온전히 추출하는지 확인한다."""
     text = "Hypothesis: The dict is not being reset between calls due to mutable default arg.\nFix:"
     hyp = _extract_hypothesis(text)
     assert hyp == "The dict is not being reset between calls due to mutable default arg."
@@ -140,12 +149,14 @@ def test_extract_hypothesis_multiword():
 
 
 def test_build_user_prompt_contains_buggy_code(simple_task):
+    """생성된 프롬프트에 버그 코드의 함수명과 버그 내용이 포함되는지 확인한다."""
     prompt = _build_user_prompt(simple_task)
     assert "find_max_subarray" in prompt
     assert "range(1, len(arr) - k)" in prompt  # the bug
 
 
 def test_build_user_prompt_contains_test_cases(simple_task):
+    """생성된 프롬프트에 태스크의 테스트 케이스 입력값이 포함되는지 확인한다."""
     prompt = _build_user_prompt(simple_task)
     assert "1, 3, 2, 5, 1" in prompt  # from test_cases
 
@@ -156,6 +167,7 @@ def test_build_user_prompt_contains_test_cases(simple_task):
 
 
 def test_engineering_strategy_solves_on_first_attempt(simple_task, mock_client):
+    """LLM 엔지니어링 전략이 첫 시도에 문제를 해결하고 토큰 수를 기록하는지 확인한다."""
     strategy = LLMEngineeringStrategy(client=mock_client)
     result = strategy.run(simple_task, max_attempts=5)
 
@@ -167,6 +179,7 @@ def test_engineering_strategy_solves_on_first_attempt(simple_task, mock_client):
 
 
 def test_engineering_strategy_tracks_tokens(simple_task, mock_client):
+    """엔지니어링 전략이 입출력 토큰 수를 정확하게 집계하는지 확인한다."""
     strategy = LLMEngineeringStrategy(client=mock_client)
     result = strategy.run(simple_task)
 
@@ -209,6 +222,7 @@ def test_engineering_strategy_retries_on_failure(simple_task, mock_response_fact
 def test_engineering_strategy_fails_when_max_attempts_exceeded(
     simple_task, mock_response_factory
 ):
+    """max_attempts를 초과해도 해결 못하면 solved=False이고 시도 횟수가 정확한지 확인한다."""
     wrong_code = "def find_max_subarray(arr, k):\n    return []\n"
     client = MagicMock()
     client.messages.create.return_value = mock_response_factory(
@@ -226,6 +240,7 @@ def test_engineering_strategy_fails_when_max_attempts_exceeded(
 def test_engineering_strategy_handles_no_code_in_response(
     simple_task, mock_response_factory
 ):
+    """응답에 코드가 없을 때 엔지니어링 전략이 solved=False로 처리하는지 확인한다."""
     client = MagicMock()
     client.messages.create.return_value = mock_response_factory(
         "I cannot determine the fix."
@@ -239,6 +254,7 @@ def test_engineering_strategy_handles_no_code_in_response(
 
 
 def test_engineering_strategy_task_id(simple_task, mock_client):
+    """엔지니어링 전략 결과의 task_id와 strategy 이름이 올바른지 확인한다."""
     strategy = LLMEngineeringStrategy(client=mock_client)
     result = strategy.run(simple_task)
     assert result.task_id == "A1"
@@ -251,6 +267,7 @@ def test_engineering_strategy_task_id(simple_task, mock_client):
 
 
 def test_hypothesis_strategy_extracts_hypothesis(simple_task, mock_response_factory):
+    """가설 전략이 응답에서 가설을 추출하고 정답 시 hypothesis_correct=True로 설정하는지 확인한다."""
     correct_code = (
         "def find_max_subarray(arr, k):\n"
         "    if len(arr) < k:\n"
@@ -282,6 +299,7 @@ def test_hypothesis_strategy_extracts_hypothesis(simple_task, mock_response_fact
 def test_hypothesis_strategy_marks_hypothesis_incorrect_on_failure(
     simple_task, mock_response_factory
 ):
+    """가설 전략이 코드가 틀렸을 때 hypothesis_correct=False로 마킹하는지 확인한다."""
     wrong_code = "def find_max_subarray(arr, k):\n    return arr[:k]\n"
     response_text = f"Hypothesis: wrong guess.\n```python\n{wrong_code}```"
     client = MagicMock()
@@ -295,6 +313,7 @@ def test_hypothesis_strategy_marks_hypothesis_incorrect_on_failure(
 
 
 def test_hypothesis_strategy_task_id_and_strategy_name(simple_task, mock_response_factory):
+    """가설 전략 결과의 task_id와 strategy 이름이 올바른지 확인한다."""
     correct_code = (
         "def find_max_subarray(arr, k):\n"
         "    if len(arr) < k:\n"
@@ -355,6 +374,7 @@ def test_hypothesis_strategy_cumulative_token_tracking(simple_task, mock_respons
 
 
 def test_llm_task_result_pass_at_1():
+    """LLMTaskResult의 engineering_pass_at_1이 성공 비율을 올바르게 계산하는지 확인한다."""
     task_result = LLMTaskResult(task_id="A1", category="simple", trials=3)
 
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
@@ -368,6 +388,7 @@ def test_llm_task_result_pass_at_1():
 
 
 def test_llm_task_result_avg_attempts():
+    """LLMTaskResult의 hypothesis_avg_attempts가 평균 시도 횟수를 올바르게 계산하는지 확인한다."""
     task_result = LLMTaskResult(task_id="A1", category="simple", trials=2)
 
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
@@ -380,6 +401,7 @@ def test_llm_task_result_avg_attempts():
 
 
 def test_llm_task_result_avg_attempts_unsolved():
+    """미해결 가설 전략 결과에서 hypothesis_avg_attempts가 inf를 반환하는지 확인한다."""
     task_result = LLMTaskResult(task_id="A1", category="simple", trials=1)
 
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
@@ -391,6 +413,7 @@ def test_llm_task_result_avg_attempts_unsolved():
 
 
 def test_llm_task_result_engineering_avg_attempts_unsolved():
+    """미해결 엔지니어링 전략 결과에서 engineering_avg_attempts가 inf를 반환하는지 확인한다."""
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
 
     task_result = LLMTaskResult(task_id="A1", category="simple", trials=1)
@@ -431,6 +454,7 @@ def test_run_llm_experiment_runs_all_tasks(mock_response_factory):
 
 
 def test_run_llm_experiment_multiple_trials(simple_task, mock_response_factory):
+    """trials_per_task 수만큼 시도 결과가 기록되는지 확인한다."""
     correct_code = (
         "def find_max_subarray(arr, k):\n"
         "    if len(arr) < k:\n"
@@ -463,6 +487,7 @@ def test_run_llm_experiment_multiple_trials(simple_task, mock_response_factory):
 
 
 def test_run_llm_experiment_result_metadata(simple_task, mock_response_factory):
+    """run_llm_experiment 결과에 모델명, 시도 횟수, 타임스탬프 메타데이터가 포함되는지 확인한다."""
     client = MagicMock()
     client.messages.create.return_value = mock_response_factory("no code here")
 
@@ -486,12 +511,14 @@ def test_run_llm_experiment_result_metadata(simple_task, mock_response_factory):
 
 
 def test_llm_experiment_result_empty_pass_rate():
+    """태스크 결과가 없을 때 전체 pass rate가 0.0인지 확인한다."""
     result = LLMExperimentResult()
     assert result.engineering_overall_pass_rate == 0.0
     assert result.hypothesis_overall_pass_rate == 0.0
 
 
 def test_llm_task_result_empty_pass_at_1():
+    """시도 결과가 없을 때 engineering_pass_at_1과 hypothesis_pass_at_1이 0.0인지 확인한다."""
     task_result = LLMTaskResult(task_id="A1", category="simple", trials=0)
     assert task_result.engineering_pass_at_1 == 0.0
     assert task_result.hypothesis_pass_at_1 == 0.0
@@ -511,6 +538,7 @@ def test_run_llm_experiment_default_tasks(mock_response_factory):
 
 
 def test_save_llm_results_creates_file(tmp_path, mock_response_factory):
+    """save_llm_results가 JSON 파일을 생성하고 필수 키를 포함하는지 확인한다."""
     from experiments.hypothesis_validation.llm_runner import save_llm_results
 
     result = LLMExperimentResult(model="test-model", trials_per_task=1, max_attempts=1)
@@ -525,6 +553,7 @@ def test_save_llm_results_creates_file(tmp_path, mock_response_factory):
 
 
 def test_save_llm_results_includes_task_stats(tmp_path):
+    """저장된 JSON에 태스크별 통계(task_id, engineering_pass_at_1)가 포함되는지 확인한다."""
     from experiments.hypothesis_validation.llm_runner import save_llm_results
     from experiments.hypothesis_validation.llm_strategies import LLMStrategyResult
 
