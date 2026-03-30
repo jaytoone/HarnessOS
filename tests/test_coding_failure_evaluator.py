@@ -1,8 +1,9 @@
 """coding_failure/evaluator.py 오류 경로 테스트."""
 import asyncio
-import pytest
-import httpx
 from unittest.mock import patch, AsyncMock, MagicMock
+
+import httpx
+import pytest
 
 from experiments.coding_failure.evaluator import (
     _create_conversation,
