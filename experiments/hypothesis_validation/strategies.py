@@ -502,7 +502,7 @@ class EngineeringStrategy:
         return StrategyResult(
             task_id=task.id,
             strategy="engineering",
-            solved=bool(results and results[-1].success),
+            solved=False,  # early return covers the solved=True case
             attempts=results,
             total_attempts=len(results),
         )
@@ -548,7 +548,7 @@ class HypothesisStrategy:
         return StrategyResult(
             task_id=task.id,
             strategy="hypothesis",
-            solved=bool(results and results[-1].success),
+            solved=False,  # early return covers the solved=True case
             attempts=results,
             total_attempts=len(results),
         )
