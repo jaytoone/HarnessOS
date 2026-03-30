@@ -420,12 +420,8 @@ def test_run_llm_pipeline_no_api_key(capsys: pytest.CaptureFixture) -> None:
     """ANTHROPIC_API_KEY 없으면 에러 메시지 후 sys.exit(1)."""
     from analyze import run_llm_pipeline
     with patch.dict("os.environ", {}, clear=True):
-        # Remove API key from env
-        env_without_key = {k: v for k, v in __import__("os").environ.items()
-                           if k != "ANTHROPIC_API_KEY"}
-        with patch("os.environ.get", return_value=None):
-            with pytest.raises(SystemExit) as exc:
-                run_llm_pipeline()
+        with pytest.raises(SystemExit) as exc:
+            run_llm_pipeline()
     assert exc.value.code == 1
     assert "ANTHROPIC_API_KEY" in capsys.readouterr().out
 
