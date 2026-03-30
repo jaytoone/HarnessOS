@@ -16,6 +16,8 @@ from experiments.hypothesis_validation.tasks import DebugTask
 
 @dataclass(frozen=True)
 class AttemptResult:
+    """Result of a single debugging attempt for one task."""
+
     attempt_num: int
     success: bool
     tests_passed: int = 0
@@ -26,6 +28,8 @@ class AttemptResult:
 
 @dataclass
 class StrategyResult:
+    """Aggregated result for one strategy run on a single task."""
+
     task_id: str
     strategy: Literal["engineering", "hypothesis"]
     solved: bool

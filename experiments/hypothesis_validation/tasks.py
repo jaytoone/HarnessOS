@@ -11,6 +11,8 @@ from typing import Any, Literal
 
 @dataclass
 class DebugTask:
+    """A buggy Python function with test cases for hypothesis-vs-engineering evaluation."""
+
     id: str
     category: Literal["simple", "causal", "assumption"]
     function_name: str

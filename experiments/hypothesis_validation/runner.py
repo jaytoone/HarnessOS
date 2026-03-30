@@ -48,6 +48,8 @@ class TaskResult:
 
 @dataclass
 class ExperimentResult:
+    """Full experiment result containing all task results and configuration."""
+
     task_results: list[TaskResult] = field(default_factory=list)
     max_attempts: int = 5
 
