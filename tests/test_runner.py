@@ -1,9 +1,10 @@
 """runner.py 비동기 경로 테스트 (성공 + 오류)."""
 import asyncio
 import json
-import pytest
 from pathlib import Path
 from unittest.mock import patch, AsyncMock, MagicMock
+
+import pytest
 
 from runner import run_experiment_a, run_experiment_b, _save_results, main
 from experiments.context_memory.evaluator import RecallResult

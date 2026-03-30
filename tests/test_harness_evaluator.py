@@ -1,8 +1,9 @@
 """harness_evaluator.py 테스트: 하네스 자체 평가 로직 검증."""
 import json
-import pytest
 from pathlib import Path
 from unittest.mock import patch
+
+import pytest
 
 from harness_evaluator import (
     evaluate_harness,

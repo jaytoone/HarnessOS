@@ -5,8 +5,8 @@ Tests: prompt construction, code extraction, hypothesis extraction,
 strategy behavior, token tracking, runner integration.
 """
 from unittest.mock import MagicMock, patch
-from anthropic.types import TextBlock
 
+from anthropic.types import TextBlock
 import pytest
 
 from experiments.hypothesis_validation.llm_strategies import (

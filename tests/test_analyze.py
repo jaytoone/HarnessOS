@@ -1,8 +1,9 @@
 """analyze.py 결과 분석 스크립트 테스트."""
 import json
-import pytest
 from pathlib import Path
 from unittest.mock import patch
+
+import pytest
 
 from analyze import analyze_context_memory, analyze_coding_failure, main
 
