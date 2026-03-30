@@ -289,7 +289,7 @@ def test_run_experiment_default_tasks() -> None:
 
 
 def test_all_tasks_solved_by_both_strategies() -> None:
-    """Both strategies should solve all 9 tasks (within max_attempts)."""
+    """Both strategies should solve all 12 tasks (within max_attempts)."""
     result = run_experiment(max_attempts=10)
     for tr in result.task_results:
         assert tr.engineering_result is not None
@@ -334,6 +334,43 @@ def test_hypothesis_fewer_attempts_on_assumption() -> None:
     report = analyze_results(result)
     assumption = [s for s in report.category_stats if s.category == "assumption"][0]
     assert assumption.hyp_avg_attempts <= assumption.eng_avg_attempts
+
+
+def test_simple_tasks_have_zero_advantage() -> None:
+    """Research finding: simple bugs show no advantage for hypothesis approach."""
+    result = run_experiment(max_attempts=10)
+    report = analyze_results(result)
+    simple = [s for s in report.category_stats if s.category == "simple"][0]
+    assert simple.eng_avg_attempts == simple.hyp_avg_attempts, (
+        "Simple bugs should take equal attempts for both strategies"
+    )
+
+
+def test_assumption_advantage_greater_than_causal() -> None:
+    """Research finding: assumption bugs benefit MORE from hypothesis than causal bugs."""
+    result = run_experiment(max_attempts=10)
+    report = analyze_results(result)
+    causal = [s for s in report.category_stats if s.category == "causal"][0]
+    assumption = [s for s in report.category_stats if s.category == "assumption"][0]
+    causal_savings = causal.eng_avg_attempts - causal.hyp_avg_attempts
+    assumption_savings = assumption.eng_avg_attempts - assumption.hyp_avg_attempts
+    assert assumption_savings >= causal_savings, (
+        "Assumption bugs should show >= advantage over causal bugs for hypothesis strategy"
+    )
+
+
+def test_to_harness_format_includes_category_breakdown() -> None:
+    """to_harness_format summary includes by_category with correct keys."""
+    result = run_experiment(max_attempts=5)
+    data = to_harness_format(result)
+    by_cat = data["summary"]["by_category"]
+    assert set(by_cat.keys()) == {"simple", "causal", "assumption"}
+    for cat_data in by_cat.values():
+        assert "count" in cat_data
+        assert "engineering_avg_attempts" in cat_data
+        assert "hypothesis_avg_attempts" in cat_data
+        assert "attempt_savings" in cat_data
+    assert by_cat["simple"]["attempt_savings"] == 0.0
 
 
 def test_format_report_contains_categories() -> None:
