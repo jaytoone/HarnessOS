@@ -5,14 +5,12 @@ Usage:
   python runner.py --exp a   # 실험 A: 기억력 저하
   python runner.py --exp b   # 실험 B: 코딩 실수 시점
 """
-from __future__ import annotations
 import argparse
 import asyncio
 import json
 import os
 import time
 from datetime import datetime
-from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
