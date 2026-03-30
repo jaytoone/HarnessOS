@@ -549,14 +549,29 @@ def test_save_llm_results_creates_file(tmp_path, mock_response_factory) -> None:
     from experiments.hypothesis_validation.llm_runner import save_llm_results
 
     result = LLMExperimentResult(model="test-model", trials_per_task=1, max_attempts=1)
-    saved_path = save_llm_results(result, output_dir=str(tmp_path))
+    saved_path = save_llm_results(result, output_dir=tmp_path)
 
-    assert saved_path.endswith(".json")
+    assert saved_path.suffix == ".json"
     import json
-    data = json.loads(open(saved_path).read())
+    data = json.loads(saved_path.read_text())
     assert data["model"] == "test-model"
     assert "engineering_overall_pass_rate" in data
     assert "tasks" in data
+
+
+def test_save_llm_results_default_output_dir(tmp_path) -> None:
+    """output_dir=None 시 RESULTS_DIR를 기본값으로 사용한다."""
+    import experiments.hypothesis_validation.llm_runner as llm_runner_mod
+    from experiments.hypothesis_validation.llm_runner import save_llm_results
+
+    original = llm_runner_mod.RESULTS_DIR
+    try:
+        llm_runner_mod.RESULTS_DIR = tmp_path
+        result = LLMExperimentResult(model="default-dir-test")
+        saved_path = save_llm_results(result)
+        assert saved_path.parent == tmp_path
+    finally:
+        llm_runner_mod.RESULTS_DIR = original
 
 
 def test_save_llm_results_includes_task_stats(tmp_path) -> None:
@@ -575,9 +590,9 @@ def test_save_llm_results_includes_task_stats(tmp_path) -> None:
     )
     result = LLMExperimentResult(task_results=[tr])
 
-    saved_path = save_llm_results(result, output_dir=str(tmp_path))
+    saved_path = save_llm_results(result, output_dir=tmp_path)
     import json
-    data = json.loads(open(saved_path).read())
+    data = json.loads(saved_path.read_text())
     assert len(data["tasks"]) == 1
     assert data["tasks"][0]["task_id"] == "A1"
     assert data["tasks"][0]["engineering_pass_at_1"] == 1.0

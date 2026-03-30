@@ -15,7 +15,7 @@ from experiments.hypothesis_validation.llm_strategies import (
     LLMHypothesisStrategy,
     LLMStrategyResult,
 )
-from constants import DebugTaskCategory
+from constants import DebugTaskCategory, RESULTS_DIR
 from experiments.hypothesis_validation.tasks import DebugTask, get_debug_tasks
 
 
@@ -155,11 +155,13 @@ def run_llm_experiment(
     )
 
 
-def save_llm_results(result: LLMExperimentResult, output_dir: str = "results") -> str:
+def save_llm_results(result: LLMExperimentResult, output_dir: Path | None = None) -> Path:
     """Save LLM experiment results to JSON."""
-    Path(output_dir).mkdir(exist_ok=True)
+    if output_dir is None:
+        output_dir = RESULTS_DIR
+    output_dir.mkdir(exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    path = Path(output_dir) / f"llm_hypothesis_validation_{ts}.json"
+    path = output_dir / f"llm_hypothesis_validation_{ts}.json"
 
     # Convert to serializable dict (skip complex nested objects, keep key stats)
     data = {
@@ -195,4 +197,4 @@ def save_llm_results(result: LLMExperimentResult, output_dir: str = "results") -
         task_dict["hypothesis_avg_attempts"] = _finite(task_dict["hypothesis_avg_attempts"])
 
     path.write_text(json.dumps(data, indent=2))
-    return str(path)
+    return path
