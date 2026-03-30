@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from experiments.hypothesis_validation.runner import ExperimentResult, TaskResult
 
 
-@dataclass
+@dataclass(frozen=True)
 class CategoryStats:
     category: str
     eng_solved: int
@@ -22,7 +22,7 @@ class CategoryStats:
     attempt_savings: float = 0.0  # eng_avg_attempts - hyp_avg_attempts
 
 
-@dataclass
+@dataclass(frozen=True)
 class TaskDetail:
     task_id: str
     category: str
