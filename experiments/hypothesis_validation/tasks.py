@@ -6,7 +6,9 @@
   C (assumption): wrong implicit assumptions
 """
 from dataclasses import dataclass, field
-from typing import Any, Literal
+from typing import Any
+
+from constants import DebugTaskCategory
 
 
 @dataclass(frozen=True)
@@ -14,7 +16,7 @@ class DebugTask:
     """A buggy Python function with test cases for hypothesis-vs-engineering evaluation."""
 
     id: str
-    category: Literal["simple", "causal", "assumption"]
+    category: DebugTaskCategory
     function_name: str
     buggy_code: str
     correct_code: str

@@ -5,6 +5,9 @@ from typing import Literal
 # 실험 식별자 타입
 ExperimentName = Literal["context_memory", "coding_failure", "hypothesis_validation"]
 
+# 가설 검증 실험 디버그 태스크 카테고리
+DebugTaskCategory = Literal["simple", "causal", "assumption"]
+
 # 비밀 코드 위치 타입
 Position = Literal["front", "middle", "back"]
 PositionOrUnknown = Literal["front", "middle", "back", "unknown"]

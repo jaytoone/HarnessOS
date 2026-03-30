@@ -15,6 +15,7 @@ from experiments.hypothesis_validation.llm_strategies import (
     LLMHypothesisStrategy,
     LLMStrategyResult,
 )
+from constants import DebugTaskCategory
 from experiments.hypothesis_validation.tasks import DebugTask, get_debug_tasks
 
 
@@ -23,7 +24,7 @@ class LLMTaskResult:
     """Per-task LLM experiment result with pass@1 and attempt statistics."""
 
     task_id: str
-    category: str
+    category: DebugTaskCategory
     trials: int
     engineering_results: list[LLMStrategyResult] = field(default_factory=list)
     hypothesis_results: list[LLMStrategyResult] = field(default_factory=list)
