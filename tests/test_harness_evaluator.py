@@ -271,7 +271,7 @@ def test_load_latest_verdict_no_directory() -> None:
 
 
 def test_hypothesis_validation_small_attempt_difference_suggestion() -> None:
-    """When eng/hyp attempts are similar, harness suggests adding harder tasks."""
+    """eng/hyp attempt 차이가 작으면 더 어려운 태스크 추가 제안이 생성된다."""
     from harness_evaluator import evaluate_harness
     data = {
         "experiment": "hypothesis_validation",

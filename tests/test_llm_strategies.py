@@ -189,7 +189,7 @@ def test_engineering_strategy_tracks_tokens(simple_task, mock_client):
 
 
 def test_engineering_strategy_retries_on_failure(simple_task, mock_response_factory):
-    """Fail first attempt, succeed on second."""
+    """첫 시도 실패 후 두 번째에 성공한다."""
     wrong_code = "def find_max_subarray(arr, k):\n    return []\n"
     correct_code = (
         "def find_max_subarray(arr, k):\n"
@@ -340,7 +340,7 @@ def test_hypothesis_strategy_task_id_and_strategy_name(simple_task, mock_respons
 
 
 def test_hypothesis_strategy_cumulative_token_tracking(simple_task, mock_response_factory):
-    """Token counts from multiple attempts should accumulate."""
+    """여러 시도의 토큰 수가 누적된다."""
     wrong_code = "def find_max_subarray(arr, k):\n    return arr[:k]\n"
     correct_code = (
         "def find_max_subarray(arr, k):\n"
@@ -430,7 +430,7 @@ def test_llm_task_result_engineering_avg_attempts_unsolved():
 
 
 def test_run_llm_experiment_runs_all_tasks(mock_response_factory):
-    """Runner should produce results for all 12 tasks."""
+    """모든 12개 태스크에 대해 결과를 생성한다."""
     tasks = get_debug_tasks()
 
     # Provide a client that returns wrong answers (won't solve — that's OK for this test)
@@ -526,7 +526,7 @@ def test_llm_task_result_empty_pass_at_1():
 
 
 def test_run_llm_experiment_default_tasks(mock_response_factory):
-    """Passing tasks=None should default to all 12 tasks."""
+    """tasks=None이면 전체 12개 태스크를 기본 사용한다."""
     client = MagicMock()
     client.messages.create.return_value = mock_response_factory("no code", 10, 5)
     result = run_llm_experiment(tasks=None, trials_per_task=1, max_attempts=1, client=client)
@@ -581,7 +581,7 @@ def test_save_llm_results_includes_task_stats(tmp_path):
 # ---------------------------------------------------------------------------
 
 def test_run_llm_experiment_token_aggregation(simple_task, mock_response_factory):
-    """Total token counts should be summed across all tasks and strategies."""
+    """전체 태스크에 걸친 토큰 수가 합산된다."""
     client = MagicMock()
     client.messages.create.return_value = mock_response_factory("no code", 50, 25)
 

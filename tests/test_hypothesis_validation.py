@@ -217,7 +217,7 @@ def test_execute_attempt_runtime_error() -> None:
 
 
 def test_execute_attempt_multipliers_check() -> None:
-    """Test the special 'multipliers' check for B2."""
+    """B2 태스크의 특수 multipliers 검사를 확인한다."""
     code = "def make_multipliers(n):\n    return [lambda x, i=i: x * i for i in range(n)]\n"
     cases = [{"input": {"n": 4}, "expected_check": "multipliers"}]
     passed, total, solved = _execute_attempt(code, "make_multipliers", cases)
@@ -253,7 +253,7 @@ def test_hypothesis_strategy_returns_valid_result() -> None:
 
 
 def test_hypothesis_attempts_have_hypotheses() -> None:
-    """Every attempt in hypothesis strategy includes a hypothesis declaration."""
+    """가설 전략의 모든 시도에 가설 선언이 포함된다."""
     task = get_debug_tasks()[3]  # B1: causal
     hyp = HypothesisStrategy()
     result = hyp.run(task, max_attempts=5)
@@ -263,7 +263,7 @@ def test_hypothesis_attempts_have_hypotheses() -> None:
 
 
 def test_engineering_no_hypotheses() -> None:
-    """Engineering attempts should have no hypothesis."""
+    """엔지니어링 시도에는 가설이 없다."""
     task = get_debug_tasks()[0]
     eng = EngineeringStrategy()
     result = eng.run(task, max_attempts=5)
@@ -272,7 +272,7 @@ def test_engineering_no_hypotheses() -> None:
 
 
 def test_strategy_results_are_deterministic() -> None:
-    """Same task should produce same result on multiple runs."""
+    """같은 태스크는 여러 번 실행해도 동일한 결과를 낸다."""
     task = get_debug_tasks()[4]  # B2
     eng = EngineeringStrategy()
     r1 = eng.run(task)
@@ -282,7 +282,7 @@ def test_strategy_results_are_deterministic() -> None:
 
 
 def test_attempt_result_has_test_counts() -> None:
-    """AttemptResult should contain tests_passed and tests_total."""
+    """AttemptResult에 tests_passed와 tests_total이 포함된다."""
     task = get_debug_tasks()[0]
     eng = EngineeringStrategy()
     result = eng.run(task)
@@ -314,7 +314,7 @@ def test_run_experiment_default_tasks() -> None:
 
 
 def test_all_tasks_solved_by_both_strategies() -> None:
-    """Both strategies should solve all 12 tasks (within max_attempts)."""
+    """두 전략 모두 최대 시도 내에 12개 태스크를 전부 해결한다."""
     result = run_experiment(max_attempts=10)
     for tr in result.task_results:
         assert tr.engineering_result is not None
@@ -348,7 +348,7 @@ def test_analyze_results_has_task_details() -> None:
 
 
 def test_hypothesis_fewer_attempts_on_causal() -> None:
-    """Hypothesis should need fewer attempts on causal tasks."""
+    """인과 태스크에서 가설 전략이 더 적은 시도로 해결한다."""
     result = run_experiment(max_attempts=10)
     report = analyze_results(result)
     causal = [s for s in report.category_stats if s.category == "causal"][0]
@@ -356,7 +356,7 @@ def test_hypothesis_fewer_attempts_on_causal() -> None:
 
 
 def test_hypothesis_fewer_attempts_on_assumption() -> None:
-    """Hypothesis should need fewer attempts on assumption tasks."""
+    """가정 태스크에서 가설 전략이 더 적은 시도로 해결한다."""
     result = run_experiment(max_attempts=10)
     report = analyze_results(result)
     assumption = [s for s in report.category_stats if s.category == "assumption"][0]
@@ -364,7 +364,7 @@ def test_hypothesis_fewer_attempts_on_assumption() -> None:
 
 
 def test_simple_tasks_have_zero_advantage() -> None:
-    """Research finding: simple bugs show no advantage for hypothesis approach."""
+    """연구 결과: 단순 버그는 가설 전략의 이점이 없다."""
     result = run_experiment(max_attempts=10)
     report = analyze_results(result)
     simple = [s for s in report.category_stats if s.category == "simple"][0]
@@ -374,7 +374,7 @@ def test_simple_tasks_have_zero_advantage() -> None:
 
 
 def test_assumption_advantage_greater_than_causal() -> None:
-    """Research finding: assumption bugs benefit MORE from hypothesis than causal bugs."""
+    """연구 결과: 가정 버그는 인과보다 가설 전략 효과가 크다."""
     result = run_experiment(max_attempts=10)
     report = analyze_results(result)
     causal = [s for s in report.category_stats if s.category == "causal"][0]
@@ -387,7 +387,7 @@ def test_assumption_advantage_greater_than_causal() -> None:
 
 
 def test_to_harness_format_includes_category_breakdown() -> None:
-    """to_harness_format summary includes by_category with correct keys."""
+    """to_harness_format 요약에 카테고리별 breakdown이 포함된다."""
     result = run_experiment(max_attempts=5)
     data = to_harness_format(result)
     by_cat = data["summary"]["by_category"]
@@ -567,7 +567,7 @@ def test_to_harness_format_all_tasks_success() -> None:
 
 
 def test_to_harness_format_feeds_into_harness_evaluator() -> None:
-    """Output of to_harness_format should pass evaluate_harness without error."""
+    """to_harness_format 출력이 evaluate_harness를 통과한다."""
     from harness_evaluator import evaluate_harness
     result = run_experiment(max_attempts=5)
     data = to_harness_format(result)
@@ -609,7 +609,7 @@ def test_harness_evaluator_hypothesis_low_success_rate() -> None:
 
 
 def test_hypothesis_first_attempt_solves_all_tasks() -> None:
-    """Hypothesis strategy's first (and only) attempt should solve every task."""
+    """가설 전략은 첫 번째 시도에서 모든 태스크를 해결한다."""
     tasks = get_debug_tasks()
     hyp = HypothesisStrategy()
     for t in tasks:
@@ -675,7 +675,7 @@ def test_full_pipeline_validate_run_harness(tmp_path) -> None:
 
 
 def test_save_results_writes_json(tmp_path) -> None:
-    """save_results() persists experiment to a loadable JSON file and returns (path, data)."""
+    """save_results()가 실험 결과를 로드 가능한 JSON 파일로 저장한다."""
     import json
     result = run_experiment(max_attempts=5)
     path, returned_data = save_results(result, output_dir=tmp_path)
@@ -692,7 +692,7 @@ def test_save_results_writes_json(tmp_path) -> None:
 
 
 def test_save_results_default_dir(tmp_path, monkeypatch) -> None:
-    """save_results() defaults to RESULTS_DIR when output_dir is None."""
+    """output_dir=None이면 RESULTS_DIR에 결과를 저장한다."""
     import json
     from experiments.hypothesis_validation import runner as runner_mod
     monkeypatch.setattr(runner_mod, "RESULTS_DIR", tmp_path)
