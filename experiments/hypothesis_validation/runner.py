@@ -147,36 +147,7 @@ def to_harness_format(result: ExperimentResult) -> dict[str, Any]:
     hyp_total_attempts = 0
     task_count = len(result.task_results)
 
-    for tr in result.task_results:
-        if tr.engineering_result is not None:
-            eng_r = tr.engineering_result
-            steps.append({
-                "task_id": tr.task_id,
-                "category": tr.category,
-                "strategy": "engineering",
-                "status": "success" if eng_r.solved else "failure",
-                "attempts": eng_r.total_attempts,
-                "duration_ms": 0,  # deterministic — no wall-clock time
-            })
-            if eng_r.solved:
-                eng_solved += 1
-                eng_total_attempts += eng_r.total_attempts
-
-        if tr.hypothesis_result is not None:
-            hyp_r = tr.hypothesis_result
-            steps.append({
-                "task_id": tr.task_id,
-                "category": tr.category,
-                "strategy": "hypothesis",
-                "status": "success" if hyp_r.solved else "failure",
-                "attempts": hyp_r.total_attempts,
-                "duration_ms": 0,
-            })
-            if hyp_r.solved:
-                hyp_solved += 1
-                hyp_total_attempts += hyp_r.total_attempts
-
-    # Per-category breakdown
+    # Single pass: build steps and accumulate overall + per-category stats
     by_category: dict[str, dict[str, Any]] = {}
     for tr in result.task_results:
         cat = tr.category
@@ -187,14 +158,38 @@ def to_harness_format(result: ExperimentResult) -> dict[str, Any]:
             }
         entry = by_category[cat]
         entry["count"] += 1
+
         if tr.engineering_result is not None:
-            if tr.engineering_result.solved:
+            eng_r = tr.engineering_result
+            steps.append({
+                "task_id": tr.task_id,
+                "category": cat,
+                "strategy": "engineering",
+                "status": "success" if eng_r.solved else "failure",
+                "attempts": eng_r.total_attempts,
+                "duration_ms": 0,  # deterministic — no wall-clock time
+            })
+            if eng_r.solved:
+                eng_solved += 1
+                eng_total_attempts += eng_r.total_attempts
                 entry["eng_solved"] += 1
-                entry["eng_attempts"].append(tr.engineering_result.total_attempts)
+                entry["eng_attempts"].append(eng_r.total_attempts)
+
         if tr.hypothesis_result is not None:
-            if tr.hypothesis_result.solved:
+            hyp_r = tr.hypothesis_result
+            steps.append({
+                "task_id": tr.task_id,
+                "category": cat,
+                "strategy": "hypothesis",
+                "status": "success" if hyp_r.solved else "failure",
+                "attempts": hyp_r.total_attempts,
+                "duration_ms": 0,
+            })
+            if hyp_r.solved:
+                hyp_solved += 1
+                hyp_total_attempts += hyp_r.total_attempts
                 entry["hyp_solved"] += 1
-                entry["hyp_attempts"].append(tr.hypothesis_result.total_attempts)
+                entry["hyp_attempts"].append(hyp_r.total_attempts)
 
     category_stats: dict[str, dict[str, Any]] = {}
     for cat, entry in by_category.items():
