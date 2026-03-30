@@ -26,7 +26,7 @@ class AttemptResult:
     hypothesis_correct: bool | None = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class StrategyResult:
     """Aggregated result for one strategy run on a single task."""
 

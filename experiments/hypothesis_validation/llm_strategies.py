@@ -35,7 +35,7 @@ class LLMAttemptResult(AttemptResult):
     extracted_code: str | None = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class LLMStrategyResult(StrategyResult):
     """StrategyResult extended with aggregated LLM token usage."""
 
