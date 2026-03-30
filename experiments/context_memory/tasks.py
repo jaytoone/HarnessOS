@@ -1,9 +1,10 @@
 """Context-memory task builders: padding generation and recall prompt construction."""
 import random
 import string
-from typing import Literal
 
 import tiktoken
+
+from constants import Position
 
 PADDING_TEMPLATE = (
     "이것은 컨텍스트 패딩 텍스트입니다. "
@@ -30,7 +31,7 @@ def generate_padding(target_tokens: int) -> str:
 
 def build_recall_prompt(
     context_tokens: int,
-    position: Literal["front", "middle", "back"],
+    position: Position,
     secret: str | None = None,
 ) -> tuple[str, str]:
     """
