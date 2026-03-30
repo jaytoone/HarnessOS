@@ -14,7 +14,7 @@ from typing import Any
 from dotenv import load_dotenv
 load_dotenv()
 
-from constants import CONTEXT_LENGTHS, POSITIONS, REPEATS, DEFAULT_MODEL, RESULTS_DIR
+from constants import CONTEXT_LENGTHS, POSITIONS, REPEATS, DEFAULT_MODEL, RESULTS_DIR, ExperimentName
 from dashboard import Dashboard, DashboardState
 from experiments.context_memory.tasks import build_recall_prompt
 from experiments.context_memory.evaluator import evaluate_recall
@@ -100,7 +100,7 @@ async def run_experiment_b() -> None:
     print(f"\n실험 B 완료. 실패 급증 시점: 스텝 {inflection}")
 
 
-def _save_results(name: str, steps: list[dict[str, Any]], summary: dict[str, Any] | None = None) -> None:
+def _save_results(name: ExperimentName, steps: list[dict[str, Any]], summary: dict[str, Any] | None = None) -> None:
     """결과를 RESULTS_DIR/{name}_{timestamp}.json 으로 저장. summary 없으면 빈 dict."""
     RESULTS_DIR.mkdir(exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")

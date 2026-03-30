@@ -17,7 +17,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from constants import RESULTS_DIR
+from constants import RESULTS_DIR, ExperimentName
 
 
 # ── 품질 기준 ──────────────────────────────────────────────────────────────────
@@ -30,7 +30,7 @@ class QualityThreshold:
     min_steps: int  # 최소 실행 스텝 수
 
 
-THRESHOLDS: dict[str, QualityThreshold] = {
+THRESHOLDS: dict[ExperimentName, QualityThreshold] = {
     "context_memory": QualityThreshold(
         min_success_rate=0.7,
         max_avg_duration_ms=30_000,
@@ -365,7 +365,7 @@ def _verdict_from_dict(data: dict[str, Any]) -> HarnessVerdict:
     )
 
 
-def load_latest_verdict(experiment: str) -> HarnessVerdict | None:
+def load_latest_verdict(experiment: ExperimentName) -> HarnessVerdict | None:
     """특정 실험의 가장 최근 하네스 평가 결과를 로드."""
     if not HARNESS_EVAL_DIR.exists():
         return None

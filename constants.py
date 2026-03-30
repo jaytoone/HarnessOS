@@ -2,6 +2,9 @@
 from pathlib import Path
 from typing import Literal
 
+# 실험 식별자 타입
+ExperimentName = Literal["context_memory", "coding_failure", "hypothesis_validation"]
+
 # 비밀 코드 위치 타입
 Position = Literal["front", "middle", "back"]
 PositionOrUnknown = Literal["front", "middle", "back", "unknown"]
