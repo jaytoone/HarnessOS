@@ -11,6 +11,7 @@ import re
 from dataclasses import dataclass, field
 
 from anthropic import Anthropic
+from anthropic.types import MessageParam, TextBlock
 
 from experiments.hypothesis_validation.strategies import (
     AttemptResult,
@@ -36,7 +37,7 @@ class LLMAttemptResult(AttemptResult):
 class LLMStrategyResult(StrategyResult):
     total_input_tokens: int = 0
     total_output_tokens: int = 0
-    attempts: list[LLMAttemptResult] = field(default_factory=list)
+    attempts: list[AttemptResult] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -107,11 +108,11 @@ class LLMEngineeringStrategy:
         self.model = model
 
     def run(self, task: DebugTask, max_attempts: int = 5) -> LLMStrategyResult:
-        results: list[LLMAttemptResult] = []
+        results: list[AttemptResult] = []
         total_input = 0
         total_output = 0
 
-        messages = [{"role": "user", "content": _build_user_prompt(task)}]
+        messages: list[MessageParam] = [{"role": "user", "content": _build_user_prompt(task)}]
 
         for attempt_num in range(1, max_attempts + 1):
             response = self.client.messages.create(
@@ -121,7 +122,7 @@ class LLMEngineeringStrategy:
                 messages=messages,
             )
 
-            raw = response.content[0].text
+            raw = next((b.text for b in response.content if isinstance(b, TextBlock)), "")
             in_tok = response.usage.input_tokens
             out_tok = response.usage.output_tokens
             total_input += in_tok
@@ -191,11 +192,11 @@ class LLMHypothesisStrategy:
         self.model = model
 
     def run(self, task: DebugTask, max_attempts: int = 5) -> LLMStrategyResult:
-        results: list[LLMAttemptResult] = []
+        results: list[AttemptResult] = []
         total_input = 0
         total_output = 0
 
-        messages = [{"role": "user", "content": _build_user_prompt(task)}]
+        messages: list[MessageParam] = [{"role": "user", "content": _build_user_prompt(task)}]
 
         for attempt_num in range(1, max_attempts + 1):
             response = self.client.messages.create(
@@ -205,7 +206,7 @@ class LLMHypothesisStrategy:
                 messages=messages,
             )
 
-            raw = response.content[0].text
+            raw = next((b.text for b in response.content if isinstance(b, TextBlock)), "")
             in_tok = response.usage.input_tokens
             out_tok = response.usage.output_tokens
             total_input += in_tok

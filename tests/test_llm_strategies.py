@@ -5,6 +5,7 @@ Tests: prompt construction, code extraction, hypothesis extraction,
 strategy behavior, token tracking, runner integration.
 """
 from unittest.mock import MagicMock, patch
+from anthropic.types import TextBlock
 
 import pytest
 
@@ -38,7 +39,9 @@ def mock_response_factory():
     """Creates a mock Anthropic API response with given text and token counts."""
     def factory(text: str, input_tokens: int = 100, output_tokens: int = 50):
         response = MagicMock()
-        response.content = [MagicMock(text=text)]
+        text_block = MagicMock(spec=TextBlock)
+        text_block.text = text
+        response.content = [text_block]
         response.usage.input_tokens = input_tokens
         response.usage.output_tokens = output_tokens
         return response
