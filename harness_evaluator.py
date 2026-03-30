@@ -242,10 +242,11 @@ def _diagnose_hypothesis_validation(
         strategy = s.get("strategy", "unknown")
         by_strategy.setdefault(strategy, []).append(s.get("status") == "success")
 
+    min_rate = THRESHOLDS["hypothesis_validation"].min_success_rate
     for strategy, results in by_strategy.items():
         rate = sum(results) / len(results) if results else 0.0
-        if rate < 0.8:
-            issues.append(f"전략 '{strategy}' 성공률 {rate:.1%}가 기준 80% 미달")
+        if rate < min_rate:
+            issues.append(f"전략 '{strategy}' 성공률 {rate:.1%}가 기준 {min_rate:.0%} 미달")
             suggestions.append(
                 f"'{strategy}' 전략의 attempt 시퀀스 또는 프롬프트를 점검하세요."
             )
