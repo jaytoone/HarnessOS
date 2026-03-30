@@ -107,6 +107,7 @@ async def run_experiment_b() -> None:
 
 
 def _save_results(name: str, steps: list[dict[str, Any]], summary: dict[str, Any] | None = None) -> None:
+    """결과를 RESULTS_DIR/{name}_{timestamp}.json 으로 저장. summary 없으면 빈 dict."""
     RESULTS_DIR.mkdir(exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     path = RESULTS_DIR / f"{name}_{ts}.json"

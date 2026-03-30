@@ -22,6 +22,7 @@ class StepResult:
 async def _create_conversation(
     client: httpx.AsyncClient, prompt: str, *, _retries: int = 2
 ) -> str:
+    """OpenHands 대화 세션 생성. 429/TransportError 시 지수 백오프로 최대 _retries회 재시도."""
     last_exc: Exception = RuntimeError("unreachable")
     for attempt in range(_retries + 1):
         try:
