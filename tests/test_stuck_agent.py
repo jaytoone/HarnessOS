@@ -1,0 +1,625 @@
+"""Tests for Stuck-Agent Escape Rate experiment.
+
+Covers:
+  - Task design validity (buggy fails, correct passes, misleading tests differ)
+  - Deterministic runner correctness
+  - Stats module: McNemar, Cohen's d, bootstrap CI
+  - LLM runner (mocked)
+  - save_results serialization
+  - analyze_results_file round-trip
+  - analyze.py --run-stuck-llm CLI integration
+"""
+from __future__ import annotations
+
+import json
+import math
+from pathlib import Path
+from typing import Any
+from unittest.mock import MagicMock, patch
+
+import pytest
+
+from experiments.stuck_agent.tasks import StuckTask, get_stuck_tasks
+from experiments.stuck_agent.runner import (
+    DeterministicStuckRunner,
+    LLMStuckRunner,
+    RescueResult,
+    StuckExperimentResult,
+    StuckTaskResult,
+    save_results,
+)
+from experiments.stuck_agent.stats import (
+    StatsResult,
+    analyze,
+    bootstrap_ci,
+    cohens_d,
+    mcnemar_test,
+    _chi2_sf,
+)
+from experiments.stuck_agent.analyzer import analyze_results_file, print_report
+from experiments.hypothesis_validation.strategies import _execute_attempt
+
+
+# ── Task design validation ─────────────────────────────────────────────────
+
+
+def test_all_tasks_have_required_fields() -> None:
+    for task in get_stuck_tasks():
+        assert task.id, f"{task.id}: empty id"
+        assert task.buggy_code
+        assert task.misleading_fix_code
+        assert task.correct_code
+        assert task.test_cases, f"{task.id}: no test cases"
+        assert task.bug_description
+        assert task.misleading_description
+
+
+def test_correct_code_passes_all_tests() -> None:
+    """Each task's correct_code must pass all test cases."""
+    for task in get_stuck_tasks():
+        _, _, solved = _execute_attempt(
+            task.correct_code, task.function_name, task.test_cases
+        )
+        assert solved, f"{task.id}: correct_code fails tests — task design error"
+
+
+def test_buggy_code_fails_at_least_one_test() -> None:
+    """Each task's buggy_code must fail at least one test case."""
+    for task in get_stuck_tasks():
+        _, _, solved = _execute_attempt(
+            task.buggy_code, task.function_name, task.test_cases
+        )
+        assert not solved, f"{task.id}: buggy_code passes all tests — not a valid bug"
+
+
+def test_misleading_fix_differs_from_correct() -> None:
+    """Misleading fix should not be identical to correct code."""
+    for task in get_stuck_tasks():
+        assert task.misleading_fix_code.strip() != task.correct_code.strip(), (
+            f"{task.id}: misleading_fix_code is same as correct_code"
+        )
+
+
+def test_tasks_cover_all_categories() -> None:
+    tasks = get_stuck_tasks()
+    cats = {t.category for t in tasks}
+    assert cats == {"red_herring", "multi_bug", "hidden_assume", "semantic_inv"}
+
+
+def test_exactly_eight_tasks() -> None:
+    assert len(get_stuck_tasks()) == 8
+
+
+# ── Deterministic runner ───────────────────────────────────────────────────
+
+
+def test_deterministic_runner_runs_all_tasks() -> None:
+    runner = DeterministicStuckRunner()
+    result = runner.run()
+    assert len(result.task_results) == 8
+
+
+def test_deterministic_runner_no_trivial_tasks() -> None:
+    """All tasks should be 'stuck' (phase 1 fails) by design."""
+    runner = DeterministicStuckRunner()
+    result = runner.run()
+    trivial = [r for r in result.task_results if r.phase1_passed]
+    assert len(trivial) == 0, f"Trivial tasks: {[r.task_id for r in trivial]}"
+
+
+def test_deterministic_runner_hypothesis_always_escapes() -> None:
+    """Hypothesis rescue uses correct_code → always escapes."""
+    runner = DeterministicStuckRunner()
+    result = runner.run()
+    for r in result.stuck_results:
+        assert r.hyp_rescue is not None
+        assert r.hyp_rescue.escaped, f"{r.task_id}: hypothesis rescue should escape"
+
+
+def test_deterministic_runner_escape_lists() -> None:
+    runner = DeterministicStuckRunner()
+    result = runner.run()
+    assert len(result.eng_escaped) == 8
+    assert len(result.hyp_escaped) == 8
+    assert all(result.hyp_escaped), "hypothesis should escape all (uses correct_code)"
+
+
+def test_deterministic_runner_model_label() -> None:
+    result = DeterministicStuckRunner().run()
+    assert result.model == "deterministic"
+
+
+# ── Stats module ───────────────────────────────────────────────────────────
+
+
+def test_mcnemar_all_same() -> None:
+    """When all outcomes match, no discordant pairs — p=1.0."""
+    eng = [True, True, False, False]
+    hyp = [True, True, False, False]
+    chi2, p, b, c = mcnemar_test(eng, hyp)
+    assert b == 0 and c == 0
+    assert p == 1.0
+    assert chi2 == 0.0
+
+
+def test_mcnemar_hypothesis_always_wins() -> None:
+    """When hypothesis always wins where engineering fails → strong signal."""
+    eng = [False, False, False, False, False, False, False, False, False, False]
+    hyp = [True,  True,  True,  True,  True,  True,  True,  True,  True,  True]
+    chi2, p, b, c = mcnemar_test(eng, hyp)
+    assert b == 10 and c == 0
+    assert p < 0.05
+
+
+def test_mcnemar_length_mismatch() -> None:
+    with pytest.raises(ValueError, match="same length"):
+        mcnemar_test([True, False], [True])
+
+
+def test_cohens_d_identical_groups() -> None:
+    d, label = cohens_d([1.0, 1.0, 1.0], [1.0, 1.0, 1.0])
+    assert d == 0.0
+    assert label == "negligible"
+
+
+def test_cohens_d_large_effect() -> None:
+    group1 = [0.0] * 20
+    group2 = [1.0] * 20
+    d, label = cohens_d(group1, group2)
+    assert label == "large"
+    assert d > 0.8
+
+
+def test_cohens_d_labels() -> None:
+    """Boundary values map to correct labels."""
+    # negligible: tiny mean diff relative to large variance
+    big_spread = list(range(20))  # mean=9.5, std≈5.9
+    slightly_shifted = [x + 0.5 for x in big_spread]  # diff=0.5 << std
+    d, label = cohens_d(big_spread, slightly_shifted)
+    assert label == "negligible", f"expected negligible, got {label} (d={d:.3f})"
+
+
+def test_bootstrap_ci_no_uplift() -> None:
+    """When both groups identical, CI should straddle 0."""
+    eng = [True, False, True, False, True, False, True, False]
+    hyp = [True, False, True, False, True, False, True, False]
+    lo, hi = bootstrap_ci(eng, hyp, n_boot=500, seed=42)
+    assert lo <= 0.0 <= hi
+
+
+def test_bootstrap_ci_positive_uplift() -> None:
+    """When hypothesis always wins, CI should be positive."""
+    eng = [False] * 20
+    hyp = [True] * 20
+    lo, hi = bootstrap_ci(eng, hyp, n_boot=500, seed=42)
+    assert lo > 0.0
+
+
+def test_analyze_returns_statsresult() -> None:
+    eng = [False, False, True, False]
+    hyp = [True,  True,  True, True]
+    result = analyze(eng, hyp, n_boot=200)
+    assert isinstance(result, StatsResult)
+    assert result.n == 4
+    assert result.hyp_escape_rate > result.eng_escape_rate
+    assert result.mcnemar_b == 3
+    assert result.mcnemar_c == 0
+
+
+def test_chi2_sf_at_zero() -> None:
+    assert _chi2_sf(0.0) == 1.0
+
+
+def test_chi2_sf_large_value() -> None:
+    # chi2=10 for df=1 → p should be very small (~0.0016)
+    p = _chi2_sf(10.0, df=1)
+    assert 0.0 < p < 0.01
+
+
+def test_chi2_sf_df2() -> None:
+    # chi2=5.99 for df=2 → p ≈ 0.05
+    p = _chi2_sf(5.99, df=2)
+    assert 0.04 < p < 0.06
+
+
+def test_chi2_sf_negative() -> None:
+    assert _chi2_sf(-1.0) == 1.0
+
+
+def test_cohens_d_small_group() -> None:
+    """Groups with < 2 elements return (0.0, 'negligible')."""
+    d, label = cohens_d([0.5], [0.8])
+    assert d == 0.0
+    assert label == "negligible"
+
+
+def test_cohens_d_small_effect() -> None:
+    """d in [0.2, 0.5) → 'small'."""
+    # d ≈ 0.3: mean diff = 0.3, pooled std ≈ 1.0
+    import random
+    rng = random.Random(0)
+    g1 = [rng.gauss(0, 1) for _ in range(100)]
+    g2 = [x + 0.3 for x in g1]
+    d, label = cohens_d(g1, g2)
+    assert label == "small", f"expected small, got {label} (d={d:.3f})"
+
+
+def test_cohens_d_medium_effect() -> None:
+    """d in [0.5, 0.8) → 'medium'."""
+    import random
+    rng = random.Random(1)
+    g1 = [rng.gauss(0, 1) for _ in range(100)]
+    g2 = [x + 0.65 for x in g1]
+    d, label = cohens_d(g1, g2)
+    assert label == "medium", f"expected medium, got {label} (d={d:.3f})"
+
+
+def test_power_note_zero_discordant() -> None:
+    from experiments.stuck_agent.stats import _power_note
+    note = _power_note(10, 0, 0)
+    assert "identically" in note
+
+
+def test_power_note_low() -> None:
+    from experiments.stuck_agent.stats import _power_note
+    note = _power_note(10, 3, 0)
+    assert "Low" in note
+
+
+def test_power_note_moderate() -> None:
+    from experiments.stuck_agent.stats import _power_note
+    note = _power_note(10, 6, 1)
+    assert "Moderate" in note
+
+
+def test_power_note_adequate() -> None:
+    from experiments.stuck_agent.stats import _power_note
+    note = _power_note(20, 8, 3)
+    assert "Adequate" in note
+
+
+def test_igamma_q_negative_x() -> None:
+    from experiments.stuck_agent.stats import _igamma_q
+    assert _igamma_q(1.0, -0.5) == 1.0
+
+
+def test_igamma_q_zero_x() -> None:
+    from experiments.stuck_agent.stats import _igamma_q
+    assert _igamma_q(1.0, 0.0) == 1.0
+
+
+def test_igamma_p_series_zero_x() -> None:
+    from experiments.stuck_agent.stats import _igamma_p_series
+    assert _igamma_p_series(1.0, 0.0) == 0.0
+
+
+def test_igamma_q_large_x() -> None:
+    """x >= a+1 uses continued fraction branch."""
+    from experiments.stuck_agent.stats import _igamma_q
+    # large x relative to a → Q should be small
+    val = _igamma_q(2.0, 20.0)
+    assert 0.0 < val < 0.01
+
+
+def test_igamma_q_cf_small_qc_qd() -> None:
+    """Exercise the abs(qc/qd) < 1e-30 clamp branches."""
+    from experiments.stuck_agent.stats import _igamma_q_cf
+    # Just ensure it runs without error
+    result = _igamma_q_cf(0.5, 5.0)
+    assert 0.0 <= result <= 1.0
+
+
+def test_save_results_default_dir(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    """save_results with no output_dir uses RESULTS_DIR (monkeypatched)."""
+    import experiments.stuck_agent.runner as runner_mod
+    monkeypatch.setattr(runner_mod, "RESULTS_DIR", tmp_path)
+    result = DeterministicStuckRunner().run()
+    path = runner_mod.save_results(result)  # no output_dir → uses RESULTS_DIR
+    assert path.parent == tmp_path
+
+
+def test_deterministic_runner_trivial_task_branch() -> None:
+    """If a task's buggy_code accidentally passes, it's marked trivial."""
+    # Use a "task" where buggy_code == correct_code (always passes)
+    trivial = StuckTask(
+        id="TX",
+        category="red_herring",
+        function_name="trivial_fn",
+        buggy_code="def trivial_fn(x):\n    return x + 1\n",
+        misleading_fix_code="def trivial_fn(x):\n    return x + 1\n",
+        correct_code="def trivial_fn(x):\n    return x + 1\n",
+        bug_description="fake",
+        misleading_description="fake",
+        test_cases=[{"input": {"x": 1}, "expected": 2}],
+    )
+    runner = DeterministicStuckRunner()
+    result = runner.run(tasks=[trivial])
+    assert len(result.task_results) == 1
+    assert result.task_results[0].phase1_passed is True
+
+
+def test_llm_runner_rescue_max_attempts_no_escape() -> None:
+    """When all rescue attempts fail, escaped=False."""
+    task = get_stuck_tasks()[0]
+
+    call_count = 0
+
+    def side_effect(**kwargs: Any) -> MagicMock:
+        nonlocal call_count
+        call_count += 1
+        response = MagicMock()
+        # Always return buggy code (never escapes)
+        response.choices[0].message.content = (
+            f"Root cause hypothesis: still wrong.\n"
+            f"```python\n{task.buggy_code}\n```"
+        )
+        response.usage.prompt_tokens = 30
+        response.usage.completion_tokens = 20
+        return response
+
+    client = MagicMock()
+    client.chat.completions.create.side_effect = side_effect
+
+    runner = LLMStuckRunner(client=client, model="test", max_rescue_attempts=2)
+    result = runner.run(tasks=[task], trials_per_task=1)
+
+    tr = result.task_results[0]
+    assert not tr.phase1_passed
+    assert tr.eng_rescue is not None
+    assert tr.eng_rescue.escaped is False
+    assert tr.eng_rescue.attempts_used == 2
+    assert tr.hyp_rescue is not None
+    assert tr.hyp_rescue.escaped is False
+
+
+def test_llm_runner_no_code_in_response() -> None:
+    """If LLM returns no code block in phase 1, still runs rescue."""
+    task = get_stuck_tasks()[0]
+
+    call_count = 0
+    correct_code = task.correct_code
+
+    def side_effect(**kwargs: Any) -> MagicMock:
+        nonlocal call_count
+        call_count += 1
+        response = MagicMock()
+        if call_count == 1:
+            # Phase 1: no code block
+            response.choices[0].message.content = "I cannot fix this bug."
+        else:
+            # Rescue: correct code
+            response.choices[0].message.content = (
+                f"Root cause hypothesis: found.\n```python\n{correct_code}\n```"
+            )
+        response.usage.prompt_tokens = 20
+        response.usage.completion_tokens = 10
+        return response
+
+    client = MagicMock()
+    client.chat.completions.create.side_effect = side_effect
+
+    runner = LLMStuckRunner(client=client, model="test", max_rescue_attempts=1)
+    result = runner.run(tasks=[task], trials_per_task=1)
+
+    tr = result.task_results[0]
+    assert not tr.phase1_passed  # no code → failed → stuck
+
+
+# ── LLM runner (mocked) ────────────────────────────────────────────────────
+
+
+def _make_mock_client(code: str, hypothesis: str = "Root cause found") -> MagicMock:
+    """Return a mock OpenAI client that returns correct code."""
+    client = MagicMock()
+    response = MagicMock()
+    response.choices[0].message.content = (
+        f"Failure analysis: previous fix wrong.\n"
+        f"Root cause hypothesis: {hypothesis}\n"
+        f"```python\n{code}\n```"
+    )
+    response.usage.prompt_tokens = 100
+    response.usage.completion_tokens = 80
+    client.chat.completions.create.return_value = response
+    return client
+
+
+def test_llm_stuck_runner_trivial_task() -> None:
+    """If phase 1 passes, task_result.phase1_passed should be True."""
+    task = get_stuck_tasks()[7]  # D8: semantic_inv
+
+    # Mock phase 1 to return correct code (task is 'trivial' for this mock)
+    correct = task.correct_code
+    client = _make_mock_client(correct)
+
+    runner = LLMStuckRunner(client=client, model="test-model", max_rescue_attempts=1)
+    result = runner.run(tasks=[task], trials_per_task=1)
+
+    assert len(result.task_results) == 1
+    assert result.task_results[0].phase1_passed is True
+
+
+def test_llm_stuck_runner_rescue_escapes() -> None:
+    """When rescue returns correct code, escaped=True."""
+    task = get_stuck_tasks()[0]  # D1
+
+    call_count = 0
+    correct_code = task.correct_code
+    buggy_code = task.buggy_code
+
+    def side_effect(**kwargs: Any) -> MagicMock:
+        nonlocal call_count
+        call_count += 1
+        response = MagicMock()
+        # First call (phase 1): return buggy code → will fail
+        # Second+ calls (rescue): return correct code → will pass
+        code = buggy_code if call_count == 1 else correct_code
+        response.choices[0].message.content = (
+            f"Root cause hypothesis: fixed.\n```python\n{code}\n```"
+        )
+        response.usage.prompt_tokens = 50
+        response.usage.completion_tokens = 40
+        return response
+
+    client = MagicMock()
+    client.chat.completions.create.side_effect = side_effect
+
+    runner = LLMStuckRunner(client=client, model="test-model", max_rescue_attempts=2)
+    result = runner.run(tasks=[task], trials_per_task=1)
+
+    tr = result.task_results[0]
+    assert not tr.phase1_passed
+    assert tr.eng_rescue is not None
+    assert tr.eng_rescue.escaped is True
+    assert tr.hyp_rescue is not None
+    assert tr.hyp_rescue.escaped is True
+
+
+# ── save_results ───────────────────────────────────────────────────────────
+
+
+def test_save_results_creates_json(tmp_path: Path) -> None:
+    runner = DeterministicStuckRunner()
+    result = runner.run()
+    path = save_results(result, output_dir=tmp_path)
+    assert path.exists()
+    data = json.loads(path.read_text())
+    assert data["experiment"] == "stuck_agent"
+    assert data["model"] == "deterministic"
+    assert "n_stuck" in data
+    assert "eng_escape_rate" in data
+    assert "hyp_escape_rate" in data
+
+
+def test_save_results_task_count(tmp_path: Path) -> None:
+    runner = DeterministicStuckRunner()
+    result = runner.run()
+    path = save_results(result, output_dir=tmp_path)
+    data = json.loads(path.read_text())
+    assert len(data["tasks"]) == 8
+
+
+# ── analyze_results_file ───────────────────────────────────────────────────
+
+
+def test_analyze_results_file_round_trip(tmp_path: Path) -> None:
+    runner = DeterministicStuckRunner()
+    result = runner.run()
+    path = save_results(result, output_dir=tmp_path)
+
+    data, stats = analyze_results_file(path)
+    assert isinstance(stats, StatsResult)
+    assert stats.n == 8
+    assert stats.hyp_escape_rate == 1.0  # hypothesis always escapes in deterministic
+
+
+def test_print_report_runs_without_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture
+) -> None:
+    runner = DeterministicStuckRunner()
+    result = runner.run()
+    path = save_results(result, output_dir=tmp_path)
+    data, stats = analyze_results_file(path)
+    print_report(data, stats)
+    out = capsys.readouterr().out
+    assert "Escape Rate" in out
+    assert "McNemar" in out
+    assert "Cohen" in out
+
+
+# ── analyze.py CLI integration ─────────────────────────────────────────────
+
+
+def test_run_stuck_llm_pipeline_no_api_key(capsys: pytest.CaptureFixture) -> None:
+    """MINIMAX_API_KEY/OPENAI_API_KEY 없으면 에러 메시지 후 sys.exit(1)."""
+    from analyze import run_stuck_llm_pipeline
+    with patch.dict("os.environ", {}, clear=True):
+        with pytest.raises(SystemExit) as exc:
+            run_stuck_llm_pipeline()
+    assert exc.value.code == 1
+    assert "MINIMAX_API_KEY" in capsys.readouterr().out
+
+
+def test_run_stuck_llm_pipeline_success(
+    tmp_path: Path, capsys: pytest.CaptureFixture
+) -> None:
+    """With mocked LLM, pipeline runs end-to-end and prints report."""
+    from analyze import run_stuck_llm_pipeline
+
+    tasks = get_stuck_tasks()[:2]  # only 2 tasks for speed
+    call_count = 0
+    correct_codes = {t.function_name: t.correct_code for t in tasks}
+    buggy_codes = {t.function_name: t.buggy_code for t in tasks}
+
+    def side_effect(**kwargs: Any) -> MagicMock:
+        nonlocal call_count
+        call_count += 1
+        response = MagicMock()
+        # Determine which task by looking at prompt content
+        messages = kwargs.get("messages", [])
+        content = " ".join(m.get("content", "") for m in messages)
+        code = ""
+        for name, correct in correct_codes.items():
+            if name in content:
+                # phase 1 = buggy, rescue = correct
+                is_phase1 = call_count % 3 == 1
+                code = buggy_codes[name] if is_phase1 else correct
+                break
+        response.choices[0].message.content = (
+            f"Root cause hypothesis: analysis done.\n```python\n{code}\n```"
+        )
+        response.usage.prompt_tokens = 60
+        response.usage.completion_tokens = 50
+        return response
+
+    mock_client = MagicMock()
+    mock_client.chat.completions.create.side_effect = side_effect
+
+    with patch.dict("os.environ", {"MINIMAX_API_KEY": "sk-test"}):
+        with patch(
+            "experiments.stuck_agent.runner.LLMStuckRunner.__init__",
+            lambda self, **kw: (
+                setattr(self, "client", mock_client)
+                or setattr(self, "model", "test-model")
+                or setattr(self, "max_rescue_attempts", 1)
+            ),
+        ):
+            with patch(
+                "experiments.stuck_agent.runner.get_stuck_tasks",
+                return_value=tasks,
+            ):
+                with patch("experiments.stuck_agent.runner.save_results") as mock_save:
+                    # Write a minimal valid result file
+                    result_data = {
+                        "experiment": "stuck_agent",
+                        "model": "test-model",
+                        "trials_per_task": 1,
+                        "run_timestamp": "2026-03-31T00:00:00",
+                        "n_stuck": 2,
+                        "n_trivial": 0,
+                        "eng_escape_rate": 0.5,
+                        "hyp_escape_rate": 1.0,
+                        "escape_rate_uplift": 0.5,
+                        "eng_total_tokens": 100,
+                        "hyp_total_tokens": 150,
+                        "tasks": [
+                            {
+                                "task_id": "D1", "category": "red_herring",
+                                "trial": 1, "phase1_passed": False,
+                                "eng_escaped": False, "eng_attempts": 1, "eng_tokens": 50,
+                                "hyp_escaped": True, "hyp_attempts": 1, "hyp_tokens": 75,
+                            },
+                            {
+                                "task_id": "D2", "category": "red_herring",
+                                "trial": 1, "phase1_passed": False,
+                                "eng_escaped": True, "eng_attempts": 1, "eng_tokens": 50,
+                                "hyp_escaped": True, "hyp_attempts": 1, "hyp_tokens": 75,
+                            },
+                        ],
+                    }
+                    result_path = tmp_path / "stuck_agent_test.json"
+                    result_path.write_text(json.dumps(result_data))
+                    mock_save.return_value = result_path
+                    run_stuck_llm_pipeline(trials=1, max_rescue_attempts=1)
+
+    out = capsys.readouterr().out
+    assert "Stuck-Agent" in out

@@ -5,6 +5,7 @@ Usage:
   python analyze.py                      # 모든 실험 결과 출력
   python analyze.py --run                # 결정론적 가설 검증 실험 실행 및 분석
   python analyze.py --run-llm            # LLM 가설 검증 실험 실행 (MINIMAX_API_KEY 또는 OPENAI_API_KEY 필요)
+  python analyze.py --run-stuck-llm     # LLM Stuck-Agent 탈출 실험 실행 (논문 티어)
   python analyze.py --harness-trend      # 하네스 평가 추이 (cross-run)
   python analyze.py --harness-trend context_memory  # 특정 실험 추이
 """
@@ -266,6 +267,33 @@ def run_llm_pipeline(trials: int = 3, max_attempts: int = 5) -> None:
     analyze_llm_hypothesis(data)
 
 
+def run_stuck_llm_pipeline(trials: int = 3, max_rescue_attempts: int = 3) -> None:
+    """Run the Stuck-Agent Escape Rate experiment with LLM.
+
+    논문 티어 핵심 실험: phase 1 실패 후 hypothesis 전환이 탈출률을 높이는지 검증.
+    McNemar's test + Cohen's d + 95% CI 산출.
+    """
+    if not os.environ.get("MINIMAX_API_KEY") and not os.environ.get("OPENAI_API_KEY"):
+        print("오류: MINIMAX_API_KEY 또는 OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.")
+        print("  .env 파일에 MINIMAX_API_KEY=<key> 와 MINIMAX_BASE_URL=<url> 을 추가하세요.")
+        sys.exit(1)
+
+    from experiments.stuck_agent.runner import LLMStuckRunner, save_results
+    from experiments.stuck_agent.analyzer import analyze_results_file, print_report
+
+    print(
+        f"=== Stuck-Agent Escape Rate — trials={trials}, max_rescue={max_rescue_attempts} ==="
+    )
+
+    runner = LLMStuckRunner(max_rescue_attempts=max_rescue_attempts)
+    result = runner.run(trials_per_task=trials)
+    path = save_results(result)
+    print(f"\n  ✓ 결과 저장 → {path.name}")
+
+    data, stats = analyze_results_file(path)
+    print_report(data, stats)
+
+
 def main(args_list: list[str] | None = None) -> None:
     """CLI 진입점: 인자를 파싱하고 지정된 실험 분석 또는 실행 함수를 호출."""
     parser = argparse.ArgumentParser(description="실험 결과 분석")
@@ -286,6 +314,11 @@ def main(args_list: list[str] | None = None) -> None:
         action="store_true",
         help="LLM 가설 검증 실험 실행 (MINIMAX_API_KEY 필요)",
     )
+    parser.add_argument(
+        "--run-stuck-llm",
+        action="store_true",
+        help="LLM Stuck-Agent 탈출 실험 실행 — 논문 티어 핵심 실험 (MINIMAX_API_KEY 필요)",
+    )
     args = parser.parse_args(args_list)
 
     if args.harness_trend is not None:
@@ -299,6 +332,10 @@ def main(args_list: list[str] | None = None) -> None:
 
     if args.run_llm:
         run_llm_pipeline()
+        return
+
+    if args.run_stuck_llm:
+        run_stuck_llm_pipeline()
         return
 
     paths = sorted(RESULTS_DIR.glob("*.json")) if RESULTS_DIR.exists() else []

@@ -14,6 +14,9 @@ StrategyName = Literal["engineering", "hypothesis", "llm_engineering", "llm_hypo
 # 코딩 실패 실험 태스크 카테고리
 CodingTaskCategory = Literal["simple", "multi_file", "refactor", "architecture"]
 
+# Stuck-Agent 탈출 실험 태스크 카테고리 (기만적 버그 유형)
+StuckTaskCategory = Literal["red_herring", "multi_bug", "hidden_assume", "semantic_inv"]
+
 # OpenHands 태스크 실행 상태
 TaskStatus = Literal["success", "failure", "timeout"]
 
