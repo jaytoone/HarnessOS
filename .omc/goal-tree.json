@@ -1,14 +1,14 @@
 {
-  "root_goal": "Stuck-Agent 타입별 최적 전략 차별화 검증 — red_herring(hypothesis +7.5%)·semantic_inv(engineering +40%) 카테고리별 McNemar 통계 검증 + 전략 분류기(stuck type classifier) 설계를 논문 핵심 기여로 확립",
+  "root_goal": "Effect Size Collapse 현상 문서화 — LLM 디버깅 전략 연구에서 소표본(n<50) 효과 크기 과대추정의 통계적 증명 및 최소 표본 수 프레임워크 제시 (NeurIPS/ICML 방법론 기여)",
   "original_goal": "막힌 자율 에이전트의 탈출 전략으로서 가설 기반 접근의 유효성 검증 — NeurIPS/ICML 수준",
   "level": 0,
   "sub_goals": [
-    "카테고리별 McNemar 검증: red_herring(n=40) p<0.05 달성 (현재 p=0.51, n 부족)",
-    "semantic_inv(n=10) engineering 우위 통계 검증 (현재 p=0.29, trials 증가 필요)",
-    "Stuck Type Classifier: 문제 특성 → 최적 전략 자동 분류 모듈 설계",
-    "논문 프레임: Introduction·Method·Result 재작성 (category-aware strategy selection)"
+    "Run 2 확인 완료: semantic_inv n=22 → Δ=-4.5%, p=1.0 (효과 붕괴 증명)",
+    "Run 3: red_herring trials=10 전체 복제 (n=80 목표) → 두 번째 효과 붕괴 데이터 포인트",
+    "Bootstrap variance estimator 구현: 소표본 효과 크기 신뢰구간 계산 도구",
+    "논문 프레임 완성: Introduction v2 + Methods + Results (효과 크기 붕괴 현상 정량화)"
   ],
-  "evolution_count": 2,
+  "evolution_count": 3,
   "evolution_history": [
     {
       "from": "Experiment C harness_evaluator 고도화",
@@ -18,13 +18,30 @@
     {
       "from": "Stuck-Agent Escape Rate 검증 — hypothesis 전환 전략의 통계적 유의성 확보",
       "to": "Stuck-Agent 타입별 최적 전략 차별화 + 전략 분류기 설계",
-      "reason": "전체 McNemar p=1.0 (비유의). 카테고리별 분석에서 red_herring↔semantic_inv 효과 역전 발견 → '한 전략이 더 낫다'에서 '타입별 최적 전략이 다르다'로 논문 프레임 전환 (Option C)"
+      "reason": "전체 McNemar p=1.0 (비유의). 카테고리별 분석에서 red_herring↔semantic_inv 효과 역전 발견 → 카테고리 인식 전략 선택 논문 프레임"
+    },
+    {
+      "from": "Stuck-Agent 타입별 최적 전략 차별화 + 전략 분류기 설계",
+      "to": "Effect Size Collapse 현상 문서화 — 소표본 LLM 실험 방법론 기여",
+      "reason": "Run 2 (n=22)에서 semantic_inv 효과 -40% → -4.5%로 붕괴 (88.75% 수축). 초기 효과는 n=10 샘플링 노이즈. 진짜 기여는 소표본 LLM 실험의 과대추정 문제 정량화",
+      "score_at_evolution": 0.2
     }
   ],
   "reward_spec": {
-    "primary_metric": "카테고리별 McNemar p < 0.05 (red_herring OR semantic_inv 중 하나 이상)",
-    "secondary_metric": "Stuck Type Classifier 정확도 > 70% (구현 + 테스트)",
-    "threshold": "카테고리별 통계 유의성 + 분류기 설계 문서 + 재현 가능한 실험 코드"
+    "primary_metric": "Effect size collapse 정량화: Run 1 효과 크기 vs Run 2 효과 크기 비교 (≥2 카테고리)",
+    "secondary_metric": "Bootstrap variance estimator 구현 + 최소 n 프레임워크 문서화",
+    "threshold": "재현 가능한 통계 분석 + 방법론 기여로서의 논문 초안 (Introduction + Methods + Results)"
   },
-  "history": []
+  "history": [
+    {
+      "iteration": 1,
+      "outcome": "success",
+      "gap": "초기 분석 코드 구현 완료 (stats.py, classifier.py, analyze.py --category-mcnemar)"
+    },
+    {
+      "iteration": 2,
+      "outcome": "discovery",
+      "finding": "semantic_inv 효과 -40%→-4.5% 붕괴. 초기 효과는 n=10 샘플링 노이즈. 진짜 필요 n=777"
+    }
+  ]
 }

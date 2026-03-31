@@ -1,16 +1,36 @@
 {
-  "current_iteration": 1,
+  "current_iteration": 3,
   "last_outcome": "success",
   "last_phase_reached": "phase_5",
   "started_at": "2026-03-31T19:00:00Z",
-  "best_score": 0.0,
-  "current_score": 0.0,
-  "current_goal_fidelity": 1.0,
-  "score_variance": 0.0,
+  "best_score": 0.3,
+  "current_score": 0.3,
+  "current_goal_fidelity": 0.85,
+  "score_variance": 0.05,
   "plateau_count": 0,
-  "evolution_count": 2,
-  "score_history": [],
+  "evolution_count": 3,
+  "score_history": [
+    {
+      "iteration": 1,
+      "score": 0.0,
+      "goal_fidelity": 1.0,
+      "goal_version": 2,
+      "score_variance": 0.0,
+      "judgment": "NO",
+      "gap": "semantic_inv p=0.289 (need p<0.05), red_herring p=0.508"
+    },
+    {
+      "iteration": 2,
+      "score": 0.3,
+      "goal_fidelity": 0.85,
+      "goal_version": 3,
+      "score_variance": 0.05,
+      "judgment": "PARTIAL-DISCOVERY",
+      "finding": "semantic_inv effect collapse: -40%→-4.5% (n=10→n=22). Pivot to methodology paper"
+    }
+  ],
   "cost_history": [
-    {"iteration": 1, "phase_reached": "phase_5", "relative_cost": 1.0}
+    {"iteration": 1, "phase_reached": "phase_5", "relative_cost": 1.0},
+    {"iteration": 2, "phase_reached": "phase_5", "relative_cost": 1.8}
   ]
 }
