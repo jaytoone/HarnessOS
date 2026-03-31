@@ -267,6 +267,98 @@ def run_llm_pipeline(trials: int = 3, max_attempts: int = 5) -> None:
     analyze_llm_hypothesis(data)
 
 
+def run_category_mcnemar_pipeline(result_path: str | None = None) -> None:
+    """Category-level McNemar analysis + power analysis for latest stuck_agent result.
+
+    Prints per-category exact McNemar p-value and required-n-for-significance.
+    """
+    from experiments.stuck_agent.stats import analyze_by_category
+
+    # Find latest result file if not specified
+    if result_path:
+        from pathlib import Path
+        path = Path(result_path)
+    else:
+        paths = sorted(RESULTS_DIR.glob("stuck_agent_*.json")) if RESULTS_DIR.exists() else []
+        if not paths:
+            print("결과 파일 없음: results/stuck_agent_*.json")
+            return
+        path = paths[-1]
+
+    import json
+    data = json.loads(path.read_text())
+    tasks = data.get("tasks", [])
+    if not tasks:
+        print(f"태스크 데이터 없음: {path.name}")
+        return
+
+    # Count unique task IDs per category for power analysis
+    from collections import defaultdict
+    task_ids_by_cat: dict[str, set] = defaultdict(set)
+    for t in tasks:
+        cat = t.get("category", "unknown")
+        task_ids_by_cat[cat].add(t.get("task_id", ""))
+    task_count_by_cat = {cat: len(ids) for cat, ids in task_ids_by_cat.items()}
+
+    cat_stats = analyze_by_category(tasks, task_count_by_category=task_count_by_cat)
+
+    model = data.get("model", "?")
+    trials = data.get("trials_per_task", "?")
+    print(f"\n{'=' * 68}")
+    print(f"  Category-Level McNemar Analysis — {path.name}")
+    print(f"  Model: {model}  |  trials/task: {trials}")
+    print(f"{'=' * 68}\n")
+
+    print(f"  {'Category':<16} {'n':>4}  {'Eng':>7}  {'Hyp':>7}  {'Δ':>7}  "
+          f"{'b':>3}  {'c':>3}  {'p(exact)':>10}  {'Sig':>5}")
+    print("  " + "-" * 66)
+
+    for cat, cs in sorted(cat_stats.items()):
+        sig = "✓" if cs.significant else "✗"
+        eng_pct = cs.eng_escape_rate * 100
+        hyp_pct = cs.hyp_escape_rate * 100
+        delta_pct = cs.uplift * 100
+        sign = "+" if delta_pct >= 0 else ""
+        print(
+            f"  {cat:<16} {cs.n:>4}  {eng_pct:>6.1f}%  {hyp_pct:>6.1f}%  "
+            f"{sign}{delta_pct:>5.1f}%  {cs.mcnemar_b:>3}  {cs.mcnemar_c:>3}  "
+            f"p={cs.mcnemar_exact_p:>7.4f}  {sig:>5}"
+        )
+
+    print(f"\n  {'=' * 66}")
+    print("  Power Analysis — required n for p < 0.05")
+    print(f"  {'=' * 66}")
+    print(f"  {'Category':<16} {'Current n':>10}  {'Required n':>11}  "
+          f"{'Trials needed':>14}  {'Effect':>7}")
+    print("  " + "-" * 66)
+
+    for cat, cs in sorted(cat_stats.items()):
+        pa = cs.power_analysis
+        req_n = str(pa.required_n_for_significance) if pa.required_n_for_significance > 0 else ">2000"
+        trials_str = str(pa.trials_per_task) if pa.trials_per_task > 0 else ">2000"
+        print(
+            f"  {cat:<16} {cs.n:>10}  {req_n:>11}  {trials_str:>14}  "
+            f"{pa.estimated_effect:>7.2f}"
+        )
+
+    print(f"\n  Note: Effect = |b-c|/(b+c), discordant rate = (b+c)/n")
+    print(f"  Recommended next step:")
+
+    # Find most promising category
+    best = min(cat_stats.values(), key=lambda cs: cs.mcnemar_exact_p)
+    if best.significant:
+        print(f"    ✓ '{best.category}' already significant (p={best.mcnemar_exact_p:.4f})")
+    else:
+        pa = best.power_analysis
+        if pa.required_n_for_significance > 0:
+            print(f"    → Focus on '{best.category}': need {pa.required_n_for_significance} obs "
+                  f"({pa.trials_per_task} trials/task) for p < 0.05")
+        else:
+            print(f"    → '{best.category}' has too low effect — consider reframing")
+
+    print(f"{'=' * 68}\n")
+
+
 def run_stuck_controlled_pipeline(trials: int = 5, max_rescue_attempts: int = 3) -> None:
     """Controlled Stuck-Agent experiment — misleading_fix injected as phase 1.
 
@@ -349,6 +441,13 @@ def main(args_list: list[str] | None = None) -> None:
         action="store_true",
         help="Controlled Stuck-Agent 실험 — misleading_fix 강제 주입, 100%% stuck 보장",
     )
+    parser.add_argument(
+        "--category-mcnemar",
+        nargs="?",
+        const="",
+        metavar="RESULT_FILE",
+        help="카테고리별 McNemar exact p-value + power analysis (선택적으로 결과 파일 경로 지정)",
+    )
     args = parser.parse_args(args_list)
 
     if args.harness_trend is not None:
@@ -370,6 +469,11 @@ def main(args_list: list[str] | None = None) -> None:
 
     if args.run_stuck_controlled:
         run_stuck_controlled_pipeline()
+        return
+
+    if args.category_mcnemar is not None:
+        result_file = args.category_mcnemar or None
+        run_category_mcnemar_pipeline(result_file)
         return
 
     paths = sorted(RESULTS_DIR.glob("*.json")) if RESULTS_DIR.exists() else []

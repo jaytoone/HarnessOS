@@ -201,6 +201,176 @@ def _power_note(n: int, b: int, c: int) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Exact McNemar p-value (binomial-based)
+# ---------------------------------------------------------------------------
+
+
+def mcnemar_exact_p(b: int, c: int) -> float:
+    """Exact two-sided p-value for McNemar's test via binomial distribution.
+
+    Under H0: P(discordant pair favors hyp) = 0.5.
+    p = 2 * P(X <= min(b,c)) where X ~ Binomial(b+c, 0.5).
+    """
+    n = b + c
+    if n == 0:
+        return 1.0
+    lo = min(b, c)
+    p = 2.0 * sum(_binom_pmf(n, k, 0.5) for k in range(lo + 1))
+    return min(p, 1.0)
+
+
+def _binom_pmf(n: int, k: int, p: float) -> float:
+    """Binomial PMF: C(n,k) * p^k * (1-p)^(n-k)."""
+    log_pmf = _log_comb(n, k) + k * math.log(p) + (n - k) * math.log(1 - p)
+    return math.exp(log_pmf)
+
+
+def _log_comb(n: int, k: int) -> float:
+    """log C(n, k) via log-gamma for numerical stability."""
+    return math.lgamma(n + 1) - math.lgamma(k + 1) - math.lgamma(n - k + 1)
+
+
+# ---------------------------------------------------------------------------
+# Power analysis for McNemar's test
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class PowerAnalysisResult:
+    """Required sample size for McNemar's test at target power."""
+
+    category: str
+    current_n: int
+    current_b: int
+    current_c: int
+    current_p: float
+    estimated_discordant_rate: float  # (b+c)/n — proportion of discordant pairs
+    estimated_effect: float           # |b-c|/(b+c) — directional imbalance
+    required_n_for_significance: int  # n needed to reach p < alpha
+    trials_per_task: int              # assuming fixed task count, trials needed
+    task_count: int
+
+
+def power_analysis_by_category(
+    category: str,
+    eng_escaped: list[bool],
+    hyp_escaped: list[bool],
+    task_count: int,
+    alpha: float = 0.05,
+) -> PowerAnalysisResult:
+    """Estimate required n to achieve p < alpha for a given category.
+
+    Uses simulation: iterates n from current to 500, scaling discordant pair
+    counts proportionally, until exact p < alpha.
+    """
+    n = len(eng_escaped)
+    b = sum(1 for e, h in zip(eng_escaped, hyp_escaped) if not e and h)
+    c = sum(1 for e, h in zip(eng_escaped, hyp_escaped) if e and not h)
+    current_p = mcnemar_exact_p(b, c)
+
+    if n == 0:
+        return PowerAnalysisResult(
+            category=category, current_n=0, current_b=0, current_c=0,
+            current_p=1.0, estimated_discordant_rate=0.0, estimated_effect=0.0,
+            required_n_for_significance=-1, trials_per_task=-1, task_count=task_count,
+        )
+
+    disc_rate = (b + c) / n
+    effect = abs(b - c) / (b + c) if (b + c) > 0 else 0.0
+
+    # Scale b and c proportionally as n grows
+    required_n = -1
+    for test_n in range(n, 2001):
+        scaled_b = round(b * test_n / n)
+        scaled_c = round(c * test_n / n)
+        if mcnemar_exact_p(scaled_b, scaled_c) < alpha:
+            required_n = test_n
+            break
+
+    trials_needed = math.ceil(required_n / task_count) if required_n > 0 else -1
+
+    return PowerAnalysisResult(
+        category=category,
+        current_n=n,
+        current_b=b,
+        current_c=c,
+        current_p=current_p,
+        estimated_discordant_rate=disc_rate,
+        estimated_effect=effect,
+        required_n_for_significance=required_n,
+        trials_per_task=trials_needed,
+        task_count=task_count,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Category-level analysis
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class CategoryStatsResult:
+    """Statistical summary for a single stuck-agent category."""
+
+    category: str
+    n: int
+    eng_escape_rate: float
+    hyp_escape_rate: float
+    uplift: float
+    mcnemar_b: int
+    mcnemar_c: int
+    mcnemar_exact_p: float
+    significant: bool   # p < 0.05
+    power_analysis: PowerAnalysisResult
+
+
+def analyze_by_category(
+    tasks: list[dict],
+    task_count_by_category: dict[str, int] | None = None,
+) -> dict[str, CategoryStatsResult]:
+    """Compute per-category McNemar exact p and power analysis.
+
+    Args:
+        tasks: list of task dicts from results JSON (each with eng_escaped, hyp_escaped, category)
+        task_count_by_category: {category: unique_task_count} — for power analysis trials calc
+    """
+    from collections import defaultdict
+    by_cat: dict[str, dict[str, list[bool]]] = defaultdict(lambda: {"eng": [], "hyp": []})
+
+    for t in tasks:
+        if t.get("phase1_passed", False):
+            continue
+        cat = t.get("category", "unknown")
+        by_cat[cat]["eng"].append(bool(t.get("eng_escaped", False)))
+        by_cat[cat]["hyp"].append(bool(t.get("hyp_escaped", False)))
+
+    results: dict[str, CategoryStatsResult] = {}
+    for cat, vals in sorted(by_cat.items()):
+        eng = vals["eng"]
+        hyp = vals["hyp"]
+        n = len(eng)
+        b = sum(1 for e, h in zip(eng, hyp) if not e and h)
+        c = sum(1 for e, h in zip(eng, hyp) if e and not h)
+        p = mcnemar_exact_p(b, c)
+        task_count = (task_count_by_category or {}).get(cat, max(1, n // 5))
+        pa = power_analysis_by_category(cat, eng, hyp, task_count=task_count)
+
+        results[cat] = CategoryStatsResult(
+            category=cat,
+            n=n,
+            eng_escape_rate=sum(eng) / n if n else 0.0,
+            hyp_escape_rate=sum(hyp) / n if n else 0.0,
+            uplift=(sum(hyp) - sum(eng)) / n if n else 0.0,
+            mcnemar_b=b,
+            mcnemar_c=c,
+            mcnemar_exact_p=p,
+            significant=p < 0.05,
+            power_analysis=pa,
+        )
+    return results
+
+
+# ---------------------------------------------------------------------------
 # Pure-Python chi² survival function (no scipy dependency)
 # ---------------------------------------------------------------------------
 

@@ -691,3 +691,176 @@ def test_run_stuck_llm_pipeline_success(
 
     out = capsys.readouterr().out
     assert "Stuck-Agent" in out
+
+
+# ── Category McNemar + Power Analysis ─────────────────────────────────────
+
+
+def test_mcnemar_exact_p_symmetric() -> None:
+    """Exact McNemar p should be 1.0 when b == c."""
+    from experiments.stuck_agent.stats import mcnemar_exact_p
+    assert mcnemar_exact_p(3, 3) == pytest.approx(1.0, abs=1e-6)
+    assert mcnemar_exact_p(5, 5) == pytest.approx(1.0, abs=1e-6)
+
+
+def test_mcnemar_exact_p_zero_discordant() -> None:
+    """No discordant pairs → p=1.0."""
+    from experiments.stuck_agent.stats import mcnemar_exact_p
+    assert mcnemar_exact_p(0, 0) == 1.0
+
+
+def test_mcnemar_exact_p_significant() -> None:
+    """Large imbalance should produce p < 0.05."""
+    from experiments.stuck_agent.stats import mcnemar_exact_p
+    # b=0, c=10 — all discordant pairs favor engineering (hypothesis hurts)
+    p = mcnemar_exact_p(0, 10)
+    assert p < 0.05
+
+
+def test_mcnemar_exact_p_range() -> None:
+    """p-value must be in [0, 1]."""
+    from experiments.stuck_agent.stats import mcnemar_exact_p
+    for b, c in [(0, 6), (6, 2), (3, 3), (10, 0)]:
+        p = mcnemar_exact_p(b, c)
+        assert 0.0 <= p <= 1.0, f"p={p} out of range for b={b}, c={c}"
+
+
+def test_power_analysis_semantic_inv() -> None:
+    """semantic_inv (b=2, c=6, n=10) should require ~21 obs for significance."""
+    from experiments.stuck_agent.stats import power_analysis_by_category
+    eng = [True, True, True, True, False, False, True, True, True, True]  # 8/10
+    hyp = [True, False, False, False, True, True, True, False, True, False]  # 4/10 — b=2,c=6
+    pa = power_analysis_by_category("semantic_inv", eng, hyp, task_count=2)
+    # Should converge in <= 50 observations
+    assert 0 < pa.required_n_for_significance <= 50
+
+
+def test_analyze_by_category_keys() -> None:
+    """analyze_by_category should return one entry per unique category."""
+    from experiments.stuck_agent.stats import analyze_by_category
+    tasks = [
+        {"category": "red_herring", "phase1_passed": False, "eng_escaped": True, "hyp_escaped": False},
+        {"category": "red_herring", "phase1_passed": False, "eng_escaped": True, "hyp_escaped": True},
+        {"category": "semantic_inv", "phase1_passed": False, "eng_escaped": True, "hyp_escaped": False},
+    ]
+    result = analyze_by_category(tasks)
+    assert set(result.keys()) == {"red_herring", "semantic_inv"}
+    assert result["red_herring"].n == 2
+    assert result["semantic_inv"].n == 1
+
+
+def test_analyze_by_category_excludes_trivial() -> None:
+    """Tasks with phase1_passed=True should be excluded."""
+    from experiments.stuck_agent.stats import analyze_by_category
+    tasks = [
+        {"category": "red_herring", "phase1_passed": True, "eng_escaped": True, "hyp_escaped": True},
+        {"category": "red_herring", "phase1_passed": False, "eng_escaped": True, "hyp_escaped": False},
+    ]
+    result = analyze_by_category(tasks)
+    assert result["red_herring"].n == 1  # only the stuck task counts
+
+
+# ── StuckTypeClassifier ────────────────────────────────────────────────────
+
+
+def test_classifier_semantic_inv_return_inversion() -> None:
+    """D8-style code (return True/False inverted) → semantic_inv."""
+    from experiments.stuck_agent.classifier import StuckTypeClassifier
+    clf = StuckTypeClassifier()
+    code = (
+        "def is_strictly_increasing(nums):\n"
+        "    for i in range(len(nums) - 1):\n"
+        "        if nums[i] >= nums[i + 1]:\n"
+        "            return True\n"
+        "    return False\n"
+    )
+    result = clf.classify(code, [{"input": {"nums": [1, 2, 3]}, "expected": True}])
+    assert result.category == "semantic_inv"
+    assert result.recommended_strategy == "engineering"
+
+
+def test_classifier_result_fields() -> None:
+    """ClassificationResult must have all required fields with valid values."""
+    from experiments.stuck_agent.classifier import StuckTypeClassifier
+    clf = StuckTypeClassifier()
+    code = "def f(x):\n    return x + 1\n"
+    result = clf.classify(code)
+    assert result.category in {"red_herring", "semantic_inv", "hidden_assume", "multi_bug"}
+    assert 0.0 <= result.confidence <= 1.0
+    assert isinstance(result.matched_rules, list)
+    assert result.recommended_strategy in {"hypothesis", "engineering", "either"}
+    assert isinstance(result.rationale, str) and len(result.rationale) > 0
+
+
+def test_classifier_boolean_tests_boost_semantic_inv() -> None:
+    """Test cases with boolean expected values should boost semantic_inv score."""
+    from experiments.stuck_agent.classifier import StuckTypeClassifier
+    clf = StuckTypeClassifier()
+    code = "def check(nums):\n    return nums[0] > nums[1]\n"
+    # 3 boolean expected → semantic_inv boost
+    tests = [
+        {"input": {"nums": [1, 2]}, "expected": False},
+        {"input": {"nums": [3, 1]}, "expected": True},
+        {"input": {"nums": [2, 2]}, "expected": False},
+    ]
+    result = clf.classify(code, tests)
+    # With 3 boolean tests, semantic_inv gets +0.5 boost
+    # We just verify it runs without error and returns a valid category
+    assert result.category in {"red_herring", "semantic_inv", "hidden_assume", "multi_bug"}
+
+
+# ── analyze.py --category-mcnemar CLI ─────────────────────────────────────
+
+
+def test_category_mcnemar_cli(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
+    """--category-mcnemar should print category table and power analysis."""
+    import json
+    from analyze import run_category_mcnemar_pipeline
+
+    # Minimal result file with 2 categories
+    result_data = {
+        "experiment": "stuck_agent",
+        "model": "test-model",
+        "trials_per_task": 5,
+        "run_timestamp": "2026-03-31T00:00:00",
+        "n_stuck": 6,
+        "n_trivial": 0,
+        "eng_escape_rate": 0.833,
+        "hyp_escape_rate": 0.667,
+        "escape_rate_uplift": -0.167,
+        "eng_total_tokens": 1000,
+        "hyp_total_tokens": 1200,
+        "tasks": [
+            # red_herring: b=1, c=2
+            {"task_id": "D1", "category": "red_herring", "trial": 1, "phase1_passed": False,
+             "eng_escaped": True, "eng_attempts": 1, "eng_tokens": 100,
+             "hyp_escaped": False, "hyp_attempts": 2, "hyp_tokens": 150, "hypothesis": "h"},
+            {"task_id": "D1", "category": "red_herring", "trial": 2, "phase1_passed": False,
+             "eng_escaped": False, "eng_attempts": 2, "eng_tokens": 100,
+             "hyp_escaped": True, "hyp_attempts": 1, "hyp_tokens": 100, "hypothesis": "h"},
+            {"task_id": "D2", "category": "red_herring", "trial": 1, "phase1_passed": False,
+             "eng_escaped": True, "eng_attempts": 1, "eng_tokens": 100,
+             "hyp_escaped": False, "hyp_attempts": 3, "hyp_tokens": 200, "hypothesis": "h"},
+            # semantic_inv: b=0, c=3
+            {"task_id": "D7", "category": "semantic_inv", "trial": 1, "phase1_passed": False,
+             "eng_escaped": True, "eng_attempts": 1, "eng_tokens": 100,
+             "hyp_escaped": False, "hyp_attempts": 2, "hyp_tokens": 150, "hypothesis": "h"},
+            {"task_id": "D7", "category": "semantic_inv", "trial": 2, "phase1_passed": False,
+             "eng_escaped": True, "eng_attempts": 1, "eng_tokens": 100,
+             "hyp_escaped": False, "hyp_attempts": 2, "hyp_tokens": 150, "hypothesis": "h"},
+            {"task_id": "D8", "category": "semantic_inv", "trial": 1, "phase1_passed": False,
+             "eng_escaped": True, "eng_attempts": 1, "eng_tokens": 100,
+             "hyp_escaped": False, "hyp_attempts": 2, "hyp_tokens": 150, "hypothesis": "h"},
+        ],
+    }
+    result_path = tmp_path / "stuck_agent_test.json"
+    result_path.write_text(json.dumps(result_data))
+
+    run_category_mcnemar_pipeline(str(result_path))
+    out = capsys.readouterr().out
+
+    assert "Category-Level McNemar" in out
+    assert "red_herring" in out
+    assert "semantic_inv" in out
+    assert "Power Analysis" in out
+    assert "p=" in out

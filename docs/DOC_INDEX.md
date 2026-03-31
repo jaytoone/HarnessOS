@@ -1,5 +1,8 @@
 # Document Index
 
+## Architecture
+- [ARCHITECTURE.md](ARCHITECTURE.md) — LiveCode 전체 아키텍처 개념도 — 3개 실험 스트림 + analyze.py + harness_evaluator + app.py dashboard
+
 ## Specs
 - [2026-03-22 LLM 장기 컨텍스트 실험 설계](superpowers/specs/2026-03-22-llm-longcontext-experiment-design.md)
 
@@ -25,6 +28,7 @@
 - [2026-03-28 omc-live 과학 연구 / 고전문 분야 확장성](research/20260328-omc-live-science-research-domain-expansion.md)
 - [2026-03-30 자율 에이전트 인사이트 수집 및 LiveCode 개선 보고서](agent-improvement-report-20260330.md)
 - [2026-03-30 omc-live / omc-live-infinite 스킬 전문 평론](research/20260330-omc-live-critique.md)
+- [2026-03-31 Category-Aware Strategy Selection for Stuck Agents — 논문 프레임 v1](research/paper-frame-category-aware-strategy.md)
 
 ## Related
 - [[projects/LiveCode/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

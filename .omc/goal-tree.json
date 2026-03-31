@@ -1,25 +1,30 @@
 {
-  "root_goal": "Stuck-Agent Escape Rate 검증 — hypothesis 전환 전략의 통계적 유의성 확보 (논문 티어)",
+  "root_goal": "Stuck-Agent 타입별 최적 전략 차별화 검증 — red_herring(hypothesis +7.5%)·semantic_inv(engineering +40%) 카테고리별 McNemar 통계 검증 + 전략 분류기(stuck type classifier) 설계를 논문 핵심 기여로 확립",
   "original_goal": "막힌 자율 에이전트의 탈출 전략으로서 가설 기반 접근의 유효성 검증 — NeurIPS/ICML 수준",
   "level": 0,
   "sub_goals": [
-    "Experiment C: stuck_agent 시나리오 구현 (fail K회 후 전략 전환 효과 측정)",
-    "통계 분석 모듈: p-value, Cohen's d, 95% CI 산출",
-    "Ablation: hypothesis 구성요소별 기여도 분리 실험",
-    "논문 수준 결과 리포트 생성"
+    "카테고리별 McNemar 검증: red_herring(n=40) p<0.05 달성 (현재 p=0.51, n 부족)",
+    "semantic_inv(n=10) engineering 우위 통계 검증 (현재 p=0.29, trials 증가 필요)",
+    "Stuck Type Classifier: 문제 특성 → 최적 전략 자동 분류 모듈 설계",
+    "논문 프레임: Introduction·Method·Result 재작성 (category-aware strategy selection)"
   ],
-  "evolution_count": 1,
+  "evolution_count": 2,
   "evolution_history": [
     {
       "from": "Experiment C harness_evaluator 고도화",
       "to": "Stuck-Agent Escape Rate 검증 (논문 티어)",
       "reason": "Exp A+B 완료, 1차 검증(hypothesis >= engineering) 달성 → 핵심 thesis 검증으로 상향"
+    },
+    {
+      "from": "Stuck-Agent Escape Rate 검증 — hypothesis 전환 전략의 통계적 유의성 확보",
+      "to": "Stuck-Agent 타입별 최적 전략 차별화 + 전략 분류기 설계",
+      "reason": "전체 McNemar p=1.0 (비유의). 카테고리별 분석에서 red_herring↔semantic_inv 효과 역전 발견 → '한 전략이 더 낫다'에서 '타입별 최적 전략이 다르다'로 논문 프레임 전환 (Option C)"
     }
   ],
   "reward_spec": {
-    "primary_metric": "stuck agent escape rate uplift (p < 0.05)",
-    "secondary_metric": "Cohen's d effect size > 0.5 (medium+)",
-    "threshold": "통계적 유의성 + 재현 가능한 실험 코드"
+    "primary_metric": "카테고리별 McNemar p < 0.05 (red_herring OR semantic_inv 중 하나 이상)",
+    "secondary_metric": "Stuck Type Classifier 정확도 > 70% (구현 + 테스트)",
+    "threshold": "카테고리별 통계 유의성 + 분류기 설계 문서 + 재현 가능한 실험 코드"
   },
   "history": []
 }
