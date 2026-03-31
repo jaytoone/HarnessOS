@@ -1,8 +1,11 @@
 """Stuck-Agent Escape Rate runner.
 
-Two runners:
-  DeterministicStuckRunner  — fast, no API calls; uses misleading_fix_code for phase 1
-  LLMStuckRunner            — real LLM calls; observes natural failure patterns
+Three runners:
+  DeterministicStuckRunner      — fast, no API calls; uses misleading_fix_code for phase 1
+  LLMStuckRunner                — real LLM calls; observes natural failure patterns
+  ControlledLLMStuckRunner      — CONTROLLED: always injects misleading_fix_code as the
+                                  "failed attempt", guaranteeing 100% stuck observations.
+                                  This eliminates trivial trials and maximizes statistical power.
 
 Experiment flow for each task × trial:
   Phase 1: Run engineering attempt  → if passes, task is "trivial" (skip)
@@ -361,6 +364,154 @@ class LLMStuckRunner:
                     )
 
             # Prepare next attempt prompt with updated failure context
+            messages.append({"role": "assistant", "content": raw})
+            messages.append({
+                "role": "user",
+                "content": "Still failing. Try again with a different approach.",
+            })
+
+        return RescueResult(
+            escaped=False,
+            attempts_used=self.max_rescue_attempts,
+            tokens_used=total_tokens,
+            strategy=strategy,
+            extracted_code=last_code,
+            hypothesis=last_hyp,
+        )
+
+
+# ---------------------------------------------------------------------------
+# Controlled LLM runner (100% stuck observations)
+# ---------------------------------------------------------------------------
+
+
+class ControlledLLMStuckRunner:
+    """Controlled stuck-agent experiment.
+
+    Phase 1 is SHORT-CIRCUITED: always uses misleading_fix_code as the
+    canonical "failed engineering attempt". This guarantees every (task, trial)
+    produces a stuck observation (phase1_passed=False always).
+
+    Benefit: eliminates trivial-trial variance → 100% statistical power for
+    the same API budget. Used for paper-tier analysis.
+    """
+
+    def __init__(
+        self,
+        client: OpenAI | None = None,
+        model: str = "MiniMax-M2.5",
+        max_rescue_attempts: int = 3,
+    ) -> None:
+        self.client = client or _default_client()
+        self.model = model
+        self.max_rescue_attempts = max_rescue_attempts
+
+    def run(
+        self,
+        tasks: list[StuckTask] | None = None,
+        trials_per_task: int = 3,
+    ) -> StuckExperimentResult:
+        if tasks is None:
+            tasks = get_stuck_tasks()
+
+        results: list[StuckTaskResult] = []
+        total = len(tasks) * trials_per_task
+
+        print(
+            f"\n=== Controlled Stuck-Agent — {total} runs (LLM: {self.model}) ===\n"
+            f"    [Phase 1 injected: misleading_fix_code as failed attempt]\n"
+        )
+
+        for task in tasks:
+            # Pre-compute misleading fix failure context (same for all trials)
+            mf_passed, mf_total, mf_solved = _execute_attempt(
+                task.misleading_fix_code, task.function_name, task.test_cases
+            )
+
+            for trial in range(1, trials_per_task + 1):
+                print(f"  [{task.id} trial {trial}/{trials_per_task}]", end=" ", flush=True)
+
+                eng_rescue = self._rescue(
+                    task,
+                    failed_code=task.misleading_fix_code,
+                    tests_passed=mf_passed,
+                    tests_total=mf_total,
+                    rescue_system=_ENG_RESCUE_SYSTEM,
+                    strategy="engineering",
+                )
+                hyp_rescue = self._rescue(
+                    task,
+                    failed_code=task.misleading_fix_code,
+                    tests_passed=mf_passed,
+                    tests_total=mf_total,
+                    rescue_system=_HYP_RESCUE_SYSTEM,
+                    strategy="hypothesis",
+                )
+
+                tr = StuckTaskResult(
+                    task_id=task.id,
+                    category=task.category,
+                    trial=trial,
+                    phase1_passed=False,  # always stuck by design
+                    eng_rescue=eng_rescue,
+                    hyp_rescue=hyp_rescue,
+                )
+                results.append(tr)
+
+                status = (
+                    f"eng={'✓' if eng_rescue.escaped else '✗'} "
+                    f"hyp={'✓' if hyp_rescue.escaped else '✗'}"
+                )
+                print(status)
+
+        return StuckExperimentResult(
+            model=f"{self.model}[controlled]",
+            trials_per_task=trials_per_task,
+            task_results=results,
+        )
+
+    def _rescue(
+        self,
+        task: StuckTask,
+        failed_code: str,
+        tests_passed: int,
+        tests_total: int,
+        rescue_system: str,
+        strategy: str,
+    ) -> RescueResult:
+        """Rescue from controlled stuck state."""
+        total_tokens = 0
+        last_code: str | None = None
+        last_hyp: str | None = None
+
+        messages: list[dict[str, Any]] = [
+            {
+                "role": "user",
+                "content": _rescue_prompt(task, failed_code, tests_passed, tests_total),
+            }
+        ]
+
+        for attempt in range(1, self.max_rescue_attempts + 1):
+            raw, in_tok, out_tok = _chat(self.client, self.model, rescue_system, messages)
+            total_tokens += in_tok + out_tok
+            code = _extract_code(raw)
+            hyp = _extract_hypothesis(raw)
+            if hyp:
+                last_hyp = hyp
+            last_code = code
+
+            if code:
+                _, _, solved = _execute_attempt(code, task.function_name, task.test_cases)
+                if solved:
+                    return RescueResult(
+                        escaped=True,
+                        attempts_used=attempt,
+                        tokens_used=total_tokens,
+                        strategy=strategy,
+                        extracted_code=code,
+                        hypothesis=last_hyp,
+                    )
+
             messages.append({"role": "assistant", "content": raw})
             messages.append({
                 "role": "user",

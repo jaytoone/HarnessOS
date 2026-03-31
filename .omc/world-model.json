@@ -1,33 +1,79 @@
 {
-  "tried_strategies": [],
-  "dead_ends": [],
-  "known_facts": [
-    "Chrome 읽기목록 49개 파싱 완료 (OffClaw parse_reading_list)",
-    "에이전트 관련 핵심 URL 8개 식별",
-    "LiveCode: AutoCode 시스템, omc-live-infinite 루프 운영중",
-    "이전 세션: score=0.998 (100% 테스트 커버리지 달성)"
+  "tried_strategies": [
+    {
+      "goal": "Experiment D framework — passively designed deceptive tasks",
+      "score": 0.77,
+      "score_vector": {"completeness": 0.72, "impact": 0.80, "quality": 0.95, "efficiency": 0.60},
+      "iteration": 113,
+      "outcome": "evolved",
+      "weak_dim": "completeness/efficiency",
+      "note": "17/24 runs trivial — LLM solved on first attempt without getting stuck"
+    },
+    {
+      "goal": "misleading_hint injection — controlled stuck state",
+      "score": 0.82,
+      "score_vector": {"completeness": 0.80, "impact": 0.85, "quality": 0.95, "efficiency": 0.70},
+      "iteration": 114,
+      "outcome": "evolved",
+      "weak_dim": "completeness",
+      "note": "misleading_hint partially effective: 13 stuck obs out of 24, but only 1 discordant pair"
+    },
+    {
+      "goal": "ControlledLLMStuckRunner — force 100% stuck via misleading_fix_code injection",
+      "score": 0.83,
+      "score_vector": {"completeness": 0.87, "impact": 0.85, "quality": 0.95, "efficiency": 0.65},
+      "iteration": 115,
+      "outcome": "in_progress",
+      "weak_dim": "completeness",
+      "note": "40 obs, 0 trivial. Eng 97.5% vs Hyp 87.5% (p=0.1336). RED HERRING: Eng 100% vs Hyp 60% (-40%). Only 4 discordant pairs — insufficient power. Engineering BEATS hypothesis in red_herring category."
+    }
   ],
-  "uncertain": [],
+  "dead_ends": [
+    {
+      "goal": "Passively designed deceptive tasks without misleading prompts",
+      "score": 0.40,
+      "reason": "LLM too capable — 71% trivial, only 7 stuck observations out of 24 runs"
+    },
+    {
+      "goal": "Hypothesis rescue anchored on misleading context — expects hypothesis to win",
+      "score": 0.30,
+      "reason": "Structured failure analysis amplifies misleading context. Engineering retry is MORE robust for red_herring bugs. Need either: (1) more red_herring tasks for power, or (2) counter-deception hypothesis prompt."
+    }
+  ],
+  "known_facts": [
+    "MiniMax-M2.5 solves most simple+causal+assumption bugs in one shot",
+    "Experiment B: Engineering 97.2% vs Hypothesis 100% (trials=3, fresh tasks)",
+    "Experiment D controlled: Engineering 97.5% vs Hypothesis 87.5% (40 obs, p=0.1336)",
+    "RED HERRING finding: hypothesis rescue WORSE by -40% on red_herring tasks — structured failure analysis anchors on misleading context",
+    "Category breakdown: red_herring Eng=100% Hyp=60%; all others tied at ~100%",
+    "Token overhead: hypothesis 30.2% more tokens than engineering",
+    "McNemar power requirement: need ≥10 discordant pairs for 80% power (currently 4)",
+    "Strategy to reach significance: expand red_herring tasks (6→10+) OR fix hypothesis prompt to counter anchoring"
+  ],
+  "uncertain": [
+    {
+      "goal": "ControlledLLMStuckRunner with current hypothesis prompt",
+      "score": 0.83,
+      "reason": "p=0.1336 — trend exists but insufficient power. Direction is engineering > hypothesis (unexpected)"
+    }
+  ],
   "dimensions_explored": {
-    "completeness": 0.0,
-    "impact": 0.0,
-    "quality": 0.0,
-    "efficiency": 0.0
+    "completeness": 0.87,
+    "impact": 0.85,
+    "quality": 0.95,
+    "efficiency": 0.65
   },
   "best_score_vector": {
-    "completeness": 0.0,
-    "impact": 0.0,
-    "quality": 0.0,
-    "efficiency": 0.0
+    "completeness": 0.87,
+    "impact": 0.85,
+    "quality": 0.95,
+    "efficiency": 0.70
   },
-  "reading_list_targets": [
-    {"url": "https://bcho.tistory.com/1508", "title": "AI 코딩의 발전단계 - 하네스 엔지니어링과 완전 자율형 에이전트"},
-    {"url": "https://news.hada.io/topic?id=27863", "title": "장기 실행 애플리케이션 개발을 위한 하네스 설계"},
-    {"url": "https://wikidocs.net/blog/@jaehong/9556/", "title": "LM으로 수만 줄 프로젝트 유지: 아키텍트-개발자-리뷰어 멀티 에이전트 워크플로우"},
-    {"url": "https://news.hada.io/topic?id=27706", "title": "Andrej Karpathy가 말하는 코드 에이전트, AutoResearch"},
-    {"url": "https://discuss.pytorch.kr/t/autoresearchclaw-ai/9329", "title": "AutoResearchClaw: 완전 자율 AI 연구 에이전트"},
-    {"url": "https://www.marktechpost.com/2026/03/20/a-coding-implementation-showcasing-clawteams-multi-agent-swarm-orchestration-with-openai-function-calling/", "title": "Multi-Agent Swarm Orchestration"},
-    {"url": "https://news.hada.io/topic?id=27750", "title": "Impeccable - AI 하네스가 더 디자인 잘하게 만들기"},
-    {"url": "https://news.hada.io/topic?id=27858", "title": "속도를 늦춰야 빨라진다"}
+  "her_hints": [
+    {
+      "dim": "completeness",
+      "delta": 0.07,
+      "sub_goal": "Expand red_herring tasks (2→8) to get ≥10 discordant pairs for McNemar 80% power. Red_herring shows -40% hypothesis penalty — largest effect signal."
+    }
   ]
 }

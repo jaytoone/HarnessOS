@@ -21,6 +21,7 @@ import pytest
 
 from experiments.stuck_agent.tasks import StuckTask, get_stuck_tasks
 from experiments.stuck_agent.runner import (
+    ControlledLLMStuckRunner,
     DeterministicStuckRunner,
     LLMStuckRunner,
     RescueResult,
@@ -527,6 +528,73 @@ def test_print_report_runs_without_error(
 
 
 # ── analyze.py CLI integration ─────────────────────────────────────────────
+
+
+# ── ControlledLLMStuckRunner ───────────────────────────────────────────────
+
+
+def test_controlled_runner_no_trivial() -> None:
+    """ControlledLLMStuckRunner never produces trivial results."""
+    task = get_stuck_tasks()[0]
+    correct_code = task.correct_code
+
+    client = _make_mock_client(correct_code)
+    runner = ControlledLLMStuckRunner(client=client, model="test", max_rescue_attempts=1)
+    result = runner.run(tasks=[task], trials_per_task=2)
+
+    assert len(result.task_results) == 2
+    for tr in result.task_results:
+        assert not tr.phase1_passed, "Controlled runner must never produce trivial"
+
+
+def test_controlled_runner_model_label() -> None:
+    task = get_stuck_tasks()[0]
+    client = _make_mock_client(task.correct_code)
+    runner = ControlledLLMStuckRunner(client=client, model="test-model", max_rescue_attempts=1)
+    result = runner.run(tasks=[task], trials_per_task=1)
+    assert "controlled" in result.model
+
+
+def test_controlled_runner_escape_rates() -> None:
+    """Verify eng_escaped and hyp_escaped computed correctly."""
+    tasks = get_stuck_tasks()[:2]
+    correct_codes = {t.function_name: t.correct_code for t in tasks}
+
+    call_count = 0
+
+    def side_effect(**kwargs: Any) -> MagicMock:
+        nonlocal call_count
+        call_count += 1
+        response = MagicMock()
+        messages = kwargs.get("messages", [])
+        content = " ".join(m.get("content", "") for m in messages)
+        code = ""
+        for name, correct in correct_codes.items():
+            if name in content:
+                code = correct
+                break
+        response.choices[0].message.content = f"```python\n{code}\n```"
+        response.usage.prompt_tokens = 30
+        response.usage.completion_tokens = 20
+        return response
+
+    client = MagicMock()
+    client.chat.completions.create.side_effect = side_effect
+
+    runner = ControlledLLMStuckRunner(client=client, model="test", max_rescue_attempts=1)
+    result = runner.run(tasks=tasks, trials_per_task=1)
+
+    assert len(result.eng_escaped) == 2
+    assert len(result.hyp_escaped) == 2
+
+
+def test_run_stuck_controlled_no_api_key(capsys: pytest.CaptureFixture) -> None:
+    """MINIMAX_API_KEY 없으면 sys.exit(1)."""
+    from analyze import run_stuck_controlled_pipeline
+    with patch.dict("os.environ", {}, clear=True):
+        with pytest.raises(SystemExit) as exc:
+            run_stuck_controlled_pipeline()
+    assert exc.value.code == 1
 
 
 def test_run_stuck_llm_pipeline_no_api_key(capsys: pytest.CaptureFixture) -> None:
