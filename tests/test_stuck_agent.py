@@ -864,3 +864,95 @@ def test_category_mcnemar_cli(tmp_path: Path, capsys: pytest.CaptureFixture) -> 
     assert "semantic_inv" in out
     assert "Power Analysis" in out
     assert "p=" in out
+    assert "Bootstrap Variance" in out
+
+
+# ── Bootstrap variance estimator tests ───────────────────────────────────────
+
+
+def test_bootstrap_effect_variance_basic() -> None:
+    """bootstrap_effect_variance returns BootstrapEffectResult with correct fields."""
+    from experiments.stuck_agent.stats import bootstrap_effect_variance
+
+    eng = [True, True, False, True, True, True, False, True, False, True]
+    hyp = [True, True, True, True, True, True, True, True, True, False]
+    result = bootstrap_effect_variance("test_cat", eng, hyp, n_bootstrap=500, seed=0)
+
+    assert result.category == "test_cat"
+    assert result.n == 10
+    assert 0.0 <= result.observed_effect <= 1.0
+    assert 0.0 <= result.bootstrap_mean <= 1.0
+    assert result.bootstrap_std >= 0.0
+    assert result.ci_90_lower <= result.ci_90_upper
+    assert result.collapse_risk in ("HIGH", "MEDIUM", "LOW")
+    assert 0.0 <= result.collapse_probability <= 1.0
+
+
+def test_bootstrap_effect_variance_zero_effect() -> None:
+    """All concordant pairs → observed_effect=0, CI=[0,0]."""
+    from experiments.stuck_agent.stats import bootstrap_effect_variance
+
+    eng = [True] * 10
+    hyp = [True] * 10
+    result = bootstrap_effect_variance("ceil_cat", eng, hyp, n_bootstrap=200, seed=42)
+
+    assert result.observed_effect == 0.0
+    assert result.bootstrap_mean == 0.0
+    assert result.bootstrap_std == 0.0
+    assert result.ci_90_lower == 0.0
+    assert result.ci_90_upper == 0.0
+
+
+def test_bootstrap_effect_variance_high_risk_small_n() -> None:
+    """n=10 with small discordant pairs should register HIGH or MEDIUM collapse risk."""
+    from experiments.stuck_agent.stats import bootstrap_effect_variance
+
+    # 2 tasks × 5 trials, b=2, c=6 (classic semantic_inv pilot pattern)
+    eng = [True, True, True, True, True, True, True, True, False, False]
+    hyp = [True, True, False, True, True, True, True, True, True, True]
+    result = bootstrap_effect_variance("semantic_inv", eng, hyp, n_bootstrap=1000, seed=42)
+
+    # With small n, CI lower should be < 0.20 → MEDIUM or HIGH risk
+    assert result.collapse_risk in ("HIGH", "MEDIUM"), (
+        f"Expected HIGH or MEDIUM for small-n pilot, got {result.collapse_risk}"
+    )
+
+
+def test_bootstrap_effect_variance_empty() -> None:
+    """Empty input → safe defaults."""
+    from experiments.stuck_agent.stats import bootstrap_effect_variance
+
+    result = bootstrap_effect_variance("empty", [], [], n_bootstrap=100)
+    assert result.n == 0
+    assert result.observed_effect == 0.0
+    assert result.collapse_risk == "HIGH"
+
+
+def test_category_mcnemar_cli_includes_bootstrap(
+    tmp_path: Path, capsys: pytest.CaptureFixture
+) -> None:
+    """--category-mcnemar output includes bootstrap section."""
+    import json
+    from analyze import run_category_mcnemar_pipeline
+
+    result_data = {
+        "experiment": "stuck_agent",
+        "model": "test",
+        "trials_per_task": 5,
+        "run_timestamp": "2026-03-31T00:00:00",
+        "n_stuck": 4, "n_trivial": 0,
+        "eng_escape_rate": 0.75, "hyp_escape_rate": 0.5, "escape_rate_uplift": -0.25,
+        "eng_total_tokens": 400, "hyp_total_tokens": 400,
+        "tasks": [
+            {"task_id": "D7", "category": "semantic_inv", "trial": i,
+             "phase1_passed": False, "eng_escaped": True, "eng_attempts": 1, "eng_tokens": 100,
+             "hyp_escaped": (i % 2 == 0), "hyp_attempts": 1, "hyp_tokens": 100, "hypothesis": "h"}
+            for i in range(1, 5)
+        ],
+    }
+    p = tmp_path / "bootstrap_test.json"
+    p.write_text(json.dumps(result_data))
+    run_category_mcnemar_pipeline(str(p))
+    out = capsys.readouterr().out
+    assert "Bootstrap Variance" in out
+    assert "Collapse Risk" in out

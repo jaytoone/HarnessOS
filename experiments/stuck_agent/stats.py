@@ -438,3 +438,118 @@ def _igamma_q_cf(a: float, x: float) -> float:
         if abs(delta - 1.0) < 1e-10:
             break
     return math.exp(-x + a * math.log(x) - lnG) * h
+
+
+# ---------------------------------------------------------------------------
+# Bootstrap Variance Estimator — effect size collapse risk predictor
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class BootstrapEffectResult:
+    """Bootstrap-based effect size variance estimate for a category."""
+
+    category: str
+    n: int
+    observed_effect: float           # |b-c|/(b+c) from raw data
+    bootstrap_mean: float            # mean effect across bootstrap resamples
+    bootstrap_std: float             # std dev of bootstrapped effects
+    ci_90_lower: float               # 5th percentile of bootstrapped effects
+    ci_90_upper: float               # 95th percentile of bootstrapped effects
+    collapse_risk: str               # "HIGH" | "MEDIUM" | "LOW"
+    collapse_threshold: float        # effect size below which collapse is likely
+    collapse_probability: float      # P(bootstrap effect < collapse_threshold)
+
+
+def bootstrap_effect_variance(
+    category: str,
+    eng_escaped: list[bool],
+    hyp_escaped: list[bool],
+    n_bootstrap: int = 2000,
+    collapse_threshold_ratio: float = 0.3,
+    seed: int = 42,
+) -> BootstrapEffectResult:
+    """Estimate effect size variance and collapse risk via bootstrap.
+
+    Resamples (eng, hyp) pairs with replacement n_bootstrap times,
+    computing |b-c|/(b+c) for each resample. High variance indicates
+    the observed effect may be a sampling artifact (collapse risk).
+
+    Args:
+        category: Category name (for labeling).
+        eng_escaped: Boolean escape outcomes for engineering strategy.
+        hyp_escaped: Boolean escape outcomes for hypothesis strategy.
+        n_bootstrap: Number of bootstrap resamples (default 2000).
+        collapse_threshold_ratio: Effect size threshold ratio — collapse_threshold =
+            observed_effect * collapse_threshold_ratio. Collapse probability is
+            P(bootstrap_effect < collapse_threshold). Default 0.3 means threshold
+            is 30% of the observed effect.
+        seed: Random seed for reproducibility.
+
+    Returns:
+        BootstrapEffectResult with variance metrics and collapse risk assessment.
+    """
+    rng = random.Random(seed)
+    n = len(eng_escaped)
+    pairs = list(zip(eng_escaped, hyp_escaped))
+
+    if n == 0:
+        return BootstrapEffectResult(
+            category=category, n=0,
+            observed_effect=0.0, bootstrap_mean=0.0, bootstrap_std=0.0,
+            ci_90_lower=0.0, ci_90_upper=0.0,
+            collapse_risk="HIGH", collapse_threshold=0.0, collapse_probability=1.0,
+        )
+
+    # Observed effect
+    b_obs = sum(1 for e, h in pairs if not e and h)
+    c_obs = sum(1 for e, h in pairs if e and not h)
+    disc_obs = b_obs + c_obs
+    observed_effect = abs(b_obs - c_obs) / disc_obs if disc_obs > 0 else 0.0
+
+    # Bootstrap
+    effects: list[float] = []
+    for _ in range(n_bootstrap):
+        sample = [rng.choice(pairs) for _ in range(n)]
+        b = sum(1 for e, h in sample if not e and h)
+        c = sum(1 for e, h in sample if e and not h)
+        disc = b + c
+        effects.append(abs(b - c) / disc if disc > 0 else 0.0)
+
+    effects_sorted = sorted(effects)
+    mean_eff = sum(effects) / len(effects)
+    var_eff = sum((x - mean_eff) ** 2 for x in effects) / len(effects)
+    std_eff = math.sqrt(var_eff)
+
+    p5_idx = int(0.05 * n_bootstrap)
+    p95_idx = int(0.95 * n_bootstrap)
+    ci_lower = effects_sorted[p5_idx]
+    ci_upper = effects_sorted[p95_idx]
+
+    # Collapse risk: based on CI lower bound (absolute, not relative).
+    # An effect can "collapse" to near-zero regardless of its observed magnitude.
+    # If the 90% CI lower bound is < 0.15 (near-negligible), the effect is at risk.
+    # This is more informative than P(effect < 30% of observed) for small observed values.
+    collapse_threshold = observed_effect * collapse_threshold_ratio
+    collapse_prob = sum(1 for e in effects if e < collapse_threshold) / n_bootstrap
+
+    # Override collapse risk using CI lower bound
+    if ci_lower < 0.10:
+        risk = "HIGH"   # CI lower is near-zero — effect may not be real
+    elif ci_lower < 0.20:
+        risk = "MEDIUM"
+    else:
+        risk = "LOW"
+
+    return BootstrapEffectResult(
+        category=category,
+        n=n,
+        observed_effect=observed_effect,
+        bootstrap_mean=mean_eff,
+        bootstrap_std=std_eff,
+        ci_90_lower=ci_lower,
+        ci_90_upper=ci_upper,
+        collapse_risk=risk,
+        collapse_threshold=collapse_threshold,
+        collapse_probability=collapse_prob,
+    )

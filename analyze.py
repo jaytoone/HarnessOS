@@ -342,15 +342,55 @@ def run_category_mcnemar_pipeline(result_path: str | None = None) -> None:
         )
 
     print(f"\n  Note: Effect = |b-c|/(b+c), discordant rate = (b+c)/n")
-    print(f"  Recommended next step:")
 
-    # Find most promising category
+    # Bootstrap variance estimator
+    from experiments.stuck_agent.stats import bootstrap_effect_variance
+    by_cat_pairs: dict[str, tuple[list[bool], list[bool]]] = {}
+    from collections import defaultdict as _defaultdict
+    _cat_eng: dict[str, list[bool]] = _defaultdict(list)
+    _cat_hyp: dict[str, list[bool]] = _defaultdict(list)
+    for t in tasks:
+        if t.get("phase1_passed", False):
+            continue
+        cat = t.get("category", "unknown")
+        _cat_eng[cat].append(bool(t.get("eng_escaped", False)))
+        _cat_hyp[cat].append(bool(t.get("hyp_escaped", False)))
+
+    bootstrap_results = {
+        cat: bootstrap_effect_variance(cat, _cat_eng[cat], _cat_hyp[cat])
+        for cat in _cat_eng
+    }
+
+    print(f"\n  {'=' * 66}")
+    print("  Bootstrap Variance Estimator — Effect Size Collapse Risk")
+    print(f"  {'=' * 66}")
+    print(f"  {'Category':<16} {'n':>4}  {'Observed':>9}  {'Boot Mean':>10}  "
+          f"{'Boot Std':>9}  {'CI 90%':>16}  {'Collapse Risk':>14}")
+    print("  " + "-" * 83)
+
+    for cat, br in sorted(bootstrap_results.items()):
+        risk_icon = "⚠" if br.collapse_risk == "HIGH" else ("~" if br.collapse_risk == "MEDIUM" else "✓")
+        print(
+            f"  {cat:<16} {br.n:>4}  {br.observed_effect:>8.3f}   {br.bootstrap_mean:>9.3f}  "
+            f"{br.bootstrap_std:>8.3f}   [{br.ci_90_lower:.3f}, {br.ci_90_upper:.3f}]  "
+            f"{risk_icon} {br.collapse_risk:<9} ({br.collapse_probability:.0%})"
+        )
+
+    print(f"\n  Collapse Risk: P(bootstrap effect < 30% of observed)")
+
+    # Overall recommendation
+    print(f"\n  Recommended next step:")
     best = min(cat_stats.values(), key=lambda cs: cs.mcnemar_exact_p)
     if best.significant:
         print(f"    ✓ '{best.category}' already significant (p={best.mcnemar_exact_p:.4f})")
     else:
         pa = best.power_analysis
-        if pa.required_n_for_significance > 0:
+        br = bootstrap_results.get(best.category)
+        if br and br.collapse_risk == "HIGH":
+            print(f"    ⚠ '{best.category}' has HIGH collapse risk — "
+                  f"effect likely sampling noise (P(collapse)={br.collapse_probability:.0%})")
+            print(f"      Recommend: run more trials before trusting this effect estimate")
+        elif pa.required_n_for_significance > 0:
             print(f"    → Focus on '{best.category}': need {pa.required_n_for_significance} obs "
                   f"({pa.trials_per_task} trials/task) for p < 0.05")
         else:
