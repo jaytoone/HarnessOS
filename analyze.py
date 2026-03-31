@@ -359,11 +359,21 @@ def run_category_mcnemar_pipeline(result_path: str | None = None) -> None:
     print(f"{'=' * 68}\n")
 
 
-def run_stuck_controlled_pipeline(trials: int = 5, max_rescue_attempts: int = 3) -> None:
+def run_stuck_controlled_pipeline(
+    trials: int = 5,
+    max_rescue_attempts: int = 3,
+    categories: list[str] | None = None,
+) -> None:
     """Controlled Stuck-Agent experiment — misleading_fix injected as phase 1.
 
     모든 trial이 stuck으로 보장됨 (trivial 없음) → 최대 통계 검정력.
-    tasks × trials = 8 × 5 = 40 observations.
+    tasks × trials = 8 × 5 = 40 observations (full run).
+
+    Args:
+        trials: Number of trials per task.
+        max_rescue_attempts: Max rescue attempts per trial.
+        categories: Optional list of categories to filter (e.g. ["semantic_inv"]).
+                    If None, all 8 tasks are run.
     """
     if not os.environ.get("MINIMAX_API_KEY") and not os.environ.get("OPENAI_API_KEY"):
         print("오류: MINIMAX_API_KEY 또는 OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.")
@@ -372,11 +382,22 @@ def run_stuck_controlled_pipeline(trials: int = 5, max_rescue_attempts: int = 3)
 
     from experiments.stuck_agent.runner import ControlledLLMStuckRunner, save_results
     from experiments.stuck_agent.analyzer import analyze_results_file, print_report
+    from experiments.stuck_agent.tasks import get_stuck_tasks
 
-    print(f"=== Controlled Stuck-Agent Escape Rate — trials={trials} ===")
+    tasks = get_stuck_tasks()
+    if categories:
+        tasks = [t for t in tasks if t.category in categories]
+        if not tasks:
+            print(f"오류: categories={categories} 에 해당하는 태스크가 없습니다.")
+            sys.exit(1)
+        cat_str = "+".join(categories)
+        print(f"=== Controlled Stuck-Agent — category={cat_str}, trials={trials} ===")
+        print(f"    태스크 {len(tasks)}개: {[t.id for t in tasks]}")
+    else:
+        print(f"=== Controlled Stuck-Agent Escape Rate — trials={trials} ===")
 
     runner = ControlledLLMStuckRunner(max_rescue_attempts=max_rescue_attempts)
-    result = runner.run(trials_per_task=trials)
+    result = runner.run(tasks=tasks, trials_per_task=trials)
     path = save_results(result)
     print(f"\n  ✓ 결과 저장 → {path.name}")
 
@@ -442,6 +463,19 @@ def main(args_list: list[str] | None = None) -> None:
         help="Controlled Stuck-Agent 실험 — misleading_fix 강제 주입, 100%% stuck 보장",
     )
     parser.add_argument(
+        "--stuck-trials",
+        type=int,
+        default=5,
+        metavar="N",
+        help="--run-stuck-controlled 의 trials per task (기본값: 5)",
+    )
+    parser.add_argument(
+        "--stuck-category",
+        nargs="+",
+        metavar="CAT",
+        help="--run-stuck-controlled 실행 시 특정 카테고리만 실행 (예: semantic_inv red_herring)",
+    )
+    parser.add_argument(
         "--category-mcnemar",
         nargs="?",
         const="",
@@ -468,7 +502,10 @@ def main(args_list: list[str] | None = None) -> None:
         return
 
     if args.run_stuck_controlled:
-        run_stuck_controlled_pipeline()
+        run_stuck_controlled_pipeline(
+            trials=args.stuck_trials,
+            categories=args.stuck_category,
+        )
         return
 
     if args.category_mcnemar is not None:
