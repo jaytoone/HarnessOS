@@ -1,13 +1,12 @@
 """Tests for LLM-based hypothesis validation strategies.
 
-Uses mocked Anthropic client to avoid actual API calls in CI.
+Uses mocked OpenAI client to avoid actual API calls in CI.
 Tests: prompt construction, code extraction, hypothesis extraction,
 strategy behavior, token tracking, runner integration.
 """
 from typing import Callable
 from unittest.mock import MagicMock, patch
 
-from anthropic.types import TextBlock
 import pytest
 
 from experiments.hypothesis_validation.llm_strategies import (
@@ -38,21 +37,19 @@ def simple_task() -> DebugTask:
 
 @pytest.fixture
 def mock_response_factory() -> Callable[[str, int, int], MagicMock]:
-    """Creates a mock Anthropic API response with given text and token counts."""
+    """Creates a mock OpenAI API response with given text and token counts."""
     def factory(text: str, input_tokens: int = 100, output_tokens: int = 50) -> MagicMock:
         response = MagicMock()
-        text_block = MagicMock(spec=TextBlock)
-        text_block.text = text
-        response.content = [text_block]
-        response.usage.input_tokens = input_tokens
-        response.usage.output_tokens = output_tokens
+        response.choices[0].message.content = text
+        response.usage.prompt_tokens = input_tokens
+        response.usage.completion_tokens = output_tokens
         return response
     return factory
 
 
 @pytest.fixture
 def mock_client(mock_response_factory: Callable[[str, int, int], MagicMock]) -> MagicMock:
-    """Anthropic client mock that always returns a correct fix on first attempt."""
+    """OpenAI client mock that always returns a correct fix on first attempt."""
     correct_code = (
         "def find_max_subarray(arr, k):\n"
         "    if len(arr) < k:\n"
@@ -68,7 +65,7 @@ def mock_client(mock_response_factory: Callable[[str, int, int], MagicMock]) -> 
         "    return arr[max_start:max_start + k]\n"
     )
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory(
+    client.chat.completions.create.return_value = mock_response_factory(
         f"```python\n{correct_code}```"
     )
     return client
@@ -207,7 +204,7 @@ def test_engineering_strategy_retries_on_failure(simple_task, mock_response_fact
         "    return arr[max_start:max_start + k]\n"
     )
     client = MagicMock()
-    client.messages.create.side_effect = [
+    client.chat.completions.create.side_effect = [
         mock_response_factory(f"```python\n{wrong_code}```"),
         mock_response_factory(f"```python\n{correct_code}```"),
     ]
@@ -227,7 +224,7 @@ def test_engineering_strategy_fails_when_max_attempts_exceeded(
     """max_attempts를 초과해도 해결 못하면 solved=False이고 시도 횟수가 정확한지 확인한다."""
     wrong_code = "def find_max_subarray(arr, k):\n    return []\n"
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory(
+    client.chat.completions.create.return_value = mock_response_factory(
         f"```python\n{wrong_code}```"
     )
 
@@ -244,7 +241,7 @@ def test_engineering_strategy_handles_no_code_in_response(
 ) -> None:
     """응답에 코드가 없을 때 엔지니어링 전략이 solved=False로 처리하는지 확인한다."""
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory(
+    client.chat.completions.create.return_value = mock_response_factory(
         "I cannot determine the fix."
     )
 
@@ -288,7 +285,7 @@ def test_hypothesis_strategy_extracts_hypothesis(simple_task, mock_response_fact
         f"Hypothesis: range upper bound is off by one.\n```python\n{correct_code}```"
     )
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory(response_text)
+    client.chat.completions.create.return_value = mock_response_factory(response_text)
 
     strategy = LLMHypothesisStrategy(client=client)
     result = strategy.run(simple_task)
@@ -305,7 +302,7 @@ def test_hypothesis_strategy_marks_hypothesis_incorrect_on_failure(
     wrong_code = "def find_max_subarray(arr, k):\n    return arr[:k]\n"
     response_text = f"Hypothesis: wrong guess.\n```python\n{wrong_code}```"
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory(response_text)
+    client.chat.completions.create.return_value = mock_response_factory(response_text)
 
     strategy = LLMHypothesisStrategy(client=client)
     result = strategy.run(simple_task, max_attempts=2)
@@ -331,7 +328,7 @@ def test_hypothesis_strategy_task_id_and_strategy_name(simple_task, mock_respons
         "    return arr[max_start:max_start + k]\n"
     )
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory(
+    client.chat.completions.create.return_value = mock_response_factory(
         f"```python\n{correct_code}```"
     )
     strategy = LLMHypothesisStrategy(client=client)
@@ -358,7 +355,7 @@ def test_hypothesis_strategy_cumulative_token_tracking(simple_task, mock_respons
         "    return arr[max_start:max_start + k]\n"
     )
     client = MagicMock()
-    client.messages.create.side_effect = [
+    client.chat.completions.create.side_effect = [
         mock_response_factory(f"Hypothesis: wrong.\n```python\n{wrong_code}```", 80, 40),
         mock_response_factory(f"Hypothesis: right.\n```python\n{correct_code}```", 120, 60),
     ]
@@ -442,7 +439,7 @@ def test_run_llm_experiment_runs_all_tasks(mock_response_factory) -> None:
     # Provide a client that returns wrong answers (won't solve — that's OK for this test)
     wrong_code = "def placeholder(): pass\n"
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory(
+    client.chat.completions.create.return_value = mock_response_factory(
         f"```python\n{wrong_code}```"
     )
 
@@ -477,7 +474,7 @@ def test_run_llm_experiment_multiple_trials(simple_task, mock_response_factory) 
         "    return arr[max_start:max_start + k]\n"
     )
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory(
+    client.chat.completions.create.return_value = mock_response_factory(
         f"```python\n{correct_code}```"
     )
 
@@ -496,7 +493,7 @@ def test_run_llm_experiment_multiple_trials(simple_task, mock_response_factory) 
 def test_run_llm_experiment_result_metadata(simple_task, mock_response_factory) -> None:
     """run_llm_experiment 결과에 모델명, 시도 횟수, 타임스탬프 메타데이터가 포함되는지 확인한다."""
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory("no code here")
+    client.chat.completions.create.return_value = mock_response_factory("no code here")
 
     result = run_llm_experiment(
         tasks=[simple_task],
@@ -534,7 +531,7 @@ def test_llm_task_result_empty_pass_at_1() -> None:
 def test_run_llm_experiment_default_tasks(mock_response_factory) -> None:
     """tasks=None이면 전체 12개 태스크를 기본 사용한다."""
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory("no code", 10, 5)
+    client.chat.completions.create.return_value = mock_response_factory("no code", 10, 5)
     result = run_llm_experiment(tasks=None, trials_per_task=1, max_attempts=1, client=client)
     assert len(result.task_results) == 12
 
@@ -605,7 +602,7 @@ def test_save_llm_results_includes_task_stats(tmp_path) -> None:
 def test_run_llm_experiment_token_aggregation(simple_task, mock_response_factory) -> None:
     """전체 태스크에 걸친 토큰 수가 합산된다."""
     client = MagicMock()
-    client.messages.create.return_value = mock_response_factory("no code", 50, 25)
+    client.chat.completions.create.return_value = mock_response_factory("no code", 50, 25)
 
     result = run_llm_experiment(
         tasks=[simple_task],
@@ -617,3 +614,42 @@ def test_run_llm_experiment_token_aggregation(simple_task, mock_response_factory
     # Each strategy: 2 attempts * (50 in + 25 out) = 150 tokens per strategy
     assert result.engineering_total_tokens == 150
     assert result.hypothesis_total_tokens == 150
+
+
+# ---------------------------------------------------------------------------
+# _default_client() — MiniMax 환경변수 분기 테스트
+# ---------------------------------------------------------------------------
+
+def test_default_client_uses_minimax_when_env_set() -> None:
+    """MINIMAX_API_KEY + MINIMAX_BASE_URL이 설정되면 해당 값으로 OpenAI 클라이언트를 생성한다."""
+    from experiments.hypothesis_validation.llm_strategies import _default_client
+    with patch.dict("os.environ", {"MINIMAX_API_KEY": "test-key", "MINIMAX_BASE_URL": "https://example.com"}):
+        client = _default_client()
+    assert client.api_key == "test-key"
+    assert str(client.base_url).rstrip("/") == "https://example.com"
+
+
+def test_default_client_falls_back_to_openai_when_env_missing() -> None:
+    """MINIMAX_API_KEY 가 없으면 기본 OpenAI() 클라이언트를 반환한다."""
+    from experiments.hypothesis_validation.llm_strategies import _default_client
+    with patch.dict("os.environ", {}, clear=True), \
+         patch("experiments.hypothesis_validation.llm_strategies.OpenAI") as MockOpenAI:
+        _default_client()
+    MockOpenAI.assert_called_once_with()
+
+
+def test_runner_default_client_uses_minimax_when_env_set() -> None:
+    """llm_runner._default_client도 동일하게 MiniMax 환경변수를 사용한다."""
+    from experiments.hypothesis_validation.llm_runner import _default_client as runner_default_client
+    with patch.dict("os.environ", {"MINIMAX_API_KEY": "runner-key", "MINIMAX_BASE_URL": "https://runner.example.com"}):
+        client = runner_default_client()
+    assert client.api_key == "runner-key"
+
+
+def test_runner_default_client_falls_back_to_openai_when_env_missing() -> None:
+    """llm_runner._default_client — 환경변수 없으면 기본 OpenAI() 반환."""
+    from experiments.hypothesis_validation.llm_runner import _default_client as runner_default_client
+    with patch.dict("os.environ", {}, clear=True), \
+         patch("experiments.hypothesis_validation.llm_runner.OpenAI") as MockOpenAI:
+        runner_default_client()
+    MockOpenAI.assert_called_once_with()

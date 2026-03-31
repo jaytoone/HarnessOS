@@ -1,17 +1,18 @@
 """LLM-based strategy implementations for hypothesis-vs-engineering experiment.
 
-Uses actual Claude API calls to compare two debugging strategies:
+Uses OpenAI-compatible API (MiniMax by default) to compare two debugging strategies:
   - LLMEngineeringStrategy: prompt without hypothesis constraint
   - LLMHypothesisStrategy: prompt forcing explicit root-cause hypothesis first
 
 This is the "real experiment" counterpart to strategies.py (researcher-coded).
 Results are stochastic -- run multiple trials for statistical validity.
 """
+import os
 import re
 from dataclasses import dataclass, field
+from typing import Any
 
-from anthropic import Anthropic
-from anthropic.types import MessageParam, TextBlock
+from openai import OpenAI
 
 from experiments.hypothesis_validation.strategies import (
     AttemptResult,
@@ -19,6 +20,16 @@ from experiments.hypothesis_validation.strategies import (
     _execute_attempt,
 )
 from experiments.hypothesis_validation.tasks import DebugTask
+
+
+def _default_client() -> OpenAI:
+    """MiniMax 환경변수가 있으면 MiniMax를, 없으면 OpenAI 기본값을 사용."""
+    api_key = os.environ.get("MINIMAX_API_KEY")
+    base_url = os.environ.get("MINIMAX_BASE_URL")
+    if api_key and base_url:
+        return OpenAI(api_key=api_key, base_url=base_url)
+    return OpenAI()
+
 
 # ---------------------------------------------------------------------------
 # Extended result types with token tracking
@@ -47,6 +58,7 @@ class LLMStrategyResult(StrategyResult):
 # ---------------------------------------------------------------------------
 # System prompts
 # ---------------------------------------------------------------------------
+
 
 ENGINEERING_SYSTEM = (
     "You are a Python debugging expert. When given a buggy function and failing test cases, "
@@ -95,6 +107,26 @@ def _extract_hypothesis(text: str) -> str | None:
     return match.group(1).strip() if match else None
 
 
+def _chat(
+    client: OpenAI,
+    model: str,
+    system: str,
+    messages: list[dict[str, Any]],
+    max_tokens: int = 1024,
+) -> tuple[str, int, int]:
+    """OpenAI chat completions 호출. (응답 텍스트, 입력 토큰, 출력 토큰) 반환."""
+    full_messages = [{"role": "system", "content": system}] + messages
+    response = client.chat.completions.create(
+        model=model,
+        messages=full_messages,
+        max_tokens=max_tokens,
+    )
+    raw = response.choices[0].message.content or ""
+    in_tok = response.usage.prompt_tokens if response.usage else 0
+    out_tok = response.usage.completion_tokens if response.usage else 0
+    return raw, in_tok, out_tok
+
+
 # ---------------------------------------------------------------------------
 # Strategies
 # ---------------------------------------------------------------------------
@@ -105,10 +137,10 @@ class LLMEngineeringStrategy:
 
     def __init__(
         self,
-        client: Anthropic | None = None,
-        model: str = "claude-haiku-4-5-20251001",
+        client: OpenAI | None = None,
+        model: str = "MiniMax-M2.5",
     ) -> None:
-        self.client = client or Anthropic()
+        self.client = client or _default_client()
         self.model = model
 
     def run(self, task: DebugTask, max_attempts: int = 5) -> LLMStrategyResult:
@@ -117,19 +149,10 @@ class LLMEngineeringStrategy:
         total_input = 0
         total_output = 0
 
-        messages: list[MessageParam] = [{"role": "user", "content": _build_user_prompt(task)}]
+        messages: list[dict[str, Any]] = [{"role": "user", "content": _build_user_prompt(task)}]
 
         for attempt_num in range(1, max_attempts + 1):
-            response = self.client.messages.create(
-                model=self.model,
-                max_tokens=1024,
-                system=ENGINEERING_SYSTEM,
-                messages=messages,
-            )
-
-            raw = next((b.text for b in response.content if isinstance(b, TextBlock)), "")
-            in_tok = response.usage.input_tokens
-            out_tok = response.usage.output_tokens
+            raw, in_tok, out_tok = _chat(self.client, self.model, ENGINEERING_SYSTEM, messages)
             total_input += in_tok
             total_output += out_tok
 
@@ -190,10 +213,10 @@ class LLMHypothesisStrategy:
 
     def __init__(
         self,
-        client: Anthropic | None = None,
-        model: str = "claude-haiku-4-5-20251001",
+        client: OpenAI | None = None,
+        model: str = "MiniMax-M2.5",
     ) -> None:
-        self.client = client or Anthropic()
+        self.client = client or _default_client()
         self.model = model
 
     def run(self, task: DebugTask, max_attempts: int = 5) -> LLMStrategyResult:
@@ -202,19 +225,10 @@ class LLMHypothesisStrategy:
         total_input = 0
         total_output = 0
 
-        messages: list[MessageParam] = [{"role": "user", "content": _build_user_prompt(task)}]
+        messages: list[dict[str, Any]] = [{"role": "user", "content": _build_user_prompt(task)}]
 
         for attempt_num in range(1, max_attempts + 1):
-            response = self.client.messages.create(
-                model=self.model,
-                max_tokens=1024,
-                system=HYPOTHESIS_SYSTEM,
-                messages=messages,
-            )
-
-            raw = next((b.text for b in response.content if isinstance(b, TextBlock)), "")
-            in_tok = response.usage.input_tokens
-            out_tok = response.usage.output_tokens
+            raw, in_tok, out_tok = _chat(self.client, self.model, HYPOTHESIS_SYSTEM, messages)
             total_input += in_tok
             total_output += out_tok
 

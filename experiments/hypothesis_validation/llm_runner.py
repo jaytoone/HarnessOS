@@ -4,11 +4,21 @@ Runs both LLM strategies (engineering vs hypothesis) on debug tasks.
 Supports multiple trials per task for statistical validity (pass@k).
 """
 import json
+import os
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
-from anthropic import Anthropic
+from openai import OpenAI
+
+
+def _default_client() -> OpenAI:
+    """MiniMax 환경변수가 있으면 MiniMax를, 없으면 OpenAI 기본값을 사용."""
+    api_key = os.environ.get("MINIMAX_API_KEY")
+    base_url = os.environ.get("MINIMAX_BASE_URL")
+    if api_key and base_url:
+        return OpenAI(api_key=api_key, base_url=base_url)
+    return OpenAI()
 
 from experiments.hypothesis_validation.llm_strategies import (
     LLMEngineeringStrategy,
@@ -117,23 +127,23 @@ class LLMExperimentResult:
 
 def run_llm_experiment(
     tasks: list[DebugTask] | None = None,
-    model: str = "claude-haiku-4-5-20251001",
+    model: str = "MiniMax-M2.5",
     trials_per_task: int = 1,
     max_attempts: int = 5,
-    client: Anthropic | None = None,
+    client: OpenAI | None = None,
 ) -> LLMExperimentResult:
     """Run real LLM-based strategy comparison.
 
     Args:
         tasks: Tasks to run. Defaults to all 12 debug tasks.
-        model: Claude model to use.
+        model: Model to use (default: MiniMax-M2.5 via OpenAI-compatible endpoint).
         trials_per_task: Number of independent trials per task (for pass@k).
         max_attempts: Max fix attempts per trial.
-        client: Anthropic client (injectable for testing).
+        client: OpenAI-compatible client (injectable for testing).
     """
     if tasks is None:
         tasks = get_debug_tasks()
-    client = client or Anthropic()
+    client = client or _default_client()
 
     eng_strategy = LLMEngineeringStrategy(client=client, model=model)
     hyp_strategy = LLMHypothesisStrategy(client=client, model=model)
