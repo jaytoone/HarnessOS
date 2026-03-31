@@ -113,18 +113,27 @@ def _chat(
     system: str,
     messages: list[dict[str, Any]],
     max_tokens: int = 1024,
+    _retries: int = 3,
 ) -> tuple[str, int, int]:
     """OpenAI chat completions 호출. (응답 텍스트, 입력 토큰, 출력 토큰) 반환."""
+    import time
     full_messages = [{"role": "system", "content": system}] + messages
-    response = client.chat.completions.create(
-        model=model,
-        messages=full_messages,
-        max_tokens=max_tokens,
-    )
-    raw = response.choices[0].message.content or ""
-    in_tok = response.usage.prompt_tokens if response.usage else 0
-    out_tok = response.usage.completion_tokens if response.usage else 0
-    return raw, in_tok, out_tok
+    for attempt in range(_retries):
+        response = client.chat.completions.create(
+            model=model,
+            messages=full_messages,
+            max_tokens=max_tokens,
+        )
+        if response.choices:
+            raw = response.choices[0].message.content or ""
+            in_tok = response.usage.prompt_tokens if response.usage else 0
+            out_tok = response.usage.completion_tokens if response.usage else 0
+            return raw, in_tok, out_tok
+        # Empty/null response — transient API error, retry with backoff
+        wait = 2 ** attempt
+        if attempt < _retries - 1:
+            time.sleep(wait)
+    return "", 0, 0
 
 
 # ---------------------------------------------------------------------------
