@@ -87,8 +87,8 @@ def test_tasks_cover_all_categories() -> None:
     assert cats == {"red_herring", "multi_bug", "hidden_assume", "semantic_inv"}
 
 
-def test_exactly_eight_tasks() -> None:
-    assert len(get_stuck_tasks()) == 8
+def test_exactly_fourteen_tasks() -> None:
+    assert len(get_stuck_tasks()) == 14
 
 
 # ── Deterministic runner ───────────────────────────────────────────────────
@@ -97,7 +97,7 @@ def test_exactly_eight_tasks() -> None:
 def test_deterministic_runner_runs_all_tasks() -> None:
     runner = DeterministicStuckRunner()
     result = runner.run()
-    assert len(result.task_results) == 8
+    assert len(result.task_results) == 14
 
 
 def test_deterministic_runner_no_trivial_tasks() -> None:
@@ -120,8 +120,8 @@ def test_deterministic_runner_hypothesis_always_escapes() -> None:
 def test_deterministic_runner_escape_lists() -> None:
     runner = DeterministicStuckRunner()
     result = runner.run()
-    assert len(result.eng_escaped) == 8
-    assert len(result.hyp_escaped) == 8
+    assert len(result.eng_escaped) == 14
+    assert len(result.hyp_escaped) == 14
     assert all(result.hyp_escaped), "hypothesis should escape all (uses correct_code)"
 
 
@@ -496,7 +496,7 @@ def test_save_results_task_count(tmp_path: Path) -> None:
     result = runner.run()
     path = save_results(result, output_dir=tmp_path)
     data = json.loads(path.read_text())
-    assert len(data["tasks"]) == 8
+    assert len(data["tasks"]) == 14
 
 
 # ── analyze_results_file ───────────────────────────────────────────────────
@@ -509,7 +509,7 @@ def test_analyze_results_file_round_trip(tmp_path: Path) -> None:
 
     data, stats = analyze_results_file(path)
     assert isinstance(stats, StatsResult)
-    assert stats.n == 8
+    assert stats.n == 14
     assert stats.hyp_escape_rate == 1.0  # hypothesis always escapes in deterministic
 
 

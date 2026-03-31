@@ -1,14 +1,14 @@
 """Deceptive bug tasks for Stuck-Agent Escape Rate experiment.
 
-8 tasks across 4 categories, each designed so that a naive first-pass
+14 tasks across 4 categories, each designed so that a naive first-pass
 engineering fix fails (misleading_fix_code), while hypothesis-driven
 reasoning finds the true root cause (correct_code).
 
 Categories:
-  red_herring    — symptom appears at wrong location
-  multi_bug      — two interacting bugs; fixing one exposes/hides the other
-  hidden_assume  — implicit contract the function silently violates
-  semantic_inv   — logic is semantically inverted in a non-obvious way
+  red_herring    — symptom appears at wrong location (8 tasks: D1-D2, D9-D14)
+  multi_bug      — two interacting bugs; fixing one exposes/hides the other (2 tasks: D3-D4)
+  hidden_assume  — implicit contract the function silently violates (2 tasks: D5-D6)
+  semantic_inv   — logic is semantically inverted in a non-obvious way (2 tasks: D7-D8)
 """
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ class StuckTask:
 
 
 def get_stuck_tasks() -> list[StuckTask]:
-    """Return all 8 stuck-agent tasks."""
+    """Return all 14 stuck-agent tasks."""
     return [
         # ── Category: red_herring ──────────────────────────────────────────
         StuckTask(
@@ -143,6 +143,286 @@ def get_stuck_tasks() -> list[StuckTask]:
                 {"input": {"arr": [1, 2, -1, 1], "target": 3}, "expected": 2},
                 {"input": {"arr": [-1, 1, 1], "target": 1}, "expected": 3},
                 {"input": {"arr": [1], "target": 1}, "expected": 1},
+            ],
+        ),
+        # ── Category: red_herring (continued: D9-D14) ────────────────────
+        StuckTask(
+            id="D9",
+            category="red_herring",
+            function_name="count_consonants",
+            misleading_hint="Hint from code review: the function returns wrong counts for strings with uppercase consonants like 'B' or 'D' — the vowel set needs to handle both cases uniformly via .lower() normalization.",
+            buggy_code=(
+                "def count_consonants(s):\n"
+                "    vowels = set('aeiouAEIOU')\n"
+                "    return sum(1 for c in s if c.isalpha() and c in vowels)\n"
+            ),
+            misleading_fix_code=(
+                # Engineering adds .lower() normalization — wrong direction entirely
+                "def count_consonants(s):\n"
+                "    vowels = set('aeiou')\n"
+                "    return sum(1 for c in s if c.isalpha() and c.lower() in vowels)\n"
+            ),
+            correct_code=(
+                "def count_consonants(s):\n"
+                "    vowels = set('aeiouAEIOU')\n"
+                "    return sum(1 for c in s if c.isalpha() and c not in vowels)\n"
+            ),
+            bug_description=(
+                "Logic inverted: `c in vowels` counts vowels, not consonants. "
+                "The fix is `c not in vowels`."
+            ),
+            misleading_description=(
+                "Adding .lower() addresses case handling but still counts vowels — "
+                "the real bug is the missing `not` operator."
+            ),
+            test_cases=[
+                {"input": {"s": "Hello World"}, "expected": 7},
+                {"input": {"s": "aeiou"}, "expected": 0},
+                {"input": {"s": "bcdf"}, "expected": 4},
+                {"input": {"s": "AEIOUbcdf"}, "expected": 4},
+            ],
+        ),
+        StuckTask(
+            id="D10",
+            category="red_herring",
+            function_name="rotate_array_right",
+            misleading_hint="Hint: the function raises an IndexError or returns the original list unchanged when k equals the array length — add guards for the empty array and k=0 edge cases to fix the behavior.",
+            buggy_code=(
+                "def rotate_array_right(arr, k):\n"
+                "    n = len(arr)\n"
+                "    k = k % n\n"
+                "    return arr[k:] + arr[:k]\n"
+            ),
+            misleading_fix_code=(
+                # Engineering adds edge-case guards — right direction but wrong fix
+                "def rotate_array_right(arr, k):\n"
+                "    if not arr or k == 0:\n"
+                "        return arr[:]\n"
+                "    n = len(arr)\n"
+                "    k = k % n\n"
+                "    return arr[k:] + arr[:k]\n"
+            ),
+            correct_code=(
+                "def rotate_array_right(arr, k):\n"
+                "    n = len(arr)\n"
+                "    k = k % n\n"
+                "    return arr[n - k:] + arr[:n - k]\n"
+            ),
+            bug_description=(
+                "arr[k:]+arr[:k] performs a LEFT rotation by k positions. "
+                "Right rotation requires arr[n-k:]+arr[:n-k]."
+            ),
+            misleading_description=(
+                "Adding empty/zero guards fixes edge cases but the core rotation "
+                "direction is still left — the slice indices are wrong."
+            ),
+            test_cases=[
+                {"input": {"arr": [1, 2, 3, 4, 5], "k": 2}, "expected": [4, 5, 1, 2, 3]},
+                {"input": {"arr": [1, 2, 3], "k": 1}, "expected": [3, 1, 2]},
+                {"input": {"arr": [1, 2, 3, 4], "k": 3}, "expected": [2, 3, 4, 1]},
+                {"input": {"arr": [7, 8, 9], "k": 3}, "expected": [7, 8, 9]},
+            ],
+        ),
+        StuckTask(
+            id="D11",
+            category="red_herring",
+            function_name="sum_digits",
+            misleading_hint="Hint: the recursive function fails on input 0 because the base case `n < 10` returns 0 incorrectly for 0 itself — add an explicit `n == 0` check as the first base case.",
+            buggy_code=(
+                "def sum_digits(n):\n"
+                "    n = abs(n)\n"
+                "    if n < 10:\n"
+                "        return n\n"
+                "    return (n // 10) + sum_digits(n // 10)\n"
+            ),
+            misleading_fix_code=(
+                # Engineering adds n==0 guard — correct for that edge case but main bug stays
+                "def sum_digits(n):\n"
+                "    n = abs(n)\n"
+                "    if n == 0:\n"
+                "        return 0\n"
+                "    if n < 10:\n"
+                "        return n\n"
+                "    return (n // 10) + sum_digits(n // 10)\n"
+            ),
+            correct_code=(
+                "def sum_digits(n):\n"
+                "    n = abs(n)\n"
+                "    if n < 10:\n"
+                "        return n\n"
+                "    return (n % 10) + sum_digits(n // 10)\n"
+            ),
+            bug_description=(
+                "Uses integer division `n // 10` to extract the last digit instead of "
+                "modulo `n % 10`. This adds the truncated number, not the digit."
+            ),
+            misleading_description=(
+                "The n==0 guard fixes a corner case but the real bug is `//` vs `%` "
+                "in the recursive term — the base case is not the problem."
+            ),
+            test_cases=[
+                {"input": {"n": 123}, "expected": 6},
+                {"input": {"n": 9999}, "expected": 36},
+                {"input": {"n": 0}, "expected": 0},
+                {"input": {"n": 19}, "expected": 10},
+            ],
+        ),
+        StuckTask(
+            id="D12",
+            category="red_herring",
+            function_name="capitalize_words",
+            misleading_hint="Hint from QA: the function fails on strings with leading or trailing spaces — the words list contains empty strings that corrupt the output. Add .strip() before splitting.",
+            buggy_code=(
+                "def capitalize_words(s):\n"
+                "    words = s.split()\n"
+                "    if not words:\n"
+                "        return s\n"
+                "    words[0] = words[0].capitalize()\n"
+                "    return ' '.join(words)\n"
+            ),
+            misleading_fix_code=(
+                # Engineering adds .strip() — fixes edge case, main bug stays
+                "def capitalize_words(s):\n"
+                "    words = s.strip().split()\n"
+                "    if not words:\n"
+                "        return s\n"
+                "    words[0] = words[0].capitalize()\n"
+                "    return ' '.join(words)\n"
+            ),
+            correct_code=(
+                "def capitalize_words(s):\n"
+                "    return ' '.join(word.capitalize() for word in s.split())\n"
+            ),
+            bug_description=(
+                "Only capitalizes the first word (`words[0]`); all subsequent words "
+                "remain uncapitalized."
+            ),
+            misleading_description=(
+                "Adding .strip() is defensive coding but does not fix the loop — "
+                "only the first element is ever capitalized."
+            ),
+            test_cases=[
+                {"input": {"s": "hello world"}, "expected": "Hello World"},
+                {"input": {"s": "the quick brown fox"}, "expected": "The Quick Brown Fox"},
+                {"input": {"s": "already Capitalized"}, "expected": "Already Capitalized"},
+                {"input": {"s": "single"}, "expected": "Single"},
+            ],
+        ),
+        StuckTask(
+            id="D13",
+            category="red_herring",
+            function_name="string_to_int",
+            misleading_hint="Hint from error report: the function crashes on empty string input and doesn't validate non-digit characters — add input validation (empty check + digit check) before processing.",
+            buggy_code=(
+                "def string_to_int(s):\n"
+                "    sign = 1\n"
+                "    start = 0\n"
+                "    if s[0] == '-':\n"
+                "        sign = -1\n"
+                "        start = 1\n"
+                "    elif s[0] == '+':\n"
+                "        start = 1\n"
+                "    result = 0\n"
+                "    for c in s[start:]:\n"
+                "        result = result * 10 + (ord(c) - ord('0'))\n"
+                "    return sign + result\n"
+            ),
+            misleading_fix_code=(
+                # Engineering adds empty/digit validation — good practice, wrong bug
+                "def string_to_int(s):\n"
+                "    if not s:\n"
+                "        raise ValueError('empty string')\n"
+                "    sign = 1\n"
+                "    start = 0\n"
+                "    if s[0] == '-':\n"
+                "        sign = -1\n"
+                "        start = 1\n"
+                "    elif s[0] == '+':\n"
+                "        start = 1\n"
+                "    result = 0\n"
+                "    for c in s[start:]:\n"
+                "        if not c.isdigit():\n"
+                "            raise ValueError(f'invalid character: {c}')\n"
+                "        result = result * 10 + (ord(c) - ord('0'))\n"
+                "    return sign + result\n"
+            ),
+            correct_code=(
+                "def string_to_int(s):\n"
+                "    sign = 1\n"
+                "    start = 0\n"
+                "    if s[0] == '-':\n"
+                "        sign = -1\n"
+                "        start = 1\n"
+                "    elif s[0] == '+':\n"
+                "        start = 1\n"
+                "    result = 0\n"
+                "    for c in s[start:]:\n"
+                "        result = result * 10 + (ord(c) - ord('0'))\n"
+                "    return sign * result\n"
+            ),
+            bug_description=(
+                "`sign + result` uses addition instead of multiplication — "
+                "returns result+1 for positive and result-1 for negative numbers."
+            ),
+            misleading_description=(
+                "Input validation (empty check, digit check) is good practice but "
+                "the arithmetic operator `+` vs `*` is the actual bug."
+            ),
+            test_cases=[
+                {"input": {"s": "123"}, "expected": 123},
+                {"input": {"s": "-42"}, "expected": -42},
+                {"input": {"s": "+7"}, "expected": 7},
+                {"input": {"s": "0"}, "expected": 0},
+            ],
+        ),
+        StuckTask(
+            id="D14",
+            category="red_herring",
+            function_name="max_subarray_sum",
+            misleading_hint="Hint: the function returns 0 for empty arrays and doesn't handle None input — add an early return for empty/None input and initialize the running sum to None instead of 0.",
+            buggy_code=(
+                "def max_subarray_sum(nums):\n"
+                "    max_sum = 0\n"
+                "    current = 0\n"
+                "    for n in nums:\n"
+                "        current = max(n, current + n)\n"
+                "        max_sum = max(max_sum, current)\n"
+                "    return max_sum\n"
+            ),
+            misleading_fix_code=(
+                # Engineering adds empty-list guard — fixes that edge, keeps wrong init
+                "def max_subarray_sum(nums):\n"
+                "    if not nums:\n"
+                "        return 0\n"
+                "    max_sum = 0\n"
+                "    current = 0\n"
+                "    for n in nums:\n"
+                "        current = max(n, current + n)\n"
+                "        max_sum = max(max_sum, current)\n"
+                "    return max_sum\n"
+            ),
+            correct_code=(
+                "def max_subarray_sum(nums):\n"
+                "    max_sum = nums[0]\n"
+                "    current = nums[0]\n"
+                "    for n in nums[1:]:\n"
+                "        current = max(n, current + n)\n"
+                "        max_sum = max(max_sum, current)\n"
+                "    return max_sum\n"
+            ),
+            bug_description=(
+                "Initializes max_sum=0 — for all-negative arrays the correct answer "
+                "is the least-negative element, but 0 is always returned instead."
+            ),
+            misleading_description=(
+                "Adding `if not nums: return 0` guards the empty case but the "
+                "zero-initialization bug for all-negative inputs remains."
+            ),
+            test_cases=[
+                {"input": {"nums": [-3, -1, -2]}, "expected": -1},
+                {"input": {"nums": [1, -2, 3, 4]}, "expected": 7},
+                {"input": {"nums": [-2, 1, -3, 4, -1, 2, 1]}, "expected": 6},
+                {"input": {"nums": [5]}, "expected": 5},
             ],
         ),
         # ── Category: multi_bug ───────────────────────────────────────────
