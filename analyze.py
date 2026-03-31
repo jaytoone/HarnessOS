@@ -4,7 +4,7 @@
 Usage:
   python analyze.py                      # 모든 실험 결과 출력
   python analyze.py --run                # 결정론적 가설 검증 실험 실행 및 분석
-  python analyze.py --run-llm            # LLM 가설 검증 실험 실행 (ANTHROPIC_API_KEY 필요)
+  python analyze.py --run-llm            # LLM 가설 검증 실험 실행 (MINIMAX_API_KEY 또는 OPENAI_API_KEY 필요)
   python analyze.py --harness-trend      # 하네스 평가 추이 (cross-run)
   python analyze.py --harness-trend context_memory  # 특정 실험 추이
 """
@@ -239,12 +239,12 @@ def run_hypothesis_pipeline() -> None:
 def run_llm_pipeline(trials: int = 3, max_attempts: int = 5) -> None:
     """Run the real LLM hypothesis validation experiment.
 
-    Requires ANTHROPIC_API_KEY. Calls Claude API and records pass@1 rates
-    and token consumption for engineering vs hypothesis strategies.
+    MiniMax API (MINIMAX_API_KEY + MINIMAX_BASE_URL)를 기본으로 사용.
+    없으면 OPENAI_API_KEY로 폴백.
     """
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("오류: ANTHROPIC_API_KEY 환경 변수가 설정되지 않았습니다.")
-        print("  export ANTHROPIC_API_KEY=sk-ant-...")
+    if not os.environ.get("MINIMAX_API_KEY") and not os.environ.get("OPENAI_API_KEY"):
+        print("오류: MINIMAX_API_KEY 또는 OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.")
+        print("  .env 파일에 MINIMAX_API_KEY=<key> 와 MINIMAX_BASE_URL=<url> 을 추가하세요.")
         sys.exit(1)
 
     from experiments.hypothesis_validation.llm_runner import (
@@ -284,7 +284,7 @@ def main(args_list: list[str] | None = None) -> None:
     parser.add_argument(
         "--run-llm",
         action="store_true",
-        help="LLM 가설 검증 실험 실행 (ANTHROPIC_API_KEY 필요)",
+        help="LLM 가설 검증 실험 실행 (MINIMAX_API_KEY 필요)",
     )
     args = parser.parse_args(args_list)
 

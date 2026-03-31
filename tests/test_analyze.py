@@ -421,13 +421,13 @@ def test_run_hypothesis_pipeline_with_issues(tmp_path: Path, capsys: pytest.Capt
 
 
 def test_run_llm_pipeline_no_api_key(capsys: pytest.CaptureFixture) -> None:
-    """ANTHROPIC_API_KEY 없으면 에러 메시지 후 sys.exit(1)."""
+    """MINIMAX_API_KEY/OPENAI_API_KEY 없으면 에러 메시지 후 sys.exit(1)."""
     from analyze import run_llm_pipeline
     with patch.dict("os.environ", {}, clear=True):
         with pytest.raises(SystemExit) as exc:
             run_llm_pipeline()
     assert exc.value.code == 1
-    assert "ANTHROPIC_API_KEY" in capsys.readouterr().out
+    assert "MINIMAX_API_KEY" in capsys.readouterr().out
 
 
 def test_run_llm_pipeline_success(tmp_path: Path, capsys: pytest.CaptureFixture) -> None:
