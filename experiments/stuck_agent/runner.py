@@ -194,9 +194,10 @@ _HYP_RESCUE_SYSTEM = (
 
 def _phase1_prompt(task: StuckTask) -> str:
     test_lines = "\n".join(f"  {tc}" for tc in task.test_cases)
+    hint_section = f"\n\n{task.misleading_hint}" if task.misleading_hint else ""
     return (
         f"Buggy function:\n```python\n{task.buggy_code}```\n\n"
-        f"Test cases (must all pass):\n{test_lines}\n\nFix the bug."
+        f"Test cases (must all pass):\n{test_lines}{hint_section}\n\nFix the bug."
     )
 
 

@@ -43,6 +43,9 @@ class StuckTask:
     bug_description: str
     misleading_description: str
     test_cases: list[dict[str, Any]] = field(default_factory=list)
+    # Injected into phase-1 prompt to steer LLM toward the wrong fix (red herring).
+    # This makes stuck state controlled and reproducible.
+    misleading_hint: str = ""
 
 
 def get_stuck_tasks() -> list[StuckTask]:
@@ -53,6 +56,7 @@ def get_stuck_tasks() -> list[StuckTask]:
             id="D1",
             category="red_herring",
             function_name="max_product_pair",
+            misleading_hint="Hint from senior engineer: the issue is that .sort() sorts in ascending order by default — try sorting in descending order to get the two largest values.",
             buggy_code=(
                 "def max_product_pair(nums):\n"
                 "    nums.sort()\n"
@@ -88,6 +92,7 @@ def get_stuck_tasks() -> list[StuckTask]:
             id="D2",
             category="red_herring",
             function_name="count_subarrays_equal_sum",
+            misleading_hint="Hint from bug report: the function terminates the inner loop too early for certain inputs — removing the break statement should fix the counting issue.",
             buggy_code=(
                 "def count_subarrays_equal_sum(arr, target):\n"
                 "    count = 0\n"
@@ -145,6 +150,7 @@ def get_stuck_tasks() -> list[StuckTask]:
             id="D3",
             category="multi_bug",
             function_name="normalize_scores",
+            misleading_hint="Hint from code review: the function crashes when all scores are zero — add a guard for division by zero and it should work correctly.",
             buggy_code=(
                 "def normalize_scores(scores):\n"
                 "    max_score = max(scores)\n"
@@ -186,6 +192,7 @@ def get_stuck_tasks() -> list[StuckTask]:
             id="D4",
             category="multi_bug",
             function_name="interleave_lists",
+            misleading_hint="Hint from bug report: the function raises an IndexError when list b is shorter than a — use min(len(a), len(b)) in the range() to fix the crash.",
             buggy_code=(
                 "def interleave_lists(a, b):\n"
                 "    result = []\n"
@@ -235,6 +242,7 @@ def get_stuck_tasks() -> list[StuckTask]:
             id="D5",
             category="hidden_assume",
             function_name="find_duplicate",
+            misleading_hint="Hint: the function doesn't handle the empty list edge case — add an early return for empty input and the tests should pass.",
             buggy_code=(
                 "def find_duplicate(nums):\n"
                 "    seen = set()\n"
@@ -286,6 +294,7 @@ def get_stuck_tasks() -> list[StuckTask]:
             id="D6",
             category="hidden_assume",
             function_name="parse_key_value",
+            misleading_hint="Hint from error log: the function throws ValueError on malformed input — wrap the split in a try/except to handle bad pairs gracefully.",
             buggy_code=(
                 "def parse_key_value(s):\n"
                 "    result = {}\n"
@@ -336,6 +345,7 @@ def get_stuck_tasks() -> list[StuckTask]:
             id="D7",
             category="semantic_inv",
             function_name="filter_valid_emails",
+            misleading_hint="Hint: the boundary condition uses strict less-than (<) which may be off-by-one — try changing < to <= in the condition check.",
             buggy_code=(
                 "def filter_valid_emails(emails):\n"
                 "    valid = []\n"
@@ -388,6 +398,7 @@ def get_stuck_tasks() -> list[StuckTask]:
             id="D8",
             category="semantic_inv",
             function_name="is_strictly_increasing",
+            misleading_hint="Hint from code review: the comparison operator >= should be > for strictly increasing (not non-decreasing) — change >= to > in the condition.",
             buggy_code=(
                 "def is_strictly_increasing(nums):\n"
                 "    for i in range(len(nums) - 1):\n"
