@@ -650,3 +650,13 @@ For omc-live and similar autonomous loops:
 - Gold standard when quality is paramount
 
 This tiered approach gives you the speed of semantic routing (Tier 1) with the reasoning of ReAct (Tier 2) and the quality of MoA (Tier 3), optimized for an autonomous loop that must handle unbounded task diversity.
+
+## Related
+- [[projects/HarnessOS/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/HarnessOS/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/HarnessOS/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
+- [[projects/HarnessOS/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/HarnessOS/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/HarnessOS/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]

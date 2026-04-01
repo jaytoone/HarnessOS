@@ -155,3 +155,13 @@ LiveCode 연구의 최종 적용 대상. 실험 결과를 종합하여:
 | `docs/research/20260328-omc-live-infinite-loop-architecture-research.md` | 무한 자율 에이전트 순환구조 SOTA |
 | `docs/research/20260330-hypothesis-experiment-results.md` | Exp C 실험 결과 상세 (v5, 12 tasks) |
 | `docs/research/20260330-harness-engineering.md` | Harness 자체 평가 엔지니어링 |
+
+## Related
+- [[projects/HarnessOS/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
+- [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/HarnessOS/research/20260323-hypothesis-driven-agent-research|20260323-hypothesis-driven-agent-research]]
+- [[projects/HarnessOS/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/HarnessOS/research/20260324-autonomous-agent-vs-interactive-ai-division|20260324-autonomous-agent-vs-interactive-ai-division]]
+- [[projects/HarnessOS/research/20260330-harness-engineering|20260330-harness-engineering]]
+- [[projects/HarnessOS/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

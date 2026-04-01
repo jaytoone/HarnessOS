@@ -57,3 +57,9 @@ Abstract: General-purpose technologies reshape economies less by improving indiv
 6. [EpochX: Building the Infrastructure for an Emergent Agent Civilization](https://arxiv.org/abs/2603.27304) — arXiv cs.AI (rel=4.0)
 7. [TED: Training-Free Experience Distillation for Multimodal Reasoning](https://arxiv.org/abs/2603.26778) — arXiv cs.LG (rel=4.0)
 8. [Stable Reasoning, Unstable Responses: Mitigating LLM Deception via Stability Asymmetry](https://arxiv.org/abs/2603.26846) — arXiv cs.LG (rel=4.0)
+
+## Related
+- [[projects/HarnessOS/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/HarnessOS/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/HarnessOS/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/HarnessOS/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
