@@ -17,6 +17,7 @@
 - [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
 
 ## Research
+- [2026-04-01 Verification Hurt 실험 결과 — none/strict/lenient/adaptive escape rate 비교](research/digests/20260401-verification-hurt-results.md)
 - [2026-04-01 Experiment Ideas — 채널 수집 기반 HarnessOS 실험 아이디어 선별](research/digests/20260401-experiment-ideas.md)
 - [2026-04-01 Knowledge Digest — agent_research](research/digests/20260401-agent_research.md)
 - [2026-03-30 가설 기반 vs 엔지니어링 디버깅 실험 결과](research/20260330-hypothesis-experiment-results.md)
@@ -38,6 +39,14 @@
 - [2026-03-30 자율 에이전트 인사이트 수집 및 LiveCode 개선 보고서](agent-improvement-report-20260330.md)
 - [2026-03-30 omc-live / omc-live-infinite 스킬 전문 평론](research/20260330-omc-live-critique.md)
 - [2026-03-31 Category-Aware Strategy Selection for Stuck Agents — 논문 프레임 v1](research/paper-frame-category-aware-strategy.md)
+
+## Marketing
+- [marketing/concept.md](marketing/concept.md) — HarnessOS 포지셔닝 문서 (Harness Engineering 트렌드, scaffold/middleware 본질, 컴포넌트 스택, AGI 로드맵)
+- [marketing/devto_post.md](marketing/devto_post.md) — Dev.to 영문 포스트 (scaffold/middleware for infinite autonomous tasks, Harness Engineering 포지셔닝)
+- [marketing/hn_submission.md](marketing/hn_submission.md) — Hacker News Show HN + 일반 링크 제출 텍스트 (context rotation, self-evolving goals)
+- [marketing/disquiet_log.md](marketing/disquiet_log.md) — disquiet.io 한국어 로그 (무한 자율 작업 scaffold/middleware)
+- [marketing/tldr_email.md](marketing/tldr_email.md) — TLDR AI 뉴스레터 이메일 제출 텍스트
+- [marketing/github_issue_comment.md](marketing/github_issue_comment.md) — GitHub 이슈 댓글 템플릿 4종 (컨텍스트/실패/목표진화/Harness Engineering)
 
 ## Related
 - [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

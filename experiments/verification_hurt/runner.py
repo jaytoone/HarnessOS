@@ -32,10 +32,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Literal
 
+import os
+
 from openai import OpenAI
 
 from constants import RESULTS_DIR
 from experiments.hypothesis_validation.llm_strategies import _chat, _default_client
+
+_MODEL = os.environ.get("MINIMAX_MODEL", "MiniMax-M2.5")
+_SYSTEM = "You are a Python coding assistant. Be concise and precise."
 from experiments.stuck_agent.tasks import get_stuck_tasks
 
 VerificationMode = Literal["none", "strict", "lenient", "adaptive"]
@@ -61,8 +66,10 @@ Generate a working Python solution. Output ONLY the code."""
 
 
 def _generate_hint(task_desc: str, failed_code: str, client: OpenAI) -> str:
-    resp = _chat(
+    resp, _, _ = _chat(
         client=client,
+        model=_MODEL,
+        system=_SYSTEM,
         messages=[{
             "role": "user",
             "content": (
@@ -122,7 +129,7 @@ def run_verification_trial(
     max_attempts: int = 3,
 ) -> VerificationTrialResult:
     failed_code = getattr(task, "misleading_fix_code", "# no previous attempt")
-    task_desc = getattr(task, "description", str(task))
+    task_desc = getattr(task, "misleading_description", getattr(task, "description", str(task)))
 
     verification_calls = 0
     tokens_used = 0
@@ -148,20 +155,33 @@ def run_verification_trial(
                 failed_code=failed_code,
             )
 
-        response = _chat(
+        response, _, _ = _chat(
             client=client,
+            model=_MODEL,
+            system=_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
             max_tokens=512,
         )
         tokens_used += int(len(response.split()) * 1.3)
         code = _extract_code(response)
 
-        test_fn = getattr(task, "test_fn", None)
+        test_cases = getattr(task, "test_cases", None)
+        fn_name = getattr(task, "function_name", None)
+
+        def test_fn(ns, tc=test_cases, fn=fn_name):
+            if not tc or not fn or fn not in ns:
+                return False
+            f = ns[fn]
+            try:
+                return all(f(**c["input"]) == c["expected"] for c in tc)
+            except Exception:
+                return False
+
         passed, _ = _execute_code(code, test_fn)
 
         if passed:
             return VerificationTrialResult(
-                task_id=task.task_id,
+                task_id=task.id,
                 mode=mode,
                 escaped=True,
                 attempts_used=attempt,
@@ -171,7 +191,7 @@ def run_verification_trial(
         failed_code = code
 
     return VerificationTrialResult(
-        task_id=task.task_id,
+        task_id=task.id,
         mode=mode,
         escaped=False,
         attempts_used=max_attempts,
@@ -200,7 +220,7 @@ def run_experiment(
             trial = run_verification_trial(task, mode, client, max_attempts)
             trials.append(trial)
             status = "ESCAPED" if trial.escaped else "stuck  "
-            print(f"    [{status}] {task.task_id} (verif={trial.verification_calls})")
+            print(f"    [{status}] {task.id} (verif={trial.verification_calls})")
 
         n_escaped = sum(1 for t in trials if t.escaped)
         escape_rate = n_escaped / len(trials) if trials else 0.0
