@@ -77,16 +77,67 @@ class FeedItem:
     video_id: str | None = None        # YouTube video ID
 
 
-def extract_youtube_transcript(video_id: str, max_chars: int = 1500) -> str | None:
-    """YouTube 영상에서 자막 텍스트 추출.
-    자동생성 자막 포함. 실패 시 None 반환 (non-blocking).
+def extract_youtube_transcript(
+    video_id: str,
+    keywords: list[str] | None = None,
+    window_sec: float = 45.0,
+    max_chars: int = 3000,
+) -> str | None:
+    """YouTube 영상에서 자막 추출.
+
+    keywords 지정 시: 키워드 주변 ±window_sec 구간만 추출 (관련 구간 집중).
+    keywords 없으면: 전체 자막 텍스트 반환 (max_chars 제한).
+
+    Returns:
+        str: 자막 텍스트 (관련 구간 or 전체)
+        None: 자막 없음
     """
     try:
         from youtube_transcript_api import YouTubeTranscriptApi
         api = YouTubeTranscriptApi()
         fetched = api.fetch(video_id)
-        text = " ".join(s.text for s in fetched.snippets)
-        return text[:max_chars]
+        snippets = fetched.snippets
+
+        if not keywords:
+            # 전체 자막 반환
+            return " ".join(s.text for s in snippets)[:max_chars]
+
+        # 키워드 히트 타임스탬프 수집
+        kw_lower = [k.lower() for k in keywords]
+        hit_times: list[float] = []
+        for s in snippets:
+            if any(kw in s.text.lower() for kw in kw_lower):
+                hit_times.append(s.start)
+
+        if not hit_times:
+            # 키워드 없으면 전체 앞부분 반환
+            return " ".join(s.text for s in snippets)[:max_chars]
+
+        # 히트 타임스탬프 주변 구간 병합 (겹치는 구간 union)
+        intervals: list[tuple[float, float]] = [
+            (max(0, t - window_sec), t + window_sec) for t in hit_times
+        ]
+        # 정렬 후 겹치는 구간 병합
+        intervals.sort()
+        merged: list[tuple[float, float]] = [intervals[0]]
+        for start, end in intervals[1:]:
+            if start <= merged[-1][1]:
+                merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+            else:
+                merged.append((start, end))
+
+        # 해당 구간의 snippet만 추출
+        relevant_texts: list[str] = []
+        for seg_start, seg_end in merged:
+            seg_snippets = [s for s in snippets if seg_start <= s.start <= seg_end]
+            if seg_snippets:
+                chunk = " ".join(s.text for s in seg_snippets)
+                ts = f"[{int(seg_start//60)}:{int(seg_start%60):02d}]"
+                relevant_texts.append(f"{ts} {chunk}")
+
+        result = " | ".join(relevant_texts)
+        return result[:max_chars]
+
     except Exception:
         return None
 
@@ -180,13 +231,21 @@ def fetch_channel(channel: dict, category: str) -> list[FeedItem]:
             # 1차 관련성 (제목+설명 기반)
             rel = compute_relevance(title, summary)
 
-            # YouTube: 관련성 >= 0.5 인 경우 자막 추출 (제목만으로 낮게 나올 수 있음)
+            # YouTube: rel >= 0.5 이면 자막 추출 + 키워드 구간 집중
             if is_youtube and video_id and rel >= 0.5:
-                transcript = extract_youtube_transcript(video_id)
+                # 고가중치 키워드만 추출 대상으로 사용 (가중치 >= 2.0)
+                focus_kws = [kw for kw, w in RELEVANCE_KEYWORDS.items() if w >= 2.0]
+                transcript = extract_youtube_transcript(
+                    video_id,
+                    keywords=focus_kws,
+                    window_sec=45.0,
+                    max_chars=3000,
+                )
                 if transcript:
-                    # 자막으로 관련성 재계산 (더 정확)
                     rel = compute_relevance(title, summary + " " + transcript)
-                    summary = f"[transcript] {transcript[:400]}"
+                    # summary에 타임스탬프 구간 포함
+                    preview = transcript[:500]
+                    summary = f"[transcript segments] {preview}"
 
             trend = compute_trending(published, rel)
 
