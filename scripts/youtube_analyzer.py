@@ -29,28 +29,38 @@ from scripts.knowledge_collector import (
 MINIMAX_API_URL = "https://api.minimax.io/v1/text/chatcompletion_v2"
 MINIMAX_MODEL   = "MiniMax-M2.5"
 
-ANALYSIS_PROMPT = """You are a research assistant for HarnessOS, an AI agent evaluation framework.
-HarnessOS studies: stuck agents, hypothesis-driven escape strategies, autonomous loops, LLM evaluation.
+ANALYSIS_PROMPT = """You are a research assistant for HarnessOS.
 
-YouTube transcript (with timestamps):
+HarnessOS is a Python-based AI AGENT EVALUATION FRAMEWORK (not a DevOps tool).
+It runs controlled experiments on LLM agent behavior, specifically:
+- Stuck agent escape: when LLM agents loop without progress, which strategies help them escape?
+- Hypothesis-driven reasoning: does forming hypotheses improve agent problem-solving vs engineering-style debugging?
+- Category-aware strategy selection: classifying stuck types and routing to best escape strategy
+- Multi-agent feedback: when does verification help vs hurt agent performance?
+- Autonomous outer loops: self-evolving agent architectures (omc-live, omc-autopilot)
+
+YouTube transcript:
 ---
 {transcript}
 ---
 
-Provide a structured analysis:
+Provide:
 
 **1. SUMMARY** (1 sentence)
 
-**2. KEY INSIGHTS** (2-3 bullets, technical)
+**2. KEY INSIGHTS** (2-3 technical bullets)
 
 **3. HARNESSOS RELEVANCE** (0-10)
-Score and one-line reason.
+Format exactly: "Score: X/10 — reason"
+Rate high (7-10) if content covers: agent loops, LLM evaluation, stuck/escape behavior, multi-agent feedback, autonomous agents, self-improvement, reasoning strategies.
+Rate medium (4-6) if: general LLM/AI research, evaluation methods, agent architectures.
+Rate low (0-3) if: unrelated to AI agents or LLM research.
 
-**4. EXPERIMENT IDEA** (if score >= 4)
-Concrete experiment that could be added to HarnessOS based on this content.
-If score < 4, write "Not applicable."
+**4. EXPERIMENT IDEA**
+If score >= 4: one concrete experiment for HarnessOS.
+If score < 4: "Not applicable."
 
-Keep total response under 300 words."""
+Response under 350 words."""
 
 
 def analyze_video(video_id: str, title: str = "") -> dict:
@@ -78,7 +88,7 @@ def analyze_video(video_id: str, title: str = "") -> dict:
         json={
             "model": MINIMAX_MODEL,
             "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": 500,
+            "max_tokens": 1500,  # <think> 블록 완료에 충분한 토큰
         },
         timeout=30,
     )
@@ -90,8 +100,8 @@ def analyze_video(video_id: str, title: str = "") -> dict:
     # MiniMax <think> CoT 블록 제거
     analysis = re.sub(r"<think>.*?</think>\s*", "", raw, flags=re.DOTALL).strip()
 
-    # relevance score 추출
-    score_match = re.search(r"\*\*3\. HARNESSOS RELEVANCE\*\*[^\n]*\n.*?(\d+(?:\.\d+)?)\s*/\s*10", analysis)
+    # relevance score 추출 — "Score: X/10" 또는 "(X/10)" 등 다양한 패턴 허용
+    score_match = re.search(r"(\d+(?:\.\d+)?)\s*/\s*10", analysis)
     score = float(score_match.group(1)) if score_match else 0.0
 
     return {
