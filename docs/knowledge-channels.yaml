@@ -21,7 +21,7 @@ channels:
     - id: tldr_ai
       name: "TLDR AI"
       type: newsletter
-      rss: "https://tldr.tech/ai/rss"
+      rss: "https://tldr.tech/api/rss/ai"
       url: "https://tldr.tech/ai"
       tags: [daily_digest, ml_engineering]
       lang: en
@@ -42,8 +42,8 @@ channels:
     - id: bens_bites
       name: "Ben's Bites"
       type: newsletter
-      rss: "https://bensbites.beehiiv.com/feed"
-      url: "https://bensbites.beehiiv.com"
+      rss: "https://bensbites.com/feed"
+      url: "https://bensbites.com"
       tags: [business_ai, tools]
       lang: en
 
@@ -58,7 +58,7 @@ channels:
     - id: continuous_delivery_yt
       name: "Continuous Delivery"
       type: youtube
-      rss: "https://www.youtube.com/feeds/videos.xml?channel_id=UCCTVrRPo35dSvqan57Ooygg"
+      rss: "https://www.youtube.com/feeds/videos.xml?user=DaveFarley77"
       url: "https://youtube.com/@ContinuousDelivery"
       tags: [architecture, devops, software_design]
       lang: en
@@ -72,7 +72,7 @@ channels:
     - id: netflix_tech
       name: "Netflix Tech Blog"
       type: blog
-      rss: "https://netflixtechblog.com/feed"
+      rss: "https://medium.com/feed/netflix-techblog"
       url: "https://netflixtechblog.com"
       tags: [scale, systems, real_world]
       lang: en
@@ -95,7 +95,7 @@ channels:
     - id: indie_hackers
       name: "Indie Hackers"
       type: community
-      rss: "https://www.indiehackers.com/feed.rss"
+      rss: "https://hnrss.org/newest?q=indiehackers"
       url: "https://indiehackers.com"
       tags: [bootstrap, saas, founder]
       lang: en
@@ -104,7 +104,7 @@ channels:
     - id: geeknews
       name: "GeekNews"
       type: community
-      rss: "https://news.hada.io/rss"
+      rss: "https://news.hada.io/rss/news"
       url: "https://news.hada.io"
       tags: [dev_news, startup, korean]
       lang: ko

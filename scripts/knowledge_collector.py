@@ -73,6 +73,35 @@ class FeedItem:
     recency_hours: float
     trending_score: float
     tags: list
+    transcript: str | None = None      # YouTube 자막 (video 타입만)
+    video_id: str | None = None        # YouTube video ID
+
+
+def extract_youtube_transcript(video_id: str, max_chars: int = 1500) -> str | None:
+    """YouTube 영상에서 자막 텍스트 추출.
+    자동생성 자막 포함. 실패 시 None 반환 (non-blocking).
+    """
+    try:
+        from youtube_transcript_api import YouTubeTranscriptApi
+        api = YouTubeTranscriptApi()
+        fetched = api.fetch(video_id)
+        text = " ".join(s.text for s in fetched.snippets)
+        return text[:max_chars]
+    except Exception:
+        return None
+
+
+def extract_video_id_from_entry(entry) -> str | None:
+    """feedparser YouTube entry에서 video ID 추출."""
+    # YouTube RSS entries: yt_videoid 필드 또는 id 필드
+    vid = getattr(entry, "yt_videoid", None)
+    if vid:
+        return vid
+    entry_id = entry.get("id", "")
+    # format: "yt:video:VIDEO_ID"
+    if ":" in entry_id:
+        return entry_id.split(":")[-1]
+    return None
 
 
 def load_channels() -> dict:
@@ -127,6 +156,8 @@ def fetch_channel(channel: dict, category: str) -> list[FeedItem]:
     if not rss_url:
         return []
 
+    is_youtube = channel.get("type") == "youtube"
+
     try:
         feed = feedparser.parse(rss_url)
         items = []
@@ -140,7 +171,23 @@ def fetch_channel(channel: dict, category: str) -> list[FeedItem]:
             now = datetime.now(timezone.utc)
             age_hours = (now - published).total_seconds() / 3600
 
+            # YouTube: 자막 추출 (관련성 높은 영상만 — 비용 절감)
+            video_id = None
+            transcript = None
+            if is_youtube:
+                video_id = extract_video_id_from_entry(entry)
+
+            # 1차 관련성 (제목+설명 기반)
             rel = compute_relevance(title, summary)
+
+            # YouTube: 관련성 >= 0.5 인 경우 자막 추출 (제목만으로 낮게 나올 수 있음)
+            if is_youtube and video_id and rel >= 0.5:
+                transcript = extract_youtube_transcript(video_id)
+                if transcript:
+                    # 자막으로 관련성 재계산 (더 정확)
+                    rel = compute_relevance(title, summary + " " + transcript)
+                    summary = f"[transcript] {transcript[:400]}"
+
             trend = compute_trending(published, rel)
 
             items.append(FeedItem(
@@ -155,6 +202,8 @@ def fetch_channel(channel: dict, category: str) -> list[FeedItem]:
                 recency_hours=age_hours,
                 trending_score=trend,
                 tags=channel.get("tags", []),
+                transcript=transcript,
+                video_id=video_id,
             ))
         return items
     except Exception as e:
