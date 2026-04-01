@@ -112,3 +112,9 @@ metric: stuck_escape_rate
 | IDEA-4 (LLM-as-judge) | 낮음 | 낮음 | 낮음 | P3 |
 
 **Next experiment: IDEA-2** — `verification_mode` 비교 실험 (stuck_agent escape rate 측정)
+
+## Related
+- [[projects/HarnessOS/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/HarnessOS/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
