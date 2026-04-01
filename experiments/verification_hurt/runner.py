@@ -205,12 +205,16 @@ def run_experiment(
     n_trials: int = 10,
     max_attempts: int = 3,
     client: OpenAI | None = None,
+    all_tasks: bool = False,
 ) -> dict:
     if client is None:
         client = _default_client()
 
     tasks = get_stuck_tasks()
-    sampled = random.sample(tasks, min(n_trials, len(tasks)))
+    if all_tasks:
+        sampled = tasks  # 전체 태스크 사용 (McNemar paired design)
+    else:
+        sampled = random.sample(tasks, min(n_trials, len(tasks)))
     results: dict = {}
 
     for mode in modes:
@@ -237,23 +241,60 @@ def run_experiment(
     return results
 
 
+def mcnemar_test(results_a: "VerificationExperimentResult", results_b: "VerificationExperimentResult") -> dict:
+    """McNemar's test for paired binary outcomes (same tasks, two modes).
+    Returns: {b (a-pass/b-fail), c (a-fail/b-pass), chi2, p_value, significant}
+    """
+    import math
+    task_map_a = {t.task_id: t.escaped for t in results_a.trials}
+    task_map_b = {t.task_id: t.escaped for t in results_b.trials}
+    shared = set(task_map_a) & set(task_map_b)
+    b = sum(1 for tid in shared if task_map_a[tid] and not task_map_b[tid])  # a=pass, b=fail
+    c = sum(1 for tid in shared if not task_map_a[tid] and task_map_b[tid])  # a=fail, b=pass
+    n_discordant = b + c
+    if n_discordant == 0:
+        return {"b": b, "c": c, "chi2": 0.0, "p_value": 1.0, "significant": False, "n_shared": len(shared)}
+    # McNemar's chi2 with continuity correction
+    chi2 = (abs(b - c) - 1) ** 2 / (b + c) if (b + c) > 0 else 0.0
+    # Approximate p-value from chi2 (1 df) using survival function
+    # chi2 CDF approximation: p = erfc(sqrt(chi2/2) / sqrt(2))
+    p_value = math.erfc(math.sqrt(chi2 / 2) / math.sqrt(2))
+    return {"b": b, "c": c, "chi2": chi2, "p_value": p_value, "significant": p_value < 0.05, "n_shared": len(shared)}
+
+
 def print_summary(results: dict) -> None:
-    print("\n" + "=" * 55)
+    print("\n" + "=" * 60)
     print("VERIFICATION HURT EXPERIMENT SUMMARY")
-    print("=" * 55)
-    print(f"{'Mode':<12} {'Escape%':>8} {'AvgAttempts':>12} {'AvgVerif':>9}")
-    print("-" * 55)
+    print("=" * 60)
+    print(f"{'Mode':<12} {'Escape%':>8} {'n_esc/n':>8} {'AvgAttempts':>12} {'AvgVerif':>9}")
+    print("-" * 60)
     for mode, r in sorted(results.items(), key=lambda x: -x[1].escape_rate):
-        print(f"{mode:<12} {r.escape_rate:>7.1%} {r.avg_attempts:>12.1f} {r.avg_verifications:>9.1f}")
-    print("=" * 55)
-    if "none" in results and "strict" in results:
-        delta = results["strict"].escape_rate - results["none"].escape_rate
-        if delta < -0.05:
-            print(f"\n[FINDING] Verification HURTS (delta={delta:+.1%})")
-        elif delta > 0.05:
-            print(f"\n[FINDING] Verification HELPS (delta={delta:+.1%})")
-        else:
-            print(f"\n[FINDING] No significant difference (delta={delta:+.1%})")
+        print(f"{mode:<12} {r.escape_rate:>7.1%} {r.n_escaped:>3}/{r.n_trials:<4} {r.avg_attempts:>12.1f} {r.avg_verifications:>9.1f}")
+    print("=" * 60)
+
+    # Pairwise McNemar's vs baseline (none)
+    if "none" in results:
+        print("\n[STATISTICAL TESTS] McNemar's (paired, vs none baseline)")
+        print(f"{'Comparison':<20} {'delta':>8} {'chi2':>8} {'p-value':>10} {'sig?':>6}")
+        print("-" * 60)
+        for mode in ["strict", "lenient", "adaptive"]:
+            if mode not in results:
+                continue
+            stat = mcnemar_test(results["none"], results[mode])
+            delta = results[mode].escape_rate - results["none"].escape_rate
+            sig = "YES *" if stat["significant"] else "no"
+            print(f"none vs {mode:<12} {delta:>+7.1%} {stat['chi2']:>8.2f} {stat['p_value']:>10.4f} {sig:>6}")
+            print(f"  discordant pairs: none_pass/mode_fail={stat['b']}, none_fail/mode_pass={stat['c']}, n_shared={stat['n_shared']}")
+
+    # Best mode finding
+    best_mode = max(results, key=lambda m: results[m].escape_rate)
+    best_rate = results[best_mode].escape_rate
+    none_rate = results["none"].escape_rate if "none" in results else 0.0
+    delta = best_rate - none_rate
+    if delta > 0.10:
+        print(f"\n[FINDING] {best_mode} is best mode: {best_rate:.1%} vs none {none_rate:.1%} (delta={delta:+.1%})")
+    else:
+        print(f"\n[FINDING] No mode substantially beats baseline (best delta={delta:+.1%})")
 
 
 def save_results(results: dict, output_dir: Path = RESULTS_DIR) -> Path:
@@ -272,13 +313,15 @@ if __name__ == "__main__":
     parser.add_argument("--mode", default="all")
     parser.add_argument("--trials", type=int, default=10)
     parser.add_argument("--max-attempts", type=int, default=3)
+    parser.add_argument("--all-tasks", action="store_true", help="Run all tasks (McNemar paired design)")
     args = parser.parse_args()
 
     all_modes = ["none", "strict", "lenient", "adaptive"]
     modes = all_modes if args.mode == "all" else [args.mode]
+    use_all = getattr(args, "all_tasks", False)
 
-    print(f"Verification Hurt Experiment | modes={modes} trials={args.trials}")
+    print(f"Verification Hurt Experiment | modes={modes} trials={'ALL' if use_all else args.trials}")
     client = _default_client()
-    results = run_experiment(modes, args.trials, args.max_attempts, client)
+    results = run_experiment(modes, args.trials, args.max_attempts, client, all_tasks=use_all)
     print_summary(results)
     save_results(results)

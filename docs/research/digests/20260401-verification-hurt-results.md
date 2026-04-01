@@ -88,3 +88,7 @@ The arXiv:2603.27076 hypothesis ("verification hurts") is **partially confirmed 
 ## Raw Results
 
 Results saved: `results/verification_hurt_20260401_170814.json`
+
+## Related
+- [[projects/HarnessOS/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
+- [[projects/HarnessOS/research/digests/20260401-experiment-ideas|20260401-experiment-ideas]]

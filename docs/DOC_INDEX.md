@@ -49,11 +49,11 @@
 - [marketing/github_issue_comment.md](marketing/github_issue_comment.md) — GitHub 이슈 댓글 템플릿 4종 (컨텍스트/실패/목표진화/Harness Engineering)
 
 ## Related
-- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
-- [[projects/HarnessOS/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
 - [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
-- [[projects/HarnessOS/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
-- [[projects/HarnessOS/research/20260323-openhands-docker-permission-solution|20260323-openhands-docker-permission-solution]]
-- [[projects/HarnessOS/research/20260324-openhands-autonomous-global-setup|20260324-openhands-autonomous-global-setup]]
-- [[projects/HarnessOS/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
-- [[projects/HarnessOS/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/HarnessOS/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
+- [[projects/HarnessOS/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/HarnessOS/research/20260330-omc-live-critique|20260330-omc-live-critique]]
+- [[projects/HarnessOS/research/digests/20260401-experiment-ideas|20260401-experiment-ideas]]
+- [[projects/HarnessOS/superpowers/plans/2026-03-22-llm-longcontext-experiment|2026-03-22-llm-longcontext-experiment]]
+- [[projects/HarnessOS/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
+- [[projects/HarnessOS/research/digests/20260401-verification-hurt-results|20260401-verification-hurt-results]]

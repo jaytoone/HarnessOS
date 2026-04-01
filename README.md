@@ -1,73 +1,140 @@
-# LiveCode - LLM 실험 시스템
+# HarnessOS
 
-## 개요
-LLM 에이전트의 디버깅 전략과 장기 컨텍스트 한계를 측정하는 실험 시스템.
+**Scaffold/middleware for infinite autonomous tasks.**
+
+Built on the emerging Harness Engineering discipline —
+control structures that make autonomous AI agents reliable, self-improving, and indefinitely runnable.
+
+```
+HarnessOS
+├── CTX                      ← context precision layer
+│   └── LLM-free, 5.2% token budget, R@5=1.0 dependency recall
+├── omc-live                 ← finite self-evolving outer loop
+│   └── 2-Wave strategy + self-evolving goals + episode memory
+├── omc-live-infinite        ← infinite outer loop
+│   └── context rotation, world model, no iteration cap
+├── HalluMaze                ← hallucination management (in development)
+└── [future layers]
+    ├── Evaluation Layer
+    ├── Safety Layer
+    └── Memory Tier System
+```
 
 ---
 
-## 실험 C: 가설 기반 vs 엔지니어링 디버깅 (주력 실험)
+## The Problem
 
-**핵심 가설**: "가설 기반 사고(원인 → 검증)는 엔지니어링 사고(패턴 매칭 → 재시도)에 비해 어려운 버그에서 시도 횟수를 줄인다."
+Most agent frameworks are session-local. They run a task and stop.
 
-**결과 요약** (12 태스크, 3개 카테고리):
+Real autonomous work requires:
+- **Context that persists** past the window limit without data loss
+- **Goals that evolve** when the current one is achieved
+- **Failures that are classified**, not just retried
+- **Execution that continues** indefinitely — hours, not seconds
 
-| 카테고리 | Eng 평균 시도 | Hyp 평균 시도 | 절약 |
-|---------|-------------|-------------|------|
-| Simple  | 1.0         | 1.0         | 0.0  |
-| Causal  | 1.75        | 1.0         | +0.75 |
-| Assumption | 2.0      | 1.0         | +1.0  |
+HarnessOS is infrastructure for this.
 
-- 가설 정확도(첫 번째 가설이 맞을 확률): **100%**
-- 실행 방법 (단일 명령):
+---
+
+## Components
+
+### CTX — Context Precision Layer
+
+LLM-free context loader that classifies query type and selects the matching retrieval strategy.
+Loads exactly the right files for each task.
+
+- 5.2% average token budget (vs 40-60% for naive loading)
+- R@5 = 1.0 on dependency recall
+- Zero LLM calls for retrieval — pure algorithmic
+
+### omc-live — Finite Self-Evolving Outer Loop
+
+Wraps any inner loop with strategy consultation and self-improvement:
+
+```
+Wave 1: specialist strategy consultation (runs once per goal)
+   ↓
+Wave 2: execution + multi-dimensional scoring
+   ↓
+Self-evolves: scores output → elevates goal → continues until plateau
+```
+
+### omc-live-infinite — No Iteration Cap
+
+Extends omc-live for indefinite execution:
+
+- **Context rotation**: at 70% budget → safe state handoff → fresh session → resume
+- **World model**: epistemic state layer persists across rotations
+- **Co-evolution feedback**: strategy outcomes feed back into Wave 1
+
+### HalluMaze — Hallucination Management *(in development)*
+
+Maze-based evaluation harness for detecting and classifying hallucination patterns
+in extended autonomous execution.
+
+---
+
+## Empirical Foundations
+
+Every design decision is backed by controlled experiments:
+
+| Question | Finding | Impact on design |
+|---------|---------|-----------------|
+| How should agents reason? | Hypothesis-driven: **-50% attempts** on hard bugs, 100% first-hypothesis accuracy | Default reasoning in omc-live inner loop |
+| Where are context limits? | **Threshold-based cliff**, not gradual fade — silent failure at specific lengths | Context rotation at 70% in omc-live-infinite |
+| Where do agents fail? | **3 predictable clusters**: wrong decomposition, role non-compliance, boundary violation | omc-failure-router classification |
+
+---
+
+## Quick Start
 
 ```bash
+git clone https://github.com/jaytoone/HarnessOS
+cd HarnessOS
+
+# Run hypothesis-driven vs engineering debugging experiment
 python3 analyze.py --run
+
+# Run all experiments
+python3 runner.py --exp a   # context degradation (1K/10K/50K/100K tokens)
+python3 runner.py --exp b   # autonomous agent failure classification
+
+# Tests
+python3 -m pytest           # 214 tests, 100% coverage
 ```
 
-**상세 연구 문서**: `docs/research/20260330-hypothesis-experiment-results.md`
+No pip install required. No API keys required for base experiments.
 
 ---
 
-## 실험 A: 기억력 저하 (Lost-in-the-Middle)
-- 컨텍스트 길이: 1K / 10K / 50K / 100K 토큰
-- 정보 위치: 앞 / 중간 / 뒤
-- 각 조건 3회 반복 → 총 36 데이터포인트
+## Documentation
 
-```bash
-python3 runner.py --exp a
-```
-
-## 실험 B: 코딩 실수 시점
-- OpenHands 에이전트로 20단계 코딩 태스크 수행
-- 실패 급증 시점 자동 감지
-
-```bash
-python3 runner.py --exp b  # OpenHands localhost:3000 필요
-```
+- [Architecture overview](docs/ARCHITECTURE.md)
+- [Positioning & concept](docs/marketing/concept.md)
+- [Experiment results](docs/research/)
+- [Component specs](docs/)
 
 ---
 
-## 결과 분석
+## Status
 
-```bash
-# 모든 결과 파일 요약
-python3 analyze.py
+| Component | Status |
+|-----------|--------|
+| CTX | Stable |
+| omc-live | Stable |
+| omc-live-infinite | Stable |
+| HalluMaze | In development |
+| Evaluation Layer | Planned |
+| Safety Layer | Planned |
 
-# 실험 C 전체 파이프라인 (실행 + 분석 + 하네스 평가)
-python3 analyze.py --run
+---
 
-# 실험 C LLM 버전 (실제 Claude API 호출, ANTHROPIC_API_KEY 필요)
-export ANTHROPIC_API_KEY=sk-ant-...
-python3 analyze.py --run-llm
+## Why "Harness"
 
-# 하네스 평가 추이 (cross-run)
-python3 analyze.py --harness-trend
-```
+A harness doesn't constrain power — it channels it.
 
-결과 JSON: `results/` | 하네스 평가: `results/harness_evals/`
+LLMs have enormous capability. Without control structure, that capability is
+context-unaware, goal-unstable, failure-opaque, and session-local.
 
-## 테스트
-
-```bash
-python3 -m pytest  # 214 tests, 100% coverage
-```
+HarnessOS adds the control structure.
+Not to limit the model — to make it usable for work that matters.
