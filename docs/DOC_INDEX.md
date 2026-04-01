@@ -9,7 +9,12 @@
 ## Plans
 - [2026-03-22 LLM 장기 컨텍스트 실험 구현 계획](superpowers/plans/2026-03-22-llm-longcontext-experiment.md)
 
+## Knowledge Pipeline
+- [knowledge-channels.yaml](knowledge-channels.yaml) — RSS 채널 레지스트리 (AI/ML/Engineering/Startup/KR)
+- [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
+
 ## Research
+- [2026-04-01 Knowledge Digest — agent_research](research/digests/20260401-agent_research.md)
 - [2026-03-30 가설 기반 vs 엔지니어링 디버깅 실험 결과](research/20260330-hypothesis-experiment-results.md)
 - [2026-03-30 가설 기반 사고 vs 엔지니어링적 사고 — 난제 해결 실효성](research/20260330-hypothesis-vs-engineering-thinking.md)
 - [2026-03-30 AI 하네스(Harness) 개념 및 사용법](research/20260330-harness-engineering.md)

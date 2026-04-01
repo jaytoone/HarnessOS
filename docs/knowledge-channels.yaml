@@ -1,0 +1,149 @@
+# HarnessOS Knowledge Channel Registry
+# 자동 수집 파이프라인 소스 정의
+# Updated: 2026-04-01
+
+channels:
+  ai_ml:
+    - id: import_ai
+      name: "Import AI"
+      type: newsletter
+      rss: "https://importai.substack.com/feed"
+      url: "https://importai.substack.com"
+      tags: [research, policy, safety]
+      lang: en
+    - id: ahead_of_ai
+      name: "Ahead of AI"
+      type: newsletter
+      rss: "https://magazine.sebastianraschka.com/feed"
+      url: "https://magazine.sebastianraschka.com"
+      tags: [paper_review, ml_engineering]
+      lang: en
+    - id: tldr_ai
+      name: "TLDR AI"
+      type: newsletter
+      rss: "https://tldr.tech/ai/rss"
+      url: "https://tldr.tech/ai"
+      tags: [daily_digest, ml_engineering]
+      lang: en
+    - id: thesequence
+      name: "TheSequence"
+      type: newsletter
+      rss: "https://thesequence.substack.com/feed"
+      url: "https://thesequence.substack.com"
+      tags: [ml_systems, algorithms]
+      lang: en
+    - id: last_week_in_ai
+      name: "Last Week in AI"
+      type: newsletter
+      rss: "https://lastweekin.ai/feed"
+      url: "https://lastweekin.ai"
+      tags: [weekly_roundup, research]
+      lang: en
+    - id: bens_bites
+      name: "Ben's Bites"
+      type: newsletter
+      rss: "https://bensbites.beehiiv.com/feed"
+      url: "https://bensbites.beehiiv.com"
+      tags: [business_ai, tools]
+      lang: en
+
+  software_engineering:
+    - id: fireship_yt
+      name: "Fireship"
+      type: youtube
+      rss: "https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA"
+      url: "https://youtube.com/@Fireship"
+      tags: [trends, tools, short_form]
+      lang: en
+    - id: continuous_delivery_yt
+      name: "Continuous Delivery"
+      type: youtube
+      rss: "https://www.youtube.com/feeds/videos.xml?channel_id=UCCTVrRPo35dSvqan57Ooygg"
+      url: "https://youtube.com/@ContinuousDelivery"
+      tags: [architecture, devops, software_design]
+      lang: en
+    - id: martin_fowler
+      name: "Martin Fowler Blog"
+      type: blog
+      rss: "https://martinfowler.com/feed.atom"
+      url: "https://martinfowler.com"
+      tags: [architecture, patterns, refactoring]
+      lang: en
+    - id: netflix_tech
+      name: "Netflix Tech Blog"
+      type: blog
+      rss: "https://netflixtechblog.com/feed"
+      url: "https://netflixtechblog.com"
+      tags: [scale, systems, real_world]
+      lang: en
+    - id: devto
+      name: "dev.to"
+      type: community
+      rss: "https://dev.to/feed"
+      url: "https://dev.to"
+      tags: [community, tutorials]
+      lang: en
+
+  startup_product:
+    - id: lennys_newsletter
+      name: "Lenny's Newsletter"
+      type: newsletter
+      rss: "https://www.lennysnewsletter.com/feed"
+      url: "https://lennysnewsletter.com"
+      tags: [product, growth, pm]
+      lang: en
+    - id: indie_hackers
+      name: "Indie Hackers"
+      type: community
+      rss: "https://www.indiehackers.com/feed.rss"
+      url: "https://indiehackers.com"
+      tags: [bootstrap, saas, founder]
+      lang: en
+
+  korean_it:
+    - id: geeknews
+      name: "GeekNews"
+      type: community
+      rss: "https://news.hada.io/rss"
+      url: "https://news.hada.io"
+      tags: [dev_news, startup, korean]
+      lang: ko
+    - id: yozm_it
+      name: "요즘IT"
+      type: blog
+      rss: "https://yozm.wishket.com/magazine/feed/"
+      url: "https://yozm.wishket.com/magazine/"
+      tags: [korean, it_trends, practitioner]
+      lang: ko
+
+  science_philosophy:
+    - id: hn
+      name: "Hacker News"
+      type: community
+      rss: "https://news.ycombinator.com/rss"
+      url: "https://news.ycombinator.com"
+      tags: [tech, science, discussion]
+      lang: en
+    - id: arxiv_cs_ai
+      name: "arXiv cs.AI"
+      type: arxiv
+      rss: "https://rss.arxiv.org/rss/cs.AI"
+      url: "https://arxiv.org/list/cs.AI/recent"
+      tags: [papers, research, cutting_edge]
+      lang: en
+    - id: arxiv_cs_lg
+      name: "arXiv cs.LG"
+      type: arxiv
+      rss: "https://rss.arxiv.org/rss/cs.LG"
+      url: "https://arxiv.org/list/cs.LG/recent"
+      tags: [papers, ml_theory]
+      lang: en
+
+# 카테고리 → 채널 매핑 (오늘의 학습 포커스 설정용)
+category_focus_map:
+  agent_research: [import_ai, ahead_of_ai, thesequence, arxiv_cs_ai, arxiv_cs_lg, hn]
+  ml_engineering: [tldr_ai, thesequence, ahead_of_ai, last_week_in_ai, netflix_tech]
+  product_growth: [lennys_newsletter, indie_hackers, bens_bites]
+  system_design: [martin_fowler, continuous_delivery_yt, netflix_tech]
+  daily_digest: [geeknews, tldr_ai, bens_bites, hn]
+  trending_tools: [fireship_yt, bens_bites, tldr_ai, geeknews]
