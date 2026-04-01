@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Results (large JSON outputs)
+results/
+server.log
+
+# Playwright
+.playwright-mcp/
+
+# AutoCode (auto-generated)
+AutoCode/
+
+# OS
+.DS_Store
+Thumbs.db
