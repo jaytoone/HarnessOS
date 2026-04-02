@@ -1,79 +1,13 @@
 {
-  "tried_strategies": [
-    {
-      "goal": "Experiment D framework — passively designed deceptive tasks",
-      "score": 0.77,
-      "score_vector": {"completeness": 0.72, "impact": 0.80, "quality": 0.95, "efficiency": 0.60},
-      "iteration": 113,
-      "outcome": "evolved",
-      "weak_dim": "completeness/efficiency",
-      "note": "17/24 runs trivial — LLM solved on first attempt without getting stuck"
-    },
-    {
-      "goal": "misleading_hint injection — controlled stuck state",
-      "score": 0.82,
-      "score_vector": {"completeness": 0.80, "impact": 0.85, "quality": 0.95, "efficiency": 0.70},
-      "iteration": 114,
-      "outcome": "evolved",
-      "weak_dim": "completeness",
-      "note": "misleading_hint partially effective: 13 stuck obs out of 24, but only 1 discordant pair"
-    },
-    {
-      "goal": "ControlledLLMStuckRunner — force 100% stuck via misleading_fix_code injection",
-      "score": 0.83,
-      "score_vector": {"completeness": 0.87, "impact": 0.85, "quality": 0.95, "efficiency": 0.65},
-      "iteration": 115,
-      "outcome": "in_progress",
-      "weak_dim": "completeness",
-      "note": "40 obs, 0 trivial. Eng 97.5% vs Hyp 87.5% (p=0.1336). RED HERRING: Eng 100% vs Hyp 60% (-40%). Only 4 discordant pairs — insufficient power. Engineering BEATS hypothesis in red_herring category."
-    }
-  ],
-  "dead_ends": [
-    {
-      "goal": "Passively designed deceptive tasks without misleading prompts",
-      "score": 0.40,
-      "reason": "LLM too capable — 71% trivial, only 7 stuck observations out of 24 runs"
-    },
-    {
-      "goal": "Hypothesis rescue anchored on misleading context — expects hypothesis to win",
-      "score": 0.30,
-      "reason": "Structured failure analysis amplifies misleading context. Engineering retry is MORE robust for red_herring bugs. Need either: (1) more red_herring tasks for power, or (2) counter-deception hypothesis prompt."
-    }
-  ],
-  "known_facts": [
-    "MiniMax-M2.5 solves most simple+causal+assumption bugs in one shot",
-    "Experiment B: Engineering 97.2% vs Hypothesis 100% (trials=3, fresh tasks)",
-    "Experiment D controlled: Engineering 97.5% vs Hypothesis 87.5% (40 obs, p=0.1336)",
-    "RED HERRING finding: hypothesis rescue WORSE by -40% on red_herring tasks — structured failure analysis anchors on misleading context",
-    "Category breakdown: red_herring Eng=100% Hyp=60%; all others tied at ~100%",
-    "Token overhead: hypothesis 30.2% more tokens than engineering",
-    "McNemar power requirement: need ≥10 discordant pairs for 80% power (currently 4)",
-    "Strategy to reach significance: expand red_herring tasks (6→10+) OR fix hypothesis prompt to counter anchoring"
-  ],
-  "uncertain": [
-    {
-      "goal": "ControlledLLMStuckRunner with current hypothesis prompt",
-      "score": 0.83,
-      "reason": "p=0.1336 — trend exists but insufficient power. Direction is engineering > hypothesis (unexpected)"
-    }
-  ],
-  "dimensions_explored": {
-    "completeness": 0.87,
-    "impact": 0.85,
-    "quality": 0.95,
-    "efficiency": 0.65
-  },
-  "best_score_vector": {
-    "completeness": 0.87,
-    "impact": 0.85,
-    "quality": 0.95,
-    "efficiency": 0.70
-  },
-  "her_hints": [
-    {
-      "dim": "completeness",
-      "delta": 0.07,
-      "sub_goal": "Expand red_herring tasks (2→8) to get ≥10 discordant pairs for McNemar 80% power. Red_herring shows -40% hypothesis penalty — largest effect signal."
-    }
-  ]
+  "tried_strategies": [],
+  "dead_ends": [],
+  "known_facts": [],
+  "uncertain": [],
+  "dimensions_explored": {},
+  "skill_routing_history": [],
+  "her_hints": [],
+  "best_score_vector": {},
+  "wave1_plan": "",
+  "wave1_evolution_count": -1,
+  "wave1_feedback": []
 }

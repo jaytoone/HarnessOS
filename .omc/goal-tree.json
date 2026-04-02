@@ -1,24 +1,17 @@
 {
-  "root_goal": "absorb 스킬 출처 명시 강화 + Signals 논문 기반 trajectory triage 실험 설계",
-  "original_goal": "진화 기반 지식 채널로부터 관련 지식/데이터 흡수를 Claude Code 스킬로 자동화",
+  "root_goal": "live-inf 무한 루프 테스트: inhale→evolve 파이프라인을 3회 이상 반복 실행하여 수렴 동작 검증",
+  "original_goal": "live-inf 무한 루프 테스트: inhale→evolve 파이프라인을 3회 이상 반복 실행하여 수렴 동작 검증",
   "level": 0,
   "sub_goals": [
-    "1. [DONE] absorb SKILL.md 출처 명시 포맷 강화",
-    "2. Signals 논문 기반 trajectory triage 실험 설계문서 작성",
-    "3. omc-failure-router에 trajectory sampling 연동 가능성 분석"
+    "1. iter 1: inhale agent_research → 다이제스트 생성",
+    "2. iter 2: evolve → top insight를 실험 설계로 변환",
+    "3. iter 3+: 반복하며 수렴 감지 테스트"
   ],
-  "evolution_count": 1,
-  "evolution_history": [
-    {
-      "iteration": 1,
-      "goal": "진화 기반 지식 채널로부터 관련 지식/데이터 흡수를 Claude Code 스킬로 자동화",
-      "score": 0.88,
-      "rationale": "absorb 스킬 완성 → 출처 명시 강화 + 흡수된 지식(Signals 논문)으로 실험 설계"
-    }
-  ],
+  "evolution_count": 0,
+  "evolution_history": [],
   "reward_spec": {
-    "primary_metric": "absorb 출처 명시 + trajectory triage 실험 설계 완료",
-    "threshold": "SKILL.md 출처 포맷 업데이트 + experiments/ 실험 설계문서 존재"
+    "primary_metric": "3회 이상 루프 반복 + 수렴 감지 동작 확인",
+    "threshold": "plateau_count 증가 관찰 또는 3회 반복 성공"
   },
   "history": []
 }
