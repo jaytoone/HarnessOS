@@ -25,3 +25,6 @@ where w1 + w2 + w3 = 1.0
 
 This is already partially implemented (oracle merge rule in Step 6a).
 Gap: no benchmark-based component for non-test dimensions.
+
+## Related
+- [[projects/HarnessOS/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
