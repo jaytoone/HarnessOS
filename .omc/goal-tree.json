@@ -1,24 +1,18 @@
 {
-  "root_goal": "IDEA-2 Verification Hurt 실험 — 4가지 verification mode(none/strict/lenient/adaptive) escape rate 비교 및 HarnessOS 반영",
-  "original_goal": "IDEA-2 Verification Hurt 실험 진행 및 HarnessOS 반영",
+  "root_goal": "진화 기반 지식 채널로부터 관련 지식/데이터 흡수를 Claude Code 스킬로 자동화",
+  "original_goal": "진화 기반 지식 채널로부터 관련 지식/데이터 흡수를 Claude Code 스킬로 자동화",
   "level": 0,
   "sub_goals": [
-    "runner.py 호환성 수정 (task.id, test_cases, _chat signature) — DONE",
-    "Run 1 실험 실행 (n=8 per mode) — DONE",
-    "결과 분석 및 digest 저장 — DONE",
-    "Run 2 (n=30+) 통계적 유의성 검증 — NEXT"
+    "1. 기존 파이프라인(knowledge_collector + harness_updater + collect.sh) 분석",
+    "2. knowledge-absorb SKILL.md 설계 및 작성",
+    "3. 스킬 내에서 수집→필터→컨텍스트 주입 자동화",
+    "4. 테스트 및 검증"
   ],
   "evolution_count": 0,
   "evolution_history": [],
   "reward_spec": {
-    "primary_metric": "실험 실행 + 결과 분석 완료",
-    "threshold": "4 modes 비교 + digest 저장 + HarnessOS 반영"
+    "primary_metric": "스킬 호출 시 지식 채널 수집 + HarnessOS 관련 인사이트 자동 추출",
+    "threshold": "/knowledge-absorb 호출 → 수집 실행 → 인사이트 컨텍스트 주입 성공"
   },
-  "history": [
-    {
-      "iteration": 1,
-      "outcome": "success",
-      "finding": "lenient=87.5% > adaptive=75% > none=strict=62.5%. strict is cost-dominated (same rate, 2x verif calls). lenient is best at near-zero cost."
-    }
-  ]
+  "history": []
 }

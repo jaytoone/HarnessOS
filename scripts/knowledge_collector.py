@@ -34,17 +34,23 @@ RELEVANCE_KEYWORDS = {
     "autonomous agent": 3, "agent loop": 3, "self-improvement": 3,
     "hypothesis validation": 3, "hypothesis-driven": 3, "hypothesis": 3,
     "outer loop": 3, "inner loop": 3, "self-evolving": 3,
+    "agent scaffold": 3, "agent orchestration": 3,
     # 평가/벤치마크 (2.5점)
     "llm evaluation": 2.5, "agent benchmark": 2.5, "agent evaluation": 2.5,
     "skill selection": 2.5, "strategy selection": 2.5,
+    "agentic rag": 2.5, "mcp": 2.5, "model context protocol": 2.5,
     # 일반 에이전트 연구 (2점)
     "agentic": 2, "tool use": 2, "multi-agent": 2, "reward model": 2,
     "reinforcement": 2, "rlhf": 2, "rlaif": 2, "chain of thought": 2,
     "reasoning": 2, "planning": 2, "reflection": 2, "self-critique": 2,
+    "tool call": 2, "tool calling": 2, "function calling": 2,
+    "react agent": 2, "react pattern": 2, "agent framework": 2,
+    "code agent": 2, "memory agent": 2, "computer use": 2,
     # 일반 LLM (1점)
     "language model": 1, "foundation model": 1, "fine-tuning": 1, "prompt": 1,
     "ai agent": 1, "llm": 1, "gpt": 1, "claude": 1, "gemini": 1,
     "transformer": 1, "attention": 1, "inference": 1,
+    "context window": 1.5, "swarm": 1.5, "agent swarm": 2,
     # 소프트웨어/시스템 (0.5점)
     "pipeline": 0.5, "automation": 0.5, "evaluation": 0.5, "testing": 0.5,
     "experiment": 0.5, "benchmark": 0.5,
@@ -217,7 +223,7 @@ def fetch_channel(channel: dict, category: str) -> list[FeedItem]:
             link = entry.get("link", "")
             summary_raw = entry.get("summary", entry.get("description", ""))
             # HTML 태그 제거
-            summary = re.sub(r"<[^>]+>", " ", summary_raw)[:500]
+            summary = re.sub(r"<[^>]+>", " ", summary_raw)[:2000]
             published = parse_date(entry)
             now = datetime.now(timezone.utc)
             age_hours = (now - published).total_seconds() / 3600

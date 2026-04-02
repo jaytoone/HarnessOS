@@ -47,6 +47,10 @@
 - [marketing/disquiet_log.md](marketing/disquiet_log.md) — disquiet.io 한국어 로그 (무한 자율 작업 scaffold/middleware)
 - [marketing/tldr_email.md](marketing/tldr_email.md) — TLDR AI 뉴스레터 이메일 제출 텍스트
 - [marketing/github_issue_comment.md](marketing/github_issue_comment.md) — GitHub 이슈 댓글 템플릿 4종 (컨텍스트/실패/목표진화/Harness Engineering)
+- [marketing/github_outreach_drafts.md](marketing/github_outreach_drafts.md) — GitHub 이슈별 맞춤 기술 댓글 초안 9건 (Wave 1: claude-code, crewAI, adk-python, OpenHands / Wave 2: openai-agents-python, strands-agents)
+- [marketing/outreach_ready/adk_python_4178.md](marketing/outreach_ready/adk_python_4178.md) — google/adk-python#4178 즉시 게시 가능 댓글 (429/503 state corruption)
+- [marketing/outreach_ready/claude_code_discussion.md](marketing/outreach_ready/claude_code_discussion.md) — anthropics/claude-code Discussion 게시용 RFC (context rotation pattern)
+- [marketing/reddit_localllama.md](marketing/reddit_localllama.md) — Reddit r/LocalLLaMA 포스트 (cliff-edge 발견 + HarnessOS, 2026-04-01 LIVE)
 
 ## Related
 - [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

@@ -1,6 +1,26 @@
 # disquiet.io 로그 (한국어)
 
-## 게시 내용
+## 로그 2 — Cliff-Edge (준비 완료, 세션 재로그인 후 게시)
+
+```
+LLM 에이전트의 컨텍스트 저하는 점진적이지 않습니다 — 절벽입니다 (cliff-edge).
+
+직접 실험으로 측정했습니다. 에이전트는 컨텍스트 70% 지점까지 정상 작동하다가, 그 이후 갑자기 무음으로 실패합니다. 서서히 나빠지는 게 아닙니다.
+
+이 발견이 HarnessOS 설계를 바꿨습니다:
+- omc-live-infinite: 70% 도달 전에 컨텍스트 회전 (cliff 이전 안전 핸드오프)
+- World Model: 컨텍스트가 바뀌어도 에이전트 인식 상태 유지
+- 결과: 세션 한도 없이 무한 실행
+
+GitHub: https://github.com/jaytoone/HarnessOS
+```
+
+**상태**: PENDING — 2026-04-01 세션 만료 (ApolloError: User is not logged in). 재로그인 후 게시.
+**이미지**: `.playwright-mcp/harnessos_cliff_edge.png` (수동 첨부 필요, API 401)
+
+---
+
+## 로그 1 — HarnessOS 소개
 
 ```
 HarnessOS를 만들었습니다.
@@ -52,3 +72,8 @@ python3 analyze.py --run
 ## 계정 정보
 - be2jay67@gmail.com (Google OAuth) — session-3 로그인 유지
 - URL: https://disquiet.io/@be2jay67/logs
+
+## Related
+- [[projects/HarnessOS/research/20260330-harness-engineering|20260330-harness-engineering]]
+- [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

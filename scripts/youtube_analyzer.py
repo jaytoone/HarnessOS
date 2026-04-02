@@ -77,7 +77,7 @@ def analyze_video(video_id: str, title: str = "") -> dict:
     if not transcript:
         return {"error": "No transcript available", "video_id": video_id}
 
-    prompt = ANALYSIS_PROMPT.format(transcript=transcript[:2500])
+    prompt = ANALYSIS_PROMPT.format(transcript=transcript)
 
     resp = requests.post(
         MINIMAX_API_URL,
@@ -158,6 +158,68 @@ def analyze_category_top(category: str, top_n: int = 3) -> list[dict]:
     return results
 
 
+def collect_and_rerank(
+    category: str,
+    top_n: int = 10,
+    sort_by: str = "trending",
+    min_relevance: float = 0.0,
+    analyze_top_k: int = 5,
+    alpha: float = 0.4,
+) -> list:
+    """1차 RSS 수집 + YouTube 상위 K개 LLM 분석 → 2차 re-ranking.
+
+    Final score = alpha * normalized_trending + (1-alpha) * normalized_harnessos
+    alpha=0.4: RSS 트렌딩 40% + LLM HarnessOS 관련도 60% 가중치.
+
+    Args:
+        analyze_top_k: 1차 정렬 후 LLM 분석할 YouTube 영상 수 (비용 제어)
+        alpha: RSS trending 가중치 (1-alpha = LLM harnessos_score 가중치)
+    Returns:
+        FeedItem 리스트 (harnessos_score 필드 추가), re-ranking 순 정렬
+    """
+    from scripts.knowledge_collector import collect, FeedItem
+    import dataclasses
+
+    # 1차 수집
+    items = collect(category, top_n=top_n * 2, sort_by=sort_by, min_relevance=min_relevance)
+
+    # YouTube 영상만 LLM 분석 대상
+    yt_items = [i for i in items if i.video_id]
+    non_yt_items = [i for i in items if not i.video_id]
+
+    if not yt_items:
+        return items[:top_n]
+
+    # 2차 LLM 분석 (상위 analyze_top_k만)
+    yt_to_analyze = yt_items[:analyze_top_k]
+    yt_scores: dict[str, float] = {}
+
+    for item in yt_to_analyze:
+        print(f"  [LLM rerank] {item.title[:55]}...", file=sys.stderr)
+        result = analyze_video(item.video_id, item.title)
+        if "harnessos_score" in result:
+            yt_scores[item.video_id] = result["harnessos_score"]
+        else:
+            yt_scores[item.video_id] = 0.0
+
+    # trending 정규화 (0~1)
+    all_trends = [i.trending_score for i in items] or [1.0]
+    max_trend = max(all_trends)
+    min_trend = min(all_trends)
+    trend_range = max(max_trend - min_trend, 1e-6)
+
+    def final_score(item: FeedItem) -> float:
+        norm_trend = (item.trending_score - min_trend) / trend_range
+        llm_score = yt_scores.get(item.video_id, 0.0) / 10.0 if item.video_id else 0.0
+        if item.video_id in yt_scores:
+            return alpha * norm_trend + (1 - alpha) * llm_score
+        return alpha * norm_trend  # 미분석 YouTube or 비YouTube
+
+    # 통합 re-ranking: 모든 항목을 final_score로 정렬 (YouTube LLM 분석 여부 무관)
+    reranked = sorted(items[:top_n * 2], key=final_score, reverse=True)
+    return reranked[:top_n]
+
+
 def print_analysis(result: dict) -> None:
     if "error" in result:
         print(f"[ERROR] {result['error']}")
@@ -178,6 +240,10 @@ if __name__ == "__main__":
     parser.add_argument("--category", help="Analyze top N YouTube videos from category")
     parser.add_argument("--top", type=int, default=3)
     parser.add_argument("--output", choices=["text", "json"], default="text")
+    parser.add_argument("--rerank", action="store_true",
+                        help="LLM 2차 re-ranking (collect + analyze + blend scores)")
+    parser.add_argument("--analyze-k", type=int, default=5,
+                        help="rerank 모드: LLM 분석할 상위 YouTube 영상 수")
     args = parser.parse_args()
 
     api_key = os.environ.get("MINIMAX_API_KEY", "")
@@ -191,6 +257,24 @@ if __name__ == "__main__":
             print(json.dumps(result, ensure_ascii=False, indent=2))
         else:
             print_analysis(result)
+
+    elif args.category and args.rerank:
+        print(f"[RERANK] category={args.category} top={args.top} analyze_k={args.analyze_k}", file=sys.stderr)
+        items = collect_and_rerank(args.category, top_n=args.top, analyze_top_k=args.analyze_k)
+        if args.output == "json":
+            def serialize(item):
+                import dataclasses
+                d = dataclasses.asdict(item)
+                d["published"] = item.published.isoformat()
+                return d
+            print(json.dumps([serialize(i) for i in items], ensure_ascii=False, indent=2))
+        else:
+            for i, item in enumerate(items, 1):
+                print(f"\n{i}. [{item.relevance_score:.1f}] {item.title}")
+                print(f"   {item.url}")
+                if item.video_id:
+                    print(f"   [YouTube] video_id={item.video_id}")
+                print(f"   {item.summary[:200]}")
 
     elif args.category:
         print(f"Analyzing top {args.top} YouTube videos from '{args.category}'...", file=sys.stderr)

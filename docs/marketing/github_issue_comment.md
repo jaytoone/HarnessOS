@@ -102,3 +102,12 @@ context degradation, and failure patterns changed how each component was built.
 
 GitHub: https://github.com/jaytoone/HarnessOS
 ```
+
+## Related
+- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/HarnessOS/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/HarnessOS/research/20260330-harness-engineering|20260330-harness-engineering]]
+- [[projects/HarnessOS/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
+- [[projects/HarnessOS/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/HarnessOS/research/20260324-openhands-autonomous-global-setup|20260324-openhands-autonomous-global-setup]]

@@ -109,4 +109,4 @@ If verification is to be used: only as an **explicit opt-in for post-escape vali
 
 ## Related
 - [[projects/HarnessOS/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
-- [[projects/HarnessOS/research/digests/20260401-experiment-ideas|20260401-experiment-ideas]]
+- [[projects/HarnessOS/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]

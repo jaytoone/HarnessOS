@@ -4,7 +4,7 @@
 
 **Title:**
 ```
-Show HN: HarnessOS – scaffold/middleware for infinite autonomous agents (self-evolving loops, context rotation)
+Show HN: LLM agents don't degrade gradually – they cliff-edge. I built HarnessOS to survive it
 ```
 
 **Body:**
@@ -51,7 +51,15 @@ Happy to discuss the context rotation design or the self-evolution mechanics.
 
 **Title:**
 ```
-HarnessOS: scaffold/middleware for infinite autonomous agents (context rotation, self-evolving goals)
+Context degradation in LLM agents is a cliff-edge, not gradual – built HarnessOS to handle it
 ```
 
 **URL:** `https://github.com/jaytoone/HarnessOS`
+
+## Related
+- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/HarnessOS/research/20260323-hypothesis-driven-agent-research|20260323-hypothesis-driven-agent-research]]
+- [[projects/HarnessOS/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/HarnessOS/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]
+- [[projects/HarnessOS/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
