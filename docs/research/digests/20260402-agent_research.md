@@ -38,3 +38,12 @@ Abstract: Automating optimization modeling with LLMs is a promising path toward 
 3. [Execution-Verified Reinforcement Learning for Optimization Modeling](https://arxiv.org/abs/2604.00442) — arXiv cs.AI (rel=10.0)
 4. [Experience as a Compass: Multi-agent RAG with Evolving Orchestration and Agent Prompts](https://arxiv.org/abs/2604.00901) — arXiv cs.AI (rel=10.0)
 5. [PsychAgent: An Experience-Driven Lifelong Learning Agent for Self-Evolving Psychological Counselor](https://arxiv.org/abs/2604.00931) — arXiv cs.AI (rel=10.0)
+
+## Related
+- [[projects/HarnessOS/research/20260323-hypothesis-driven-agent-research|20260323-hypothesis-driven-agent-research]]
+- [[projects/HarnessOS/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/HarnessOS/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/HarnessOS/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
+- [[projects/HarnessOS/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/HarnessOS/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
