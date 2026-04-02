@@ -53,11 +53,11 @@
 - [marketing/reddit_localllama.md](marketing/reddit_localllama.md) — Reddit r/LocalLLaMA 포스트 (cliff-edge 발견 + HarnessOS, 2026-04-01 LIVE)
 
 ## Related
+- [[projects/HarnessOS/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
 - [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
 - [[projects/HarnessOS/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
 - [[projects/HarnessOS/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
 - [[projects/HarnessOS/research/20260330-omc-live-critique|20260330-omc-live-critique]]
 - [[projects/HarnessOS/research/digests/20260401-experiment-ideas|20260401-experiment-ideas]]
 - [[projects/HarnessOS/superpowers/plans/2026-03-22-llm-longcontext-experiment|2026-03-22-llm-longcontext-experiment]]
-- [[projects/HarnessOS/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
-- [[projects/HarnessOS/research/digests/20260401-verification-hurt-results|20260401-verification-hurt-results]]
+- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

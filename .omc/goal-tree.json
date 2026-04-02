@@ -1,18 +1,24 @@
 {
-  "root_goal": "진화 기반 지식 채널로부터 관련 지식/데이터 흡수를 Claude Code 스킬로 자동화",
+  "root_goal": "absorb 스킬 출처 명시 강화 + Signals 논문 기반 trajectory triage 실험 설계",
   "original_goal": "진화 기반 지식 채널로부터 관련 지식/데이터 흡수를 Claude Code 스킬로 자동화",
   "level": 0,
   "sub_goals": [
-    "1. 기존 파이프라인(knowledge_collector + harness_updater + collect.sh) 분석",
-    "2. knowledge-absorb SKILL.md 설계 및 작성",
-    "3. 스킬 내에서 수집→필터→컨텍스트 주입 자동화",
-    "4. 테스트 및 검증"
+    "1. [DONE] absorb SKILL.md 출처 명시 포맷 강화",
+    "2. Signals 논문 기반 trajectory triage 실험 설계문서 작성",
+    "3. omc-failure-router에 trajectory sampling 연동 가능성 분석"
   ],
-  "evolution_count": 0,
-  "evolution_history": [],
+  "evolution_count": 1,
+  "evolution_history": [
+    {
+      "iteration": 1,
+      "goal": "진화 기반 지식 채널로부터 관련 지식/데이터 흡수를 Claude Code 스킬로 자동화",
+      "score": 0.88,
+      "rationale": "absorb 스킬 완성 → 출처 명시 강화 + 흡수된 지식(Signals 논문)으로 실험 설계"
+    }
+  ],
   "reward_spec": {
-    "primary_metric": "스킬 호출 시 지식 채널 수집 + HarnessOS 관련 인사이트 자동 추출",
-    "threshold": "/knowledge-absorb 호출 → 수집 실행 → 인사이트 컨텍스트 주입 성공"
+    "primary_metric": "absorb 출처 명시 + trajectory triage 실험 설계 완료",
+    "threshold": "SKILL.md 출처 포맷 업데이트 + experiments/ 실험 설계문서 존재"
   },
   "history": []
 }
