@@ -320,7 +320,50 @@ def collect(
     elif sort_by == "relevance":
         filtered.sort(key=lambda x: x.relevance_score, reverse=True)
 
-    return filtered[:top_n]
+    # Source diversity 재랭킹: 같은 source_id 반복 시 감쇠 적용
+    # 이렇게 하면 arXiv 논문만 독점하지 않고 뉴스레터/커뮤니티도 포함됨
+    return _diversity_rerank(filtered, top_n)
+
+
+def _diversity_rerank(
+    items: list[FeedItem],
+    top_n: int,
+    decay: float = 0.7,
+) -> list[FeedItem]:
+    """Source diversity 재랭킹.
+
+    같은 source_id에서 이미 선택된 항목이 있으면 후속 항목의
+    effective score에 decay^count 감쇠를 적용.
+    이를 통해 다양한 소스가 top_n에 포함되도록 함.
+
+    Args:
+        items: 이미 정렬된 FeedItem 리스트
+        top_n: 반환할 최대 항목 수
+        decay: 같은 소스 반복 시 감쇠 계수 (0.7 = 30% 감쇠/중복)
+    """
+    if not items:
+        return []
+
+    selected: list[FeedItem] = []
+    source_counts: dict[str, int] = {}
+    remaining = list(items)
+
+    for _ in range(min(top_n, len(remaining))):
+        # 각 후보의 effective score 계산 (source 중복 감쇠 적용)
+        best_idx = 0
+        best_effective = -1.0
+        for idx, item in enumerate(remaining):
+            count = source_counts.get(item.source_id, 0)
+            effective = item.trending_score * (decay ** count)
+            if effective > best_effective:
+                best_effective = effective
+                best_idx = idx
+
+        chosen = remaining.pop(best_idx)
+        selected.append(chosen)
+        source_counts[chosen.source_id] = source_counts.get(chosen.source_id, 0) + 1
+
+    return selected
 
 
 def format_markdown(items: list[FeedItem], category: str, sort_by: str) -> str:

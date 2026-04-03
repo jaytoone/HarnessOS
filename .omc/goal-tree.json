@@ -1,17 +1,17 @@
 {
-  "root_goal": "live-inf 무한 루프 테스트: inhale→evolve 파이프라인을 3회 이상 반복 실행하여 수렴 동작 검증",
-  "original_goal": "live-inf 무한 루프 테스트: inhale→evolve 파이프라인을 3회 이상 반복 실행하여 수렴 동작 검증",
+  "root_goal": "knowledge_collector.py에 source diversity bonus 추가 — arXiv 독점 방지, 뉴스레터/커뮤니티 소스 top_n 포함 보장",
+  "original_goal": "knowledge_collector.py에 source diversity bonus 추가 — arXiv 독점 방지, 뉴스레터/커뮤니티 소스 top_n 포함 보장",
   "level": 0,
   "sub_goals": [
-    "1. iter 1: inhale agent_research → 다이제스트 생성",
-    "2. iter 2: evolve → top insight를 실험 설계로 변환",
-    "3. iter 3+: 반복하며 수렴 감지 테스트"
+    "1. collect() 함수에 source diversity 재랭킹 로직 추가",
+    "2. 같은 source_id 반복 시 감쇠 적용",
+    "3. 테스트: agent_research에서 arXiv + 뉴스레터 혼합 결과 확인"
   ],
   "evolution_count": 0,
   "evolution_history": [],
   "reward_spec": {
-    "primary_metric": "3회 이상 루프 반복 + 수렴 감지 동작 확인",
-    "threshold": "plateau_count 증가 관찰 또는 3회 반복 성공"
+    "primary_metric": "top_n 결과에 2개 이상 source_type 포함",
+    "threshold": "agent_research top 10에서 arXiv 외 소스 최소 2개 포함"
   },
   "history": []
 }
