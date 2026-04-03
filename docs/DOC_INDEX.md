@@ -56,6 +56,7 @@
 - [2026-04-03 Optimal Top-N for Knowledge Pipeline](research/20260403-optimal-top-n-knowledge-pipeline.md) — Adaptive K 공식 도출 (RAG/Miller's Law/Precision@K 기반)
 
 ## Research Designs
+- [research/designs/autonomous_evolution_safety_design.md](research/designs/autonomous_evolution_safety_design.md) — 자율 진화 안전성 3-Paper Synthesis (Safety Gate Drift + Reward Hacking + CoT Monitorability)
 - [research/designs/llm_evaluation_approaches_integration.md](research/designs/llm_evaluation_approaches_integration.md) — LLM Evaluation 4 Approaches HarnessOS 통합 설계
 
 ## Related

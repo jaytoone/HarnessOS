@@ -54,12 +54,35 @@ RELEVANCE_KEYWORDS = {
     # 소프트웨어/시스템 (0.5점)
     "pipeline": 0.5, "automation": 0.5, "evaluation": 0.5, "testing": 0.5,
     "experiment": 0.5, "benchmark": 0.5,
+    # 실무 구축 (1.5점 — 논문↔구현 갭 해소)
+    "build agent": 1.5, "deploy": 1, "production": 1, "ship": 0.5,
+    "coding agent": 2, "coding assistant": 1.5, "code generation": 1.5,
+    "developer tool": 1.5, "devtool": 1.5, "sdk": 1,
+    # 코드 생태계 (1.5점 — GitHub/오픈소스 채널용)
+    "open source": 1, "repository": 0.5, "framework": 1, "library": 0.5,
+    "agent framework": 2, "langchain": 1.5, "autogen": 1.5, "crewai": 1.5,
+    "claude code": 2, "cursor": 1, "copilot": 1,
+    # 실패/교훈 (2점 — 비판적 관점은 가치 높음)
+    "failure": 2, "lesson learned": 2, "postmortem": 2, "incident": 1.5,
+    "limitation": 1.5, "mistake": 1.5, "pitfall": 1.5,
+    # AI Safety/Alignment (2점 — 새 채널 지원)
+    "alignment": 2, "ai safety": 2, "responsible ai": 1.5,
+    "red team": 2, "jailbreak": 1.5, "guardrail": 1.5,
+    "sycophancy": 2, "hallucination": 1.5,
+    # 실무 AI 패턴 (1.5점 — 뉴스레터/블로그 어휘)
+    "prompt engineering": 1.5, "rag": 2, "retrieval augmented": 2,
+    "fine-tune": 1.5, "training data": 1, "synthetic data": 1.5,
+    "context length": 1.5, "token": 0.5, "latency": 1,
 }
 
 # 제목에서만 추가 가중치 (제목 매칭 = 핵심 논문일 가능성 높음)
 TITLE_BONUS_KEYWORDS = {
     "agent": 1.5, "llm": 1.0, "autonomous": 1.5, "self": 1.0,
     "stuck": 2.0, "harness": 2.0, "evaluation": 1.0, "benchmark": 1.0,
+    # 실무/비판 관점 보너스
+    "build": 1.0, "deploy": 1.0, "failure": 1.5, "lesson": 1.0,
+    "safety": 1.0, "alignment": 1.0, "open source": 1.0,
+    "rag": 1.0, "coding": 1.0,
 }
 
 # 트렌딩 가중치 기준 (최근성)

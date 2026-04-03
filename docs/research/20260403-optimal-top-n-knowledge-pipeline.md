@@ -60,3 +60,8 @@ def optimal_top_n(pool_size, relevant_count, source_count):
 - [DynamicRAG: Dynamic Context Selection](https://arxiv.org/html/2512.14313v1)
 - [Information Overload Scoping Review](https://www.sciencedirect.com/science/article/pii/S2667096824000508)
 - [Working Memory Capacity (Cowan)](https://pmc.ncbi.nlm.nih.gov/articles/PMC4486516/)
+
+## Related
+- [[projects/HarnessOS/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/HarnessOS/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/HarnessOS/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]

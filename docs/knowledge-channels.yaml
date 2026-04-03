@@ -116,6 +116,47 @@ channels:
       tags: [korean, it_trends, practitioner]
       lang: ko
 
+  code_ecosystem:
+    - id: github_trending
+      name: "GitHub Trending (Python)"
+      type: code
+      rss: "https://rsshub.app/github/trending/daily/python"
+      url: "https://github.com/trending/python"
+      tags: [code, implementation, agent_frameworks]
+      lang: en
+
+  ai_industry:
+    - id: anthropic_blog
+      name: "Anthropic Blog"
+      type: blog
+      rss: "https://www.anthropic.com/feed.xml"
+      url: "https://www.anthropic.com/research"
+      tags: [safety, claude, official]
+      lang: en
+    - id: deepmind_blog
+      name: "Google DeepMind Blog"
+      type: blog
+      rss: "https://deepmind.google/blog/rss.xml"
+      url: "https://deepmind.google/blog"
+      tags: [research, reasoning, agent]
+      lang: en
+    - id: simon_willison
+      name: "Simon Willison's Weblog"
+      type: blog
+      rss: "https://simonwillison.net/atom/everything/"
+      url: "https://simonwillison.net"
+      tags: [practical_ai, critical, tools]
+      lang: en
+
+  ai_safety:
+    - id: alignment_forum
+      name: "Alignment Forum"
+      type: forum
+      rss: "https://www.alignmentforum.org/feed.xml"
+      url: "https://www.alignmentforum.org"
+      tags: [safety, alignment, philosophy]
+      lang: en
+
   science_philosophy:
     - id: hn
       name: "Hacker News"
@@ -141,9 +182,10 @@ channels:
 
 # 카테고리 → 채널 매핑 (오늘의 학습 포커스 설정용)
 category_focus_map:
-  agent_research: [import_ai, ahead_of_ai, thesequence, arxiv_cs_ai, arxiv_cs_lg, hn]
-  ml_engineering: [tldr_ai, thesequence, ahead_of_ai, last_week_in_ai, netflix_tech]
+  agent_research: [import_ai, ahead_of_ai, thesequence, arxiv_cs_ai, arxiv_cs_lg, hn, anthropic_blog, deepmind_blog, alignment_forum]
+  ml_engineering: [tldr_ai, thesequence, ahead_of_ai, last_week_in_ai, netflix_tech, github_trending]
   product_growth: [lennys_newsletter, indie_hackers, bens_bites]
-  system_design: [martin_fowler, continuous_delivery_yt, netflix_tech]
-  daily_digest: [geeknews, tldr_ai, bens_bites, hn]
-  trending_tools: [fireship_yt, bens_bites, tldr_ai, geeknews]
+  system_design: [martin_fowler, continuous_delivery_yt, netflix_tech, simon_willison]
+  daily_digest: [geeknews, tldr_ai, bens_bites, hn, simon_willison]
+  trending_tools: [fireship_yt, bens_bites, tldr_ai, geeknews, github_trending]
+  ai_safety: [alignment_forum, anthropic_blog, deepmind_blog, simon_willison]
