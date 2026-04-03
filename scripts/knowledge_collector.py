@@ -276,14 +276,37 @@ def fetch_channel(channel: dict, category: str) -> list[FeedItem]:
         return []
 
 
+def _compute_adaptive_top_n(
+    pool_size: int,
+    relevant_count: int,
+    source_count: int,
+) -> int:
+    """Adaptive top-N 계산.
+
+    Research basis: RAG top-k 연구 (arXiv:2501.01880) + DynamicRAG (2025)
+    - K=5-10 최적, >20 성능 저하 (RAG)
+    - 하지만 inhale은 buffer (evolve가 3-5개만 소비) → 상한 50까지 허용
+    - 카테고리별 관련 항목 비율이 0~36%로 10배 차이 → 고정 K 부적합
+
+    Formula: K = min(max(relevant*0.8, sources*2), cap)
+    """
+    if relevant_count == 0:
+        return min(5, pool_size)  # 세렌디피티 샘플
+    recall_target = int(relevant_count * 0.8)  # 관련 항목 80% 캡처
+    min_per_source = source_count * 2          # 소스 다양성 보장
+    max_cap = min(50, pool_size)               # RAG 연구 기반 상한
+    return min(max(recall_target, min_per_source), max_cap)
+
+
 def collect(
     focus_category: str,
-    top_n: int = 10,
+    top_n: int | None = None,  # None = adaptive (권장)
     sort_by: str = "trending",  # trending | newest | relevance
     min_relevance: float = 0.0,
 ) -> list[FeedItem]:
     """
     지정된 카테고리 포커스에서 채널들을 수집하고 상위 N개 반환.
+    top_n=None이면 adaptive K 사용 (카테고리별 최적 자동 계산).
     sort_by: trending | newest | relevance
     """
     data = load_channels()
@@ -312,6 +335,14 @@ def collect(
     # 필터링
     filtered = [i for i in all_items if i.relevance_score >= min_relevance]
 
+    # Adaptive top_n 계산 (top_n=None일 때)
+    if top_n is None:
+        relevant_count = sum(1 for i in filtered if i.relevance_score >= 3.0)
+        source_count = len(set(i.source_id for i in filtered))
+        top_n = _compute_adaptive_top_n(len(filtered), relevant_count, source_count)
+        print(f"  [ADAPTIVE] pool={len(filtered)} relevant={relevant_count} "
+              f"sources={source_count} → top_n={top_n}", file=sys.stderr)
+
     # 정렬
     if sort_by == "trending":
         filtered.sort(key=lambda x: x.trending_score, reverse=True)
@@ -321,7 +352,6 @@ def collect(
         filtered.sort(key=lambda x: x.relevance_score, reverse=True)
 
     # Source diversity 재랭킹: 같은 source_id 반복 시 감쇠 적용
-    # 이렇게 하면 arXiv 논문만 독점하지 않고 뉴스레터/커뮤니티도 포함됨
     return _diversity_rerank(filtered, top_n)
 
 
@@ -393,7 +423,8 @@ def main():
     parser = argparse.ArgumentParser(description="HarnessOS Knowledge Collector")
     parser.add_argument("--category", "-c", default="agent_research",
                         help="Focus category from category_focus_map")
-    parser.add_argument("--top", "-n", type=int, default=30, help="Top N items")
+    parser.add_argument("--top", "-n", type=int, default=None,
+                        help="Top N items (default: adaptive per category)")
     parser.add_argument("--sort", "-s", choices=["trending", "newest", "relevance"],
                         default="trending", help="Sort order")
     parser.add_argument("--min-relevance", type=float, default=0.0,

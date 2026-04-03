@@ -52,6 +52,9 @@
 - [marketing/outreach_ready/claude_code_discussion.md](marketing/outreach_ready/claude_code_discussion.md) — anthropics/claude-code Discussion 게시용 RFC (context rotation pattern)
 - [marketing/reddit_localllama.md](marketing/reddit_localllama.md) — Reddit r/LocalLLaMA 포스트 (cliff-edge 발견 + HarnessOS, 2026-04-01 LIVE)
 
+## Research (Recent)
+- [2026-04-03 Optimal Top-N for Knowledge Pipeline](research/20260403-optimal-top-n-knowledge-pipeline.md) — Adaptive K 공식 도출 (RAG/Miller's Law/Precision@K 기반)
+
 ## Research Designs
 - [research/designs/llm_evaluation_approaches_integration.md](research/designs/llm_evaluation_approaches_integration.md) — LLM Evaluation 4 Approaches HarnessOS 통합 설계
 
