@@ -393,7 +393,7 @@ def main():
     parser = argparse.ArgumentParser(description="HarnessOS Knowledge Collector")
     parser.add_argument("--category", "-c", default="agent_research",
                         help="Focus category from category_focus_map")
-    parser.add_argument("--top", "-n", type=int, default=10, help="Top N items")
+    parser.add_argument("--top", "-n", type=int, default=30, help="Top N items")
     parser.add_argument("--sort", "-s", choices=["trending", "newest", "relevance"],
                         default="trending", help="Sort order")
     parser.add_argument("--min-relevance", type=float, default=0.0,
