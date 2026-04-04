@@ -272,3 +272,13 @@ Abstract: Traditional RL algorithms like Proximal Policy Optimization (PPO) typi
 48. [The State Of LLMs 2025: Progress, Problems, and Predictions](https://magazine.sebastianraschka.com/p/state-of-llms-2025) — Ahead of AI (rel=4.5)
 49. [Getting Claude to QA its own work](https://www.skyvern.com/blog/getting-claude-to-qa-its-own-work/) — Hacker News (rel=1.0)
 50. [New RFP on Interpretability from Schmidt Sciences](https://www.alignmentforum.org/posts/Pc789vx2oHgEXYZZH/new-rfp-on-interpretability-from-schmidt-sciences-1) — Alignment Forum (rel=6.0)
+
+## Related
+- [[projects/HarnessOS/research/designs/llm_evaluation_approaches_integration|llm_evaluation_approaches_integration]]
+- [[projects/HarnessOS/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/HarnessOS/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
+- [[projects/HarnessOS/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/HarnessOS/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/HarnessOS/research/designs/autonomous_evolution_safety_design|autonomous_evolution_safety_design]]
+- [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/HarnessOS/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]

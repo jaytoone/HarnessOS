@@ -261,3 +261,93 @@ class EvolutionSafetyMonitor:
             )
 
         return "\n".join(lines)
+
+
+# ─── Signal 4: Execution-Verified EVOLVE ─────────────────────
+# Source: arXiv:2604.00442
+# Oracle raw results → EVOLVE reward signal → regression blocking
+
+@dataclass
+class ExecutionReward:
+    """Reward signal from auto-oracle execution results."""
+    reward: float              # -1.0 to 1.0
+    components: dict           # per-component scores
+    should_block_evolve: bool  # True if regression detected
+    message: str
+
+
+def compute_execution_reward(
+    oracle_raw: dict,
+    prev_oracle_raw: dict | None = None,
+) -> ExecutionReward:
+    """Compute RL-style reward from auto-oracle results.
+
+    Source: arXiv:2604.00442 — Execution-Verified RL
+
+    Args:
+        oracle_raw: Current iteration's oracle results.
+            Keys: test_pass_rate, lint_errors, type_errors, build_success, diff_size
+        prev_oracle_raw: Previous iteration's oracle results (for delta).
+
+    Returns:
+        ExecutionReward with composite reward and block decision.
+    """
+    # Extract with safe defaults
+    test_pass = oracle_raw.get("test_pass_rate", 1.0)
+    lint_errors = oracle_raw.get("lint_errors", 0)
+    type_errors = oracle_raw.get("type_errors", 0)
+    build_success = 1.0 if oracle_raw.get("build_success", True) else 0.0
+    diff_size = oracle_raw.get("diff_size", 0)
+
+    # Component scores (0.0-1.0 each)
+    components = {
+        "test": test_pass,
+        "lint": max(0.0, 1.0 - lint_errors / 10),
+        "type": max(0.0, 1.0 - type_errors / 5),
+        "build": build_success,
+        "diff_appropriateness": min(diff_size / 200, 1.0) if diff_size > 0 else 0.0,
+    }
+
+    # Weighted composite
+    reward = (
+        0.35 * components["test"]
+        + 0.20 * components["lint"]
+        + 0.15 * components["type"]
+        + 0.20 * components["build"]
+        + 0.10 * components["diff_appropriateness"]
+    )
+
+    # Delta-based regression check
+    should_block = False
+    message_parts = []
+
+    if prev_oracle_raw:
+        prev_test = prev_oracle_raw.get("test_pass_rate", 1.0)
+        prev_lint = prev_oracle_raw.get("lint_errors", 0)
+
+        if test_pass < prev_test - 0.05:
+            should_block = True
+            message_parts.append(
+                f"test regression: {prev_test:.2f}→{test_pass:.2f}"
+            )
+        if lint_errors > prev_lint + 3:
+            message_parts.append(
+                f"lint regression: {prev_lint}→{lint_errors} errors"
+            )
+        if not oracle_raw.get("build_success", True) and prev_oracle_raw.get("build_success", True):
+            should_block = True
+            message_parts.append("build broke")
+
+    if should_block:
+        message = f"[EVOLVE BLOCKED] Regression detected: {'; '.join(message_parts)}"
+    elif reward < 0.5:
+        message = f"[EVOLVE WARN] Low execution reward ({reward:.2f})"
+    else:
+        message = f"[EVOLVE OK] Execution reward: {reward:.2f}"
+
+    return ExecutionReward(
+        reward=reward,
+        components=components,
+        should_block_evolve=should_block,
+        message=message,
+    )

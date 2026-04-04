@@ -1,13 +1,19 @@
 {
-  "tried_strategies": [],
+  "tried_strategies": [
+    {"goal": "Safety Triad 3개 감지기 구현", "score": 0.92, "iteration": 1, "outcome": "success", "weak_dim": "completeness"},
+    {"goal": "Autonomy 3-Tier Gate 구현", "score": 0.88, "iteration": 2, "outcome": "success", "weak_dim": "completeness"}
+  ],
   "dead_ends": [],
-  "known_facts": [],
+  "known_facts": [
+    "evolution_safety.py: Safety Gate Drift + Reward Hacking + CoT Drift 감지 작동",
+    "autonomy_classifier.py: L1/L2/L3 분류 80% 정확도",
+    "knowledge_collector.py: 111 keywords, adaptive K, diversity reranking"
+  ],
   "uncertain": [],
-  "dimensions_explored": {},
+  "dimensions_explored": {"quality": 0.90, "completeness": 0.85, "efficiency": 0.95, "impact": 0.90},
   "skill_routing_history": [],
   "her_hints": [],
-  "best_score_vector": {},
-  "wave1_plan": "",
-  "wave1_evolution_count": -1,
+  "best_score_vector": {"quality": 0.90, "completeness": 0.85, "efficiency": 0.95, "impact": 0.90, "goal_fidelity": 1.0},
+  "wave1_plan": "Code task: implement remaining exhale artifacts (evolving_orchestration, execution_verified_evolve)",
   "wave1_feedback": []
 }
