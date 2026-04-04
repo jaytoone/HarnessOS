@@ -1,0 +1,13 @@
+{
+  "skill_name": "exhale",
+  "success_patterns": [
+    "Goal 'Safety Triad 3개 감지기 구현' scored 0.92",
+    "Goal 'Autonomy 3-Tier Gate 구현' scored 0.88"
+  ],
+  "failure_patterns": [],
+  "parameter_adjustments": [
+    "Dimension 'completeness' has been weakest — prioritize it"
+  ],
+  "iteration_source": 0,
+  "confidence": 0.0
+}
