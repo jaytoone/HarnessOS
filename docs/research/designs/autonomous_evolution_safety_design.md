@@ -88,3 +88,8 @@ if summary_specificity_trend is decreasing over 5+ iterations:
 - mode: experiment
 - method: live-inf 20+ iteration 실행 후 3개 safety signal 발생 여부 관찰
 - acceptance: 최소 1개 signal이 실제 degradation을 사전 감지하면 verified_positive
+
+## Related
+- [[projects/HarnessOS/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/HarnessOS/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/HarnessOS/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
