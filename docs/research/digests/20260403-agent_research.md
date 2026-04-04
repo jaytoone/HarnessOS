@@ -65,3 +65,9 @@ Abstract: Agentic applications based on large language models increasingly rely 
 8. [Gemma 4: Byte for byte, the most capable open models](https://deepmind.google/blog/gemma-4-byte-for-byte-the-most-capable-open-models/) — Google DeepMind Blog (rel=4.0)
 9. [Lemonade by AMD: a fast and open source local LLM server using GPU and NPU](https://lemonade-server.ai) — Hacker News (rel=4.0)
 10. [In harmony with gpt-oss](https://arxiv.org/abs/2604.00362) — arXiv cs.AI (rel=10.0)
+
+## Related
+- [[projects/HarnessOS/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/HarnessOS/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/HarnessOS/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
+- [[projects/HarnessOS/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]

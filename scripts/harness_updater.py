@@ -99,16 +99,17 @@ def save_digest(items: list[dict], category: str) -> Path:
     return out_path
 
 
-def auto_collect_and_reflect(category: str, top: int, sort: str) -> None:
+def auto_collect_and_reflect(category: str, top: int | None, sort: str) -> None:
     """knowledge_collector를 subprocess로 호출 후 반영."""
     collector = PROJECT_ROOT / "scripts" / "knowledge_collector.py"
     cmd = [
         sys.executable, str(collector),
         "--category", category,
-        "--top", str(top),
         "--sort", sort,
         "--output", "json",
     ]
+    if top is not None:
+        cmd.extend(["--top", str(top)])
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         print(f"[ERROR] Collector failed:\n{result.stderr}", file=sys.stderr)
@@ -132,7 +133,8 @@ def main():
     parser = argparse.ArgumentParser(description="HarnessOS Knowledge Updater")
     parser.add_argument("--mode", choices=["reflect", "digest"], default="reflect")
     parser.add_argument("--category", "-c", default="agent_research")
-    parser.add_argument("--top", "-n", type=int, default=10)
+    parser.add_argument("--top", "-n", type=int, default=None,
+                        help="Top N items (default: adaptive per category)")
     parser.add_argument("--sort", "-s", choices=["trending", "newest", "relevance"],
                         default="trending")
     parser.add_argument("--auto-collect", action="store_true",

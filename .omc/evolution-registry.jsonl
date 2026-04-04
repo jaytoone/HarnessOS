@@ -1,0 +1,3 @@
+{"date": "2026-04-04", "source_paper": "arXiv:2604.00901", "artifact_path": "experiments/stuck_agent/evolving_orchestration_design.md", "mode": "experiment", "status": "proposed", "verification_method": "paired_comparison", "keyword": "자율 진화 에이전트"}
+{"date": "2026-04-04", "source_paper": "arXiv:2604.01576", "artifact_path": "experiments/hypothesis_validation/autonomy_preserving_agent_design.md", "mode": "hypothesis", "status": "proposed", "verification_method": "before_after_comparison", "keyword": "자율 진화 에이전트"}
+{"date": "2026-04-04", "source_paper": "arXiv:2604.00442", "artifact_path": "experiments/stuck_agent/execution_verified_evolve_design.md", "mode": "experiment", "status": "proposed", "verification_method": "paired_comparison", "keyword": "자율 진화 에이전트"}

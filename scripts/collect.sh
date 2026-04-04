@@ -20,20 +20,18 @@ if [[ "$1" == "--list" || "$1" == "-l" ]]; then
 fi
 
 CATEGORY="${1:-agent_research}"
-TOP="${2:-10}"
+TOP="${2:-}"
 SORT="${3:-trending}"
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo " HarnessOS Knowledge Pipeline"
-echo " Category: $CATEGORY | Top: $TOP | Sort: $SORT"
+echo " Category: $CATEGORY | Top: ${TOP:-adaptive} | Sort: $SORT"
 echo " Date: $(date '+%Y-%m-%d %H:%M')"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-python3 "$SCRIPT_DIR/harness_updater.py" \
-    --auto-collect \
-    --category "$CATEGORY" \
-    --top "$TOP" \
-    --sort "$SORT"
+CMD=(python3 "$SCRIPT_DIR/harness_updater.py" --auto-collect --category "$CATEGORY" --sort "$SORT")
+[[ -n "$TOP" ]] && CMD+=(--top "$TOP")
+"${CMD[@]}"
 
 echo ""
 echo "Output: docs/research/digests/$(date +%Y%m%d)-${CATEGORY}.md"
