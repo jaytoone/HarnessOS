@@ -1,17 +1,19 @@
 {
-  "root_goal": "knowledge_collector.py에 source diversity bonus 추가 — arXiv 독점 방지, 뉴스레터/커뮤니티 소스 top_n 포함 보장",
-  "original_goal": "knowledge_collector.py에 source diversity bonus 추가 — arXiv 독점 방지, 뉴스레터/커뮤니티 소스 top_n 포함 보장",
+  "root_goal": "entity 패러다임 읽기 기반 소통 모듈 구현 — 상대의 epistemic_basis/causal_model을 실시간 감지하고 그에 맞는 언어로 자연히 응답",
+  "original_goal": "entity 패러다임 읽기 기반 소통 모듈 구현 — 상대의 epistemic_basis/causal_model을 실시간 감지하고 그에 맞는 언어로 자연히 응답",
   "level": 0,
-  "sub_goals": [
-    "1. collect() 함수에 source diversity 재랭킹 로직 추가",
-    "2. 같은 source_id 반복 시 감쇠 적용",
-    "3. 테스트: agent_research에서 arXiv + 뉴스레터 혼합 결과 확인"
-  ],
+  "sub_goals": [],
   "evolution_count": 0,
   "evolution_history": [],
   "reward_spec": {
-    "primary_metric": "top_n 결과에 2개 이상 source_type 포함",
-    "threshold": "agent_research top 10에서 arXiv 외 소스 최소 2개 포함"
+    "primary_metric": "실제 대화 텍스트에서 패러다임 감지 정확도 + 응답 스타일 적응 품질",
+    "threshold": "detection_accuracy >= 0.75, adaptation_quality >= 0.70"
   },
+  "score_dimensions": [
+    "detection_accuracy",
+    "adaptation_quality",
+    "anti_sycophancy",
+    "recognition_depth"
+  ],
   "history": []
 }

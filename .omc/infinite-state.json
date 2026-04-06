@@ -1,14 +1,14 @@
 {
-  "status": "CONVERGED",
-  "session_id": "inf-20260404-exhale-verify",
-  "current_iteration": 4,
-  "root_goal": "exhale proposed 아티팩트 전부 구현+검증",
-  "original_goal": "exhale proposed 아티팩트 전부 구현+검증",
+  "status": "RUNNING",
+  "session_id": "inf-20260406-paradigm-comm",
+  "current_iteration": 0,
+  "root_goal": "entity 패러다임 읽기 기반 소통 모듈 구현 — 상대의 epistemic_basis/causal_model을 실시간 감지하고 그에 맞는 언어로 자연히 응답",
+  "original_goal": "entity 패러다임 읽기 기반 소통 모듈 구현 — 상대의 epistemic_basis/causal_model을 실시간 감지하고 그에 맞는 언어로 자연히 응답",
   "evolution_count": 0,
-  "best_score": 0.92,
+  "evolution_history": [],
+  "best_score": 0.0,
   "plateau_count": 0,
   "escape_attempts": 0,
-  "final_score": 0.92,
-  "total_iterations": 4,
-  "total_sessions": 1
+  "score_history": [],
+  "started_at": "2026-04-06T07:29:53.389470Z"
 }
