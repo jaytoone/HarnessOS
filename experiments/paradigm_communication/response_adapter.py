@@ -69,14 +69,19 @@ class ResponseAdapter:
             style["closing_move"] = "invite_reflection"
 
         # Causal model → connection style
+        # When unknown: infer from epistemic_basis (best proxy available)
         if profile.causal_model == "linear":
             style["causation_frame"] = "step_chain"
         elif profile.causal_model == "systemic":
             style["causation_frame"] = "feedback_loop"
         elif profile.causal_model == "emergent":
             style["causation_frame"] = "conditions"
+        elif profile.epistemic_basis == "data-driven":
+            style["causation_frame"] = "step_chain"   # data people tend linear
+        elif profile.epistemic_basis == "authority-referencing":
+            style["causation_frame"] = "step_chain"   # authority people follow process
         else:
-            style["causation_frame"] = "open"
+            style["causation_frame"] = "conditions"   # default: emergent/open
 
         # Locus of control → agency frame
         if profile.locus_of_control == "internal":
