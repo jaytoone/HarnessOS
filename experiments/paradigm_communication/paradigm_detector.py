@@ -76,6 +76,11 @@ LOCUS_SIGNALS = {
     "external": [
         r"\b(they|market|environment|constraints|forced|no choice|have to|must|required)\b",
         r"\b(pressure|demands|stakeholders|regulations|competition|limited by)\b",
+        # deference to authority / external standard (TC3: "we should follow")
+        r"\b(should follow|we should|follow.{0,20}standard|do what|proven to work|everyone does)\b",
+        r"\b(industry|leaders|best companies|recommended|they do|that's what)\b",
+        # Korean external locus
+        r"(해야|따라야|따르는|권고|규정|표준|업계)",
     ],
     "distributed": [
         r"\b(together|collaborate|community|shared|ecosystem|network|peers|partners)\b",
