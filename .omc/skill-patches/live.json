@@ -1,0 +1,20 @@
+{
+  "skill_name": "live",
+  "success_patterns": [
+    "직접 SKILL.md 3개 파일 편집 — omc-live Step6-7 판단 프롬프트 구조화, omc-episode-memory LOAD 버킷 압축 알고리즘, omc-failure-router Type2 Reflex",
+    "skills in ~/.claude/skills/",
+    "omc-live name field renamed to 'live'",
+    "SKILL.md 3개 직접 편집 — sg1:파서 룰 블록 삽입, sg2:UUID 명시+TF-IDF primary/fallback 계층, sg3:Exogenous Pre-Check Step 1 삽입",
+    "step 번호 renumber는 cosmetic 생략 가능",
+    "PRE-LOAD + gap awareness → INNER-loop success → POST-YES → ACHIEVED branch",
+    "Output Parser starts-with 버그 수정됨",
+    "PRE-LOOP goal init → INNER success → POST-YES → END-stats 추출 검증",
+    "stats 표시 정상 작동"
+  ],
+  "failure_patterns": [
+    "Type 1 Transient failure"
+  ],
+  "parameter_adjustments": [],
+  "iteration_source": 0,
+  "confidence": 1.0
+}

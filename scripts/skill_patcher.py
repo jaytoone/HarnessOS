@@ -103,16 +103,27 @@ class SkillPatcher:
 
         for ep in relevant:
             outcome = ep.get("outcome", "unknown")
-            summary = ep.get("summary", "")
-            key_decision = ep.get("key_decision", "")
+            # Support both episode schema variants:
+            # v1 (new): key_decision, summary, failure_pattern
+            # v2 (actual): approach, task_desc, key_errors, project_hints
+            key_decision = ep.get("key_decision") or ep.get("approach", "")
+            summary = ep.get("summary") or ep.get("task_desc", "")
+            hints = ep.get("project_hints", [])
 
             if outcome in ("success", "evolved"):
                 if key_decision:
-                    success_patterns.append(key_decision)
+                    success_patterns.append(key_decision[:120])
                 elif summary:
                     success_patterns.append(summary[:100])
+                for hint in hints[:2]:
+                    success_patterns.append(str(hint)[:80])
             elif outcome in ("failure", "partial"):
-                failure_reason = ep.get("failure_pattern", summary[:100])
+                key_errors = ep.get("key_errors", [])
+                failure_reason = ep.get("failure_pattern", "")
+                if not failure_reason and key_errors:
+                    failure_reason = "; ".join(str(e) for e in key_errors[:2])
+                if not failure_reason and summary:
+                    failure_reason = summary[:100]
                 if failure_reason:
                     failure_patterns.append(failure_reason)
 

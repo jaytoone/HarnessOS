@@ -118,6 +118,36 @@ def enable_patches() -> None:
         print("[TREATMENT] No disabled patches found.")
 
 
+def auto_record() -> None:
+    """Auto-record result from .omc/live-state.json after a /live-inf convergence."""
+    state_file = Path(".omc/live-state.json")
+    goal_file = Path(".omc/goal-tree.json")
+
+    if not state_file.exists():
+        print("[AUTO-RECORD] .omc/live-state.json not found — run /live-inf first.")
+        return
+
+    state = json.loads(state_file.read_text())
+    best_score = state.get("best_score", 0.0)
+    evolution_count = state.get("evolution_count", 0)
+
+    if best_score == 0.0:
+        print("[AUTO-RECORD] best_score=0.0 — live-inf may not have completed.")
+        return
+
+    goal = ""
+    if goal_file.exists():
+        tree = json.loads(goal_file.read_text())
+        goal = tree.get("root_goal", "")[:120]
+
+    # Determine condition from patch dir state
+    has_patches = PATCH_DIR.exists() and any(PATCH_DIR.glob("*.json"))
+    condition = "treatment" if has_patches else "control"
+
+    record(condition, best_score, evolution_count, goal)
+    print(f"[AUTO-RECORD] Condition auto-detected: {condition}")
+
+
 def status() -> None:
     """Show current condition and patch status."""
     has_patches = PATCH_DIR.exists() and any(PATCH_DIR.glob("*.json"))
@@ -146,6 +176,7 @@ def main() -> None:
     sub.add_parser("disable-patches", help="Switch to control condition")
     sub.add_parser("enable-patches", help="Switch to treatment condition")
     sub.add_parser("status", help="Show current condition")
+    sub.add_parser("auto-record", help="Auto-read live-state.json and record result")
 
     args = parser.parse_args()
 
@@ -159,6 +190,8 @@ def main() -> None:
         enable_patches()
     elif args.cmd == "status":
         status()
+    elif args.cmd == "auto-record":
+        auto_record()
     else:
         parser.print_help()
 
