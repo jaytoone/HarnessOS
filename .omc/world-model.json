@@ -1,17 +1,23 @@
 {
   "tried_strategies": [],
-  "dead_ends": [],
+  "dead_ends": [
+    {
+      "goal": "Direct oracle calls for A/B control vs treatment with deterministic eval.py",
+      "score": 0.0,
+      "reason": "Oracle is deterministic — patch status irrelevant to output. Must test at live-inf orchestration level."
+    }
+  ],
   "known_facts": [
-    "paradigm.json tracks: epistemic_basis / locus_of_control / causal_model",
-    "conceptual skill already reads paradigm for single user (jayone)",
-    "축적 기억: Entity.jsonl A-MEM nodes with contradicts/elaborates/reveals_assumption",
-    "Meisner principle: response emerges from receiving the other, not from technique templates"
+    "paradigm_communication goal has baseline score ~0.935-0.954 (from live-inf iter 3-4)",
+    "paradigm_communication eval.py is a DETERMINISTIC Python oracle — no LLM calls, always scores same code the same way",
+    "Direct oracle runs cannot test A/B patch effect — both conditions yield identical scores (0.954)",
+    "Proper A/B for skill_patch requires live-inf orchestration runs: measure convergence trajectory, not final oracle call",
+    "Real treatment trajectory (4 live-inf iters, patches accumulating): 0.835 → 0.915 → 0.935 → 0.954 (+0.119 total)",
+    "Control baseline (no patches) requires a separate live-inf run from same starting code state to be valid comparison"
   ],
   "uncertain": [],
   "dimensions_explored": {},
   "skill_routing_history": [],
   "her_hints": [],
-  "best_score_vector": {},
-  "wave1_plan": "",
-  "wave1_feedback": []
+  "best_score_vector": {}
 }

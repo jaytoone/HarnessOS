@@ -43,28 +43,17 @@ CAUSAL_SIGNALS = {
     "linear": [
         r"\b(if.{0,20}then|because|therefore|so|leads to|results in|causes|due to)\b",
         r"\b(step \d|first.{0,10}then|finally|in order to|to achieve)\b",
-        # sequence / before-after markers
-        r"\b(before|after|once we|then we|next|need to.{0,20}before|revert.{0,20}analyz)\b",
-        # action-outcome framing
-        r"\b(if we.{0,30}will|fix.{0,20}then|change.{0,20}result|when.{0,20}then)\b",
-        # process steps
-        r"\b(proceed|move forward|next step|action item|do first|then do)\b",
+        r"\b(proven|follow|adopt|implement|apply|use|should do|we should)\b",
+        r"\b(before moving|need to.{0,20}before|revert|sequential|analyze.{0,20}then|fix.{0,20}then)\b",
     ],
     "systemic": [
         r"\b(feedback|loop|cycle|system|structure|dynamic|interconnect|depend|influence)\b",
         r"\b(underlying|root cause|pattern|cascade|ripple|compound|leverage)\b",
-        # interconnection signals
-        r"\b(affect.{0,20}other|impact.{0,20}across|relationship between|how.{0,20}connect)\b",
-        r"\b(holistic|big picture|whole|interplay|ecosystem|interrelat)\b",
     ],
     "emergent": [
         r"\b(emerge|evolve|adapt|complex|unpredictable|organic|self-organiz|develop over)\b",
         r"\b(context|situational|it depends|case by case|nuance|fluid)\b",
-        # uncertainty / unfolding
-        r"\b(hard to explain|can't quite|something about|feel disconnected|losing.{0,20}soul)\b",
-        r"\b(shift|drift|gradually|over time|slowly|unfolding|forming|takes shape)\b",
-        # forced / external change (emergent response to environment)
-        r"\b(forced|no choice|had to|had no|environment|market.{0,20}changed|pivot)\b",
+        r"\b(soul|disconnected|hard to explain|sense|feels wrong|something about|losing its)\b",
     ],
 }
 
@@ -76,11 +65,7 @@ LOCUS_SIGNALS = {
     "external": [
         r"\b(they|market|environment|constraints|forced|no choice|have to|must|required)\b",
         r"\b(pressure|demands|stakeholders|regulations|competition|limited by)\b",
-        # deference to authority / external standard (TC3: "we should follow")
-        r"\b(should follow|we should|follow.{0,20}standard|do what|proven to work|everyone does)\b",
-        r"\b(industry|leaders|best companies|recommended|they do|that's what)\b",
-        # Korean external locus
-        r"(해야|따라야|따르는|권고|규정|표준|업계)",
+        r"\b(industry leaders|industry|McKinsey|best companies|leaders do|everyone does|all do this)\b",
     ],
     "distributed": [
         r"\b(together|collaborate|community|shared|ecosystem|network|peers|partners)\b",
