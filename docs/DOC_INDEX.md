@@ -17,6 +17,7 @@
 - [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
 
 ## Research
+- [2026-04-07 Playwright Test Agents v1.56 — Claude Code 활성화 가이드](research/digests/20260407-playwright-test-agents-claude-code.md)
 - [2026-04-01 Verification Hurt 실험 결과 — none/strict/lenient/adaptive escape rate 비교](research/digests/20260401-verification-hurt-results.md)
 - [2026-04-01 Experiment Ideas — 채널 수집 기반 HarnessOS 실험 아이디어 선별](research/digests/20260401-experiment-ideas.md)
 - [2026-04-01 Knowledge Digest — agent_research](research/digests/20260401-agent_research.md)
@@ -50,6 +51,11 @@
 - [marketing/github_outreach_drafts.md](marketing/github_outreach_drafts.md) — GitHub 이슈별 맞춤 기술 댓글 초안 9건 (Wave 1: claude-code, crewAI, adk-python, OpenHands / Wave 2: openai-agents-python, strands-agents)
 - [marketing/outreach_ready/adk_python_4178.md](marketing/outreach_ready/adk_python_4178.md) — google/adk-python#4178 즉시 게시 가능 댓글 (429/503 state corruption)
 - [marketing/outreach_ready/claude_code_discussion.md](marketing/outreach_ready/claude_code_discussion.md) — anthropics/claude-code Discussion 게시용 RFC (context rotation pattern)
+- [marketing/outreach_ready/oh_my_codex_context_issue.md](marketing/outreach_ready/oh_my_codex_context_issue.md) — Yeachan-Heo/oh-my-codex context/session 이슈 즉시 게시용 댓글 (short/full 버전 + follow-up)
+- [marketing/geeknews_post.md](marketing/geeknews_post.md) — GeekNews/요즘IT 한국어 포스트 초안 (Entity vs Oh My Codex 레이어 설명 + 요즘IT 투고용)
+- [marketing/outreach_ready/oh_my_claudecode_discussion.md](marketing/outreach_ready/oh_my_claudecode_discussion.md) — Yeachan-Heo/oh-my-claudecode Discussion/Issue 즉시 게시용 (long-horizon + failure recovery 2종)
+- [marketing/outreach_ready/oh_my_claudecode_2059.md](marketing/outreach_ready/oh_my_claudecode_2059.md) — Yeachan-Heo/oh-my-claudecode#2059 Coordinator Mode 즉시 게시용 (Bellman 직접 제안 이슈)
+- [marketing/outreach_ready/openai_codex_context_issues.md](marketing/outreach_ready/openai_codex_context_issues.md) — openai/codex context compaction 이슈 3종 즉시 게시용 (#10823/#3997/#8365)
 - [marketing/reddit_localllama.md](marketing/reddit_localllama.md) — Reddit r/LocalLLaMA 포스트 (cliff-edge 발견 + HarnessOS, 2026-04-01 LIVE)
 
 ## Research (Recent)
@@ -58,6 +64,19 @@
 ## Research Designs
 - [research/designs/autonomous_evolution_safety_design.md](research/designs/autonomous_evolution_safety_design.md) — 자율 진화 안전성 3-Paper Synthesis (Safety Gate Drift + Reward Hacking + CoT Monitorability)
 - [research/designs/llm_evaluation_approaches_integration.md](research/designs/llm_evaluation_approaches_integration.md) — LLM Evaluation 4 Approaches HarnessOS 통합 설계
+- [research/designs/cot_monitorability_break_predictor.md](research/designs/cot_monitorability_break_predictor.md) — CoT Monitorability Break Predictor 설계 (autonomy_classifier 확장, TF-IDF cosine consistency)
+- [research/designs/oss_agent_tools_2026_integration.md](research/designs/oss_agent_tools_2026_integration.md) — OSS AI Agent Tools 2026 HarnessOS 통합 평가 (Fireship, Priority 1-3 분류)
+- [research/designs/oh_my_codex_vs_harnessos_positioning.md](research/designs/oh_my_codex_vs_harnessos_positioning.md) — Oh My Codex vs HarnessOS 포지셔닝 분석 (10만 스타 경쟁자, 실행레이어 통합 가능성)
+
+## Marketing
+- [marketing/entity_rebrand_strategy.md](marketing/entity_rebrand_strategy.md) — HarnessOS→Entity 리브랜딩 전략 (Oh My Codex 경쟁 포지셔닝, 체크리스트, README 초안)
+- [marketing/oh_my_codex_outreach.md](marketing/oh_my_codex_outreach.md) — Oh My Codex GitHub 아웃리치 초안 (Draft A/B/C + Wave 2 통합 발표용)
+- [marketing/entity_positioning_messages.md](marketing/entity_positioning_messages.md) — Entity 채널별 포지셔닝 메시지 카드 (GitHub/Reddit/HN/dev.to/GeekNews)
+- [marketing/ceo_outreach_response_templates.md](marketing/ceo_outreach_response_templates.md) — CEO 아웃리치 답장 템플릿 (Outward Reception A/B 테스트 +0.70 delta, 3개 프로필별 템플릿)
+
+## Hypothesis Validation Experiments (Recent)
+- [experiments/hypothesis_validation/reward_hacking_misalignment_safety.md](../experiments/hypothesis_validation/reward_hacking_misalignment_safety.md) — Reward Hacking → Safety Triad 4번째 감지기 실험 설계
+- [experiments/hypothesis_validation/cot_interp_benchmark_design.md](../experiments/hypothesis_validation/cot_interp_benchmark_design.md) — Hard CoT Interpretation Benchmark 실험 설계 (verification gate false-positive)
 
 ## Related
 - [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

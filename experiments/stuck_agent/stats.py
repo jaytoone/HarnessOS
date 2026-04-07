@@ -441,6 +441,131 @@ def _igamma_q_cf(a: float, x: float) -> float:
 
 
 # ---------------------------------------------------------------------------
+# Kruskal-Wallis 3-way test (non-parametric, no scipy)
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class KruskalWallisResult:
+    """3-way Kruskal-Wallis H-test result for eng vs hyp vs del strategies."""
+
+    n_total: int
+    n_eng: int
+    n_hyp: int
+    n_del: int
+    eng_escape_rate: float
+    hyp_escape_rate: float
+    del_escape_rate: float
+    H_statistic: float
+    p_value: float
+    significant: bool           # p < 0.05
+    dominant_strategy: str      # strategy with highest escape rate
+
+
+def kruskal_wallis_3way(
+    eng_escaped: list[bool],
+    hyp_escaped: list[bool],
+    del_escaped: list[bool],
+) -> KruskalWallisResult:
+    """Kruskal-Wallis H-test for 3 independent groups (eng / hyp / del).
+
+    Converts boolean escape outcomes to numeric (0/1), ranks all observations
+    together, then computes H statistic. P-value from chi² approximation (df=2).
+
+    Note: H-test treats each trial as independent. For paired-trial designs,
+    McNemar's is preferred for 2-group comparisons; H-test is used here for
+    the 3-way omnibus comparison.
+    """
+    g1 = [float(x) for x in eng_escaped]
+    g2 = [float(x) for x in hyp_escaped]
+    g3 = [float(x) for x in del_escaped]
+
+    n1, n2, n3 = len(g1), len(g2), len(g3)
+    N = n1 + n2 + n3
+
+    if N == 0:
+        return KruskalWallisResult(
+            n_total=0, n_eng=0, n_hyp=0, n_del=0,
+            eng_escape_rate=0.0, hyp_escape_rate=0.0, del_escape_rate=0.0,
+            H_statistic=0.0, p_value=1.0, significant=False,
+            dominant_strategy="tie",
+        )
+
+    # Build ranked array: tag each value with its group
+    tagged = [(v, "eng") for v in g1] + [(v, "hyp") for v in g2] + [(v, "del") for v in g3]
+    # Sort by value; ties get average rank
+    tagged_sorted = sorted(enumerate(tagged), key=lambda x: x[1][0])
+
+    ranks = [0.0] * len(tagged)
+    i = 0
+    while i < len(tagged_sorted):
+        j = i
+        # Find end of tie group
+        while j < len(tagged_sorted) - 1 and tagged_sorted[j + 1][1][0] == tagged_sorted[i][1][0]:
+            j += 1
+        avg_rank = (i + j) / 2 + 1  # 1-indexed average rank
+        for k in range(i, j + 1):
+            orig_idx = tagged_sorted[k][0]
+            ranks[orig_idx] = avg_rank
+        i = j + 1
+
+    # Sum ranks per group
+    T1 = sum(ranks[i] for i, (_, (_, g)) in enumerate(tagged_sorted) if g == "eng")
+    T2 = sum(ranks[i] for i, (_, (_, g)) in enumerate(tagged_sorted) if g == "hyp")
+    T3 = sum(ranks[i] for i, (_, (_, g)) in enumerate(tagged_sorted) if g == "del")
+
+    # Rebuild rank sums by walking original positions
+    rank_by_group: dict[str, list[float]] = {"eng": [], "hyp": [], "del": []}
+    for orig_idx, (_, (v, g)) in enumerate(tagged_sorted):
+        rank_by_group[g].append(ranks[orig_idx])
+
+    T1 = sum(rank_by_group["eng"])
+    T2 = sum(rank_by_group["hyp"])
+    T3 = sum(rank_by_group["del"])
+
+    # H = 12/(N*(N+1)) * sum(T_i^2/n_i) - 3*(N+1)
+    H = (12 / (N * (N + 1))) * (T1 ** 2 / n1 + T2 ** 2 / n2 + T3 ** 2 / n3) - 3 * (N + 1)
+
+    # Tie correction factor: C = 1 - sum(t^3 - t) / (N^3 - N)
+    # where t = size of each tie group
+    from collections import Counter
+    all_values = [v for v, _ in tagged]
+    tie_counts = Counter(all_values)
+    tie_correction = 1.0
+    if N > 1:
+        tie_sum = sum(t ** 3 - t for t in tie_counts.values())
+        tie_correction = 1.0 - tie_sum / (N ** 3 - N)
+    if tie_correction != 0:
+        H /= tie_correction
+
+    H = max(H, 0.0)
+    p = _chi2_sf(H, df=2)
+
+    rates = {
+        "engineering": sum(g1) / n1 if n1 else 0.0,
+        "hypothesis": sum(g2) / n2 if n2 else 0.0,
+        "delegation": sum(g3) / n3 if n3 else 0.0,
+    }
+    dominant = max(rates, key=lambda k: rates[k])
+    if len(set(rates.values())) == 1:
+        dominant = "tie"
+
+    return KruskalWallisResult(
+        n_total=N,
+        n_eng=n1,
+        n_hyp=n2,
+        n_del=n3,
+        eng_escape_rate=rates["engineering"],
+        hyp_escape_rate=rates["hypothesis"],
+        del_escape_rate=rates["delegation"],
+        H_statistic=round(H, 4),
+        p_value=round(p, 6),
+        significant=p < 0.05,
+        dominant_strategy=dominant,
+    )
+
+
+# ---------------------------------------------------------------------------
 # Bootstrap Variance Estimator — effect size collapse risk predictor
 # ---------------------------------------------------------------------------
 

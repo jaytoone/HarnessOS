@@ -186,6 +186,6 @@ category_focus_map:
   ml_engineering: [tldr_ai, thesequence, ahead_of_ai, last_week_in_ai, netflix_tech, github_trending]
   product_growth: [lennys_newsletter, indie_hackers, bens_bites]
   system_design: [martin_fowler, continuous_delivery_yt, netflix_tech, simon_willison]
-  daily_digest: [geeknews, tldr_ai, bens_bites, hn, simon_willison]
-  trending_tools: [fireship_yt, bens_bites, tldr_ai, geeknews, github_trending]
+  daily_digest: [geeknews, yozm_it, tldr_ai, bens_bites, hn, simon_willison]
+  trending_tools: [fireship_yt, bens_bites, tldr_ai, geeknews, devto, github_trending]
   ai_safety: [alignment_forum, anthropic_blog, deepmind_blog, simon_willison]

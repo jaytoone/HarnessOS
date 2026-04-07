@@ -1,16 +1,14 @@
 {
-  "status": "CONVERGED",
-  "session_id": "inf-20260407-ab-real",
-  "current_iteration": 0,
-  "root_goal": "[EXPERIMENT-REAL] skill_patch injection A/B 실제 검증 — control(no-patch) vs treatment(patch-enabled) 조건에서 동일 goal(paradigm_communication)로 live-inf 실행. 각 조건 3회씩 수행 후 best_score와 iterations_to_converge 비교. 가설: patched context > static (effect_size >= 0.05).",
-  "original_goal": "[EXPERIMENT-REAL] skill_patch injection A/B 실제 검증 — control(no-patch) vs treatment(patch-enabled) 조건에서 동일 goal(paradigm_communication)로 live-inf 실행. 각 조건 3회씩 수행 후 best_score와 iterations_to_converge 비교. 가설: patched context > static (effect_size >= 0.05).",
+  "status": "RUNNING",
+  "session_id": "inf-market-deploy-001",
+  "current_iteration": 1,
+  "root_goal": "마켓 배포 시퀀스: 1)git push HarnessOS 2)SkillsMP/claudeskills 비-conceptual 스킬 배포 3)MuleRun early listing 4)Oh My Codex 댓글 세딩",
+  "original_goal": "마켓 배포 시퀀스: 1)git push HarnessOS 2)SkillsMP/claudeskills 비-conceptual 스킬 배포 3)MuleRun early listing 4)Oh My Codex 댓글 세딩",
   "evolution_count": 0,
   "evolution_history": [],
-  "best_score": 0.954,
+  "best_score": 0.0,
   "plateau_count": 0,
-  "escape_attempts": 0,
   "score_history": [],
-  "started_at": "2026-04-07T10:41:56.868798",
-  "ab_experiment": true,
-  "convergence_reason": "Oracle is deterministic — A/B real experiment complete. Treatment trajectory validated (0.835→0.954). Proper control comparison requires separate live-inf run."
+  "cost_history": [],
+  "started_at": "2026-04-07T17:59:09.655179"
 }

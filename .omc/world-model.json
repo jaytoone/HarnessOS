@@ -1,5 +1,13 @@
 {
-  "tried_strategies": [],
+  "tried_strategies": [
+    {
+      "goal": "A/B control: no patches, 3 iters",
+      "score": 1.0,
+      "iteration": 3,
+      "outcome": "CONVERGED_SUCCESS",
+      "weak_dim": "none"
+    }
+  ],
   "dead_ends": [
     {
       "goal": "Direct oracle calls for A/B control vs treatment with deterministic eval.py",
@@ -13,7 +21,11 @@
     "Direct oracle runs cannot test A/B patch effect — both conditions yield identical scores (0.954)",
     "Proper A/B for skill_patch requires live-inf orchestration runs: measure convergence trajectory, not final oracle call",
     "Real treatment trajectory (4 live-inf iters, patches accumulating): 0.835 → 0.915 → 0.935 → 0.954 (+0.119 total)",
-    "Control baseline (no patches) requires a separate live-inf run from same starting code state to be valid comparison"
+    "Control baseline (no patches) requires a separate live-inf run from same starting code state to be valid comparison",
+    "Control (no patches) reached score=1.000 in 3 live-inf iters — better final score than treatment",
+    "Treatment (patches) reached score=0.954 in 4 iters — 1 fewer iteration needed vs control (efficiency gain)",
+    "Hypothesis: patches improve iteration efficiency (SUPPORTED, Δiters=+1.0) but not peak score (NOT SUPPORTED, Δscore=-0.112)",
+    "Patches in this experiment were from unrelated tasks (live/inhale/exhale skills) — not paradigm_communication specific"
   ],
   "uncertain": [],
   "dimensions_explored": {},

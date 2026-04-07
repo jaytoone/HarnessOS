@@ -64,6 +64,7 @@ class StuckTaskResult:
     phase1_passed: bool          # True = task was trivial for engineering (excluded)
     eng_rescue: RescueResult | None = None
     hyp_rescue: RescueResult | None = None
+    del_rescue: RescueResult | None = None
 
 
 @dataclass
@@ -87,6 +88,10 @@ class StuckExperimentResult:
     @property
     def hyp_escaped(self) -> list[bool]:
         return [r.hyp_rescue.escaped for r in self.stuck_results if r.hyp_rescue]
+
+    @property
+    def del_escaped(self) -> list[bool]:
+        return [r.del_rescue.escaped for r in self.stuck_results if r.del_rescue]
 
 
 # ---------------------------------------------------------------------------
@@ -194,6 +199,19 @@ _HYP_RESCUE_SYSTEM = (
     "Be concise and explicit."
 )
 
+_DEL_RESCUE_SYSTEM = (
+    "You are an orchestrator agent. Your previous direct fix attempt failed.\n"
+    "Use the ReAct delegation pattern to escape the stuck state:\n"
+    "1. Write: 'Bug category: <red_herring | multi_bug | hidden_assume | semantic_inv>'\n"
+    "2. Write: 'Delegating to: <specialist name> — strategy: <why this specialist>'\n"
+    "   Specialists: TraceSpecialist (follows execution path), ContractSpecialist\n"
+    "   (checks implicit contracts), InversionSpecialist (checks logic direction),\n"
+    "   InteractionSpecialist (checks multi-bug interactions)\n"
+    "3. Write: 'Specialist analysis: <what the specialist found>'\n"
+    "4. Write the corrected code in a ```python code block.\n"
+    "Be concise and explicit."
+)
+
 
 def _phase1_prompt(task: StuckTask) -> str:
     test_lines = "\n".join(f"  {tc}" for tc in task.test_cases)
@@ -261,7 +279,8 @@ class LLMStuckRunner:
                 results.append(tr)
                 status = "trivial" if tr.phase1_passed else (
                     f"eng={'✓' if tr.eng_rescue and tr.eng_rescue.escaped else '✗'} "
-                    f"hyp={'✓' if tr.hyp_rescue and tr.hyp_rescue.escaped else '✗'}"
+                    f"hyp={'✓' if tr.hyp_rescue and tr.hyp_rescue.escaped else '✗'} "
+                    f"del={'✓' if tr.del_rescue and tr.del_rescue.escaped else '✗'}"
                 )
                 print(status)
 
@@ -315,6 +334,16 @@ class LLMStuckRunner:
             strategy="hypothesis",
         )
 
+        # ── Phase 2c: delegation rescue ───────────────────────────────────
+        del_rescue = self._rescue(
+            task,
+            failed_code=p1_code or task.buggy_code,
+            tests_passed=p1_passed_n,
+            tests_total=p1_total,
+            rescue_system=_DEL_RESCUE_SYSTEM,
+            strategy="delegation",
+        )
+
         return StuckTaskResult(
             task_id=task.id,
             category=task.category,
@@ -322,6 +351,7 @@ class LLMStuckRunner:
             phase1_passed=False,
             eng_rescue=eng_rescue,
             hyp_rescue=hyp_rescue,
+            del_rescue=del_rescue,
         )
 
     def _rescue(
@@ -447,6 +477,14 @@ class ControlledLLMStuckRunner:
                     rescue_system=_HYP_RESCUE_SYSTEM,
                     strategy="hypothesis",
                 )
+                del_rescue = self._rescue(
+                    task,
+                    failed_code=task.misleading_fix_code,
+                    tests_passed=mf_passed,
+                    tests_total=mf_total,
+                    rescue_system=_DEL_RESCUE_SYSTEM,
+                    strategy="delegation",
+                )
 
                 tr = StuckTaskResult(
                     task_id=task.id,
@@ -455,12 +493,14 @@ class ControlledLLMStuckRunner:
                     phase1_passed=False,  # always stuck by design
                     eng_rescue=eng_rescue,
                     hyp_rescue=hyp_rescue,
+                    del_rescue=del_rescue,
                 )
                 results.append(tr)
 
                 status = (
                     f"eng={'✓' if eng_rescue.escaped else '✗'} "
-                    f"hyp={'✓' if hyp_rescue.escaped else '✗'}"
+                    f"hyp={'✓' if hyp_rescue.escaped else '✗'} "
+                    f"del={'✓' if del_rescue.escaped else '✗'}"
                 )
                 print(status)
 
@@ -543,9 +583,11 @@ def save_results(result: StuckExperimentResult, output_dir: Path | None = None) 
     n = len(stuck)
     eng_escaped = result.eng_escaped
     hyp_escaped = result.hyp_escaped
+    del_escaped = result.del_escaped
 
     eng_rate = sum(eng_escaped) / n if n else 0.0
     hyp_rate = sum(hyp_escaped) / n if n else 0.0
+    del_rate = sum(del_escaped) / n if n else 0.0
 
     data: dict[str, Any] = {
         "experiment": "stuck_agent",
@@ -556,12 +598,17 @@ def save_results(result: StuckExperimentResult, output_dir: Path | None = None) 
         "n_trivial": sum(1 for r in result.task_results if r.phase1_passed),
         "eng_escape_rate": round(eng_rate, 4),
         "hyp_escape_rate": round(hyp_rate, 4),
-        "escape_rate_uplift": round(hyp_rate - eng_rate, 4),
+        "del_escape_rate": round(del_rate, 4),
+        "escape_rate_uplift_hyp": round(hyp_rate - eng_rate, 4),
+        "escape_rate_uplift_del": round(del_rate - eng_rate, 4),
         "eng_total_tokens": sum(
             r.eng_rescue.tokens_used for r in stuck if r.eng_rescue
         ),
         "hyp_total_tokens": sum(
             r.hyp_rescue.tokens_used for r in stuck if r.hyp_rescue
+        ),
+        "del_total_tokens": sum(
+            r.del_rescue.tokens_used for r in stuck if r.del_rescue
         ),
         "tasks": [_task_result_to_dict(r) for r in result.task_results],
     }
@@ -588,4 +635,8 @@ def _task_result_to_dict(r: StuckTaskResult) -> dict[str, Any]:
         d["hyp_attempts"] = r.hyp_rescue.attempts_used
         d["hyp_tokens"] = r.hyp_rescue.tokens_used
         d["hypothesis"] = r.hyp_rescue.hypothesis
+    if r.del_rescue:
+        d["del_escaped"] = r.del_rescue.escaped
+        d["del_attempts"] = r.del_rescue.attempts_used
+        d["del_tokens"] = r.del_rescue.tokens_used
     return d

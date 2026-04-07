@@ -32,3 +32,22 @@ AutoCode/
 # OS
 .DS_Store
 Thumbs.db
+
+# Claude Code local config
+.claude/
+.mcp.json
+
+# Screenshots
+*.png
+*.jpg
+
+# Node
+node_modules/
+package-lock.json
+
+# Dev / test artifacts
+package.json
+playwright.config.ts
+seed.spec.ts
+specs/
+tests/

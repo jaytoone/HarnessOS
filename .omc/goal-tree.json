@@ -1,34 +1,18 @@
 {
-  "root_goal": "[EXPERIMENT-VALIDATED] evolving_orchestration A/B 실험 프레임워크 완성: (1) skill_patcher.py 실제 episode 스키마 대응 검증 (2) ab_test 결과에 simulated vs real 구분 메타데이터 추가 (3) 실제 검증을 위한 usage 가이드 작성. experiment_validity >= 0.85 달성",
-  "original_goal": "[EXPERIMENT] orchestration prompt(=스킬 정의) 자체가 경험 기반으로 진화하면 같은 goal에 대해 더 나은 실행 전략을 자동 발견할 수 있다 — A/B paired comparison (5 iter each): static vs experience-based skill patch injection. Metric: best_score at convergence, iterations to converge. Source: arxiv 2604.00901",
+  "root_goal": "마켓 배포 시퀀스: 1)git push HarnessOS 2)SkillsMP/claudeskills 비-conceptual 스킬 배포 3)MuleRun early listing 4)Oh My Codex 댓글 세딩",
+  "original_goal": "마켓 배포 시퀀스: 1)git push HarnessOS 2)SkillsMP/claudeskills 비-conceptual 스킬 배포 3)MuleRun early listing 4)Oh My Codex 댓글 세딩",
   "level": 0,
-  "sub_goals": [],
-  "evolution_count": 2,
-  "evolution_history": [
-    {
-      "iteration": 1,
-      "goal": "[EXPERIMENT] orchestration prompt(=스킬 정의) 자체가 경험 기반으로 진화하면 같은 goal에 대해 더 나은 실행 전략을 자동 발견할 수 있다 — A/B",
-      "score": 0.809,
-      "rationale": "C1 selected: target experiment_validity (0.720→0.85) via actual trial data collection"
-    },
-    {
-      "iteration": 2,
-      "goal": "[EXPERIMENT] A/B 시뮬레이션: control(patch-disabled) vs treatment(patch-enabled) 조건에서 SkillPatcher.genera",
-      "score": 0.863,
-      "rationale": "C1: target experiment_validity (0.817) by rigorous simulation metadata + usage guide"
-    }
+  "sub_goals": [
+    "1. git push HarnessOS (gitignore 정리 포함)",
+    "2. SkillsMP + claudeskills.info 스킬 리스팅 준비",
+    "3. MuleRun early listing 검토",
+    "4. Oh My Codex 스레드 댓글 세딩 전략 실행"
   ],
+  "evolution_count": 0,
+  "evolution_history": [],
   "reward_spec": {
-    "primary_metric": "A/B paired comparison: skill_patch injection vs static prompts",
-    "threshold": "implementation complete (skill_patcher.py functional) AND A/B test data collectable"
+    "primary_metric": "all 4 sub-goals completed",
+    "threshold": "each sub-goal has actionable artifact"
   },
-  "score_dimensions": [
-    "implementation_completeness",
-    "experiment_validity",
-    "code_quality",
-    "goal_fidelity"
-  ],
-  "history": [],
-  "_evolve_source": "experiments/stuck_agent/evolving_orchestration_design.md",
-  "_evolve_source_paper": "arxiv:2604.00901 — Experience as a Compass: Multi-agent RAG with Evolving Orchestration"
+  "history": []
 }
