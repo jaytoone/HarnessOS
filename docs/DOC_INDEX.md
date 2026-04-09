@@ -19,6 +19,7 @@
 - [knowledge-channels.yaml](knowledge-channels.yaml) — RSS 채널 레지스트리 (AI/ML/Engineering/Startup/KR)
 - [research/designs/openharness_vs_entity_positioning.md](research/designs/openharness_vs_entity_positioning.md) — OpenHarness vs Entity 경쟁 포지셔닝 분석 (마켓 배포 대응)
 - [research/designs/global_agent_skill_critique_2026.md](research/designs/global_agent_skill_critique_2026.md) — Expert critique: Claude global agents/skills — 7 critical defects + improvement roadmap (EN, 2026-04-09)
+- [research/designs/full_skill_agent_review_2026.md](research/designs/full_skill_agent_review_2026.md) — Full review: all 75 skills + 65 agent types — 24 issues, 10 applied fixes, improvement roadmap (EN, 2026-04-09)
 - [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
 
 ## Research

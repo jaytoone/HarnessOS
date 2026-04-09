@@ -1,13 +1,13 @@
 {
-  "root_goal": "Critically review and improve Claude global agents/skills at expert level. Write in English. External research allowed. Produce expert-level critique and concrete improvements to the skill/agent system in this project.",
-  "original_goal": "Critically review and improve Claude global agents/skills at expert level. Write in English. External research allowed. Produce expert-level critique and concrete improvements to the skill/agent system in this project.",
+  "root_goal": "Review and improve ALL agents and skills in the full list — both the agent types available in the system (research-explore, dev-executor, ops-planner, dev-deep-executor, review-verifier, etc.) and ALL skills in ~/.claude/skills/ (75+ skills). Identify which ones have weak descriptions, missing use-cases, wrong triggers, redundancy, or gaps. Produce concrete improvements across the full list, not just selected ones.",
+  "original_goal": "Review and improve ALL agents and skills in the full list — both the agent types available in the system (research-explore, dev-executor, ops-planner, dev-deep-executor, review-verifier, etc.) and ALL skills in ~/.claude/skills/ (75+ skills). Identify which ones have weak descriptions, missing use-cases, wrong triggers, redundancy, or gaps. Produce concrete improvements across the full list, not just selected ones.",
   "level": 0,
   "sub_goals": [],
   "evolution_count": 0,
   "evolution_history": [],
   "reward_spec": {
-    "primary_metric": "expert-level critique quality + concrete improvements delivered",
-    "threshold": "actionable improvements implemented; critique grounded in research"
+    "primary_metric": "coverage and quality of agent/skill improvements",
+    "threshold": "all agents and skills reviewed, concrete improvements applied across full list"
   },
   "history": []
 }

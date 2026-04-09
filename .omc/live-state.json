@@ -1,10 +1,14 @@
 {
   "current_iteration": 0,
+  "last_outcome": null,
+  "last_phase_reached": null,
+  "started_at": "2026-04-09T00:00:00",
   "best_score": 0.0,
+  "current_score": 0.0,
+  "current_goal_fidelity": 1.0,
+  "score_variance": 0.0,
   "plateau_count": 0,
   "evolution_count": 0,
-  "last_outcome": null,
-  "goal": "Critically review and improve Claude global agents/skills at expert level. Write in English. External research allowed. Produce expert-level critique and concrete improvements to the skill/agent system in this project.",
   "score_history": [],
   "cost_history": []
 }
