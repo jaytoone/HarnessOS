@@ -5,6 +5,9 @@
 
 ## Experiments
 - [verification_hurt/runner.py](../experiments/verification_hurt/runner.py) — Verification mode 비교 실험 (none/strict/lenient/adaptive escape_rate 측정)
+- [hypothesis_validation/uncertainty_guided_trajectory.md](../experiments/hypothesis_validation/uncertainty_guided_trajectory.md) — 불확실성 기반 순차 증거 수집 live-inf 실험 설계 (arXiv:2604.05116)
+- [hypothesis_validation/uncertainty_gate_report.md](../experiments/hypothesis_validation/uncertainty_gate_report.md) — Uncertainty Gate A/B 실험 결과 보고서 (예비 n=1, H1 미지지, 재실험 가이드 포함)
+- [hypothesis_validation/territory_paint_wars_failure_modes.md](../experiments/hypothesis_validation/territory_paint_wars_failure_modes.md) — A/B 실험 실패 모드 분류 설계 (arXiv:2604.04983)
 
 ## Specs
 - [2026-03-22 LLM 장기 컨텍스트 실험 설계](superpowers/specs/2026-03-22-llm-longcontext-experiment-design.md)
@@ -14,6 +17,8 @@
 
 ## Knowledge Pipeline
 - [knowledge-channels.yaml](knowledge-channels.yaml) — RSS 채널 레지스트리 (AI/ML/Engineering/Startup/KR)
+- [research/designs/openharness_vs_entity_positioning.md](research/designs/openharness_vs_entity_positioning.md) — OpenHarness vs Entity 경쟁 포지셔닝 분석 (마켓 배포 대응)
+- [research/designs/global_agent_skill_critique_2026.md](research/designs/global_agent_skill_critique_2026.md) — Expert critique: Claude global agents/skills — 7 critical defects + improvement roadmap (EN, 2026-04-09)
 - [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
 
 ## Research
@@ -79,11 +84,11 @@
 - [experiments/hypothesis_validation/cot_interp_benchmark_design.md](../experiments/hypothesis_validation/cot_interp_benchmark_design.md) — Hard CoT Interpretation Benchmark 실험 설계 (verification gate false-positive)
 
 ## Related
-- [[projects/HarnessOS/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
-- [[projects/HarnessOS/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
-- [[projects/HarnessOS/research/20260403-optimal-top-n-knowledge-pipeline|20260403-optimal-top-n-knowledge-pipeline]]
-- [[projects/HarnessOS/research/digests/20260401-verification-hurt-results|20260401-verification-hurt-results]]
-- [[projects/HarnessOS/research/20260330-omc-live-critique|20260330-omc-live-critique]]
-- [[projects/HarnessOS/research/digests/20260401-experiment-ideas|20260401-experiment-ideas]]
-- [[projects/HarnessOS/superpowers/plans/2026-03-22-llm-longcontext-experiment|2026-03-22-llm-longcontext-experiment]]
-- [[projects/HarnessOS/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
+- [[projects/Entity/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
+- [[projects/Entity/research/20260330-omc-live-critique|20260330-omc-live-critique]]
+- [[projects/Entity/marketing/reddit_localllama|reddit_localllama]]
+- [[projects/Entity/research/digests/20260401-experiment-ideas|20260401-experiment-ideas]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_claudecode_discussion|oh_my_claudecode_discussion]]
+- [[projects/Entity/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
