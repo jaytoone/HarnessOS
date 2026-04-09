@@ -1,14 +1,21 @@
 {
-  "current_iteration": 0,
-  "last_outcome": null,
-  "last_phase_reached": null,
+  "current_iteration": 1,
+  "last_outcome": "success",
+  "last_phase_reached": "validation",
   "started_at": "2026-04-09T00:00:00",
-  "best_score": 0.0,
-  "current_score": 0.0,
+  "best_score": 0.83,
+  "current_score": 0.83,
   "current_goal_fidelity": 1.0,
-  "score_variance": 0.0,
+  "score_variance": 0.05,
   "plateau_count": 0,
   "evolution_count": 0,
-  "score_history": [],
-  "cost_history": []
+  "score_history": [0.83],
+  "cost_history": ["iter1: 10 skill file edits + review doc"],
+  "score_breakdown_iter1": {
+    "quality": 0.83,
+    "completeness": 0.72,
+    "efficiency": 0.80,
+    "impact": 0.82,
+    "goal_fidelity": 1.00
+  }
 }
