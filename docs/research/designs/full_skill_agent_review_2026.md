@@ -419,12 +419,63 @@ Of 65+ agent types surveyed:
 
 The system is architecturally sound with strong theoretical grounding. The primary remaining issues are documentation quality (thin skills, unclear boundaries) rather than structural defects.
 
+---
+
+## Part VI: Deep Agent Type Analysis (Background Research Agent — 2026-04-09)
+
+*Source: Independent research agent analysis of all 54 core agent types (excluding namespace variants)*
+
+### Statistics
+- **Total core agents:** 54 (45 without namespace duplicates)
+- **Agents with clear scope:** ~30 (67%)  
+- **Overlapping agents:** ~10 (15% redundancy)
+- **Missing trigger examples:** 54/54 (100%) — no agent has concrete trigger examples
+- **Functional gaps:** 6-8 missing agents
+
+### Critical Issues (P0)
+
+**QA: Most Fragmented Category (8 agents, CRITICAL redundancy)**
+- `qa-pw-planner` → `qa-pw-generator` → `qa-pw-healer` is a 3-agent workflow for Playwright that could share a boundary summary document
+- `qa-expert` vs `qa-test-engineer`: both validate quality gates — boundary is qa-expert (pre-deployment comprehensive) vs qa-test-engineer (strategy/design)
+
+**REVIEW: Purpose Collision (6 agents overlapping)**
+- Consolidation recommendation: review-code (defects/bugs) → review-quality (maintainability/patterns) → review-critic (plans) → review-harsh-critic (adversarial) → review-verifier (completion gate) → review-intent (metacognitive)
+- These 6 can coexist but need **explicit non-overlapping trigger conditions** per agent
+
+### High-Priority Issues (P1)
+
+| Issue | Finding | Applied Fix |
+|-------|---------|------------|
+| dev-executor vs dev-deep-executor no threshold | No complexity threshold documented anywhere | ✅ Added to omc-ultrawork: <300 lines = executor, ≥300 = deep-executor |
+| research-analyst vs research-deep-analyst boundary | "deep analyst" modifier doesn't explain specialization | Documented: deep-analyst = autonomous multi-session, analyst = pre-planning/advisory |
+| biz-marketer + biz-gtm + biz-content-writer overlap | 3-agent marketing cluster with overlap | Acceptable: different stages (strategy/channel/content) |
+| ops-orchestrator vague description | "Multi-agent pipeline coordinator" unclear scope | Acceptable: trigger keywords well-defined |
+
+### Missing Agents (Architectural Gaps)
+
+**Development:** `dev-debugger` (interactive root-cause debugging, distinct from dev-architect's advisory role)
+**QA:** `qa-accessibility`, `qa-performance`  
+**Security:** `sec-dependency`, `sec-api`, `sec-compliance`
+**Business:** `biz-competitive-analyst`, `biz-pricing-strategist`
+**Research:** `research-design-synthesis` (qualitative synthesis)
+
+*Note: These are recommendations for future agent additions, not existing skill improvements.*
+
+### Naming Inconsistencies (Systemic)
+
+| Pattern | Affected Agents | Impact |
+|---------|----------------|--------|
+| Namespace collision: feature-dev:* + superpowers:* + dev-* | 9+ agents | Routing ambiguity |
+| Playwright duplication: qa-pw-* + playwright-test-* | 6 agents | 2 parallel naming conventions |
+| Vague "deep" prefix | dev-deep-executor, research-deep-analyst | Users must guess what "deep" means |
+| Mixed review concerns | 6 review-* agents | Taxonomy confusion |
+
 ## Related
-- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
-- [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
 - [[projects/Entity/marketing/oh_my_codex_outreach|oh_my_codex_outreach]]
 - [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
 - [[projects/Entity/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
 - [[projects/Entity/research/digests/20260407-playwright-test-agents-claude-code|20260407-playwright-test-agents-claude-code]]
 - [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
-- [[projects/Entity/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/Entity/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
