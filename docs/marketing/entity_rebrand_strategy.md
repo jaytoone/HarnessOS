@@ -110,6 +110,6 @@ Oh My Codex  ──────────────────────�
 - [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
 - [[projects/Entity/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
 - [[projects/Entity/marketing/entity_positioning_messages|entity_positioning_messages]]
+- [[projects/Entity/research/designs/openharness_vs_entity_positioning|openharness_vs_entity_positioning]]
 - [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
 - [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
-- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

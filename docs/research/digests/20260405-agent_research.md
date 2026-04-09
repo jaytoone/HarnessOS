@@ -158,10 +158,10 @@ Category: `agent_research` | Total items: 30 | HarnessOS-relevant: 29
 
 ## Related
 - [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Entity/research/designs/global_agent_skill_critique_2026|global_agent_skill_critique_2026]]
 - [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
 - [[projects/Entity/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
 - [[projects/Entity/research/20260330-hypothesis-vs-engineering-thinking|20260330-hypothesis-vs-engineering-thinking]]
 - [[projects/Entity/research/designs/llm_evaluation_approaches_integration|llm_evaluation_approaches_integration]]
 - [[projects/Entity/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
 - [[projects/Entity/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
-- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

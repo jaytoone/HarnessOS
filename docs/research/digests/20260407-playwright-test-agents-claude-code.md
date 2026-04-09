@@ -87,5 +87,6 @@ Run the Playwright Test Agents to generate tests for [URL or 기능 설명]
 - [Playwright MCP Explained (2026)](https://testdino.com/blog/playwright-mcp/)
 
 ## Related
+- [[projects/Entity/research/designs/global_agent_skill_critique_2026|global_agent_skill_critique_2026]]
 - [[projects/Entity/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
 - [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
