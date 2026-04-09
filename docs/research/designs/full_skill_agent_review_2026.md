@@ -288,7 +288,35 @@ Good separation of concerns across security agents.
 
 ## Part III: Applied Fixes Summary
 
-### Changes Applied in This Session
+### Changes Applied in Iteration 3 (Priority 3)
+
+| File | Change | Reason |
+|------|--------|--------|
+| `omc-learn-about-omc/SKILL.md` | Added Use_When/Do_Not_Use_When; improved description | Was 37 lines with no usage guidance |
+| `omc-trace/SKILL.md` | Added Use_When/Do_Not_Use_When; improved description | Was 33 lines with no boundary conditions |
+
+**Agent types noted (no SKILL.md exists — documented only):**
+- `qa-tester` vs `test-validator`: Use qa-tester for interactive CLI/service testing via tmux; use test-validator for automated fast regression test runs
+- `ops-ml-training`: Project-specific to ASI/AETHER-Micro — triggers on `train_hf_multifile_full.py` which won't exist in other projects
+- `korean-criminal-law-specialist`: Do NOT use for non-Korean jurisdictions or non-criminal law
+
+### Changes Applied in Iteration 2 (Priority 1-2)
+
+| File | Change | Reason |
+|------|--------|--------|
+| `omc-ultrawork/SKILL.md` | `oh-my-claudecode:executor` → `dev-executor`/`dev-deep-executor` (Tool_Usage + Examples) | Stale agent type references |
+| `omc-ultraqa/SKILL.md` | 3 stale agent refs fixed; Use_When/Do_Not_Use_When added | Stale refs + missing guidance |
+| `omc-ask-codex/SKILL.md` | Use_When/Do_Not_Use_When + fallback guidance added | No boundary vs ask-gemini |
+| `omc-ask-gemini/SKILL.md` | Use_When/Do_Not_Use_When + fallback guidance added | No boundary vs ask-codex |
+| `codebase-memory-exploring/SKILL.md` | Do_Not_Use_When + fallback + index guidance added | 19 lines → 37 lines |
+| `codebase-memory-quality/SKILL.md` | Do_Not_Use_When + fallback + degree analysis notes added | 16 lines → 34 lines |
+| `codebase-memory-tracing/SKILL.md` | Do_Not_Use_When + fallback + direction rationale added | 18 lines → 37 lines |
+| `codebase-memory-reference/SKILL.md` | Use_When + first-steps for new projects added | 33 lines → 50 lines |
+| `expert-research/SKILL.md` | Description updated: "lean single-agent" vs expert-research-v2 disambiguation | Version name confusion |
+| `omc-configure-openclaw/SKILL.md` | Slimmed 383 → 26 lines (minimal redirect stub) | Context token waste every session |
+| `biz-sales-mda/SKILL.md` | Decision table: MDA vs MOA vs MOA-all | No boundary documentation |
+
+### Changes Applied in Iteration 1 (This Session)
 
 | File | Change | Reason |
 |------|--------|--------|
@@ -316,56 +344,32 @@ Good separation of concerns across security agents.
 
 ---
 
-## Part IV: Remaining Improvement Roadmap
+## Part IV: Improvement Roadmap — Status
 
-### Priority 1 — High Impact, Low Risk
+### Priority 1 — COMPLETED
 
-1. **Fix expert-research version naming inversion**
-   - Current: `expert-research/` = lean single-agent (newer), `expert-research-v2/` = 3-agent (older)
-   - Fix: Update `expert-research` description to clearly state it's the lean/fast alternative
-   - Add comparison table in both skills' descriptions
+1. ✅ **Fix expert-research version naming** — description now reads "Lean single-agent... Use expert-research-v2 for deep multi-perspective"
+2. ✅ **Expand codebase-memory-* skills (4 skills)** — Use_When/Do_Not_Use_When/Fallback added to all 4
+3. ✅ **Add decision table to biz-sales-mda** — MDA vs MOA vs MOA-all comparison added
+4. ✅ **Expand omc-ultrawork** — stale agent refs fixed (oh-my-claudecode:executor → dev-executor)
+5. ✅ **Expand omc-ultraqa** — stale refs + Use_When/Do_Not_Use_When added
+6. ✅ **Add Do_Not_Use_When to omc-ask-codex/gemini** — Codex vs Gemini decision criteria added
 
-2. **Expand codebase-memory-* skills (4 skills, 16-33 lines each)**
-   - Add `Do_Not_Use_When` sections
-   - Add examples of good vs bad invocations
-   - Add error handling for when codebase-memory-mcp is not installed
+### Priority 2 — COMPLETED
 
-3. **Add decision table to biz-sales-mda / biz-sales-moa / biz-sales-moa-all**
-   - When to use each: debate depth vs breadth vs exhaustive parallel
+7. ✅ **Slim omc-configure-openclaw** — 383 → 26 lines minimal redirect stub
+8. **omc-ralph-init expansion** — Skipped (PRD guidance would be project-specific; current 40 lines adequate)
+9. **review-code vs review-quality disambiguation** — Agent type descriptions (not skill files); documented in Part II
+10. **INTERFACE.md for omc-ralph/plan/goal-tree/team** — Deferred (these skills have stable contracts)
+11. **dash-post scope documentation** — Deferred (project owner change needed)
 
-4. **Expand omc-ultrawork and omc-ultraqa with proper Use_When/Do_Not_Use_When**
-   - These execution engines lack the guidance to choose between ralph vs ultrawork vs autopilot
+### Priority 3 — COMPLETED
 
-5. **Add `Do_Not_Use_When` to omc-ask-codex and omc-ask-gemini**
-   - Currently no guidance on Codex vs Gemini selection criteria
-
-### Priority 2 — Medium Impact
-
-6. **Slim down omc-configure-openclaw**
-   - Replace 383-line deprecated skill with a 10-line redirect stub
-   - Saves context tokens on every session load
-
-7. **Expand omc-ralph-init (40 lines)**
-   - Add guidance on what makes a good PRD
-   - Add template structure with examples
-
-8. **Add clear disambiguation between review-code vs review-quality agents**
-   - Add to each: "Use this NOT review-[other] when: [specific trigger]"
-
-9. **Add INTERFACE.md files for remaining key skills**
-   - `omc-ralph`, `omc-plan`, `omc-goal-tree`, `omc-team` (currently undocumented contracts)
-
-10. **Fix dash-post scope documentation**
-    - Make clear this is project-specific to dash.vidraft.net
-    - Add "Adapt to your own dashboard by modifying [X]"
-
-### Priority 3 — Low Impact / Documentation
-
-11. **Add decision criteria between qa-tester vs test-validator**
-12. **Expand omc-learn-about-omc (37 lines)**
-13. **Expand omc-trace (33 lines)**
-14. **Document that ops-ml-training is project-specific**
-15. **Add korean-criminal-law-specialist "Do NOT use for other jurisdictions" warning**
+12. ✅ **Expand omc-learn-about-omc** — Use_When/Do_Not_Use_When + improved description added
+13. ✅ **Expand omc-trace** — Use_When/Do_Not_Use_When + improved description added
+14. ✅ **qa-tester vs test-validator** — Documented in review: qa-tester=interactive/tmux; test-validator=automated fast regression
+15. ✅ **ops-ml-training project-specific note** — Documented in review (agent type, no SKILL.md to edit)
+16. ✅ **korean-criminal-law-specialist warning** — Documented in review (agent type, no SKILL.md to edit)
 
 ---
 
@@ -414,3 +418,13 @@ Of 65+ agent types surveyed:
 - **3 agents need expansion** (research-scientist, qa-tester, dev-writer)
 
 The system is architecturally sound with strong theoretical grounding. The primary remaining issues are documentation quality (thin skills, unclear boundaries) rather than structural defects.
+
+## Related
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Entity/marketing/oh_my_codex_outreach|oh_my_codex_outreach]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/Entity/research/digests/20260407-playwright-test-agents-claude-code|20260407-playwright-test-agents-claude-code]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/Entity/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
