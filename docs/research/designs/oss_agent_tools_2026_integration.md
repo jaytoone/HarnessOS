@@ -69,3 +69,6 @@ Priority 3 (참고/벤치마크용):
 | HTTP API | 언어 무관 | 네트워크 의존 |
 
 **권장**: subprocess 래핑으로 시작 (live-inf 내 안전성 우선)
+
+## Related
+- [[projects/Entity/research/designs/autonomous_evolution_safety_design|autonomous_evolution_safety_design]]

@@ -103,3 +103,13 @@ Oh My Codex  ──────────────────────�
 2. **Dev.to 포스트** — "Oh My Codex + Entity 통합 가이드"
 3. **GeekNews** — 한국어 소개글 (yozm_it 채널 활용)
 4. **r/LocalLLaMA** 업데이트 — Entity 리브랜딩 + Oh My Codex 통합 발표
+
+## Related
+- [[projects/Entity/research/designs/oh_my_codex_vs_harnessos_positioning|oh_my_codex_vs_harnessos_positioning]]
+- [[projects/Entity/research/designs/autonomous_evolution_safety_design|autonomous_evolution_safety_design]]
+- [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/Entity/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/Entity/marketing/entity_positioning_messages|entity_positioning_messages]]
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

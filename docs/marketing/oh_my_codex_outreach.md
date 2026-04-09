@@ -151,3 +151,13 @@ extensibility in Oh My Codex — the "plug in your own orchestrator" use case.
 - [ ] 각 이슈 last activity 확인 (48시간 이내 활성 이슈 우선)
 - [ ] 댓글 게시 전 검토: 링크 없음, 250자 이내, 가치 먼저
 - [ ] Wave 2는 PoC 완료 후 진행
+
+## Related
+- [[projects/Entity/marketing/outreach_ready/oh_my_claudecode_discussion|oh_my_claudecode_discussion]]
+- [[projects/Entity/research/designs/autonomous_evolution_safety_design|autonomous_evolution_safety_design]]
+- [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/Entity/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Entity/marketing/github_outreach_drafts|github_outreach_drafts]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/marketing/entity_rebrand_strategy|entity_rebrand_strategy]]

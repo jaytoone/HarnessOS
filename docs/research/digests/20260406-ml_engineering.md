@@ -58,3 +58,13 @@ Category: `ml_engineering` | Total items: 10 | HarnessOS-relevant: 10
 8. [Understanding the 4 Main Approaches to LLM Evaluation (From Scratch)](https://magazine.sebastianraschka.com/p/llm-evaluation-4-approaches) — Ahead of AI (rel=6.5)
 9. [The Sequence Radar #824: Last Week in AI: Sovereign Lobsters, Self-Coding Agents, and Gigawatt Factories](https://thesequence.substack.com/p/the-sequence-radar-824-last-week) — TheSequence (rel=5.5)
 10. [Inside Kimi 🤖, training mRNA models 🧬, Claude Code leak analysis 🔓](https://tldr.tech/ai/2026-04-02) — TLDR AI (rel=3.0)
+
+## Related
+- [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Entity/research/designs/oh_my_codex_vs_harnessos_positioning|oh_my_codex_vs_harnessos_positioning]]
+- [[projects/Entity/research/designs/llm_evaluation_approaches_integration|llm_evaluation_approaches_integration]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Entity/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]

@@ -82,3 +82,8 @@ GitHub (full methodology + data): https://github.com/jaytoone/HarnessOS
 - Account: u/Gold_Conversation579
 - **Strategy:** r/LocalLLaMA 실패 → r/MachineLearning [D] 시도 2026-04-02 → 동일하게 Reddit spam filter 자동 제거 (저카르마 계정 문제) → jaytoone 계정 karma 확인 후 재시도 또는 karma 축적 필요
 - **Karma building:** r/LocalLLaMA + r/MachineLearning에 genuine 댓글 10개 후 재포스트 권장
+
+## Related
+- [[projects/Entity/research/20260330-harness-engineering|20260330-harness-engineering]]
+- [[projects/Entity/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

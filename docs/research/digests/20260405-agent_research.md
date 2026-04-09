@@ -155,3 +155,13 @@ Category: `agent_research` | Total items: 30 | HarnessOS-relevant: 29
 28. [The Sequence Opinion #827: Taming the Agentic Lobster: Learning from OpenClaw](https://thesequence.substack.com/p/the-sequence-opinion-827-taming-the) — TheSequence (rel=3.5)
 29. [The State of LLM Reasoning Model Inference](https://magazine.sebastianraschka.com/p/state-of-llm-reasoning-and-inference-scaling) — Ahead of AI (rel=5.0)
 30. [New RFP on Interpretability from Schmidt Sciences](https://www.alignmentforum.org/posts/Pc789vx2oHgEXYZZH/new-rfp-on-interpretability-from-schmidt-sciences-1) — Alignment Forum (rel=6.0)
+
+## Related
+- [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Entity/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Entity/research/20260330-hypothesis-vs-engineering-thinking|20260330-hypothesis-vs-engineering-thinking]]
+- [[projects/Entity/research/designs/llm_evaluation_approaches_integration|llm_evaluation_approaches_integration]]
+- [[projects/Entity/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/Entity/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

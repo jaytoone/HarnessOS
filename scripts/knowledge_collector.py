@@ -12,6 +12,9 @@ Usage:
 
 import argparse
 import feedparser
+import glob
+import shutil
+import tempfile
 import yaml
 import json
 import re
@@ -87,6 +90,261 @@ TITLE_BONUS_KEYWORDS = {
 
 # 트렌딩 가중치 기준 (최근성)
 TRENDING_DECAY_HOURS = 48  # 48시간 이내 = 최고 트렌딩
+
+# Windows Chrome epoch (microseconds since 1601-01-01)
+_CHROME_EPOCH_DIFF_US = 11_644_473_600_000_000
+
+# Chrome Reading List cluster rules (from user's actual reading list analysis)
+_RL_CLUSTERS = [
+    (1, "에이전트 하네스/Claude Code",
+     ["하네스", "harness", "claude code", "ralph", "openharness", "openspace",
+      "bundled skills", "치트시트", "로컬 모델", "장기 실행", "hkuds"]),
+    (2, "자율 에이전트/Multi-Agent",
+     ["multi-agent", "멀티 에이전트", "swarm", "자율 에이전트", "autoresearch",
+      "agent loop", "하이퍼에이전트", "orchestration", "스웜", "clawteam"]),
+    (3, "LLM 모델/AI 기술",
+     ["gemma", "mamba", "파라미터", "turboquant", "glm", "molmo", "composer",
+      "증류", "distill", "quantiz", "bonsai", "tinylora", "omnicoder"]),
+    (4, "1인 기업/AI 창업",
+     ["1인", "창업", "스타트업", "startup", "unicorn", "유니콘", "사업",
+      "비즈니스", "기업가", "라이트하우스"]),
+    (5, "AI 코딩 도구/방법론",
+     ["코딩", "coding", "vibe", "바이브", "sdd", "tdd", "mcp", "cursor",
+      "devtool", "스타일", "design system", "caveman"]),
+]
+
+
+def _classify_reading_list_cluster(title: str) -> tuple[int, str] | None:
+    """Classify a Chrome Reading List item into one of 5 topic clusters.
+    Returns (cluster_id, cluster_name) or None if no match.
+    """
+    title_lower = title.lower()
+    for cluster_id, cluster_name, keywords in _RL_CLUSTERS:
+        if any(kw in title_lower for kw in keywords):
+            return cluster_id, cluster_name
+    return None
+
+
+def _build_rl_tags(title: str) -> list:
+    tags = ["personal", "reading_list"]
+    cluster = _classify_reading_list_cluster(title)
+    if cluster:
+        tags.append(f"cluster:{cluster[0]}")
+        tags.append(f"cluster_name:{cluster[1]}")
+    return tags
+
+
+def _chrome_ts_to_datetime(chrome_us: int) -> datetime:
+    """Convert Chrome timestamp to datetime.
+
+    Sync LevelDB uses Unix microseconds; Bookmarks JSON uses Windows epoch.
+    Auto-detect: if Windows-epoch subtraction goes negative, treat as Unix micros.
+    """
+    if chrome_us == 0:
+        return datetime.now(timezone.utc)
+    unix_us = chrome_us - _CHROME_EPOCH_DIFF_US
+    if unix_us < 0:
+        unix_us = chrome_us  # Already Unix microseconds
+    return datetime.fromtimestamp(unix_us / 1_000_000, tz=timezone.utc)
+
+
+def find_chrome_sync_db_path() -> Optional[Path]:
+    """Find Chrome Sync Data LevelDB path. Tries WSL path first, then Linux native."""
+    wsl_pattern = "/mnt/c/Users/*/AppData/Local/Google/Chrome/User Data/Default/Sync Data/LevelDB"
+    matches = glob.glob(wsl_pattern)
+    if matches:
+        return Path(matches[0])
+    linux_path = Path.home() / ".config" / "google-chrome" / "Default" / "Sync Data" / "LevelDB"
+    if linux_path.exists():
+        return linux_path
+    return None
+
+
+def find_chrome_bookmarks_path() -> Optional[Path]:
+    """Find Chrome Bookmarks JSON file (fallback for older Chrome versions)."""
+    wsl_pattern = "/mnt/c/Users/*/AppData/Local/Google/Chrome/User Data/Default/Bookmarks"
+    matches = glob.glob(wsl_pattern)
+    if matches:
+        return Path(matches[0])
+    linux_path = Path.home() / ".config" / "google-chrome" / "Default" / "Bookmarks"
+    if linux_path.exists():
+        return linux_path
+    return None
+
+
+def _decode_proto_varint(data: bytes, pos: int) -> tuple[int, int]:
+    """Decode a protobuf varint. Returns (value, new_pos)."""
+    value = 0
+    shift = 0
+    while pos < len(data):
+        b = data[pos]
+        pos += 1
+        value |= (b & 0x7F) << shift
+        if not (b & 0x80):
+            break
+        shift += 7
+    return value, pos
+
+
+def _parse_reading_list_entry(value: bytes) -> tuple[str, str, int]:
+    """Parse Chrome reading list protobuf entry.
+    Returns (url, title, creation_timestamp_us).
+    Field 1 = url, Field 2 = title, Field 4 = creation_time_us.
+    """
+    url = title = ""
+    creation_us = 0
+    pos = 0
+    while pos < len(value):
+        tag, pos = _decode_proto_varint(value, pos)
+        if pos > len(value):
+            break
+        field_num = tag >> 3
+        wire_type = tag & 0x7
+        if wire_type == 2:  # length-delimited
+            length, pos = _decode_proto_varint(value, pos)
+            raw = value[pos:pos + length]
+            pos += length
+            if field_num == 1:
+                try:
+                    url = raw.decode("utf-8")
+                except Exception:
+                    pass
+            elif field_num == 2:
+                try:
+                    title = raw.decode("utf-8")
+                except Exception:
+                    pass
+        elif wire_type == 0:  # varint
+            v, pos = _decode_proto_varint(value, pos)
+            if field_num == 4:
+                creation_us = v
+        elif wire_type == 1:  # 64-bit fixed
+            pos += 8
+        elif wire_type == 5:  # 32-bit fixed
+            pos += 4
+        else:
+            break
+    return url, title, creation_us
+
+
+def fetch_chrome_reading_list(category: str) -> list["FeedItem"]:
+    """Fetch items from Chrome Reading List.
+
+    Primary: Sync Data LevelDB (keys: reading_list-dt-{URL}) — covers Google-synced items.
+    Fallback: Bookmarks JSON roots.reading_list (older Chrome / local-only items).
+    """
+    items = _fetch_reading_list_from_leveldb(category)
+    if not items:
+        items = _fetch_reading_list_from_bookmarks(category)
+    print(f"[COLLECT] Chrome Reading List: {len(items)} items", file=sys.stderr)
+    return items
+
+
+def _fetch_reading_list_from_leveldb(category: str) -> list["FeedItem"]:
+    """Read reading list from Chrome Sync Data LevelDB.
+
+    Chrome holds an exclusive lock on the DB while running, so we copy to
+    a temp directory first to avoid lock/corruption errors.
+    """
+    try:
+        import plyvel
+    except ImportError:
+        return []
+
+    db_path = find_chrome_sync_db_path()
+    if db_path is None:
+        return []
+
+    tmp_dir = tempfile.mkdtemp(prefix="chrome_sync_copy_")
+    try:
+        # Copy LevelDB files individually, skipping LOCK (Chrome holds it exclusively)
+        for src_file in Path(db_path).iterdir():
+            if src_file.name == "LOCK":
+                continue
+            try:
+                shutil.copy2(str(src_file), tmp_dir)
+            except Exception:
+                pass  # skip unreadable files
+
+        # Open DB; if corrupted (Chrome running), repair then retry
+        try:
+            db = plyvel.DB(tmp_dir, create_if_missing=False)
+        except Exception:
+            plyvel.repair_db(tmp_dir)
+            db = plyvel.DB(tmp_dir, create_if_missing=False)
+
+        now = datetime.now(timezone.utc)
+        items = []
+        prefix = b"reading_list-dt-"
+        try:
+            for raw_key, raw_val in db.iterator(prefix=prefix):
+                try:
+                    url = raw_key[len(prefix):].decode("utf-8")
+                    _, title, creation_us = _parse_reading_list_entry(raw_val)
+                    if not title:
+                        title = url
+                    published = _chrome_ts_to_datetime(creation_us)
+                    age_hours = (now - published).total_seconds() / 3600
+                    rel = compute_relevance(title, "")
+                    trend = compute_trending(published, rel)
+                    items.append(FeedItem(
+                        title=title,
+                        url=url,
+                        summary="",
+                        published=published,
+                        source_id="chrome_reading_list",
+                        source_name="Chrome Reading List",
+                        category=category,
+                        relevance_score=rel,
+                        recency_hours=age_hours,
+                        trending_score=trend,
+                        tags=_build_rl_tags(title),
+                    ))
+                except Exception:
+                    continue
+        finally:
+            db.close()
+        return items
+    except Exception as e:
+        print(f"[WARN] Chrome Sync DB read failed: {e}", file=sys.stderr)
+        return []
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+
+
+def _fetch_reading_list_from_bookmarks(category: str) -> list["FeedItem"]:
+    """Read reading list from Chrome Bookmarks JSON (fallback)."""
+    bookmarks_path = find_chrome_bookmarks_path()
+    if bookmarks_path is None:
+        return []
+    try:
+        with open(bookmarks_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return []
+
+    children = data.get("roots", {}).get("reading_list", {}).get("children", [])
+    now = datetime.now(timezone.utc)
+    items = []
+    for child in children:
+        if child.get("type") != "url":
+            continue
+        title = child.get("name", "")
+        url = child.get("url", "")
+        published = _chrome_ts_to_datetime(int(child.get("date_added", "0")))
+        age_hours = (now - published).total_seconds() / 3600
+        rel = compute_relevance(title, "")
+        trend = compute_trending(published, rel)
+        items.append(FeedItem(
+            title=title, url=url, summary="",
+            published=published,
+            source_id="chrome_reading_list",
+            source_name="Chrome Reading List",
+            category=category,
+            relevance_score=rel, recency_hours=age_hours, trending_score=trend,
+            tags=_build_rl_tags(title),
+        ))
+    return items
 
 
 @dataclass
@@ -232,6 +490,9 @@ def compute_trending(published: datetime, relevance: float) -> float:
 
 def fetch_channel(channel: dict, category: str) -> list[FeedItem]:
     """단일 채널 RSS를 파싱해서 FeedItem 리스트 반환."""
+    if channel.get("type") == "chrome_reading_list":
+        return fetch_chrome_reading_list(category)
+
     rss_url = channel.get("rss", "")
     if not rss_url:
         return []

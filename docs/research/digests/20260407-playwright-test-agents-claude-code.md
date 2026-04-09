@@ -85,3 +85,7 @@ Run the Playwright Test Agents to generate tests for [URL or 기능 설명]
 - [Playwright MCP & Claude Code: AI-Powered Test Automation Guide](https://testomat.io/blog/playwright-mcp-claude-code/)
 - [How to Use Playwright MCP Server with Claude Code](https://www.builder.io/blog/playwright-mcp-server-claude-code)
 - [Playwright MCP Explained (2026)](https://testdino.com/blog/playwright-mcp/)
+
+## Related
+- [[projects/Entity/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

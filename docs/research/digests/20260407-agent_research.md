@@ -65,3 +65,9 @@ Abstract: Multimodal reasoning has emerged as a powerful framework for enhancing
 8. [Launch HN: Freestyle – Sandboxes for Coding Agents](https://www.freestyle.sh/) — Hacker News (rel=4.5)
 9. [(Some) Natural Emergent Misalignment from Reward Hacking in Non-Production RL](https://www.alignmentforum.org/posts/2ANCyejqxfqK2obEj/some-natural-emergent-misalignment-from-reward-hacking-in) — Alignment Forum (rel=8.5)
 10. [Beauty in the Eye of AI: Aligning LLMs and Vision Models with Human Aesthetics in Network Visualization](https://arxiv.org/abs/2604.03417) — arXiv cs.LG (rel=7.5)
+
+## Related
+- [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Entity/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/Entity/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]

@@ -74,3 +74,13 @@ skills. Might be composable with oh-my-claudecode's agent team setup.
 - oh-my-claudecode: https://github.com/Yeachan-Heo/oh-my-claudecode
 - oh-my-codex (OpenAI Codex 버전): https://github.com/Yeachan-Heo/oh-my-codex
 - Issues page: https://github.com/Yeachan-Heo/oh-my-claudecode/issues
+
+## Related
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/marketing/entity_rebrand_strategy|entity_rebrand_strategy]]
+- [[projects/Entity/marketing/github_issue_comment|github_issue_comment]]
+- [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/Entity/research/20260324-openhands-autonomous-global-setup|20260324-openhands-autonomous-global-setup]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/Entity/research/20260325-autonomous-agent-goal-update-subloop-architecture|20260325-autonomous-agent-goal-update-subloop-architecture]]

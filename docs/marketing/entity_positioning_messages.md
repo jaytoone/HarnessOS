@@ -106,3 +106,13 @@ They're not alternatives. They're layers.
 3. **GeekNews** — 한국어 커뮤니티, 요즘IT 채널 활용
 4. **dev.to** — Oh My Codex + Entity 통합 튜토리얼 (PoC 후)
 5. **HN Show HN** — 마지막 (가장 높은 노출, 가장 높은 기준)
+
+## Related
+- [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/Entity/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/Entity/marketing/reddit_localllama|reddit_localllama]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/Entity/research/designs/autonomous_evolution_safety_design|autonomous_evolution_safety_design]]
+- [[projects/Entity/research/designs/oh_my_codex_vs_harnessos_positioning|oh_my_codex_vs_harnessos_positioning]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

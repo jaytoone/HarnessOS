@@ -1,18 +1,13 @@
 {
-  "root_goal": "마켓 배포 시퀀스: 1)git push HarnessOS 2)SkillsMP/claudeskills 비-conceptual 스킬 배포 3)MuleRun early listing 4)Oh My Codex 댓글 세딩",
-  "original_goal": "마켓 배포 시퀀스: 1)git push HarnessOS 2)SkillsMP/claudeskills 비-conceptual 스킬 배포 3)MuleRun early listing 4)Oh My Codex 댓글 세딩",
+  "root_goal": "Critically review and improve Claude global agents/skills at expert level. Write in English. External research allowed. Produce expert-level critique and concrete improvements to the skill/agent system in this project.",
+  "original_goal": "Critically review and improve Claude global agents/skills at expert level. Write in English. External research allowed. Produce expert-level critique and concrete improvements to the skill/agent system in this project.",
   "level": 0,
-  "sub_goals": [
-    "1. git push HarnessOS (gitignore 정리 포함)",
-    "2. SkillsMP + claudeskills.info 스킬 리스팅 준비",
-    "3. MuleRun early listing 검토",
-    "4. Oh My Codex 스레드 댓글 세딩 전략 실행"
-  ],
+  "sub_goals": [],
   "evolution_count": 0,
   "evolution_history": [],
   "reward_spec": {
-    "primary_metric": "all 4 sub-goals completed",
-    "threshold": "each sub-goal has actionable artifact"
+    "primary_metric": "expert-level critique quality + concrete improvements delivered",
+    "threshold": "actionable improvements implemented; critique grounded in research"
   },
   "history": []
 }

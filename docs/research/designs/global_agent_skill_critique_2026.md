@@ -278,3 +278,13 @@ Estimated risk reduction: 60-70% reduction in live-inf failure probability based
 - Sakana AI "AI Scientist-v2" arXiv:2504.08066
 - Du et al. "Improving Factuality via Multi-Agent Debate" ICML 2024
 - Unit 42 "Indirect Prompt Injection and LLM Long-Term Memory" 2025
+
+## Related
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/Entity/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Entity/research/20260330-omc-live-critique|20260330-omc-live-critique]]
+- [[projects/Entity/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/Entity/research/designs/oss_agent_tools_2026_integration|oss_agent_tools_2026_integration]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Entity/research/20260325-omc-autopilot-loop-vs-agent-research-trends|20260325-omc-autopilot-loop-vs-agent-research-trends]]

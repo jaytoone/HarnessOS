@@ -73,3 +73,9 @@ but focused on the persistence + evolution layer rather than parallelism).
 Repo: github.com/[Entity URL — 추후 삽입]
 The context rotation design doc is in docs/research/ if you want to dig in.
 ```
+
+## Related
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Entity/marketing/github_issue_comment|github_issue_comment]]
+- [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

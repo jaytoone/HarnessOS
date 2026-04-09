@@ -190,3 +190,10 @@ The multi-agent gold rush has been almost e
 28. [Gemini tops benchmarks, again](https://www.bensbites.com/p/gemini-tops-benchmarks-again) — Ben's Bites (rel=2.5)
 29. [Caveman: 적은 토큰으로 충분한 답변을 생성하는 Claude/Codex 플러그인](https://news.hada.io/topic?id=28238) — GeekNews (rel=2.0)
 30. [When open-sourcing your code goes wrong...](https://www.youtube.com/watch?v=wzzh7Not8XE) — Fireship (rel=8.0)
+
+## Related
+- [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Entity/research/designs/oh_my_codex_vs_harnessos_positioning|oh_my_codex_vs_harnessos_positioning]]
+- [[projects/Entity/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]

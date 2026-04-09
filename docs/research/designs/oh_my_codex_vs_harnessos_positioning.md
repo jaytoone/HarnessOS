@@ -67,3 +67,11 @@ HarnessOS (목표 진화 + 안전 제어)
 1. Oh My Codex GitHub 상세 분석 — 실제 코드 구조 파악
 2. HarnessOS README에 포지셔닝 차별화 명시
 3. Oh My Codex를 execution_backend로 통합하는 PoC 검토
+
+## Related
+- [[projects/Entity/marketing/geeknews_post|geeknews_post]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/Entity/research/designs/autonomous_evolution_safety_design|autonomous_evolution_safety_design]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

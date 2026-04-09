@@ -87,3 +87,7 @@ degraded state; rotation is less destructive than continued stalling.
 - [ ] 이미 비슷한 해결책 언급된 댓글 있는지 확인 (중복 방지)
 - [ ] 링크 없이 첫 댓글 (Entity 링크는 follow-up)
 - [ ] 댓글 A/B: ~200자 이내로 편집 권장
+
+## Related
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/marketing/github_issue_comment|github_issue_comment]]

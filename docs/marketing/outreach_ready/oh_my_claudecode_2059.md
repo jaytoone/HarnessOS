@@ -65,3 +65,13 @@ Might be composable with oh-my-claudecode's agent team setup directly.
 - [ ] 이슈 #2059 여전히 open 확인 (https://github.com/Yeachan-Heo/oh-my-claudecode/issues/2059)
 - [ ] 링크 없이 첫 댓글 게시 (follow-up에서 링크)
 - [ ] 250자 이내 — Short version 사용 권장
+
+## Related
+- [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/research/20260325-omc-autopilot-loop-vs-agent-research-trends|20260325-omc-autopilot-loop-vs-agent-research-trends]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/Entity/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Entity/marketing/github_issue_comment|github_issue_comment]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]

@@ -1,14 +1,48 @@
 {
-  "status": "RUNNING",
-  "session_id": "inf-market-deploy-001",
+  "status": "CONVERGED_SUCCESS",
+  "session_id": "inf-entity-flag-review-001",
   "current_iteration": 1,
-  "root_goal": "마켓 배포 시퀀스: 1)git push HarnessOS 2)SkillsMP/claudeskills 비-conceptual 스킬 배포 3)MuleRun early listing 4)Oh My Codex 댓글 세딩",
-  "original_goal": "마켓 배포 시퀀스: 1)git push HarnessOS 2)SkillsMP/claudeskills 비-conceptual 스킬 배포 3)MuleRun early listing 4)Oh My Codex 댓글 세딩",
+  "root_goal": "entity 스킬 플래그 설계 전수 검수 및 효율화",
+  "original_goal": "entity 스킬 플래그 설계 전수 검수 및 효율화",
   "evolution_count": 0,
   "evolution_history": [],
-  "best_score": 0.0,
+  "best_score": 0.95,
   "plateau_count": 0,
-  "score_history": [],
+  "score_history": [0.95],
   "cost_history": [],
-  "started_at": "2026-04-07T17:59:09.655179"
+  "converged_at": "2026-04-07T18:30:00",
+  "uncertainty_gate_schema": {
+    "description": "Per-step uncertainty_score fields for live-inf iterations (arXiv:2604.05116)",
+    "fields": {
+      "uncertainty_trajectory": {
+        "type": "array[float]",
+        "description": "Per-step uncertainty_score values across the iteration",
+        "example": [0.72, 0.52, 0.37, 0.21]
+      },
+      "uncertainty_gate_active": {
+        "type": "boolean",
+        "description": "Whether uncertainty gate (threshold=0.4) was active for this run",
+        "default": false
+      },
+      "uncertainty_gate_threshold": {
+        "type": "float",
+        "description": "Gate threshold used (trigger sub-query when score > threshold)",
+        "default": 0.4
+      },
+      "traj_stats": {
+        "type": "object",
+        "description": "Trajectory convergence summary from uncertainty_trajectory()",
+        "fields": {
+          "converging": "bool — monotonic decrease (±0.05 noise allowed)",
+          "initial": "float — first step uncertainty",
+          "final": "float — last step uncertainty",
+          "delta": "float — initial - final (positive = uncertainty decreased)",
+          "steps": "int",
+          "avg": "float"
+        }
+      }
+    },
+    "usage": "python3 experiments/hypothesis_validation/uncertainty_gate.py trial --condition {control|treatment} --score {score} --iters {n} --steps {n} --goal '{goal}' --traj {float...}",
+    "results_file": ".omc/uncertainty_gate_results.jsonl"
+  }
 }

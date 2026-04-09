@@ -19,3 +19,9 @@ What works: checkpoint-based state management where each agent turn is atomic. B
 
 For the immediate workaround: the suggestion to use the native Gemini adapter instead of LiteLLM is correct — it handles retry + state reset more cleanly because it doesn't add an extra abstraction layer where state can leak.
 ```
+
+## Related
+- [[projects/Entity/marketing/github_issue_comment|github_issue_comment]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]

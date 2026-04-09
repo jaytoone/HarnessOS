@@ -229,3 +229,13 @@ The threshold should be well below the hard limit — quality degrades before th
 
 ### Tier 4 — Archived (CLOSED, pattern reuse only):
 7. Issues 1, 2, 3, 5 — Archived drafts for reference. Reuse patterns on future issues.
+
+## Related
+- [[projects/Entity/marketing/github_issue_comment|github_issue_comment]]
+- [[projects/Entity/research/20260327-omc-live-autonomous-ai-research-2025-2026|20260327-omc-live-autonomous-ai-research-2025-2026]]
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Entity/research/designs/oss_agent_tools_2026_integration|oss_agent_tools_2026_integration]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/Entity/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

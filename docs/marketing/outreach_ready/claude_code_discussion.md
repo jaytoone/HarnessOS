@@ -68,3 +68,6 @@ Combined with the rotation pattern above, this enables indefinite agent sessions
 
 *I've been experimenting with these patterns in a scaffold for long-running autonomous tasks. Implementation reference: [github.com/jaytoone/HarnessOS](https://github.com/jaytoone/HarnessOS)*
 ```
+
+## Related
+- [[projects/Entity/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]

@@ -85,10 +85,10 @@
 
 ## Related
 - [[projects/Entity/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
+- [[projects/Entity/research/designs/global_agent_skill_critique_2026|global_agent_skill_critique_2026]]
+- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
 - [[projects/Entity/research/20260330-omc-live-critique|20260330-omc-live-critique]]
 - [[projects/Entity/marketing/reddit_localllama|reddit_localllama]]
 - [[projects/Entity/research/digests/20260401-experiment-ideas|20260401-experiment-ideas]]
 - [[projects/Entity/marketing/outreach_ready/oh_my_claudecode_discussion|oh_my_claudecode_discussion]]
 - [[projects/Entity/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
-- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
-- [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
