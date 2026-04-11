@@ -24,6 +24,7 @@
 - [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
 
 ## Research
+- [2026-04-11 WTP VALUE GAP 역분석 — 퍼블리/클래스101/리멤버/MKYU/폴인 진단 (iter 4)](research/20260411-wtp-korean-product-audit.md)
 - [2026-04-11 WTP 전략 원페이저 — 5분 의사결정 가이드 (진단+처방+한국 채널, iter 3)](research/20260411-wtp-one-pager.md)
 - [2026-04-11 WTP 이론 → 제품 설계 패턴 — pricing tiers, activation hooks, CLG GTM, 한국 B2C (iter 2)](research/20260411-wtp-product-design-patterns.md)
 - [2026-04-11 WTP 수요 발생 이론 — VALUE GAP · 정체성 갭 · 빠짐 안티패턴 (3-agent debate synthesis)](research/20260411-wtp-demand-genesis-theory.md)
