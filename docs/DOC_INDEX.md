@@ -24,6 +24,7 @@
 - [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
 
 ## Research
+- [2026-04-11 WTP 이론 → 제품 설계 패턴 — pricing tiers, activation hooks, CLG GTM, 한국 B2C (iter 2)](research/20260411-wtp-product-design-patterns.md)
 - [2026-04-11 WTP 수요 발생 이론 — VALUE GAP · 정체성 갭 · 빠짐 안티패턴 (3-agent debate synthesis)](research/20260411-wtp-demand-genesis-theory.md)
 - [2026-04-07 Playwright Test Agents v1.56 — Claude Code 활성화 가이드](research/digests/20260407-playwright-test-agents-claude-code.md)
 - [2026-04-01 Verification Hurt 실험 결과 — none/strict/lenient/adaptive escape rate 비교](research/digests/20260401-verification-hurt-results.md)
