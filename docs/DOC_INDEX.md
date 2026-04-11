@@ -24,6 +24,7 @@
 - [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
 
 ## Research
+- [2026-04-11 VALUE GAP Theory v2 — 내부 모순 3개 수정 (공식 분리·ICP 재정의·Social_Amplifier 재정의, iter 9)](research/20260411-wtp-theory-v2.md)
 - [2026-04-11 WTP 연구 시리즈 메타-리뷰 — 내부 모순 3개 + 과잉주장 4개 + 향후 방향 (iter 8)](research/20260411-wtp-meta-review.md)
 - [2026-04-11 Social_Amplifier 검증 실험 설계 — 곱셈 vs 덧셈, ₩12만/2.5주 (iter 7)](research/20260411-wtp-social-amplifier-experiment.md)
 - [2026-04-11 VALUE GAP vs JTBD 비교 분석 — 수요 이론 확장성 판정 (iter 6)](research/20260411-wtp-jtbd-comparison.md)
