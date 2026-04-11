@@ -20,9 +20,11 @@
 - [research/designs/openharness_vs_entity_positioning.md](research/designs/openharness_vs_entity_positioning.md) — OpenHarness vs Entity 경쟁 포지셔닝 분석 (마켓 배포 대응)
 - [research/designs/global_agent_skill_critique_2026.md](research/designs/global_agent_skill_critique_2026.md) — Expert critique: Claude global agents/skills — 7 critical defects + improvement roadmap (EN, 2026-04-09)
 - [research/designs/full_skill_agent_review_2026.md](research/designs/full_skill_agent_review_2026.md) — Full review: all 75 skills + 65 agent types — 24 issues, 10 applied fixes, improvement roadmap (EN, 2026-04-09)
+- [research/designs/skill_agent_audit.md](research/designs/skill_agent_audit.md) — Skill/Agent 분류 오류 감사 — omc 제외, P1~P3 수정 항목 선별 (2026-04-09)
 - [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
 
 ## Research
+- [2026-04-11 WTP 수요 발생 이론 — VALUE GAP · 정체성 갭 · 빠짐 안티패턴 (3-agent debate synthesis)](research/20260411-wtp-demand-genesis-theory.md)
 - [2026-04-07 Playwright Test Agents v1.56 — Claude Code 활성화 가이드](research/digests/20260407-playwright-test-agents-claude-code.md)
 - [2026-04-01 Verification Hurt 실험 결과 — none/strict/lenient/adaptive escape rate 비교](research/digests/20260401-verification-hurt-results.md)
 - [2026-04-01 Experiment Ideas — 채널 수집 기반 HarnessOS 실험 아이디어 선별](research/digests/20260401-experiment-ideas.md)
@@ -86,10 +88,10 @@
 
 ## Related
 - [[projects/Entity/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
+- [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
 - [[projects/Entity/research/designs/global_agent_skill_critique_2026|global_agent_skill_critique_2026]]
 - [[projects/Entity/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]
 - [[projects/Entity/research/20260330-omc-live-critique|20260330-omc-live-critique]]
 - [[projects/Entity/marketing/reddit_localllama|reddit_localllama]]
 - [[projects/Entity/research/digests/20260401-experiment-ideas|20260401-experiment-ideas]]
-- [[projects/Entity/marketing/outreach_ready/oh_my_claudecode_discussion|oh_my_claudecode_discussion]]
-- [[projects/Entity/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]
+- [[projects/Entity/research/designs/full_skill_agent_review_2026|full_skill_agent_review_2026]]
