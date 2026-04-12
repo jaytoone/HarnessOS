@@ -6,6 +6,7 @@
 - [2026-04-12 Marketing Growth Theory T1 — K-factor, Loop Archetypes, PLG benchmarks (corpus doc)](research/20260412-marketing-growth-theory.md)
 - [2026-04-12 Marketing Growth Falsification T4 — 반증 기준 7개 HC + Sycophancy Gate (corpus doc)](research/20260412-marketing-growth-falsification.md)
 - [2026-04-12 Marketing Growth Diagnostic D1 — 루프 아키타입 진단, K-factor 측정, 개입 우선순위 (corpus doc)](research/20260412-marketing-growth-diagnostic.md)
+- [2026-04-12 Marketing Growth Loop Playbook S1 — 5 루프 아키타입 구현 가이드, 90일 실행 타임라인 (corpus doc)](research/20260412-marketing-growth-loop-playbook.md)
 
 ## Architecture
 - [ARCHITECTURE.md](ARCHITECTURE.md) — LiveCode 전체 아키텍처 개념도 — 3개 실험 스트림 + analyze.py + harness_evaluator + app.py dashboard
@@ -117,6 +118,7 @@
 - [experiments/hypothesis_validation/cot_interp_benchmark_design.md](../experiments/hypothesis_validation/cot_interp_benchmark_design.md) — Hard CoT Interpretation Benchmark 실험 설계 (verification gate false-positive)
 
 ## Related
+- [[projects/Entity/research/20260412-ameva-architecture-sota-critique|20260412-ameva-architecture-sota-critique]]
 - [[projects/Entity/research/20260330-hypothesis-experiment-results|20260330-hypothesis-experiment-results]]
 - [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
 - [[projects/Entity/research/designs/global_agent_skill_critique_2026|global_agent_skill_critique_2026]]
@@ -124,4 +126,3 @@
 - [[projects/Entity/research/20260330-omc-live-critique|20260330-omc-live-critique]]
 - [[projects/Entity/marketing/reddit_localllama|reddit_localllama]]
 - [[projects/Entity/research/digests/20260401-experiment-ideas|20260401-experiment-ideas]]
-- [[projects/Entity/research/designs/full_skill_agent_review_2026|full_skill_agent_review_2026]]
