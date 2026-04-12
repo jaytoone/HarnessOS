@@ -556,6 +556,5 @@ After:
 ---
 
 ## Related
-- [[projects/Entity/research/20260411-wtp-theory-v2|20260411-wtp-theory-v2]]
 - [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
-- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

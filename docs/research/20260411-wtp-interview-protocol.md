@@ -159,3 +159,6 @@ sales-guard 해제 + candid mode 활성화. 이 단계에서 제품 소개 금�
 | Q8에서 "내 이름으로 쌓고 싶은데" | Identity Portable |
 | Q11에서 회고적 unknown-unknown 인정 | Attainability 해제 가능 |
 | 긴급성·참조 집단·Q5 무반응 | 재순환/육성 |
+
+## Related
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|20260411-wtp-social-amplifier-experiment]]

@@ -97,3 +97,6 @@ iter 4: 리멤버(사용자 대부분 직장인)를 L5 잠재력 최고로 평�
 반증 증거를 가져오는 인터뷰 5개가 iter 7 실험 전체보다 값지다.
 
 > "7회 반복이 내부 일관성을 쌓았다. 이제 정확히 한 번의 외부 접촉이 필요하다 — 그 결과가 현실에 매핑되는지, 아니면 우아한 폐쇄 시스템인지 판단하기 위해."
+
+## Related
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

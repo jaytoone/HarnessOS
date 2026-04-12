@@ -219,3 +219,11 @@ Tertiary (선택): UGC 루프 (콘텐츠 플라이휠)
 - Stratrix — Component 2 (viral mechanics), Component 4 (cycle time), Components 7-8 (trust)
 - CraftUp — Growth Loop implementation templates (November 2025)
 - Dropbox case: GrowthHackers / Brands at Play (3,900% growth, 35% referral signups)
+
+## Related
+- [[projects/Entity/research/20260412-marketing-growth-diagnostic|20260412-marketing-growth-diagnostic]]
+- [[projects/Entity/research/20260412-marketing-growth-falsification|20260412-marketing-growth-falsification]]
+- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Entity/research/20260411-wtp-decision-playbook|20260411-wtp-decision-playbook]]
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]

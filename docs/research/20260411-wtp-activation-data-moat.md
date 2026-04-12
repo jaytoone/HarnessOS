@@ -545,7 +545,5 @@ Career Mirror의 데이터 모트가 커질수록, 그 데이터의 소유권이
 
 ## Related
 - [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
-- [[projects/Entity/research/20260411-wtp-theory-v2|20260411-wtp-theory-v2]]
-- [[projects/Entity/research/20260411-wtp-bbaijjim-audit-framework|20260411-wtp-bbaijjim-audit-framework]]
-- [[projects/Entity/research/20260411-wtp-seed-cohort-strategy|20260411-wtp-seed-cohort-strategy]]
-- [[projects/Entity/research/20260411-wtp-clg-community-strategy|20260411-wtp-clg-community-strategy]]
+- [[projects/Entity/research/20260411-wtp-career-mirror-pricing|20260411-wtp-career-mirror-pricing]]
+- [[projects/Entity/research/20260411-wtp-korean-product-audit|20260411-wtp-korean-product-audit]]

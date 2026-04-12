@@ -152,3 +152,7 @@ Week 9-10: PQL 감지 로직 + 창업자 알림 (MVP는 수동 팔로업)
 | Ethical_Coefficient = 1.0 | 갭 닫기 → 재계산 → 실제로 덜 필요해짐 |
 | CLG First | 시드 코호트 60명 모집 = 첫 커뮤니티 |
 | Anti-빠짐 | 닫힌 갭 재활용 없음, 항상 새 프론티어 |
+
+## Related
+- [[projects/Entity/research/20260411-wtp-korean-product-audit|20260411-wtp-korean-product-audit]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

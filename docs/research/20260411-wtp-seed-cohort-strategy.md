@@ -613,4 +613,5 @@ MVP의 핵심 원칙: **3분 이내 완료, 로그인 불필요, 궤적 형태�
 ## Related
 - [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
 - [[projects/Entity/research/20260411-wtp-interview-protocol|20260411-wtp-interview-protocol]]
-- [[projects/Entity/research/20260411-wtp-theory-v2|20260411-wtp-theory-v2]]
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|20260411-wtp-social-amplifier-experiment]]
+- [[projects/Entity/research/20260412-live-skill-length-analysis|20260412-live-skill-length-analysis]]

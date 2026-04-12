@@ -7,6 +7,10 @@
 - [2026-04-12 Marketing Growth Falsification T4 — 반증 기준 7개 HC + Sycophancy Gate (corpus doc)](research/20260412-marketing-growth-falsification.md)
 - [2026-04-12 Marketing Growth Diagnostic D1 — 루프 아키타입 진단, K-factor 측정, 개입 우선순위 (corpus doc)](research/20260412-marketing-growth-diagnostic.md)
 - [2026-04-12 Marketing Growth Loop Playbook S1 — 5 루프 아키타입 구현 가이드, 90일 실행 타임라인 (corpus doc)](research/20260412-marketing-growth-loop-playbook.md)
+- [2026-04-12 Monetization Theory T1 — SaaS/AI 가격 모델 분류, AI 마진 구조, LTV:CAC 프레임워크 (corpus doc)](research/20260412-monetization-theory.md)
+- [2026-04-12 Monetization Falsification T4 — 수익화 반증 기준 7개 HC + Sycophancy Gate (corpus doc)](research/20260412-monetization-falsification.md)
+- [2026-04-12 Monetization Diagnostic D1 — 가격 모델 선택 진단 프로토콜, COGS/GTM/Value Metric (corpus doc)](research/20260412-monetization-diagnostic.md)
+- [2026-04-12 Monetization Playbook S1 — 0-90일 가격 모델 구현 가이드 (UBP/Flat/Hybrid/Freemium) (corpus doc)](research/20260412-monetization-playbook.md)
 
 ## Architecture
 - [ARCHITECTURE.md](ARCHITECTURE.md) — LiveCode 전체 아키텍처 개념도 — 3개 실험 스트림 + analyze.py + harness_evaluator + app.py dashboard

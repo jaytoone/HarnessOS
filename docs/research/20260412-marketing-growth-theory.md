@@ -103,3 +103,10 @@ Only 34% of PLG companies actively track activation as a distinct metric (OpenVi
 - OpenView Partners — SaaS PLG Benchmark 2024
 - Arfadia — K-Factor Glossary and Growth Analysis Guide
 - CraftUp — Growth Loop Examples and Templates (November 2025)
+
+## Related
+- [[projects/Entity/research/20260411-wtp-clg-community-strategy|20260411-wtp-clg-community-strategy]]
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Entity/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/Entity/research/20260411-wtp-seed-cohort-strategy|20260411-wtp-seed-cohort-strategy]]

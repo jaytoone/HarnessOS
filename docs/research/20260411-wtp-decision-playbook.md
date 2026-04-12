@@ -249,8 +249,6 @@ iter 9에서 ICP 기준을 고용 형태에서 정체성 이동성으로 교체�
 
 ---
 
-## Related
-
 - [iter 1] [20260411-wtp-demand-genesis-theory.md](20260411-wtp-demand-genesis-theory.md) — VALUE GAP 기초 이론
 - [iter 2] [20260411-wtp-product-design-patterns.md](20260411-wtp-product-design-patterns.md) — 제품 설계 패턴
 - [iter 3] [20260411-wtp-one-pager.md](20260411-wtp-one-pager.md) — 전략 원페이저
@@ -264,3 +262,13 @@ iter 9에서 ICP 기준을 고용 형태에서 정체성 이동성으로 교체�
 - [iter 11] [20260411-wtp-falsification-criteria.md](20260411-wtp-falsification-criteria.md) — 반증 기준
 - [iter 12] [20260411-wtp-seed-cohort-strategy.md](20260411-wtp-seed-cohort-strategy.md) — 시드 코호트 전략
 - [iter 13] [20260411-wtp-bbaijjim-audit-framework.md](20260411-wtp-bbaijjim-audit-framework.md) — 빠짐 감사 프레임워크
+
+## Related
+- [[projects/Entity/research/20260411-wtp-seed-cohort-strategy|20260411-wtp-seed-cohort-strategy]]
+- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]
+- [[projects/Entity/research/20260411-wtp-interview-protocol|20260411-wtp-interview-protocol]]
+- [[projects/Entity/research/20260411-wtp-product-design-patterns|20260411-wtp-product-design-patterns]]
+- [[projects/Entity/research/20260411-wtp-falsification-criteria|20260411-wtp-falsification-criteria]]
+- [[projects/Entity/research/20260411-wtp-korean-product-audit|20260411-wtp-korean-product-audit]]
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|20260411-wtp-social-amplifier-experiment]]
+- [[projects/Entity/research/20260411-wtp-bbaijjim-audit-framework|20260411-wtp-bbaijjim-audit-framework]]

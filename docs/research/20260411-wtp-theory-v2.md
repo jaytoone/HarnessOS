@@ -119,3 +119,7 @@ v1에서 제거된 것:
 | Social_Amplifier | 순수 곱셈 인자 | 신호 전달 계수 |
 | Ethical_Coefficient | 구매 순간 승수 | 장기 잉여 할인 인자 |
 | ICP 기준 | 고용 형태 (직장인 제외) | 정체성 이동성 |
+
+## Related
+- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]
+- [[projects/Entity/research/20260411-wtp-meta-review|20260411-wtp-meta-review]]

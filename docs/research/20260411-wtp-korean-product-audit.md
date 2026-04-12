@@ -99,3 +99,6 @@
 - [ ] Mirror Moment vs Silent Audit A/B 실험 설계 (실증)
 - [ ] "커리어 궤적 거울" 제품 컨셉 → MVP 설계
 - [ ] JTBD / ODI 프레임워크와 VALUE GAP 충돌 지점 분석
+
+## Related
+- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]

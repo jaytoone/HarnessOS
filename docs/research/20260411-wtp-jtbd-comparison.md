@@ -105,3 +105,6 @@ Step 3 — 가격 신호
 ---
 
 **요약 한 줄**: JTBD가 더 완전한 수요 진단 시스템. VALUE GAP이 정체성 인접 제품에서 더 정밀한 WTP 예측 도구 — 정확히 실무자가 정밀도를 가장 필요로 하는 고마진 시장에서.
+
+## Related
+- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]

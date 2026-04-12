@@ -416,7 +416,9 @@ CLG는 창업자가 직접 커뮤니티에서 관계를 만들어 사용자를 �
 ---
 
 ## Related
-- [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
 - [[projects/Entity/research/20260411-wtp-seed-cohort-strategy|20260411-wtp-seed-cohort-strategy]]
 - [[projects/Entity/research/20260411-wtp-career-mirror-pricing|20260411-wtp-career-mirror-pricing]]
 - [[projects/Entity/research/20260411-wtp-interview-protocol|20260411-wtp-interview-protocol]]
+- [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|20260411-wtp-social-amplifier-experiment]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

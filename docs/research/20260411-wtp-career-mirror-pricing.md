@@ -519,11 +519,17 @@ Social Amplifier 실험: Week 2 전환자 대상 30일 추적 (MVP 빌드와 병
 
 ---
 
-## Related
-
 - [20260411-wtp-theory-v2.md](20260411-wtp-theory-v2.md) — VALUE GAP v2 공식 (이 문서의 이론 기반)
 - [20260411-wtp-career-mirror-mvp.md](20260411-wtp-career-mirror-mvp.md) — Career Mirror MVP 설계 스펙 (iter 5)
 - [20260411-wtp-product-design-patterns.md](20260411-wtp-product-design-patterns.md) — VALUE GAP 실행 플레이북 (iter 2)
 - [20260411-wtp-korean-product-audit.md](20260411-wtp-korean-product-audit.md) — 한국 B2C VALUE GAP 역분석 (iter 4)
 - [20260411-wtp-decision-playbook.md](20260411-wtp-decision-playbook.md) — 의사결정 플레이북 (iter 14)
 - [20260411-wtp-bbaijjim-audit-framework.md](20260411-wtp-bbaijjim-audit-framework.md) — 빠짐 감사 프레임워크 (iter 13)
+
+## Related
+- [[projects/Entity/research/20260411-wtp-korean-product-audit|20260411-wtp-korean-product-audit]]
+- [[projects/Entity/research/20260411-wtp-product-design-patterns|20260411-wtp-product-design-patterns]]
+- [[projects/Entity/research/20260411-wtp-decision-playbook|20260411-wtp-decision-playbook]]
+- [[projects/Entity/research/20260411-wtp-bbaijjim-audit-framework|20260411-wtp-bbaijjim-audit-framework]]
+- [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|20260411-wtp-social-amplifier-experiment]]

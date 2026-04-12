@@ -119,3 +119,6 @@ Social 셀이 가시성에서만 높아야 함. 긴급성에서 차이 나면 Ga
           D(WTP) = [Gap_Intensity × Attainability] + Social_Premium + [Ethical_Coefficient]
           → 이론 범위 축소 (고관여 시장에만 곱셈 적용)
 ```
+
+## Related
+- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]

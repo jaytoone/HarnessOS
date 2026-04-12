@@ -119,3 +119,10 @@
 - Stratrix — Viral Growth Strategy (components 7-8, trust metrics)
 - CraftUp Growth Loop Examples (November 2025)
 - arXiv 반증 방법론: wtp T4(20260411-wtp-falsification-criteria.md) 구조 참조
+
+## Related
+- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
+- [[projects/Entity/research/20260411-wtp-falsification-criteria|20260411-wtp-falsification-criteria]]
+- [[projects/Entity/research/20260412-marketing-growth-diagnostic|20260412-marketing-growth-diagnostic]]
+- [[projects/Entity/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

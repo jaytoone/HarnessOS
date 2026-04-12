@@ -551,6 +551,7 @@ if 모든 단계에서 일관되게 기대 이하:
 ---
 
 ## Related
-- [[projects/Entity/research/20260411-wtp-theory-v2|20260411-wtp-theory-v2]]
-- [[projects/Entity/research/20260411-wtp-bbaijjim-audit-framework|20260411-wtp-bbaijjim-audit-framework]]
+- [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
 - [[projects/Entity/research/20260411-wtp-career-mirror-pricing|20260411-wtp-career-mirror-pricing]]
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment-v2|20260411-wtp-social-amplifier-experiment-v2]]
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|20260411-wtp-social-amplifier-experiment]]

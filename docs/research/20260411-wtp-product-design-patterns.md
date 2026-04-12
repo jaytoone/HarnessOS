@@ -149,3 +149,6 @@ Line 3: 브릿지
 - [ ] Level 5 "Selective access" 가격 상한선 측정 방법론 미정
 - [ ] CLG → PLG 전환 타이밍 기준 (커뮤니티 몇 명에서 PLG 레이어 추가?)
 - [ ] Jobs-to-be-Done / ODI 프레임워크와의 충돌 지점 분석 未완료
+
+## Related
+- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]

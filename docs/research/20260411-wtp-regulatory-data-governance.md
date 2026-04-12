@@ -524,5 +524,4 @@ iter 20에서 규제 리스크는 "리스크 3: 갭 공개가 의존성을 유�
 
 ## Related
 - [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
-- [[projects/Entity/research/20260411-wtp-activation-data-moat|20260411-wtp-activation-data-moat]]
-- [[projects/Entity/research/20260411-wtp-seed-investment-thesis|20260411-wtp-seed-investment-thesis]]
+- [[projects/Entity/research/20260411-wtp-career-mirror-pricing|20260411-wtp-career-mirror-pricing]]

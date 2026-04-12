@@ -403,6 +403,7 @@ v2를 독립 실험으로 실행하는 것이 권장된다. 이유:
 ---
 
 ## Related
-- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|v1 실험]]
-- [[projects/Entity/research/20260411-wtp-theory-v2|이론 v2]]
-- [[projects/Entity/research/20260411-wtp-falsification-criteria|반증 기준]]
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|20260411-wtp-social-amplifier-experiment]]
+- [[projects/Entity/research/20260411-wtp-falsification-criteria|20260411-wtp-falsification-criteria]]
+- [[projects/Entity/research/20260411-wtp-jtbd-comparison|20260411-wtp-jtbd-comparison]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

@@ -429,5 +429,6 @@ Lakatos의 "진행적 연구 프로그램(progressive research programme)"은 �
 ---
 
 ## Related
-- [[projects/Entity/research/20260411-wtp-theory-v2|20260411-wtp-theory-v2]]
+- [[projects/Entity/research/20260411-wtp-jtbd-comparison|20260411-wtp-jtbd-comparison]]
 - [[projects/Entity/research/20260411-wtp-meta-review|20260411-wtp-meta-review]]
+- [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

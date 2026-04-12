@@ -178,3 +178,8 @@ Invitation acceptance rate 하락 중?
 - Stratrix — Viral Growth Dashboard targets
 - OpenView 2024 PLG benchmark (activation tracking 34% only)
 - CraftUp — Growth Loop diagnostic templates
+
+## Related
+- [[projects/Entity/research/20260412-marketing-growth-falsification|20260412-marketing-growth-falsification]]
+- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]

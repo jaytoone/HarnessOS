@@ -1,0 +1,3 @@
+omc-live iter 1/5: success | goal_v0: ReActDelegationEscaper + deterministic 3-way experiment — ameva monetization corpus + Expert Verdict Gate + evolve pipeline: mateclaw delegation experiment
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>

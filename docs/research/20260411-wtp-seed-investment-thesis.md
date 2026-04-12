@@ -239,3 +239,8 @@ Kill 시나리오에서의 최대 손실은 ₩500M이며, Go/Kill 판정은 투
 | 건강한 해지(졸업)가 재가입 유발 | iter 13 역설적 역량 이전 원칙, **실증 0건** | LOW |
 
 **지적 정직 요약**: 10개 핵심 가정 중 HIGH 신뢰도 2개, MEDIUM 4개, LOW 4개. 이론의 내부 일관성은 높으나, 시장 반응 데이터는 0이다. 시드 투자는 이 0을 1로 만드는 데 사용된다.
+
+## Related
+- [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
+- [[projects/Entity/research/20260411-wtp-career-mirror-pricing|20260411-wtp-career-mirror-pricing]]
+- [[projects/Entity/research/20260412-live-skill-length-analysis|20260412-live-skill-length-analysis]]
