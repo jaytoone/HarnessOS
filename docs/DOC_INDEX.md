@@ -2,6 +2,10 @@
 
 ## Research
 - [2026-04-12 Vertical AI Skill-as-Tool 방법론 — SoK 4-tuple, 하이브리드 라우팅, Entity 적용 로드맵](research/20260412-skill-as-tool-vertical-ai.md)
+- [2026-04-12 Marketing/Growth Corpus Draft — K-factor, Growth Loops, Viral Coefficient, PLG (ameva corpus builder Step 2)](research/20260412-marketing-growth-corpus-draft.md)
+- [2026-04-12 Marketing Growth Theory T1 — K-factor, Loop Archetypes, PLG benchmarks (corpus doc)](research/20260412-marketing-growth-theory.md)
+- [2026-04-12 Marketing Growth Falsification T4 — 반증 기준 7개 HC + Sycophancy Gate (corpus doc)](research/20260412-marketing-growth-falsification.md)
+- [2026-04-12 Marketing Growth Diagnostic D1 — 루프 아키타입 진단, K-factor 측정, 개입 우선순위 (corpus doc)](research/20260412-marketing-growth-diagnostic.md)
 
 ## Architecture
 - [ARCHITECTURE.md](ARCHITECTURE.md) — LiveCode 전체 아키텍처 개념도 — 3개 실험 스트림 + analyze.py + harness_evaluator + app.py dashboard
@@ -27,6 +31,7 @@
 - [digests/](research/digests/) — 날짜별 자동 수집 다이제스트 (scripts/collect.sh 생성)
 
 ## Research
+- [2026-04-12 Ameva 아키텍처 SOTA 평론 — 11개 구성 요소별 갭 분석 + 진화 우선순위 (P1~P4)](research/20260412-ameva-architecture-sota-critique.md)
 - [2026-04-12 LLM 스킬 구조적 콘텐츠(flowchart/table) 위치와 실행 품질 — context rot + position bias 분석](research/20260412-skill-structural-content-position-analysis.md)
 - [2026-04-12 live/live-inf 스킬 길이 적절성 분석 — 삭감 가능 항목 선별](research/20260412-live-skill-length-analysis.md)
 - [2026-04-11 Career Mirror 규제 리스크 + 데이터 거버넌스 — PIPA 컴플라이언스 아키텍처 + MVP 비용 수정 (iter 21)](research/20260411-wtp-regulatory-data-governance.md)
