@@ -1,22 +1,13 @@
 {
-  "root_goal": "[EXPERIMENT] Run ControlledLLMStuckRunner (4 tasks \u00d7 2 trials) to produce real LLM escape rate data for del vs eng vs hyp comparison \u2014 validate that delegation prompt (_DEL_RESCUE_SYSTEM) achieves del_escape_rate > eng_escape_rate + 0.20 on actual LLM outputs; save results with full Kruskal-Wallis analysis",
-  "original_goal": "[EXPERIMENT] Testing whether ReAct delegation pattern (MateClaw-inspired cross-agent handoff) improves stuck_agent escape rate by 20%+ vs baseline single-agent retry \u2014 implement ReActDelegationEscaper in experiments/stuck_agent/runner.py, add 3-way comparison (Engineering vs Hypothesis vs ReAct-Delegation), run Kruskal-Wallis H-test on 14 task types \u00d7 5 trials, success criteria: p<0.05 AND delegation_escape_rate > baseline + 0.20",
+  "root_goal": "ameva 개선",
+  "original_goal": "ameva 개선",
   "level": 0,
   "sub_goals": [],
-  "evolution_count": 1,
-  "evolution_history": [
-    {
-      "iteration": 1,
-      "goal": "[EXPERIMENT] Testing whether ReAct delegation pattern (MateClaw-inspired cross-agent handoff) improves stuck_agent escape rate by 20%+ vs baseline single-agent retry \u2014 implement ReActDelegationEscaper in experiments/stuck_agent/runner.py, add 3-way comparison (Engineering vs Hypothesis vs ReAct-Delegation), run Kruskal-Wallis H-test on 14 task types \u00d7 5 trials, success criteria: p<0.05 AND delegation_escape_rate > baseline + 0.20",
-      "score": 0.846,
-      "rationale": "Weakest: impact(0.78) \u2014 deterministic proof only, need real LLM data"
-    }
-  ],
+  "evolution_count": 0,
+  "evolution_history": [],
   "reward_spec": {
-    "primary_metric": "coverage and quality of agent/skill improvements",
-    "threshold": "all agents and skills reviewed, concrete improvements applied across full list"
+    "primary_metric": "task completion",
+    "threshold": "all acceptance criteria met"
   },
-  "history": [],
-  "_evolve_source": "experiments/stuck_agent/mateclaw_orchestration_design.md",
-  "_evolve_source_paper": "MateClaw Multi-Agent Orchestration (dev.to/teum, 2026-04-06)"
+  "history": []
 }
