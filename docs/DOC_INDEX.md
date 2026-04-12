@@ -1,5 +1,8 @@
 # Document Index
 
+## Research
+- [2026-04-12 Vertical AI Skill-as-Tool 방법론 — SoK 4-tuple, 하이브리드 라우팅, Entity 적용 로드맵](research/20260412-skill-as-tool-vertical-ai.md)
+
 ## Architecture
 - [ARCHITECTURE.md](ARCHITECTURE.md) — LiveCode 전체 아키텍처 개념도 — 3개 실험 스트림 + analyze.py + harness_evaluator + app.py dashboard
 
