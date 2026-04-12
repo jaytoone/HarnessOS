@@ -26,6 +26,7 @@
 ## Research
 - [2026-04-12 LLM 스킬 구조적 콘텐츠(flowchart/table) 위치와 실행 품질 — context rot + position bias 분석](research/20260412-skill-structural-content-position-analysis.md)
 - [2026-04-12 live/live-inf 스킬 길이 적절성 분석 — 삭감 가능 항목 선별](research/20260412-live-skill-length-analysis.md)
+- [2026-04-11 Career Mirror 시드 투자 논문 — VALUE GAP 기반 투자 내러티브 + 리스크 공개 (iter 20)](research/20260411-wtp-seed-investment-thesis.md)
 - [2026-04-11 Career Mirror PMF 지표 프레임워크 — VALUE GAP 기반 선행/후행 지표 + 빠짐 교차 측정 (iter 19)](research/20260411-wtp-pmf-metrics.md)
 - [2026-04-11 Social_Amplifier 검증 실험 v2 — 신호 전달 계수 테스트, 이론 v2 정렬 재설계 (iter 18)](research/20260411-wtp-social-amplifier-experiment-v2.md)
 - [2026-04-11 Career Mirror 활성화 플로우 + 데이터 모트 전략 — Mirror Moment 설계 + 콜드스타트 해결 (iter 17)](research/20260411-wtp-activation-data-moat.md)
