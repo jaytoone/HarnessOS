@@ -95,6 +95,74 @@ class StuckExperimentResult:
 
 
 # ---------------------------------------------------------------------------
+# ReAct Delegation Escaper (MateClaw-inspired pattern)
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class DelegationResult:
+    """Result from a delegation attempt."""
+
+    escaped: bool
+    specialist: str
+    strategy_used: str
+    extracted_code: str | None = None
+
+
+class ReActDelegationEscaper:
+    """Implements MateClaw's ReAct delegation pattern for stuck-agent escape.
+
+    When the primary agent is stuck (N consecutive failures), delegates to a
+    specialist sub-agent selected by task category.  The specialist uses a
+    category-specific tool/prompt subset to surface the root cause that the
+    generalist missed.
+
+    Based on MateClaw orchestration: ReAct loop + MCP-style agent handoff.
+    Reference: dev.to/teum (2026-04-06)
+
+    Specialist mapping:
+      red_herring   → TraceSpecialist    (follows execution path)
+      multi_bug     → InteractionSpecialist (checks bug interactions)
+      hidden_assume → ContractSpecialist (checks implicit contracts)
+      semantic_inv  → InversionSpecialist  (checks logic direction)
+    """
+
+    STUCK_THRESHOLD: int = 3  # consecutive failures before delegation triggers
+
+    # Maps task category → specialist name used in delegation prompt
+    _SPECIALIST_MAP: dict[str, str] = {
+        "red_herring": "TraceSpecialist",
+        "multi_bug": "InteractionSpecialist",
+        "hidden_assume": "ContractSpecialist",
+        "semantic_inv": "InversionSpecialist",
+    }
+
+    def should_delegate(self, attempt_history: list[bool]) -> bool:
+        """True when last STUCK_THRESHOLD attempts all failed."""
+        if len(attempt_history) < self.STUCK_THRESHOLD:
+            return False
+        return not any(attempt_history[-self.STUCK_THRESHOLD:])
+
+    def select_specialist(self, category: str) -> str:
+        """Return the specialist name for the given task category."""
+        return self._SPECIALIST_MAP.get(str(category), "FallbackSpecialist")
+
+    def build_delegation_context(self, task: "StuckTask", failed_code: str) -> str:
+        """Build compressed context for specialist handoff."""
+        specialist = self.select_specialist(str(task.category))
+        return (
+            f"Category: {task.category}\n"
+            f"Delegating to: {specialist}\n"
+            f"Failed attempt:\n{failed_code[:300]}\n"
+            f"Specialist will analyze using category-specific lens."
+        )
+
+
+# Global singleton for use inside runners
+_delegation_escaper = ReActDelegationEscaper()
+
+
+# ---------------------------------------------------------------------------
 # Deterministic runner (for CI / fast iteration)
 # ---------------------------------------------------------------------------
 
@@ -102,9 +170,12 @@ class StuckExperimentResult:
 class DeterministicStuckRunner:
     """Runs stuck-agent experiment without LLM calls.
 
-    Phase 1: apply buggy_code  → always fails (by task design)
-    Phase 2a (engineering): apply misleading_fix_code  → check if it passes
-    Phase 2b (hypothesis):  apply correct_code         → always passes
+    Phase 1: apply buggy_code      → always fails (by task design)
+    Phase 2a (engineering):  apply misleading_fix_code → check if it passes
+    Phase 2b (hypothesis):   apply correct_code        → always passes
+    Phase 2c (delegation):   ReActDelegationEscaper selects specialist →
+                             specialist applies correct_code (ideal specialist
+                             always solves its target category)
     """
 
     def run(
@@ -121,7 +192,6 @@ class DeterministicStuckRunner:
                 task.buggy_code, task.function_name, task.test_cases
             )
             if phase1_pass:
-                # Task design error: buggy code somehow passes — record but skip
                 results.append(
                     StuckTaskResult(
                         task_id=task.id,
@@ -133,7 +203,7 @@ class DeterministicStuckRunner:
                 continue
 
             # Phase 2a: engineering rescue = apply misleading_fix
-            eng_passed, _, eng_solved = _execute_attempt(
+            _, _, eng_solved = _execute_attempt(
                 task.misleading_fix_code, task.function_name, task.test_cases
             )
             eng_rescue = RescueResult(
@@ -145,7 +215,7 @@ class DeterministicStuckRunner:
             )
 
             # Phase 2b: hypothesis rescue = apply correct_code
-            hyp_passed, _, hyp_solved = _execute_attempt(
+            _, _, hyp_solved = _execute_attempt(
                 task.correct_code, task.function_name, task.test_cases
             )
             hyp_rescue = RescueResult(
@@ -156,6 +226,21 @@ class DeterministicStuckRunner:
                 extracted_code=task.correct_code,
             )
 
+            # Phase 2c: delegation rescue — specialist applies correct_code
+            # Deterministic assumption: ideal specialist always resolves its category
+            specialist = _delegation_escaper.select_specialist(str(task.category))
+            _, _, del_solved = _execute_attempt(
+                task.correct_code, task.function_name, task.test_cases
+            )
+            del_rescue = RescueResult(
+                escaped=del_solved,
+                attempts_used=1,
+                tokens_used=0,
+                strategy="delegation",
+                extracted_code=task.correct_code,
+                hypothesis=f"Delegated to {specialist}",
+            )
+
             results.append(
                 StuckTaskResult(
                     task_id=task.id,
@@ -164,6 +249,7 @@ class DeterministicStuckRunner:
                     phase1_passed=False,
                     eng_rescue=eng_rescue,
                     hyp_rescue=hyp_rescue,
+                    del_rescue=del_rescue,
                 )
             )
 
