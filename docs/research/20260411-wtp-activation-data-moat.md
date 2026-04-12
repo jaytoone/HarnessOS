@@ -547,3 +547,8 @@ Career Mirror의 데이터 모트가 커질수록, 그 데이터의 소유권이
 - [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
 - [[projects/Entity/research/20260411-wtp-career-mirror-pricing|20260411-wtp-career-mirror-pricing]]
 - [[projects/Entity/research/20260411-wtp-korean-product-audit|20260411-wtp-korean-product-audit]]
+- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
+- [[projects/Entity/research/20260412-marketing-growth-diagnostic|20260412-marketing-growth-diagnostic]]
+- [[projects/Entity/research/20260412-marketing-growth-falsification|20260412-marketing-growth-falsification]]
+- [[projects/Entity/research/20260412-marketing-growth-loop-playbook|20260412-marketing-growth-loop-playbook]]

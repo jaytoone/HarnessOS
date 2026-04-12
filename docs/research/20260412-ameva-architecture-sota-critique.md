@@ -305,3 +305,13 @@ SELF-RAG Stage 1.5 (per-claim [IsSup] loop) + FLARE-lite (confidence 기반 on-d
 - Contextual Retrieval: Anthropic 2024
 - Kosmos episodic memory: arXiv:2511.02824
 - SkillsBench: curated vs self-generated skill quality
+
+## Related
+- [[projects/Entity/research/20260330-omc-live-critique|20260330-omc-live-critique]]
+- [[projects/Entity/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Entity/research/20260412-skill-as-tool-vertical-ai|20260412-skill-as-tool-vertical-ai]]
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
+- [[projects/Entity/research/20260412-live-skill-length-analysis|20260412-live-skill-length-analysis]]
+- [[projects/Entity/research/designs/global_agent_skill_critique_2026|global_agent_skill_critique_2026]]
+- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Entity/research/20260325-omc-live-patch-critique|20260325-omc-live-patch-critique]]

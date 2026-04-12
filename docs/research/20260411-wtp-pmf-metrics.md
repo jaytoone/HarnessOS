@@ -554,4 +554,6 @@ if 모든 단계에서 일관되게 기대 이하:
 - [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
 - [[projects/Entity/research/20260411-wtp-career-mirror-pricing|20260411-wtp-career-mirror-pricing]]
 - [[projects/Entity/research/20260411-wtp-social-amplifier-experiment-v2|20260411-wtp-social-amplifier-experiment-v2]]
+- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
 - [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|20260411-wtp-social-amplifier-experiment]]
+- [[projects/Entity/research/20260412-marketing-growth-falsification|20260412-marketing-growth-falsification]]

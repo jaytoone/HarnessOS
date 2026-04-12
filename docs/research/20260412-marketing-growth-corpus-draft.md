@@ -217,3 +217,13 @@ rwr_hints:
   "사용자 획득": "K-factor diagnostic / activation rate / loop velocity"
 status: draft
 ```
+
+## Related
+- [[projects/Entity/research/20260412-marketing-growth-diagnostic|20260412-marketing-growth-diagnostic]]
+- [[projects/Entity/research/20260411-wtp-clg-community-strategy|20260411-wtp-clg-community-strategy]]
+- [[projects/Entity/research/20260411-wtp-product-design-patterns|20260411-wtp-product-design-patterns]]
+- [[projects/Entity/research/20260412-marketing-growth-loop-playbook|20260412-marketing-growth-loop-playbook]]
+- [[projects/Entity/research/20260412-marketing-growth-falsification|20260412-marketing-growth-falsification]]
+- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Entity/research/20260412-skill-as-tool-vertical-ai|20260412-skill-as-tool-vertical-ai]]

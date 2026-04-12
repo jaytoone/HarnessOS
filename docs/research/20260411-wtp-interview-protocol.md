@@ -162,3 +162,4 @@ sales-guard 해제 + candid mode 활성화. 이 단계에서 제품 소개 금�
 
 ## Related
 - [[projects/Entity/research/20260411-wtp-social-amplifier-experiment|20260411-wtp-social-amplifier-experiment]]
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment-v2|20260411-wtp-social-amplifier-experiment-v2]]

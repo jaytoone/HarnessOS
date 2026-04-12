@@ -189,5 +189,6 @@ Ethical_Coefficient = Ideal State가 도달 가능하면 1.0
 - Noggle (1996). Manipulative Actions: A Conceptual and Moral Analysis
 
 ## Related
+- [[projects/Entity/research/20260411-wtp-meta-review|20260411-wtp-meta-review]]
 - [[projects/Entity/research/20260330-hypothesis-vs-engineering-thinking|20260330-hypothesis-vs-engineering-thinking]]
 - [[projects/Entity/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]

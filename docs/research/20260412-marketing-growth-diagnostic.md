@@ -183,3 +183,4 @@ Invitation acceptance rate 하락 중?
 - [[projects/Entity/research/20260412-marketing-growth-falsification|20260412-marketing-growth-falsification]]
 - [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
 - [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
+- [[projects/Entity/research/20260412-marketing-growth-loop-playbook|20260412-marketing-growth-loop-playbook]]
