@@ -26,6 +26,7 @@
 ## Research
 - [2026-04-12 LLM 스킬 구조적 콘텐츠(flowchart/table) 위치와 실행 품질 — context rot + position bias 분석](research/20260412-skill-structural-content-position-analysis.md)
 - [2026-04-12 live/live-inf 스킬 길이 적절성 분석 — 삭감 가능 항목 선별](research/20260412-live-skill-length-analysis.md)
+- [2026-04-11 빠짐 감사 프레임워크 — 건강한 WTP vs 의존성 WTP 판단 도구 + Career Mirror 적용 (iter 13)](research/20260411-wtp-bbaijjim-audit-framework.md)
 - [2026-04-11 Career Mirror MVP 시드 코호트 모집 전략 — 채널×메시지 매트릭스 + DM 스크립트 3종 (iter 12)](research/20260411-wtp-seed-cohort-strategy.md)
 - [2026-04-11 VALUE GAP 반증 기준 및 스코프 경계 — 언제 이론이 틀렸는가, 경쟁 이론 대비 차별 예측 (iter 11)](research/20260411-wtp-falsification-criteria.md)
 - [2026-04-11 VALUE GAP 고객 인터뷰 진단 프로토콜 — 15-20분 L1-L5 진단 질문 13개 (iter 10)](research/20260411-wtp-interview-protocol.md)
