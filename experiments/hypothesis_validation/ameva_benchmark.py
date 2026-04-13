@@ -60,6 +60,7 @@ CORPUS_REGISTRY = [
             "수요", "지불 의향", "정체성", "빠짐", "Social Amplifier", "커리어 미러",
             "ICP", "레벨", "진단",
             "D(WTP)", "Gap_Intensity", "Attainability", "Ethical_Coefficient",
+            "돈을 낼",  # P24
         ],
         rwr_hints={
             "돈 낼 의향": "WTP, D(WTP)_instantaneous",
@@ -130,6 +131,7 @@ CORPUS_REGISTRY = [
             "gross margin", "가격 모델", "가격 전략", "수익 모델", "과금", "수익", "마진",
             "유료화", "cogs", "payback period", "nrr", "net revenue retention",
             "value metric", "bill shock", "enterprise pricing",
+            "구독제", "요금제",  # P23
         ],
         rwr_hints={
             "어떻게 돈을 받을까": "pricing model selection (D1 diagnostic)",
@@ -193,7 +195,7 @@ def extract_phrase_signals(query_norm: str, corpus_triggers: list) -> set:
 
 # ── Corpus Router ─────────────────────────────────────────────────────────────
 
-CONFIDENCE_THRESHOLD = 0.15  # P22: lowered from 0.25 — IDF recall denominator grows with query length
+CONFIDENCE_THRESHOLD = 0.08  # P23: lowered from 0.15 — 제3자 쿼리 7/10 PASS 검증 (ameva_third_party_test.py)
 
 def route(query: str) -> tuple[Optional[Corpus], float, str]:
     """Returns (corpus_or_None, confidence, mode)"""

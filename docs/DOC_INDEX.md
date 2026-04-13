@@ -16,6 +16,7 @@
 - [ARCHITECTURE.md](ARCHITECTURE.md) — LiveCode 전체 아키텍처 개념도 — 3개 실험 스트림 + analyze.py + harness_evaluator + app.py dashboard
 
 ## Experiments
+- [hypothesis_validation/ameva_third_party_test_report.md](../experiments/hypothesis_validation/ameva_third_party_test_report.md) — ameva Corpus Router 제3자 쿼리 검증 (1/10→8/10, keyword ceiling ~80%, 2-tier 설계 P23/P24)
 - [verification_hurt/runner.py](../experiments/verification_hurt/runner.py) — Verification mode 비교 실험 (none/strict/lenient/adaptive escape_rate 측정)
 - [hypothesis_validation/uncertainty_guided_trajectory.md](../experiments/hypothesis_validation/uncertainty_guided_trajectory.md) — 불확실성 기반 순차 증거 수집 live-inf 실험 설계 (arXiv:2604.05116)
 - [hypothesis_validation/uncertainty_gate_report.md](../experiments/hypothesis_validation/uncertainty_gate_report.md) — Uncertainty Gate A/B 실험 결과 보고서 (예비 n=1, H1 미지지, 재실험 가이드 포함)
