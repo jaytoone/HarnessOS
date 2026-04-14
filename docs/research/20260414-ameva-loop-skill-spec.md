@@ -431,3 +431,13 @@ def evolve_goal(current_goal, quality_vector, pheromone_state):
 - [RAG Evaluation Technical Guide](https://toloka.ai/blog/rag-evaluation-a-technical-guide-to-measuring-retrieval-augmented-generation/)
 - [SwarmSys Industry Report](https://powerdrill.ai/blog/swarm-intelligence-in-agentic-ai-an-industry-report)
 - [Agentic RAG 2026 LangGraph](https://medium.com/@vinodkrane/next-generation-agentic-rag-with-langgraph-2026-edition-d1c4c068d2b8)
+
+## Related
+- [[projects/Ameva/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Ameva/research/20260330-omc-live-critique|20260330-omc-live-critique]]
+- [[projects/Ameva/research/designs/skill_agent_audit|skill_agent_audit]]
+- [[projects/Ameva/research/20260411-wtp-falsification-criteria|20260411-wtp-falsification-criteria]]
+- [[projects/Ameva/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]
+- [[projects/Ameva/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/Ameva/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/Ameva/research/designs/global_agent_skill_critique_2026|global_agent_skill_critique_2026]]
