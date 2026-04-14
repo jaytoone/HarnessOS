@@ -13,3 +13,7 @@ Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 chore: decision_corpus.json head pointer sync (970f820)
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+chore: decision_corpus.json head pointer sync (2203a15)
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
