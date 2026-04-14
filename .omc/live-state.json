@@ -1,6 +1,6 @@
 {
-  "current_iteration": 11,
-  "best_score": 0.958,
+  "current_iteration": 12,
+  "best_score": 0.960,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -14,7 +14,8 @@
     {"iteration": 8, "score": 0.944, "goal": "Tier2 routing extension conf==0.0→conf<0.08 (TYPE B query recall)"},
     {"iteration": 9, "score": 0.950, "goal": "ameva Iter 49: oracle-aligned QG thresholds (grounding_rate ≥0.85, claim_quality ≥0.75) + REASONED specificity + P6-7 changelog"},
     {"iteration": 10, "score": 0.954, "goal": "ameva Iter 50: tiered repair path (light→heavy) + doc budget constraint (3/4 per query type)"},
-    {"iteration": 11, "score": 0.958, "goal": "ameva Iter 51: 14th QG actionability gate [ACTION:...] + live P6-8 impact blend (claim_quality + actionability) / 2"}
+    {"iteration": 11, "score": 0.958, "goal": "ameva Iter 51: 14th QG actionability gate [ACTION:...] + live P6-8 impact blend (claim_quality + actionability) / 2"},
+    {"iteration": 12, "score": 0.960, "goal": "ameva Iter 52: multi-aspect query decomposition + 15th QG multi-Q completeness gate"}
   ],
-  "evolution_count": 10
+  "evolution_count": 11
 }

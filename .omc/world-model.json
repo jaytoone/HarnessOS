@@ -122,6 +122,13 @@
       "iteration": 11,
       "outcome": "success",
       "weak_dim": "completeness (0.95 — goal_fidelity ceiling approaching)"
+    },
+    {
+      "goal": "ameva Iter 52: multi-aspect query decomposition (RWR step + [MULTI-Q] detection) + 15th QG multi-Q completeness gate. Ensures all sub-questions explicitly answered in Stage 3.",
+      "score": 0.960,
+      "iteration": 12,
+      "outcome": "success",
+      "weak_dim": "quality (0.95 — all other dims now 0.95-0.98)"
     }
   ],
   "dead_ends": [
@@ -167,7 +174,7 @@
   ],
   "best_score_vector": {
     "quality": 0.95,
-    "completeness": 0.95,
+    "completeness": 0.96,
     "efficiency": 0.95,
     "impact": 0.96,
     "goal_fidelity": 0.98

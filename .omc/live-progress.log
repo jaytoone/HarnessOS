@@ -5,3 +5,4 @@
 iter=9 | score=0.950 | goal=ameva Iter 49: oracle-aligned QG thresholds (grounding_rate>=0.85, claim_quality>=0.75) + REASONED specificity + P6-7 changelog | dims=Q:0.95 C:0.95 E:0.93 I:0.94 GF:0.98 | plateau_count=0
 iter=10 | score=0.954 | goal=ameva Iter 50: tiered repair (light→heavy) + doc budget constraint (single=3, multi=4) | dims=Q:0.95 C:0.95 E:0.95 I:0.94 GF:0.98 | plateau_count=0
 iter=11 | score=0.958 | goal=ameva Iter 51: 14th QG actionability gate + live P6-8 impact blend (claim_quality+actionability)/2 | dims=Q:0.95 C:0.95 E:0.95 I:0.96 GF:0.98 | plateau_count=0
+iter=12 | score=0.960 | goal=ameva Iter 52: multi-Q decomposition + 15th QG completeness gate | dims=Q:0.95 C:0.96 E:0.95 I:0.96 GF:0.98 | plateau_count=0
