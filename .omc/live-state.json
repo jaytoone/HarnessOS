@@ -1,6 +1,6 @@
 {
-  "current_iteration": 4,
-  "best_score": 0.902,
+  "current_iteration": 5,
+  "best_score": 0.922,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -27,7 +27,13 @@
       "score": 0.902,
       "goal_version": 3,
       "goal": "P6-5 signal detection fix (strong/weak split) + live-inf wave1_prompt format alignment"
+    },
+    {
+      "iteration": 5,
+      "score": 0.922,
+      "goal_version": 4,
+      "goal": "ameva Iter 48: 13-check Quality Gate + all-corpus [AMEVA_GROUNDING_METRICS] footer + P6-6 impact wiring"
     }
   ],
-  "evolution_count": 3
+  "evolution_count": 4
 }

@@ -73,6 +73,13 @@
       "iteration": 4,
       "outcome": "success",
       "weak_dim": "impact (0.88 — loop validated in theory, not in runtime trace)"
+    },
+    {
+      "goal": "ameva Iter 48: 13-check Quality Gate + [AMEVA_GROUNDING_METRICS] footer on all corpus responses + P6-6 claim_quality → impact wiring",
+      "score": 0.922,
+      "iteration": 5,
+      "outcome": "success",
+      "weak_dim": "quality (0.91 — slight gap vs impact 0.92)"
     }
   ],
   "dead_ends": [
@@ -116,10 +123,10 @@
     }
   ],
   "best_score_vector": {
-    "quality": 0.90,
-    "completeness": 0.88,
+    "quality": 0.91,
+    "completeness": 0.90,
     "efficiency": 0.90,
-    "impact": 0.90,
+    "impact": 0.92,
     "goal_fidelity": 0.98
   }
 }
