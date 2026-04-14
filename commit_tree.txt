@@ -1,13 +1,6 @@
-ameva: Corpus Bootstrap Gate (Step 6) — no-match 시 blocking bootstrap + convergence 검증
+ameva: Bootstrap Gate 검수 수정 — Session Resume + rotation_on_resume Step 범위 동기화
 
-- Auto-Corpus Builder에 Step 6 Bootstrap Convergence Gate 추가
-  - routing_precision >= 0.80 (5개 샘플 쿼리 기반)
-  - doc_count >= 5 (T1+T4+D1+S1)
-  - T/D HIGH-tier ratio >= 40%
-  - trigger plateau (이전 기록 없으면 SKIP)
-- Corpus Router no-match 경로: Step 1~5 → Step 1~6 (Gate 결과로 corpus_mode 결정)
-- 하드코딩 confidence=0.60 → routing_precision 실측값으로 교체
-- 라인 62 설명 수정: '카운트 +1' → 실제 blocking bootstrap 동작 반영
-- condition frontmatter 동기화
+- Session Resume Check: Step 2~5 → Step 2~6
+- rotation_on_resume 설명: Step 5 Promotion → Step 5 + Step 6 Bootstrap Gate까지
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
