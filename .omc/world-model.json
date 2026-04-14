@@ -129,6 +129,13 @@
       "iteration": 12,
       "outcome": "success",
       "weak_dim": "quality (0.95 — all other dims now 0.95-0.98)"
+    },
+    {
+      "goal": "ameva Iter 53: Q-WEAK adversarial challenge — Stage 2 tests top 2 UNCERTAIN/REASONED claims with strongest counterargument. COUNTER tag if counterargument stronger; ADVERSARIAL-PASS if claim survives. Downgrade REASONED→UNCERTAIN when challenged successfully.",
+      "score": 0.962,
+      "iteration": 13,
+      "outcome": "success",
+      "weak_dim": "efficiency (0.95 — no efficiency changes this iter)"
     }
   ],
   "dead_ends": [
@@ -173,7 +180,7 @@
     }
   ],
   "best_score_vector": {
-    "quality": 0.95,
+    "quality": 0.96,
     "completeness": 0.96,
     "efficiency": 0.95,
     "impact": 0.96,

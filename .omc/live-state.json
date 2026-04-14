@@ -1,6 +1,6 @@
 {
-  "current_iteration": 12,
-  "best_score": 0.960,
+  "current_iteration": 13,
+  "best_score": 0.962,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -15,7 +15,8 @@
     {"iteration": 9, "score": 0.950, "goal": "ameva Iter 49: oracle-aligned QG thresholds (grounding_rate ≥0.85, claim_quality ≥0.75) + REASONED specificity + P6-7 changelog"},
     {"iteration": 10, "score": 0.954, "goal": "ameva Iter 50: tiered repair path (light→heavy) + doc budget constraint (3/4 per query type)"},
     {"iteration": 11, "score": 0.958, "goal": "ameva Iter 51: 14th QG actionability gate [ACTION:...] + live P6-8 impact blend (claim_quality + actionability) / 2"},
-    {"iteration": 12, "score": 0.960, "goal": "ameva Iter 52: multi-aspect query decomposition + 15th QG multi-Q completeness gate"}
+    {"iteration": 12, "score": 0.960, "goal": "ameva Iter 52: multi-aspect query decomposition + 15th QG multi-Q completeness gate"},
+    {"iteration": 13, "score": 0.962, "goal": "ameva Iter 53: Q-WEAK adversarial challenge — top 2 UNCERTAIN/REASONED claims get strongest counterargument test in Stage 2"}
   ],
-  "evolution_count": 11
+  "evolution_count": 12
 }
