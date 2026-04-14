@@ -26,3 +26,6 @@ live/SKILL.md P6-12: ORCHESTRATOR_MAP knowledge→ameva + audit checklist 10-ite
 live-inf/SKILL.md: ORCHESTRATOR_MAP knowledge→ameva sync
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+chore: decision_corpus.json cross-session validation sync
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
