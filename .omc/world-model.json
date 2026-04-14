@@ -143,6 +143,13 @@
       "iteration": 14,
       "outcome": "success",
       "weak_dim": "goal_fidelity (0.98 — all dims now ≥0.96)"
+    },
+    {
+      "goal": "ameva Iter 55: 16th QG recommendation evidence anchoring — each [ACTION:...] must cite [FROM:doc_id]. action_anchoring_rate ≥0.80 required; FAIL triggers repair adding [FROM:...] suffix or [FROM:REASONED:...] for ungrounded recommendations. [AMEVA_GROUNDING_METRICS] footer adds action_anchoring field.",
+      "score": 0.966,
+      "iteration": 15,
+      "outcome": "success",
+      "weak_dim": "completeness (0.96 — quality/efficiency/impact all at ceiling)"
     }
   ],
   "dead_ends": [
@@ -190,7 +197,7 @@
     "quality": 0.96,
     "completeness": 0.96,
     "efficiency": 0.96,
-    "impact": 0.96,
+    "impact": 0.97,
     "goal_fidelity": 0.98
   }
 }

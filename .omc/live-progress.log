@@ -8,3 +8,4 @@ iter=11 | score=0.958 | goal=ameva Iter 51: 14th QG actionability gate + live P6
 iter=12 | score=0.960 | goal=ameva Iter 52: multi-Q decomposition + 15th QG completeness gate | dims=Q:0.95 C:0.96 E:0.95 I:0.96 GF:0.98 | plateau_count=0
 iter=13 | score=0.962 | goal=ameva Iter 53: Q-WEAK adversarial challenge (Stage 2 top-2 UNCERTAIN/REASONED claims) | dims=Q:0.96 C:0.96 E:0.95 I:0.96 GF:0.98 | plateau_count=0
 iter=14 | score=0.964 | goal=ameva Iter 54: efficiency hardening (confidence-gated doc budget + Q-WEAK grounded-skip) | dims=Q:0.96 C:0.96 E:0.96 I:0.96 GF:0.98 | plateau_count=0
+iter=15 | score=0.966 | goal=ameva Iter 55: 16th QG recommendation evidence anchoring [ACTION:][FROM:doc_id] action_anchoring_rate≥0.80 | dims=Q:0.96 C:0.96 E:0.96 I:0.97 GF:0.98 | plateau_count=0
