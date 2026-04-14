@@ -1,6 +1,6 @@
 {
-  "current_iteration": 13,
-  "best_score": 0.962,
+  "current_iteration": 14,
+  "best_score": 0.964,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -16,7 +16,8 @@
     {"iteration": 10, "score": 0.954, "goal": "ameva Iter 50: tiered repair path (light→heavy) + doc budget constraint (3/4 per query type)"},
     {"iteration": 11, "score": 0.958, "goal": "ameva Iter 51: 14th QG actionability gate [ACTION:...] + live P6-8 impact blend (claim_quality + actionability) / 2"},
     {"iteration": 12, "score": 0.960, "goal": "ameva Iter 52: multi-aspect query decomposition + 15th QG multi-Q completeness gate"},
-    {"iteration": 13, "score": 0.962, "goal": "ameva Iter 53: Q-WEAK adversarial challenge — top 2 UNCERTAIN/REASONED claims get strongest counterargument test in Stage 2"}
+    {"iteration": 13, "score": 0.962, "goal": "ameva Iter 53: Q-WEAK adversarial challenge — top 2 UNCERTAIN/REASONED claims get strongest counterargument test in Stage 2"},
+    {"iteration": 14, "score": 0.964, "goal": "ameva Iter 54: efficiency hardening — confidence-gated doc budget (conf ≥0.90 → 2 docs for single-group) + Q-WEAK grounded-skip (≥2 [GROUNDED] supports → skip adversarial)"}
   ],
-  "evolution_count": 12
+  "evolution_count": 13
 }

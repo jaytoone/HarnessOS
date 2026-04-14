@@ -136,6 +136,13 @@
       "iteration": 13,
       "outcome": "success",
       "weak_dim": "efficiency (0.95 — no efficiency changes this iter)"
+    },
+    {
+      "goal": "ameva Iter 54: efficiency hardening — (1) confidence-gated doc budget: conf ≥0.90 single-group queries load 2 docs (not 3), reducing token overhead on high-precision routes; (2) Q-WEAK grounded-skip: claims with ≥2 [GROUNDED] supporting tags skip adversarial test (already well-evidenced). Both changes directly reduce per-query computation.",
+      "score": 0.964,
+      "iteration": 14,
+      "outcome": "success",
+      "weak_dim": "goal_fidelity (0.98 — all dims now ≥0.96)"
     }
   ],
   "dead_ends": [
@@ -182,7 +189,7 @@
   "best_score_vector": {
     "quality": 0.96,
     "completeness": 0.96,
-    "efficiency": 0.95,
+    "efficiency": 0.96,
     "impact": 0.96,
     "goal_fidelity": 0.98
   }
