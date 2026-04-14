@@ -5,3 +5,7 @@ Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 live iter 5/5: CONVERGED_SUCCESS score=0.944 | ameva 제3자 쿼리 검증 1/10→8/10: threshold 0.08 + 구독제/요금제/돈을낼 trigger + 2-tier Semantic Fallback 설계 (P23/P24)
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+live-inf iter 29/∞: score=0.994 | Iter 69 [SYNTHESIS CAVEAT] auto-emit (uncertain_ratio>0.40) + 27th QG synthesis_caveat check. quality+completeness 0.993→0.995/0.992
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
