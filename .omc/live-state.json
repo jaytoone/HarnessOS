@@ -1,6 +1,6 @@
 {
-  "current_iteration": 9,
-  "best_score": 0.950,
+  "current_iteration": 10,
+  "best_score": 0.954,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -12,7 +12,8 @@
     {"iteration": 6, "score": 0.926, "goal": "ameva quality hardening: grounding_rate threshold + embedding_hint"},
     {"iteration": 7, "score": 0.940, "goal": "corpus_root path fix Entity→Ameva (30 docs now accessible)"},
     {"iteration": 8, "score": 0.944, "goal": "Tier2 routing extension conf==0.0→conf<0.08 (TYPE B query recall)"},
-    {"iteration": 9, "score": 0.950, "goal": "ameva Iter 49: oracle-aligned QG thresholds (grounding_rate ≥0.85, claim_quality ≥0.75) + REASONED specificity + P6-7 changelog"}
+    {"iteration": 9, "score": 0.950, "goal": "ameva Iter 49: oracle-aligned QG thresholds (grounding_rate ≥0.85, claim_quality ≥0.75) + REASONED specificity + P6-7 changelog"},
+    {"iteration": 10, "score": 0.954, "goal": "ameva Iter 50: tiered repair path (light→heavy) + doc budget constraint (3/4 per query type)"}
   ],
-  "evolution_count": 8
+  "evolution_count": 9
 }

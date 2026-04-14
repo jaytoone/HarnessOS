@@ -108,6 +108,13 @@
       "iteration": 9,
       "outcome": "success",
       "weak_dim": "efficiency (0.93 — no efficiency changes this iter)"
+    },
+    {
+      "goal": "ameva Iter 50: tiered repair path — light repair (in-context re-tagging) before heavy (Stage 1.5 SELF-RAG re-run). Doc budget constraint: 3 docs single-group, 4 docs multi-group queries.",
+      "score": 0.954,
+      "iteration": 10,
+      "outcome": "success",
+      "weak_dim": "impact (0.94 — completeness/quality/efficiency now at 0.95)"
     }
   ],
   "dead_ends": [
@@ -154,7 +161,7 @@
   "best_score_vector": {
     "quality": 0.95,
     "completeness": 0.95,
-    "efficiency": 0.93,
+    "efficiency": 0.95,
     "impact": 0.94,
     "goal_fidelity": 0.98
   }
