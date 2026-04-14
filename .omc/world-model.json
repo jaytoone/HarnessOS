@@ -12,207 +12,49 @@
       "score": 0.876,
       "iteration": 3,
       "outcome": "CONVERGED_SUCCESS",
-      "weak_dim": "none",
-      "details": {
-        "deliverables": [
-          "uncertainty_gate.py",
-          "uncertainty_guided_trajectory.md",
-          "uncertainty_gate_report.md"
-        ],
-        "h1_verdict": "NOT_SUPPORTED",
-        "confidence": "LOW",
-        "n_trials": 2
-      }
+      "weak_dim": "none"
     },
     {
       "goal": "Review and improve ALL agents and skills — survey all 75 skills + 65 agent types, fix stale refs, Korean descriptions, duplicates",
       "score": 0.83,
       "iteration": 1,
       "outcome": "SUCCESS",
-      "weak_dim": "completeness",
-      "details": {
-        "fixes_applied": 10,
-        "skills_reviewed": 75,
-        "agent_types_reviewed": 65,
-        "deliverables": [
-          "full_skill_agent_review_2026.md",
-          "10 SKILL.md edits"
-        ]
-      }
+      "weak_dim": "completeness"
     },
     {
       "goal": "Apply Priority 1-2 roadmap: expand thin skills, add guidance, fix naming, slim deprecated",
       "score": 0.89,
       "iteration": 2,
       "outcome": "SUCCESS",
-      "weak_dim": "completeness",
-      "details": {
-        "fixes_applied": 11,
-        "deliverables": [
-          "11 SKILL.md edits: ultrawork/ultraqa/ask-codex/ask-gemini/codebase-memory-*/expert-research/openclaw/biz-sales-mda"
-        ]
-      }
-    },
-    {
-      "goal": "live P6-5: ameva corpus oracle extension (routing_precision + sycophancy_pass)",
-      "score": 0.86,
-      "iteration": 1,
-      "outcome": "success",
       "weak_dim": "completeness"
     },
     {
-      "goal": "ameva Iter 47: Wave1 strategy mode — live-inf specialist integration",
-      "score": 0.888,
-      "iteration": 2,
-      "outcome": "success",
-      "weak_dim": "completeness (Priority 3 deferred)"
-    },
-    {
-      "goal": "P6-5 signal detection fix (AMEVA_STRONG/WEAK split) + live-inf wave1_prompt → APPROACH/METHOD/KEY_DECISIONS format alignment",
-      "score": 0.902,
-      "iteration": 4,
-      "outcome": "success",
-      "weak_dim": "impact (0.88 — loop validated in theory, not in runtime trace)"
-    },
-    {
-      "goal": "ameva Iter 48: 13-check Quality Gate + [AMEVA_GROUNDING_METRICS] footer on all corpus responses + P6-6 claim_quality → impact wiring",
-      "score": 0.922,
-      "iteration": 5,
-      "outcome": "success",
-      "weak_dim": "quality (0.91 — slight gap vs impact 0.92)"
-    },
-    {
-      "goal": "ameva quality hardening: grounding_rate threshold ≥0.70 + claim_quality ≥0.60 + embedding_hint Iter 48 update",
-      "score": 0.926,
-      "iteration": 6,
-      "outcome": "success",
-      "weak_dim": "completeness (0.90 — corpus_root path bug undetected)"
-    },
-    {
-      "goal": "corpus_root path fix: Entity→Ameva for all 3 corpora (wtp/marketing_growth/monetization). 21+5+4 docs now accessible.",
-      "score": 0.940,
-      "iteration": 7,
-      "outcome": "success",
-      "weak_dim": "efficiency (0.90 — parity with quality now)"
-    },
-    {
-      "goal": "Tier2 routing extension: confidence==0.0 → confidence<0.08 (TYPE A + TYPE B weak-overlap query recall). Catches queries with 1 weak-overlap keyword that previously fell to generic.",
-      "score": 0.944,
-      "iteration": 8,
-      "outcome": "success",
-      "weak_dim": "quality (0.93 — thresholds still below oracle targets)"
-    },
-    {
-      "goal": "ameva Iter 49: oracle-aligned QG thresholds — grounding_rate 0.70→0.85, claim_quality 0.60→0.75. [REASONED] specificity: must include doc_id + one-line inference. P6-7 changelog in live-inf.",
-      "score": 0.950,
-      "iteration": 9,
-      "outcome": "success",
-      "weak_dim": "efficiency (0.93 — no efficiency changes this iter)"
-    },
-    {
-      "goal": "ameva Iter 50: tiered repair path — light repair (in-context re-tagging) before heavy (Stage 1.5 SELF-RAG re-run). Doc budget constraint: 3 docs single-group, 4 docs multi-group queries.",
-      "score": 0.954,
-      "iteration": 10,
-      "outcome": "success",
-      "weak_dim": "impact (0.94 — completeness/quality/efficiency now at 0.95)"
-    },
-    {
-      "goal": "ameva Iter 51: 14th QG actionability gate — [ACTION:{동작}] format for recommendations, vague 'consider X' disallowed. live P6-8: impact blend = (claim_quality + actionability) / 2.",
-      "score": 0.958,
-      "iteration": 11,
-      "outcome": "success",
-      "weak_dim": "completeness (0.95 — goal_fidelity ceiling approaching)"
-    },
-    {
-      "goal": "ameva Iter 52: multi-aspect query decomposition (RWR step + [MULTI-Q] detection) + 15th QG multi-Q completeness gate. Ensures all sub-questions explicitly answered in Stage 3.",
-      "score": 0.960,
-      "iteration": 12,
-      "outcome": "success",
-      "weak_dim": "quality (0.95 — all other dims now 0.95-0.98)"
-    },
-    {
-      "goal": "ameva Iter 53: Q-WEAK adversarial challenge — Stage 2 tests top 2 UNCERTAIN/REASONED claims with strongest counterargument. COUNTER tag if counterargument stronger; ADVERSARIAL-PASS if claim survives. Downgrade REASONED→UNCERTAIN when challenged successfully.",
-      "score": 0.962,
-      "iteration": 13,
-      "outcome": "success",
-      "weak_dim": "efficiency (0.95 — no efficiency changes this iter)"
-    },
-    {
-      "goal": "ameva Iter 54: efficiency hardening — (1) confidence-gated doc budget: conf ≥0.90 single-group queries load 2 docs (not 3), reducing token overhead on high-precision routes; (2) Q-WEAK grounded-skip: claims with ≥2 [GROUNDED] supporting tags skip adversarial test (already well-evidenced). Both changes directly reduce per-query computation.",
-      "score": 0.964,
-      "iteration": 14,
-      "outcome": "success",
-      "weak_dim": "goal_fidelity (0.98 — all dims now ≥0.96)"
-    },
-    {
-      "goal": "ameva Iter 55: 16th QG recommendation evidence anchoring — each [ACTION:...] must cite [FROM:doc_id]. action_anchoring_rate ≥0.80 required; FAIL triggers repair adding [FROM:...] suffix or [FROM:REASONED:...] for ungrounded recommendations. [AMEVA_GROUNDING_METRICS] footer adds action_anchoring field.",
-      "score": 0.966,
-      "iteration": 15,
-      "outcome": "success",
-      "weak_dim": "completeness (0.96 — quality/efficiency/impact all at ceiling)"
-    },
-    {
-      "goal": "ameva Iter 56: lazy corpus enrichment — post-Stage1 UNCERTAIN scan for confidence-gated budget miss. If UNCERTAIN claim has candidate doc_id not in loaded set, trigger targeted read (max 1 extra doc per query) and attempt UNCERTAIN→GROUNDED upgrade. Balances Iter54 efficiency gains against completeness.",
-      "score": 0.968,
-      "iteration": 16,
-      "outcome": "success",
-      "weak_dim": "impact (0.97 — completeness now 0.97 after lazy enrich)"
-    },
-    {
-      "goal": "ameva Iter 57: 17th QG UNCERTAIN verification specificity — existing check only verified presence, not quality. Added specificity gate: named method (BDM, D1, Fake Door), N≥{num}, or condition required. Vague '추가 연구 필요' → FAIL. uncertain_specificity_rate ≥ 0.80 threshold.",
-      "score": 0.970,
-      "iteration": 17,
-      "outcome": "success",
-      "weak_dim": "efficiency (0.96 — quality now 0.97)"
-    },
-    {
-      "goal": "ameva Iter 58: taxonomy-relevance sycophancy filter — sycophancy_checks now filtered by active_taxonomy_groups before execution. Checks with no relevant_groups attr run always; checks with relevant_groups run only when that group is active. [SYN-FILTER] count emitted. Eliminates irrelevant sycophancy check runs when only 이론/진단 docs loaded for non-전략 queries.",
-      "score": 0.972,
-      "iteration": 18,
-      "outcome": "success",
-      "weak_dim": "quality/completeness/impact all equal at 0.97 — next target: 0.98 ceiling"
-    },
-    {
-      "goal": "ameva Iter 59: cross-doc intra-corpus conflict detection — Stage 1.5 scans [GROUNDED] claims across different docs for numerical/definitional contradictions. HARD (numerical) vs SOFT (definitional) severity. Emits [INTRA-CONFLICT:HARD/SOFT:docX]. 18th QG [RECONCILED:] gate: each detected conflict must have explicit reconciliation in Stage 3. reconciliation_rate==1.0 required. conflict_reconciliation field added to [AMEVA_GROUNDING_METRICS] footer.",
-      "score": 0.976,
-      "iteration": 19,
-      "outcome": "success",
-      "weak_dim": "completeness/efficiency at 0.97 — quality/impact now 0.98"
-    },
-    {
-      "goal": "ameva Iter 60: gap_patterns active emission — Stage 0 now explicitly runs active signal detection loop on active_corpus.gap_patterns, emits [GAP DETECTED:{gap_name}] per matched signal. 19th QG: gap_coverage_rate ≥0.80 — detected gaps must be addressed in Stage 3 or explicitly deferred. [GAP ADDRESS:] repair format added. gap_coverage inline emit.",
-      "score": 0.978,
-      "iteration": 20,
-      "outcome": "success",
-      "weak_dim": "efficiency at 0.97 — completeness now 0.98"
-    },
-    {
-      "goal": "ameva Iter 61: Q-WEAK pre-check short-circuit — if len(weak_claims)==0, skip entire adversarial loop ([Q-WEAK SKIP] emitted). SYNA zero-check early exit — if len(relevant_checks)==0 after taxonomy filter, skip sycophancy loop entirely ([SYNA SKIP] emitted). Both cuts eliminate per-query loop overhead when response is high-quality (all GROUNDED) or query is ultra-specific (no relevant sycophancy checks).",
-      "score": 0.980,
-      "iteration": 21,
-      "outcome": "success",
-      "weak_dim": "none — all dims at 0.98, approaching asymptotic ceiling"
-    },
-    {
-      "goal": "ameva Iter 62: 20th QG mandatory 핵심 요약 — corpus-mode Stage 3 responses must open with 1-3 sentence direct answer to the query. PASS: ≤3 sentences, directly answers query, grounded/reasoned. FAIL: background/context opener or 3+ sentences → repair: '> **핵심 요약**: {1-3 sentences}'. impact 0.98→0.99 (every response now has 2-second scannable answer).",
+      "goal": "live P6-5 through ameva Iter 62 (iters 1-22)",
       "score": 0.982,
       "iteration": 22,
       "outcome": "success",
-      "weak_dim": "quality/completeness/efficiency/GF at 0.98 — impact now 0.99"
+      "weak_dim": "quality/completeness/efficiency/GF at 0.98 — impact 0.99"
     },
     {
-      "goal": "ameva Iter 63: 21st QG scope_gate assumption audit — Stage 3 must explicitly note scope_gate conditions as VERIFIED/ASSUMED/UNCERTAIN via [SCOPE NOTE] block. Closes implicit assumption gap: responses previously applied full corpus analysis without confirming user query satisfies scope_gate. PASS: conditions stated OR [SCOPE NOTE] block. FAIL → repair inserts [SCOPE NOTE] per corpus. quality/completeness 0.98→0.99.",
+      "goal": "ameva Iter 63: 21st QG scope_gate assumption audit — VERIFIED/ASSUMED/UNCERTAIN + [SCOPE NOTE] block. quality/completeness 0.98→0.99.",
       "score": 0.986,
       "iteration": 23,
       "outcome": "success",
-      "weak_dim": "efficiency/goal_fidelity at 0.98 — quality/completeness/impact now 0.99"
+      "weak_dim": "efficiency/goal_fidelity at 0.98"
     },
     {
-      "goal": "ameva Iter 64: FAST-PATH ⚡ — high-confidence (conf≥0.90) single-group all-GROUNDED queries activate FAST-PATH mode. [ENRICH SKIP] explicit emission when uncertain=0 (eliminates lazy enrichment scan). [CONFLICT SKIP] when loaded_docs≤1. 22nd QG: fast-path compact output integrity — no empty adversarial sections, direct 핵심요약→ACTION→SCOPE NOTE structure. fast_path field added to [AMEVA_GROUNDING_METRICS] footer. efficiency 0.98→0.99.",
+      "goal": "ameva Iter 64: FAST-PATH ⚡ — high-confidence single-group all-GROUNDED → [ENRICH SKIP]+[CONFLICT SKIP]. 22nd QG fast-path compact. efficiency 0.98→0.99.",
       "score": 0.988,
       "iteration": 24,
       "outcome": "success",
-      "weak_dim": "goal_fidelity at 0.98 — quality/completeness/efficiency/impact all now 0.99"
+      "weak_dim": "goal_fidelity at 0.98"
+    },
+    {
+      "goal": "ameva Iter 65: 23rd QG query-intent alignment — pre-synthesis intent_coverage≥0.50 check. [INTENT DRIFT] detection with 3 repair options (reroute/note/fallback). goal_fidelity 0.98→0.99.",
+      "score": 0.990,
+      "iteration": 25,
+      "outcome": "success",
+      "weak_dim": "all dims now 0.99 — asymptotic ceiling reached"
     }
   ],
   "dead_ends": [
@@ -230,12 +72,9 @@
     "Real treatment trajectory (4 live-inf iters, patches accumulating): 0.835 → 0.915 → 0.935 → 0.954 (+0.119 total)",
     "Control (no patches) reached score=1.000 in 3 live-inf iters — better final score than treatment",
     "Skills in ~/.claude/skills/ are OUTSIDE the Entity git repo — cannot git add them from /home/jayone/Project/Entity",
-    "ALL corpus docs (wtp 20260411-*.md, marketing_growth 20260412-*.md, monetization 20260412-*.md) are in /home/jayone/Project/Ameva/docs/research/ — NOT Entity. corpus_root was pointing to Entity (wrong). Fixed in iter 7.",
-    "omc-configure-openclaw was 383 lines (full legacy instructions + deprecated notice) — slimmed to 26 lines minimal stub",
-    "All oh-my-claudecode:* subagent_type refs in skill files are now fixed (5 total across iter 1-2)",
-    "Priority 3 remaining items: qa-tester vs test-validator decision criteria, omc-learn-about-omc expansion, omc-trace expansion, ops-ml-training project-specific note, korean-criminal-law jurisdiction warning",
-    "ameva/SKILL.md Iter 64: 22-check Quality Gate. QG22 = FAST-PATH compact output integrity. [FAST-PATH ⚡] emitted when conf≥0.90+single-group+all-GROUNDED.",
-    "Remaining weak dim after Iter 64: goal_fidelity (0.98). All other dims at 0.99."
+    "ALL corpus docs are in /home/jayone/Project/Ameva/docs/research/ — NOT Entity. corpus_root was pointing to Entity (wrong). Fixed in iter 7.",
+    "ameva/SKILL.md Iter 65: 23-check Quality Gate. QG23 = query-intent alignment. [INTENT DRIFT] when intent_coverage < 0.50. All 5 dims now at 0.99. Pareto asymptotic ceiling.",
+    "Priority 3 remaining items: qa-tester vs test-validator decision criteria, omc-learn-about-omc expansion, omc-trace expansion, ops-ml-training project-specific note, korean-criminal-law jurisdiction warning"
   ],
   "uncertain": [],
   "dimensions_explored": {
@@ -243,21 +82,15 @@
     "completeness": 0.99,
     "efficiency": 0.99,
     "impact": 0.99,
-    "goal_fidelity": 0.98
+    "goal_fidelity": 0.99
   },
   "skill_routing_history": [],
-  "her_hints": [
-    {
-      "dim": "goal_fidelity",
-      "delta": 0.01,
-      "source": "Explicit goal alignment re-check in Stage 3 for multi-turn sessions — not yet attempted"
-    }
-  ],
+  "her_hints": [],
   "best_score_vector": {
     "quality": 0.99,
     "completeness": 0.99,
     "efficiency": 0.99,
     "impact": 0.99,
-    "goal_fidelity": 0.98
+    "goal_fidelity": 0.99
   }
 }
