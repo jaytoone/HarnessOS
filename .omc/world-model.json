@@ -164,6 +164,13 @@
       "iteration": 17,
       "outcome": "success",
       "weak_dim": "efficiency (0.96 — quality now 0.97)"
+    },
+    {
+      "goal": "ameva Iter 58: taxonomy-relevance sycophancy filter — sycophancy_checks now filtered by active_taxonomy_groups before execution. Checks with no relevant_groups attr run always; checks with relevant_groups run only when that group is active. [SYN-FILTER] count emitted. Eliminates irrelevant sycophancy check runs when only 이론/진단 docs loaded for non-전략 queries.",
+      "score": 0.972,
+      "iteration": 18,
+      "outcome": "success",
+      "weak_dim": "quality/completeness/impact all equal at 0.97 — next target: 0.98 ceiling"
     }
   ],
   "dead_ends": [
@@ -210,7 +217,7 @@
   "best_score_vector": {
     "quality": 0.97,
     "completeness": 0.97,
-    "efficiency": 0.96,
+    "efficiency": 0.97,
     "impact": 0.97,
     "goal_fidelity": 0.98
   }
