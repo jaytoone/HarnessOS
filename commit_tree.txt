@@ -1,34 +1,13 @@
-omc-live iter 1/5: success | goal_v0: ReActDelegationEscaper + deterministic 3-way experiment — ameva monetization corpus + Expert Verdict Gate + evolve pipeline: mateclaw delegation experiment
+ameva: Corpus Bootstrap Gate (Step 6) — no-match 시 blocking bootstrap + convergence 검증
 
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-
-live iter 5/5: CONVERGED_SUCCESS score=0.944 | ameva 제3자 쿼리 검증 1/10→8/10: threshold 0.08 + 구독제/요금제/돈을낼 trigger + 2-tier Semantic Fallback 설계 (P23/P24)
-
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-
-live-inf iter 29/∞: score=0.994 | Iter 69 [SYNTHESIS CAVEAT] auto-emit (uncertain_ratio>0.40) + 27th QG synthesis_caveat check. quality+completeness 0.993→0.995/0.992
-
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-
-chore: decision_corpus.json head pointer sync (970f820)
-
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-
-chore: decision_corpus.json head pointer sync (2203a15)
-
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-chore: decision_corpus.json cross-session validation sync
-
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-chore: decision_corpus.json sync + live P6-12 audit (skills/ external)
-
-live/SKILL.md P6-12: ORCHESTRATOR_MAP knowledge→ameva + audit checklist 10-item
-live-inf/SKILL.md: ORCHESTRATOR_MAP knowledge→ameva sync
-
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-chore: decision_corpus.json cross-session validation sync
-
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-chore: decision_corpus.json cross-session validation sync
+- Auto-Corpus Builder에 Step 6 Bootstrap Convergence Gate 추가
+  - routing_precision >= 0.80 (5개 샘플 쿼리 기반)
+  - doc_count >= 5 (T1+T4+D1+S1)
+  - T/D HIGH-tier ratio >= 40%
+  - trigger plateau (이전 기록 없으면 SKIP)
+- Corpus Router no-match 경로: Step 1~5 → Step 1~6 (Gate 결과로 corpus_mode 결정)
+- 하드코딩 confidence=0.60 → routing_precision 실측값으로 교체
+- 라인 62 설명 수정: '카운트 +1' → 실제 blocking bootstrap 동작 반영
+- condition frontmatter 동기화
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
