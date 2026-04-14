@@ -150,6 +150,13 @@
       "iteration": 15,
       "outcome": "success",
       "weak_dim": "completeness (0.96 — quality/efficiency/impact all at ceiling)"
+    },
+    {
+      "goal": "ameva Iter 56: lazy corpus enrichment — post-Stage1 UNCERTAIN scan for confidence-gated budget miss. If UNCERTAIN claim has candidate doc_id not in loaded set, trigger targeted read (max 1 extra doc per query) and attempt UNCERTAIN→GROUNDED upgrade. Balances Iter54 efficiency gains against completeness.",
+      "score": 0.968,
+      "iteration": 16,
+      "outcome": "success",
+      "weak_dim": "impact (0.97 — completeness now 0.97 after lazy enrich)"
     }
   ],
   "dead_ends": [
@@ -195,7 +202,7 @@
   ],
   "best_score_vector": {
     "quality": 0.96,
-    "completeness": 0.96,
+    "completeness": 0.97,
     "efficiency": 0.96,
     "impact": 0.97,
     "goal_fidelity": 0.98
