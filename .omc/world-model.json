@@ -157,6 +157,13 @@
       "iteration": 16,
       "outcome": "success",
       "weak_dim": "impact (0.97 — completeness now 0.97 after lazy enrich)"
+    },
+    {
+      "goal": "ameva Iter 57: 17th QG UNCERTAIN verification specificity — existing check only verified presence, not quality. Added specificity gate: named method (BDM, D1, Fake Door), N≥{num}, or condition required. Vague '추가 연구 필요' → FAIL. uncertain_specificity_rate ≥ 0.80 threshold.",
+      "score": 0.970,
+      "iteration": 17,
+      "outcome": "success",
+      "weak_dim": "efficiency (0.96 — quality now 0.97)"
     }
   ],
   "dead_ends": [
@@ -201,7 +208,7 @@
     }
   ],
   "best_score_vector": {
-    "quality": 0.96,
+    "quality": 0.97,
     "completeness": 0.97,
     "efficiency": 0.96,
     "impact": 0.97,

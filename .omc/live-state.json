@@ -1,6 +1,6 @@
 {
-  "current_iteration": 16,
-  "best_score": 0.968,
+  "current_iteration": 17,
+  "best_score": 0.970,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -19,7 +19,8 @@
     {"iteration": 13, "score": 0.962, "goal": "ameva Iter 53: Q-WEAK adversarial challenge — top 2 UNCERTAIN/REASONED claims get strongest counterargument test in Stage 2"},
     {"iteration": 14, "score": 0.964, "goal": "ameva Iter 54: efficiency hardening — confidence-gated doc budget (conf ≥0.90 → 2 docs for single-group) + Q-WEAK grounded-skip (≥2 [GROUNDED] supports → skip adversarial)"},
     {"iteration": 15, "score": 0.966, "goal": "ameva Iter 55: 16th QG recommendation evidence anchoring — [ACTION:][FROM:doc_id], action_anchoring_rate ≥0.80 + [AMEVA_GROUNDING_METRICS] action_anchoring field"},
-    {"iteration": 16, "score": 0.968, "goal": "ameva Iter 56: lazy corpus enrichment — post-Stage1 UNCERTAIN scan, confidence-gated budget miss 보완 (max 1 extra doc per query)"}
+    {"iteration": 16, "score": 0.968, "goal": "ameva Iter 56: lazy corpus enrichment — post-Stage1 UNCERTAIN scan, confidence-gated budget miss 보완 (max 1 extra doc per query)"},
+    {"iteration": 17, "score": 0.970, "goal": "ameva Iter 57: 17th QG UNCERTAIN verification specificity — 모호 '추가 연구 필요' 금지, named method/N/condition 의무화, uncertain_specificity_rate ≥0.80"}
   ],
-  "evolution_count": 15
+  "evolution_count": 16
 }

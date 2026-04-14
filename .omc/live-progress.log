@@ -10,3 +10,4 @@ iter=13 | score=0.962 | goal=ameva Iter 53: Q-WEAK adversarial challenge (Stage 
 iter=14 | score=0.964 | goal=ameva Iter 54: efficiency hardening (confidence-gated doc budget + Q-WEAK grounded-skip) | dims=Q:0.96 C:0.96 E:0.96 I:0.96 GF:0.98 | plateau_count=0
 iter=15 | score=0.966 | goal=ameva Iter 55: 16th QG recommendation evidence anchoring [ACTION:][FROM:doc_id] action_anchoring_rate≥0.80 | dims=Q:0.96 C:0.96 E:0.96 I:0.97 GF:0.98 | plateau_count=0
 iter=16 | score=0.968 | goal=ameva Iter 56: lazy corpus enrichment (post-Stage1 UNCERTAIN scan, max 1 extra doc) | dims=Q:0.96 C:0.97 E:0.96 I:0.97 GF:0.98 | plateau_count=0
+iter=17 | score=0.970 | goal=ameva Iter 57: 17th QG UNCERTAIN verification specificity (named method/N/condition, uncertain_specificity_rate≥0.80) | dims=Q:0.97 C:0.97 E:0.96 I:0.97 GF:0.98 | plateau_count=0
