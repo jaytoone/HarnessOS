@@ -69,6 +69,13 @@
       "iteration": 27,
       "outcome": "success",
       "weak_dim": "sub-epsilon across all dims — deep asymptotic regime"
+    },
+    {
+      "goal": "ameva Iter 68: [ACTION-UNCERTAIN] retagging — UNCERTAIN-only backed actions flagged. 26th QG uncertain dominance gate. uncertain_ratio as 9th [AMEVA_GROUNDING_METRICS] field. quality+impact 0.993→0.994.",
+      "score": 0.993,
+      "iteration": 28,
+      "outcome": "success",
+      "weak_dim": "sub-epsilon only — Pareto micro-gains at 3rd decimal"
     }
   ],
   "dead_ends": [
@@ -87,7 +94,7 @@
     "Control (no patches) reached score=1.000 in 3 live-inf iters — better final score than treatment",
     "Skills in ~/.claude/skills/ are OUTSIDE the Entity git repo — cannot git add them from /home/jayone/Project/Entity",
     "ALL corpus docs are in /home/jayone/Project/Ameva/docs/research/ — NOT Entity. corpus_root was pointing to Entity (wrong). Fixed in iter 7.",
-    "ameva/SKILL.md Iter 67: 25-check Quality Gate. QG24 = routing transparency [ROUTING REPORT]. QG25 = doc-tier synthesis priority (T/D=HIGH⬆, S/V=MED◆, P=LOW⬇). All dims at 0.99+. Deep asymptotic regime.",
+    "ameva/SKILL.md Iter 68: 26-check Quality Gate. QG26 = ACTION-UNCERTAIN dominance gate ([ACTION-UNCERTAIN:] retagging when all backing claims are [UNCERTAIN]). uncertain_ratio = 9th [AMEVA_GROUNDING_METRICS] field. Deep asymptotic regime.",
     "Priority 3 remaining items: qa-tester vs test-validator decision criteria, omc-learn-about-omc expansion, omc-trace expansion, ops-ml-training project-specific note, korean-criminal-law jurisdiction warning"
   ],
   "uncertain": [],
@@ -101,10 +108,10 @@
   "skill_routing_history": [],
   "her_hints": [],
   "best_score_vector": {
-    "quality": 0.993,
+    "quality": 0.994,
     "completeness": 0.99,
     "efficiency": 0.99,
-    "impact": 0.993,
+    "impact": 0.994,
     "goal_fidelity": 0.99
   }
 }
