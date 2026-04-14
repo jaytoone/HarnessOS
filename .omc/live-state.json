@@ -1,6 +1,6 @@
 {
-  "current_iteration": 3,
-  "best_score": 0.888,
+  "current_iteration": 4,
+  "best_score": 0.902,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -20,8 +20,14 @@
       "iteration": 3,
       "score": 0.888,
       "goal_version": 2,
-      "goal": "Priority 3: omc-learn + omc-trace"
+      "goal": "Priority 3: omc-learn + omc-trace expansion"
+    },
+    {
+      "iteration": 4,
+      "score": 0.902,
+      "goal_version": 3,
+      "goal": "P6-5 signal detection fix (strong/weak split) + live-inf wave1_prompt format alignment"
     }
   ],
-  "evolution_count": 2
+  "evolution_count": 3
 }

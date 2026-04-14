@@ -66,6 +66,13 @@
       "iteration": 2,
       "outcome": "success",
       "weak_dim": "completeness (Priority 3 deferred)"
+    },
+    {
+      "goal": "P6-5 signal detection fix (AMEVA_STRONG/WEAK split) + live-inf wave1_prompt → APPROACH/METHOD/KEY_DECISIONS format alignment",
+      "score": 0.902,
+      "iteration": 4,
+      "outcome": "success",
+      "weak_dim": "impact (0.88 — loop validated in theory, not in runtime trace)"
     }
   ],
   "dead_ends": [
@@ -109,10 +116,10 @@
     }
   ],
   "best_score_vector": {
-    "quality": 0.88,
-    "completeness": 0.87,
-    "efficiency": 0.85,
-    "impact": 0.9,
+    "quality": 0.90,
+    "completeness": 0.88,
+    "efficiency": 0.90,
+    "impact": 0.90,
     "goal_fidelity": 0.98
   }
 }
