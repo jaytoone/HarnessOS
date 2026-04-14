@@ -9,3 +9,7 @@ Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 live-inf iter 29/∞: score=0.994 | Iter 69 [SYNTHESIS CAVEAT] auto-emit (uncertain_ratio>0.40) + 27th QG synthesis_caveat check. quality+completeness 0.993→0.995/0.992
 
 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+chore: decision_corpus.json head pointer sync (970f820)
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
