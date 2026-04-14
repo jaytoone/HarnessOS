@@ -139,6 +139,6 @@ LTV:CAC 계산:
 - ChartMogul — LTV:CAC Measurement Guide
 
 ## Related
-- [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
-- [[projects/Entity/research/20260412-monetization-playbook|20260412-monetization-playbook]]
-- [[projects/Entity/research/20260411-wtp-interview-protocol|20260411-wtp-interview-protocol]]
+- [[projects/Ameva/research/20260412-monetization-theory|20260412-monetization-theory]]
+- [[projects/Ameva/research/20260412-monetization-falsification|20260412-monetization-falsification]]
+- [[projects/Ameva/research/20260412-monetization-playbook|20260412-monetization-playbook]]

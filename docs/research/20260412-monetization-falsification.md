@@ -135,6 +135,11 @@
 - Pricing I/O — Value Metric + Freemium analysis
 
 ## Related
-- [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
-- [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
-- [[projects/Entity/research/20260411-wtp-falsification-criteria|20260411-wtp-falsification-criteria]]
+- [[projects/Ameva/research/20260412-monetization-theory|20260412-monetization-theory]]
+- [[projects/Ameva/research/20260411-wtp-falsification-criteria|20260411-wtp-falsification-criteria]]
+- [[projects/Ameva/research/20260412-marketing-growth-falsification|20260412-marketing-growth-falsification]]
+- [[projects/Ameva/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Ameva/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
+- [[projects/Ameva/research/20260412-marketing-growth-loop-playbook|20260412-marketing-growth-loop-playbook]]
+- [[projects/Ameva/research/20260325-omc-autopilot-loop-vs-agent-research-trends|20260325-omc-autopilot-loop-vs-agent-research-trends]]
+- [[projects/Ameva/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]

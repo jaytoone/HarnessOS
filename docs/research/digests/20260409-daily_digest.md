@@ -157,3 +157,13 @@ Terrible name, really great app: this is Google's official app for running their
 28. [Claude Code로 코드 한 줄 없이 마케팅팀을 만드는 법](https://yozm.wishket.com/magazine/detail/3696) — 요즘IT (rel=3.0)
 29. [Ruff·uv 만든 Astral이 공개한 오픈소스 보안 전략 전모](https://news.hada.io/topic?id=28340) — GeekNews (rel=1.0)
 30. ["하네스 엔지니어링" - Everything Claude Code 리뷰 : 혼자서 팀처럼 개발하는 에이전트 셋업(ECC 하네스 셋업으로 생산성 2배 끌어올리기)](https://goddaehee.tistory.com/575) — Chrome Reading List (rel=3.0)
+
+## Related
+- [[projects/Ameva/research/20260412-skill-as-tool-vertical-ai|20260412-skill-as-tool-vertical-ai]]
+- [[projects/Ameva/research/20260330-harness-engineering|20260330-harness-engineering]]
+- [[projects/Ameva/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Ameva/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Ameva/research/designs/oh_my_codex_vs_harnessos_positioning|oh_my_codex_vs_harnessos_positioning]]
+- [[projects/Ameva/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Ameva/research/20260330-hypothesis-vs-engineering-thinking|20260330-hypothesis-vs-engineering-thinking]]
+- [[projects/Ameva/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]

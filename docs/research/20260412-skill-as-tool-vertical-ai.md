@@ -198,3 +198,13 @@ status: reviewed → stable
 - LLM 직접 선택 라우터 vs 임베딩 라우팅의 crossover point 실험
 - C(조건) 충돌 해결 메커니즘 설계 (priority 필드 vs LLM 중재)
 - Cognitive Skills Module 구체 구현 방식 (arXiv:2501.00881 세부 확인)
+
+## Related
+- [[projects/Ameva/research/designs/oss_agent_tools_2026_integration|oss_agent_tools_2026_integration]]
+- [[projects/Ameva/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
+- [[projects/Ameva/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Ameva/research/20260412-live-skill-length-analysis|20260412-live-skill-length-analysis]]
+- [[projects/Ameva/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Ameva/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Ameva/research/20260411-wtp-career-mirror-pricing|20260411-wtp-career-mirror-pricing]]
+- [[projects/Ameva/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]

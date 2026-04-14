@@ -168,3 +168,13 @@ Terrible name, really great app: this is Google's official app for running their
 28. [Agents should interview you](https://www.bensbites.com/p/agents-should-interview-you) — Ben's Bites (rel=2.5)
 29. [research-llm-apis 2026-04-04](https://simonwillison.net/2026/Apr/5/research-llm-apis/#atom-everything) — Simon Willison's Weblog (rel=6.5)
 30. [Claude Code를 만든 Boris Cherny가 직접 추천한 기능 15가지](https://yozm.wishket.com/magazine/detail/3690) — 요즘IT (rel=3.0)
+
+## Related
+- [[projects/Ameva/research/20260412-skill-as-tool-vertical-ai|20260412-skill-as-tool-vertical-ai]]
+- [[projects/Ameva/research/20260411-wtp-interview-protocol|20260411-wtp-interview-protocol]]
+- [[projects/Ameva/research/20260330-harness-engineering|20260330-harness-engineering]]
+- [[projects/Ameva/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Ameva/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Ameva/research/designs/oh_my_codex_vs_harnessos_positioning|oh_my_codex_vs_harnessos_positioning]]
+- [[projects/Ameva/marketing/outreach_ready/openai_codex_context_issues|openai_codex_context_issues]]
+- [[projects/Ameva/marketing/outreach_ready/oh_my_codex_context_issue|oh_my_codex_context_issue]]

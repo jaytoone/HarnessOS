@@ -153,7 +153,11 @@ Free tier 설계 원칙:
 - Reforge — Pricing Motion Design Templates
 
 ## Related
-- [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
-- [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
-- [[projects/Entity/research/20260412-marketing-growth-loop-playbook|20260412-marketing-growth-loop-playbook]]
-- [[projects/Entity/research/20260411-wtp-decision-playbook|20260411-wtp-decision-playbook]]
+- [[projects/Ameva/research/20260412-monetization-theory|20260412-monetization-theory]]
+- [[projects/Ameva/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
+- [[projects/Ameva/research/20260412-monetization-falsification|20260412-monetization-falsification]]
+- [[projects/Ameva/research/20260412-marketing-growth-loop-playbook|20260412-marketing-growth-loop-playbook]]
+- [[projects/Ameva/research/20260412-marketing-growth-diagnostic|20260412-marketing-growth-diagnostic]]
+- [[projects/Ameva/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Ameva/research/20260412-marketing-growth-falsification|20260412-marketing-growth-falsification]]
+- [[projects/Ameva/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]

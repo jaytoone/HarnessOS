@@ -64,3 +64,10 @@ Abstract: RL training of multi-turn LLM agents is inherently unstable, and reaso
 8. [The Master Key Hypothesis: Unlocking Cross-Model Capability Transfer via Linear Subspace Alignment](https://arxiv.org/abs/2604.06377) — arXiv cs.LG (rel=10.0)
 9. [Components of A Coding Agent](https://magazine.sebastianraschka.com/p/components-of-a-coding-agent) — Ahead of AI (rel=5.5)
 10. [Process Manager for Autonomous AI Agents](https://botctl.dev/) — Hacker News (rel=4.0)
+
+## Related
+- [[projects/Ameva/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Ameva/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Ameva/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/Ameva/research/designs/autonomous_evolution_safety_design|autonomous_evolution_safety_design]]
+- [[projects/Ameva/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]

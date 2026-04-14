@@ -46,3 +46,7 @@ LLM 스킬 파일에서 ASCII flowchart / 비교 테이블 같은 구조적 콘�
 - [Disadvantage of Long Prompt](https://blog.promptlayer.com/disadvantage-of-long-prompt-for-llm/)
 - [Guide to Chain-of-Thought](https://learnprompting.org/blog/guide-to-chain-of-thought-part-one)
 - [Prompt Hygiene for Engineers](https://medium.com/@2nick2patel2/prompt-hygiene-for-engineers-edc4cabdbc28)
+
+## Related
+- [[projects/Ameva/research/20260412-live-skill-length-analysis|20260412-live-skill-length-analysis]]
+- [[projects/Ameva/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]

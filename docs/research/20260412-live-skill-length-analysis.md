@@ -68,3 +68,13 @@ Comparison baseline (other complex skills): ttps-pipeline 1523, omc-configure-no
 **불확실성**:
 - live-inf가 실제로 standalone 호출되는지 (중복 필요성 결정)
 - 관찰된 런타임 실패가 길이에 기인한 사례 있는지 (preemptive vs. reactive 최적화)
+
+## Related
+- [[projects/Ameva/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Ameva/research/20260414-ameva-loop-skill-spec|20260414-ameva-loop-skill-spec]]
+- [[projects/Ameva/research/20260325-omc-live-patch-critique|20260325-omc-live-patch-critique]]
+- [[projects/Ameva/research/20260328-omc-live-infinite-loop-architecture-research|20260328-omc-live-infinite-loop-architecture-research]]
+- [[projects/Ameva/research/20260412-skill-structural-content-position-analysis|20260412-skill-structural-content-position-analysis]]
+- [[projects/Ameva/research/20260327-omc-live-git-checkpoint-self-evolving-research|20260327-omc-live-git-checkpoint-self-evolving-research]]
+- [[projects/Ameva/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
+- [[projects/Ameva/research/20260326-omc-live-self-evolving-outer-loop|20260326-omc-live-self-evolving-outer-loop]]

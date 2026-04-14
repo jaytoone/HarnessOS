@@ -42,3 +42,8 @@ Entity: "스스로 진화하는 에이전트 오케스트레이션 + 지식 생�
 1. `docs/marketing/entity_positioning_messages.md` 업데이트 — OpenHarness 비교 섹션 추가
 2. GeekNews 포스트에 "OpenHarness와 다른 점" 단락 삽입
 3. 장기: OpenHarness를 Entity의 execution backend 옵션으로 통합 검토
+
+## Related
+- [[projects/Ameva/marketing/geeknews_post|geeknews_post]]
+- [[projects/Ameva/research/designs/oh_my_codex_vs_harnessos_positioning|oh_my_codex_vs_harnessos_positioning]]
+- [[projects/Ameva/marketing/entity_positioning_messages|entity_positioning_messages]]

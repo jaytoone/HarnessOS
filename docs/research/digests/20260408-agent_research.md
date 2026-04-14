@@ -53,3 +53,6 @@ Abstract: Clinical diagnosis requires sequential evidence acquisition under unce
 6. [[Paper] Stringological sequence prediction I](https://www.alignmentforum.org/posts/EEvHYKLsq92LmQ78a/paper-stringological-sequence-prediction-i-1) — Alignment Forum (rel=6.5)
 7. [Uncertainty-Guided Latent Diagnostic Trajectory Learning for Sequential Clinical Diagnosis](https://arxiv.org/abs/2604.05116) — arXiv cs.AI (rel=10.0)
 8. [Google open-sources experimental agent orchestration testbed Scion](https://www.infoq.com/news/2026/04/google-agent-testbed-scion/) — Hacker News (rel=5.0)
+
+## Related
+- [[projects/Ameva/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]

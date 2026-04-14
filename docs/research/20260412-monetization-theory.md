@@ -110,8 +110,5 @@ Payback_Period = CAC / (ARPU × Gross_Margin)
 - Paddle — SaaS Monetization Trends 2026 State of the Industry
 
 ## Related
-- [[projects/Entity/research/20260412-monetization-falsification|20260412-monetization-falsification]]
-- [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
-- [[projects/Entity/research/20260412-monetization-playbook|20260412-monetization-playbook]]
-- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]
-- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Ameva/research/20260325-omc-autopilot-loop-vs-agent-research-trends|20260325-omc-autopilot-loop-vs-agent-research-trends]]
+- [[projects/Ameva/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]

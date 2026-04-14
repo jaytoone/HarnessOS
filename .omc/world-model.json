@@ -34,7 +34,10 @@
         "fixes_applied": 10,
         "skills_reviewed": 75,
         "agent_types_reviewed": 65,
-        "deliverables": ["full_skill_agent_review_2026.md", "10 SKILL.md edits"]
+        "deliverables": [
+          "full_skill_agent_review_2026.md",
+          "10 SKILL.md edits"
+        ]
       }
     },
     {
@@ -45,8 +48,24 @@
       "weak_dim": "completeness",
       "details": {
         "fixes_applied": 11,
-        "deliverables": ["11 SKILL.md edits: ultrawork/ultraqa/ask-codex/ask-gemini/codebase-memory-*/expert-research/openclaw/biz-sales-mda"]
+        "deliverables": [
+          "11 SKILL.md edits: ultrawork/ultraqa/ask-codex/ask-gemini/codebase-memory-*/expert-research/openclaw/biz-sales-mda"
+        ]
       }
+    },
+    {
+      "goal": "live P6-5: ameva corpus oracle extension (routing_precision + sycophancy_pass)",
+      "score": 0.86,
+      "iteration": 1,
+      "outcome": "success",
+      "weak_dim": "completeness"
+    },
+    {
+      "goal": "ameva Iter 47: Wave1 strategy mode — live-inf specialist integration",
+      "score": 0.888,
+      "iteration": 2,
+      "outcome": "success",
+      "weak_dim": "completeness (Priority 3 deferred)"
     }
   ],
   "dead_ends": [
@@ -78,15 +97,22 @@
   },
   "skill_routing_history": [],
   "her_hints": [
-    {"dim": "completeness", "delta": 0.15, "source": "expanded 4 codebase-memory-* skills from 16-33 lines to 40-55 lines"},
-    {"dim": "impact", "delta": 0.05, "source": "slimmed omc-configure-openclaw saves context tokens every session"},
-    {"dim": "quality", "delta": 0.06, "source": "all stale agent refs now consistent — skills no longer silently fail"}
+    {
+      "dim": "completeness",
+      "delta": 0.1,
+      "source": "Priority 3 items still pending: omc-learn expansion, omc-trace fallback"
+    },
+    {
+      "dim": "impact",
+      "delta": 0.05,
+      "source": "Wave1 metrics footer closes ameva→live-inf scoring loop"
+    }
   ],
   "best_score_vector": {
     "quality": 0.88,
     "completeness": 0.87,
     "efficiency": 0.85,
-    "impact": 0.87,
+    "impact": 0.9,
     "goal_fidelity": 0.98
   }
 }

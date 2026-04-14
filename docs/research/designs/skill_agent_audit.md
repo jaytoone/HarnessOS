@@ -83,3 +83,11 @@
 - `entity` / `live` / `live-inf` / `conceptual` — 워크플로우 오케스트레이션 ✓
 - `evolve` — inhale→exhale→live 파이프라인 ✓
 - `ttps` — /entity, /live 통합 하네스 ✓
+
+## Related
+- [[projects/Ameva/marketing/entity_rebrand_strategy|entity_rebrand_strategy]]
+- [[projects/Ameva/research/20260412-live-skill-length-analysis|20260412-live-skill-length-analysis]]
+- [[projects/Ameva/research/20260403-optimal-top-n-knowledge-pipeline|20260403-optimal-top-n-knowledge-pipeline]]
+- [[projects/Ameva/research/20260326-omc-live-skill-critique|20260326-omc-live-skill-critique]]
+- [[projects/Ameva/research/20260411-wtp-bbaijjim-audit-framework|20260411-wtp-bbaijjim-audit-framework]]
+- [[projects/Ameva/research/20260328-omc-live-science-research-domain-expansion|20260328-omc-live-science-research-domain-expansion]]
