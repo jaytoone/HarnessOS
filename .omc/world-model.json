@@ -80,6 +80,20 @@
       "iteration": 5,
       "outcome": "success",
       "weak_dim": "quality (0.91 — slight gap vs impact 0.92)"
+    },
+    {
+      "goal": "ameva quality hardening: grounding_rate threshold ≥0.70 + claim_quality ≥0.60 + embedding_hint Iter 48 update",
+      "score": 0.926,
+      "iteration": 6,
+      "outcome": "success",
+      "weak_dim": "completeness (0.90 — corpus_root path bug undetected)"
+    },
+    {
+      "goal": "corpus_root path fix: Entity→Ameva for all 3 corpora (wtp/marketing_growth/monetization). 21+5+4 docs now accessible.",
+      "score": 0.940,
+      "iteration": 7,
+      "outcome": "success",
+      "weak_dim": "efficiency (0.90 — parity with quality now)"
     }
   ],
   "dead_ends": [
@@ -97,6 +111,7 @@
     "Real treatment trajectory (4 live-inf iters, patches accumulating): 0.835 → 0.915 → 0.935 → 0.954 (+0.119 total)",
     "Control (no patches) reached score=1.000 in 3 live-inf iters — better final score than treatment",
     "Skills in ~/.claude/skills/ are OUTSIDE the Entity git repo — cannot git add them from /home/jayone/Project/Entity",
+    "ALL corpus docs (wtp 20260411-*.md, marketing_growth 20260412-*.md, monetization 20260412-*.md) are in /home/jayone/Project/Ameva/docs/research/ — NOT Entity. corpus_root was pointing to Entity (wrong). Fixed in iter 7.",
     "omc-configure-openclaw was 383 lines (full legacy instructions + deprecated notice) — slimmed to 26 lines minimal stub",
     "All oh-my-claudecode:* subagent_type refs in skill files are now fixed (5 total across iter 1-2)",
     "Priority 3 remaining items: qa-tester vs test-validator decision criteria, omc-learn-about-omc expansion, omc-trace expansion, ops-ml-training project-specific note, korean-criminal-law jurisdiction warning"
@@ -123,10 +138,10 @@
     }
   ],
   "best_score_vector": {
-    "quality": 0.91,
-    "completeness": 0.90,
+    "quality": 0.93,
+    "completeness": 0.95,
     "efficiency": 0.90,
-    "impact": 0.92,
+    "impact": 0.93,
     "goal_fidelity": 0.98
   }
 }

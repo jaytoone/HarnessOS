@@ -1,39 +1,16 @@
 {
-  "current_iteration": 5,
-  "best_score": 0.922,
+  "current_iteration": 7,
+  "best_score": 0.940,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
-    {
-      "iteration": 1,
-      "score": 0.86,
-      "goal_version": 0,
-      "goal": "live P6-5: ameva corpus oracle extension"
-    },
-    {
-      "iteration": 2,
-      "score": 0.888,
-      "goal_version": 1,
-      "goal": "ameva Iter 47: Wave1 strategy mode"
-    },
-    {
-      "iteration": 3,
-      "score": 0.888,
-      "goal_version": 2,
-      "goal": "Priority 3: omc-learn + omc-trace expansion"
-    },
-    {
-      "iteration": 4,
-      "score": 0.902,
-      "goal_version": 3,
-      "goal": "P6-5 signal detection fix (strong/weak split) + live-inf wave1_prompt format alignment"
-    },
-    {
-      "iteration": 5,
-      "score": 0.922,
-      "goal_version": 4,
-      "goal": "ameva Iter 48: 13-check Quality Gate + all-corpus [AMEVA_GROUNDING_METRICS] footer + P6-6 impact wiring"
-    }
+    {"iteration": 1, "score": 0.86,  "goal": "live P6-5: ameva corpus oracle extension"},
+    {"iteration": 2, "score": 0.888, "goal": "ameva Iter 47: Wave1 strategy mode"},
+    {"iteration": 3, "score": 0.888, "goal": "Priority 3: omc-learn + omc-trace expansion"},
+    {"iteration": 4, "score": 0.902, "goal": "P6-5 signal detection fix + wave1_prompt alignment"},
+    {"iteration": 5, "score": 0.922, "goal": "ameva Iter 48: 13-check QG + all-corpus metrics footer + P6-6"},
+    {"iteration": 6, "score": 0.926, "goal": "ameva quality hardening: grounding_rate threshold + embedding_hint"},
+    {"iteration": 7, "score": 0.940, "goal": "corpus_root path fix Entity→Ameva (all 3 corpora — 30 docs now accessible)"}
   ],
-  "evolution_count": 4
+  "evolution_count": 6
 }
