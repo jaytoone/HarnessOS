@@ -115,6 +115,13 @@
       "iteration": 10,
       "outcome": "success",
       "weak_dim": "impact (0.94 — completeness/quality/efficiency now at 0.95)"
+    },
+    {
+      "goal": "ameva Iter 51: 14th QG actionability gate — [ACTION:{동작}] format for recommendations, vague 'consider X' disallowed. live P6-8: impact blend = (claim_quality + actionability) / 2.",
+      "score": 0.958,
+      "iteration": 11,
+      "outcome": "success",
+      "weak_dim": "completeness (0.95 — goal_fidelity ceiling approaching)"
     }
   ],
   "dead_ends": [
@@ -162,7 +169,7 @@
     "quality": 0.95,
     "completeness": 0.95,
     "efficiency": 0.95,
-    "impact": 0.94,
+    "impact": 0.96,
     "goal_fidelity": 0.98
   }
 }
