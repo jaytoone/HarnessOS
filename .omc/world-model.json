@@ -185,6 +185,13 @@
       "iteration": 20,
       "outcome": "success",
       "weak_dim": "efficiency at 0.97 — completeness now 0.98"
+    },
+    {
+      "goal": "ameva Iter 61: Q-WEAK pre-check short-circuit — if len(weak_claims)==0, skip entire adversarial loop ([Q-WEAK SKIP] emitted). SYNA zero-check early exit — if len(relevant_checks)==0 after taxonomy filter, skip sycophancy loop entirely ([SYNA SKIP] emitted). Both cuts eliminate per-query loop overhead when response is high-quality (all GROUNDED) or query is ultra-specific (no relevant sycophancy checks).",
+      "score": 0.980,
+      "iteration": 21,
+      "outcome": "success",
+      "weak_dim": "none — all dims at 0.98, approaching asymptotic ceiling"
     }
   ],
   "dead_ends": [
@@ -231,7 +238,7 @@
   "best_score_vector": {
     "quality": 0.98,
     "completeness": 0.98,
-    "efficiency": 0.97,
+    "efficiency": 0.98,
     "impact": 0.98,
     "goal_fidelity": 0.98
   }
