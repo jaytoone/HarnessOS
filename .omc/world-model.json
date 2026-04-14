@@ -94,6 +94,20 @@
       "iteration": 7,
       "outcome": "success",
       "weak_dim": "efficiency (0.90 — parity with quality now)"
+    },
+    {
+      "goal": "Tier2 routing extension: confidence==0.0 → confidence<0.08 (TYPE A + TYPE B weak-overlap query recall). Catches queries with 1 weak-overlap keyword that previously fell to generic.",
+      "score": 0.944,
+      "iteration": 8,
+      "outcome": "success",
+      "weak_dim": "quality (0.93 — thresholds still below oracle targets)"
+    },
+    {
+      "goal": "ameva Iter 49: oracle-aligned QG thresholds — grounding_rate 0.70→0.85, claim_quality 0.60→0.75. [REASONED] specificity: must include doc_id + one-line inference. P6-7 changelog in live-inf.",
+      "score": 0.950,
+      "iteration": 9,
+      "outcome": "success",
+      "weak_dim": "efficiency (0.93 — no efficiency changes this iter)"
     }
   ],
   "dead_ends": [
@@ -138,10 +152,10 @@
     }
   ],
   "best_score_vector": {
-    "quality": 0.93,
+    "quality": 0.95,
     "completeness": 0.95,
-    "efficiency": 0.90,
-    "impact": 0.93,
+    "efficiency": 0.93,
+    "impact": 0.94,
     "goal_fidelity": 0.98
   }
 }

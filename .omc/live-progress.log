@@ -1,3 +1,5 @@
 2026-04-14 | iter=5 | score=0.922 | best=0.922 | plateau=0 | goal="ameva Iter 48: 13-check QG + all-corpus metrics footer + P6-6 impact"
 2026-04-14 | iter=6 | score=0.926 | best=0.926 | plateau=0 | goal="grounding_rate threshold + embedding_hint"
 2026-04-14 | iter=7 | score=0.940 | best=0.940 | plateau=0 | goal="corpus_root path fix Entity→Ameva"
+2026-04-14 | iter=8 | score=0.944 | best=0.944 | plateau=0 | goal="Tier2 routing extension conf<0.08"
+iter=9 | score=0.950 | goal=ameva Iter 49: oracle-aligned QG thresholds (grounding_rate>=0.85, claim_quality>=0.75) + REASONED specificity + P6-7 changelog | dims=Q:0.95 C:0.95 E:0.93 I:0.94 GF:0.98 | plateau_count=0
