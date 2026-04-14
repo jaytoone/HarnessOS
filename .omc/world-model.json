@@ -178,6 +178,13 @@
       "iteration": 19,
       "outcome": "success",
       "weak_dim": "completeness/efficiency at 0.97 — quality/impact now 0.98"
+    },
+    {
+      "goal": "ameva Iter 60: gap_patterns active emission — Stage 0 now explicitly runs active signal detection loop on active_corpus.gap_patterns, emits [GAP DETECTED:{gap_name}] per matched signal. 19th QG: gap_coverage_rate ≥0.80 — detected gaps must be addressed in Stage 3 or explicitly deferred. [GAP ADDRESS:] repair format added. gap_coverage inline emit.",
+      "score": 0.978,
+      "iteration": 20,
+      "outcome": "success",
+      "weak_dim": "efficiency at 0.97 — completeness now 0.98"
     }
   ],
   "dead_ends": [
@@ -223,7 +230,7 @@
   ],
   "best_score_vector": {
     "quality": 0.98,
-    "completeness": 0.97,
+    "completeness": 0.98,
     "efficiency": 0.97,
     "impact": 0.98,
     "goal_fidelity": 0.98
