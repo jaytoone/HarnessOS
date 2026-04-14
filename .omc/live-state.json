@@ -1,6 +1,6 @@
 {
-  "current_iteration": 26,
-  "best_score": 0.991,
+  "current_iteration": 27,
+  "best_score": 0.992,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -29,7 +29,8 @@
     {"iteration": 23, "score": 0.986, "goal": "ameva Iter 63: 21st QG scope_gate assumption audit [SCOPE NOTE]"},
     {"iteration": 24, "score": 0.988, "goal": "ameva Iter 64: FAST-PATH ⚡ + 22nd QG fast-path compact + [ENRICH SKIP]+[CONFLICT SKIP]"},
     {"iteration": 25, "score": 0.990, "goal": "ameva Iter 65: 23rd QG query-intent alignment [INTENT DRIFT] + 3 repair options"},
-    {"iteration": 26, "score": 0.991, "goal": "ameva Iter 66: [ROUTING REPORT] structured emit (triggers+confidence+taxonomy_groups+doc_count) + 24th QG routing transparency check. impact 0.990→0.993."}
+    {"iteration": 26, "score": 0.991, "goal": "ameva Iter 66: [ROUTING REPORT] structured emit (triggers+confidence+taxonomy_groups+doc_count) + 24th QG routing transparency check. impact 0.990→0.993."},
+    {"iteration": 27, "score": 0.992, "goal": "ameva Iter 67: doc-tier annotation (T/D=HIGH⬆, S/V=MED◆, P=LOW⬇) in Stage 1.5 Step F + 25th QG doc_tier_check synthesis priority. quality 0.99→0.993."}
   ],
-  "evolution_count": 25
+  "evolution_count": 26
 }

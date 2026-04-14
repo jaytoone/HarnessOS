@@ -55,6 +55,20 @@
       "iteration": 25,
       "outcome": "success",
       "weak_dim": "all dims now 0.99 — asymptotic ceiling reached"
+    },
+    {
+      "goal": "ameva Iter 66: [ROUTING REPORT] structured emit (triggers+confidence+taxonomy_groups+doc_count) + 24th QG routing transparency. impact 0.990→0.993.",
+      "score": 0.991,
+      "iteration": 26,
+      "outcome": "success",
+      "weak_dim": "sub-epsilon improvements only — Pareto 3rd-decimal gains"
+    },
+    {
+      "goal": "ameva Iter 67: doc-tier annotation (T/D=HIGH⬆, S/V=MED◆, P=LOW⬇) in Stage 1.5 Step F + 25th QG doc_tier_check synthesis priority. quality 0.99→0.993.",
+      "score": 0.992,
+      "iteration": 27,
+      "outcome": "success",
+      "weak_dim": "sub-epsilon across all dims — deep asymptotic regime"
     }
   ],
   "dead_ends": [
@@ -73,7 +87,7 @@
     "Control (no patches) reached score=1.000 in 3 live-inf iters — better final score than treatment",
     "Skills in ~/.claude/skills/ are OUTSIDE the Entity git repo — cannot git add them from /home/jayone/Project/Entity",
     "ALL corpus docs are in /home/jayone/Project/Ameva/docs/research/ — NOT Entity. corpus_root was pointing to Entity (wrong). Fixed in iter 7.",
-    "ameva/SKILL.md Iter 65: 23-check Quality Gate. QG23 = query-intent alignment. [INTENT DRIFT] when intent_coverage < 0.50. All 5 dims now at 0.99. Pareto asymptotic ceiling.",
+    "ameva/SKILL.md Iter 67: 25-check Quality Gate. QG24 = routing transparency [ROUTING REPORT]. QG25 = doc-tier synthesis priority (T/D=HIGH⬆, S/V=MED◆, P=LOW⬇). All dims at 0.99+. Deep asymptotic regime.",
     "Priority 3 remaining items: qa-tester vs test-validator decision criteria, omc-learn-about-omc expansion, omc-trace expansion, ops-ml-training project-specific note, korean-criminal-law jurisdiction warning"
   ],
   "uncertain": [],
@@ -87,10 +101,10 @@
   "skill_routing_history": [],
   "her_hints": [],
   "best_score_vector": {
-    "quality": 0.99,
+    "quality": 0.993,
     "completeness": 0.99,
     "efficiency": 0.99,
-    "impact": 0.99,
+    "impact": 0.993,
     "goal_fidelity": 0.99
   }
 }
