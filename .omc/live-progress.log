@@ -1,1 +1,3 @@
 2026-04-14 | iter=5 | score=0.922 | best=0.922 | plateau=0 | goal="ameva Iter 48: 13-check QG + all-corpus metrics footer + P6-6 impact"
+2026-04-14 | iter=6 | score=0.926 | best=0.926 | plateau=0 | goal="grounding_rate threshold + embedding_hint"
+2026-04-14 | iter=7 | score=0.940 | best=0.940 | plateau=0 | goal="corpus_root path fix Entity→Ameva"
