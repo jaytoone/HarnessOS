@@ -171,6 +171,13 @@
       "iteration": 18,
       "outcome": "success",
       "weak_dim": "quality/completeness/impact all equal at 0.97 — next target: 0.98 ceiling"
+    },
+    {
+      "goal": "ameva Iter 59: cross-doc intra-corpus conflict detection — Stage 1.5 scans [GROUNDED] claims across different docs for numerical/definitional contradictions. HARD (numerical) vs SOFT (definitional) severity. Emits [INTRA-CONFLICT:HARD/SOFT:docX]. 18th QG [RECONCILED:] gate: each detected conflict must have explicit reconciliation in Stage 3. reconciliation_rate==1.0 required. conflict_reconciliation field added to [AMEVA_GROUNDING_METRICS] footer.",
+      "score": 0.976,
+      "iteration": 19,
+      "outcome": "success",
+      "weak_dim": "completeness/efficiency at 0.97 — quality/impact now 0.98"
     }
   ],
   "dead_ends": [
@@ -215,10 +222,10 @@
     }
   ],
   "best_score_vector": {
-    "quality": 0.97,
+    "quality": 0.98,
     "completeness": 0.97,
     "efficiency": 0.97,
-    "impact": 0.97,
+    "impact": 0.98,
     "goal_fidelity": 0.98
   }
 }

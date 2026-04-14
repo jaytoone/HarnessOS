@@ -1,6 +1,6 @@
 {
-  "current_iteration": 18,
-  "best_score": 0.972,
+  "current_iteration": 19,
+  "best_score": 0.976,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -21,7 +21,8 @@
     {"iteration": 15, "score": 0.966, "goal": "ameva Iter 55: 16th QG recommendation evidence anchoring — [ACTION:][FROM:doc_id], action_anchoring_rate ≥0.80 + [AMEVA_GROUNDING_METRICS] action_anchoring field"},
     {"iteration": 16, "score": 0.968, "goal": "ameva Iter 56: lazy corpus enrichment — post-Stage1 UNCERTAIN scan, confidence-gated budget miss 보완 (max 1 extra doc per query)"},
     {"iteration": 17, "score": 0.970, "goal": "ameva Iter 57: 17th QG UNCERTAIN verification specificity — 모호 '추가 연구 필요' 금지, named method/N/condition 의무화, uncertain_specificity_rate ≥0.80"},
-    {"iteration": 18, "score": 0.972, "goal": "ameva Iter 58: taxonomy-relevance sycophancy filter — active_taxonomy_groups 기반 relevant_checks만 실행, [SYN-FILTER] count emit"}
+    {"iteration": 18, "score": 0.972, "goal": "ameva Iter 58: taxonomy-relevance sycophancy filter — active_taxonomy_groups 기반 relevant_checks만 실행, [SYN-FILTER] count emit"},
+    {"iteration": 19, "score": 0.976, "goal": "ameva Iter 59: cross-doc intra-corpus conflict detection (Stage 1.5) + 18th QG [RECONCILED:HARD/SOFT] reconciliation gate + conflict_reconciliation footer field"}
   ],
-  "evolution_count": 17
+  "evolution_count": 18
 }
