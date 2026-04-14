@@ -1,6 +1,6 @@
 {
-  "current_iteration": 25,
-  "best_score": 0.990,
+  "current_iteration": 26,
+  "best_score": 0.991,
   "plateau_count": 0,
   "last_outcome": "success",
   "score_history": [
@@ -16,19 +16,20 @@
     {"iteration": 10, "score": 0.954, "goal": "ameva Iter 50: tiered repair path (light→heavy) + doc budget constraint (3/4 per query type)"},
     {"iteration": 11, "score": 0.958, "goal": "ameva Iter 51: 14th QG actionability gate [ACTION:...] + live P6-8 impact blend (claim_quality + actionability) / 2"},
     {"iteration": 12, "score": 0.960, "goal": "ameva Iter 52: multi-aspect query decomposition + 15th QG multi-Q completeness gate"},
-    {"iteration": 13, "score": 0.962, "goal": "ameva Iter 53: Q-WEAK adversarial challenge — top 2 UNCERTAIN/REASONED claims get strongest counterargument test in Stage 2"},
-    {"iteration": 14, "score": 0.964, "goal": "ameva Iter 54: efficiency hardening — confidence-gated doc budget (conf ≥0.90 → 2 docs for single-group) + Q-WEAK grounded-skip (≥2 [GROUNDED] supports → skip adversarial)"},
-    {"iteration": 15, "score": 0.966, "goal": "ameva Iter 55: 16th QG recommendation evidence anchoring — [ACTION:][FROM:doc_id], action_anchoring_rate ≥0.80 + [AMEVA_GROUNDING_METRICS] action_anchoring field"},
-    {"iteration": 16, "score": 0.968, "goal": "ameva Iter 56: lazy corpus enrichment — post-Stage1 UNCERTAIN scan, confidence-gated budget miss 보완 (max 1 extra doc per query)"},
-    {"iteration": 17, "score": 0.970, "goal": "ameva Iter 57: 17th QG UNCERTAIN verification specificity — 모호 '추가 연구 필요' 금지, named method/N/condition 의무화, uncertain_specificity_rate ≥0.80"},
-    {"iteration": 18, "score": 0.972, "goal": "ameva Iter 58: taxonomy-relevance sycophancy filter — active_taxonomy_groups 기반 relevant_checks만 실행, [SYN-FILTER] count emit"},
-    {"iteration": 19, "score": 0.976, "goal": "ameva Iter 59: cross-doc intra-corpus conflict detection (Stage 1.5) + 18th QG [RECONCILED:HARD/SOFT] reconciliation gate + conflict_reconciliation footer field"},
-    {"iteration": 20, "score": 0.978, "goal": "ameva Iter 60: gap_patterns active emission in Stage 0 [GAP DETECTED:] + 19th QG gap_coverage_rate ≥0.80 gate + [GAP ADDRESS:] repair format"},
-    {"iteration": 21, "score": 0.980, "goal": "ameva Iter 61: Q-WEAK pre-check short-circuit (0 weak_claims → skip adversarial loop) + SYNA zero-check early exit (0 relevant_checks → skip sycophancy loop). All dims reach 0.98."},
-    {"iteration": 22, "score": 0.982, "goal": "ameva Iter 62: 20th QG mandatory 핵심 요약 — corpus-mode Stage 3 responses must open with 1-3 sentence direct answer. repair: > **핵심 요약**: {1-3 sentences}. impact 0.98→0.99"},
-    {"iteration": 23, "score": 0.986, "goal": "ameva Iter 63: 21st QG scope_gate assumption audit — VERIFIED/ASSUMED/UNCERTAIN 명시 + [SCOPE NOTE] block. quality/completeness 0.98→0.99"},
-    {"iteration": 24, "score": 0.988, "goal": "ameva Iter 64: FAST-PATH ⚡ — high-confidence single-group all-GROUNDED queries activate FAST-PATH: [ENRICH SKIP] + [CONFLICT SKIP] (when docs≤1). 22nd QG fast-path compact output integrity check. fast_path field in [AMEVA_GROUNDING_METRICS]. efficiency 0.98→0.99"},
-    {"iteration": 25, "score": 0.990, "goal": "ameva Iter 65: 23rd QG query-intent alignment check — pre-synthesis verify GROUNDED/REASONED claims address original query intent (coverage≥0.50). [INTENT DRIFT] detection: Option A reroute / B [INTENT NOTE] boundary / C generic fallback. goal_fidelity 0.98→0.99"}
+    {"iteration": 13, "score": 0.962, "goal": "ameva Iter 53: Q-WEAK adversarial challenge"},
+    {"iteration": 14, "score": 0.964, "goal": "ameva Iter 54: efficiency hardening — confidence-gated doc budget + Q-WEAK grounded-skip"},
+    {"iteration": 15, "score": 0.966, "goal": "ameva Iter 55: 16th QG recommendation evidence anchoring [ACTION:][FROM:doc_id]"},
+    {"iteration": 16, "score": 0.968, "goal": "ameva Iter 56: lazy corpus enrichment — max 1 extra doc per query"},
+    {"iteration": 17, "score": 0.970, "goal": "ameva Iter 57: 17th QG UNCERTAIN verification specificity"},
+    {"iteration": 18, "score": 0.972, "goal": "ameva Iter 58: taxonomy-relevance sycophancy filter [SYN-FILTER]"},
+    {"iteration": 19, "score": 0.976, "goal": "ameva Iter 59: cross-doc conflict detection + 18th QG [RECONCILED:HARD/SOFT]"},
+    {"iteration": 20, "score": 0.978, "goal": "ameva Iter 60: gap_patterns active emission [GAP DETECTED:] + 19th QG"},
+    {"iteration": 21, "score": 0.980, "goal": "ameva Iter 61: Q-WEAK pre-check + SYNA zero-check early exits"},
+    {"iteration": 22, "score": 0.982, "goal": "ameva Iter 62: 20th QG mandatory 핵심 요약"},
+    {"iteration": 23, "score": 0.986, "goal": "ameva Iter 63: 21st QG scope_gate assumption audit [SCOPE NOTE]"},
+    {"iteration": 24, "score": 0.988, "goal": "ameva Iter 64: FAST-PATH ⚡ + 22nd QG fast-path compact + [ENRICH SKIP]+[CONFLICT SKIP]"},
+    {"iteration": 25, "score": 0.990, "goal": "ameva Iter 65: 23rd QG query-intent alignment [INTENT DRIFT] + 3 repair options"},
+    {"iteration": 26, "score": 0.991, "goal": "ameva Iter 66: [ROUTING REPORT] structured emit (triggers+confidence+taxonomy_groups+doc_count) + 24th QG routing transparency check. impact 0.990→0.993."}
   ],
-  "evolution_count": 24
+  "evolution_count": 25
 }
