@@ -1,23 +1,26 @@
-omc-live-inf iter 2/∞: success | goal_v1: human-edge D1 diagnostic — 13-문항 제품/랜딩페이지 감사 체크리스트
+omc-live-inf iter 3/∞: success | goal_v2: human-edge S1 playbook — 9 primitives × AARRR 전환 퍼널 블루프린트
 
-D1 doc: docs/research/20260416-human-edge-diagnostic.md (366 lines)
-- 13 Q × (관측 포인트 / 1.0·0.5·0.0 기준 / [T1] 매핑) — 직접 scoring 가능
-- raw_score - dark_penalty (0.15 × dark_flagged) = final_score 구조
-- 해석 구간: STRONG(≥0.75) / ADEQUATE(0.50-0.74) / WEAK(0.25-0.49) / CRITICAL(<0.25)
-- Top 3 fix 자동 선정 (점수 × 수정 난이도 레버리지 매트릭스)
-- Gap patterns 6개: all_system_2 / dark_dominant / weak_spoon / vanity_signal / pay_friction / status_misfit
-- D1-HC-1..7: 다크패턴 판정, 문화 보정, B2B 세그먼트 구분, 관측 증거 기반 검증
-- Output template [HUMAN_EDGE_AUDIT] 포맷 표준화
-
-13 Q coverage:
-  Q1 Scarcity / Q2 Social Proof / Q3 Loss Aversion / Q4 Anchoring / Q5 Reciprocity
-  Q6 Commitment / Q7 Novelty / Q8 Meta-Insight / Q9 Status Signaling
-  Q10 Spending Pocket (4조건) / Q11 Spoon-Feeding / Q12 Ethical Coefficient / Q13 S1-S2 Balance
+S1 doc: docs/research/20260416-human-edge-playbook.md (~210 lines)
+- 9 primitives × 5 AARRR stages 레버리지 매트릭스 (● 주력 / ○ 보조 / — 기피)
+- 3 시나리오 블루프린트:
+    A) B2B SaaS — Social Proof + Commitment 3단 + Status(팀 리더보드) + Anchoring 3단
+    B) D2C Consumer (KR 집단주의) — 한정판 + UGC + 친구 레이어 + 무료배송 임계
+    C) Community/Knowledge — 진단 퀴즈 + 기여 레벨 + 프리미엄 인사이더
+- 카피 발화 예시 5개 (Bad vs Good 페어)
+- Kill Switch 6개: 환불율/NPS/K-factor/브랜드검색/unsubscribe/유료전환 하락 시 어떤 레버 제거
+- Primary metric 9개 (primitive별 측정 기준)
+- S1-HC-1..7: 모든 단계 과잉 배치 / 프리셋 오적용 / KR 직역 / Kill Switch 가정 / 다크패턴 포장 / cross-grounding 누락 / 단일 성공사례 외삽
+- Gap patterns 5: all_stages_same_lever / funnel_no_meta / referral_loss_pressure / activation_anchor_waste / kill_switch_missing
 
 Registry: ~/.claude/skills/entity/corpus-registry.yaml
-  docs.D1 추가, taxonomy_groups.진단: [D1]
+  docs.S1 추가, taxonomy_groups.전략: [S1]
 
-Score delta: 0.89 → 0.92 (+0.03) | best_score update, plateau_count=0 | evolution_count=1
-Next (iter 3): S1 playbook — 9 primitives 조합 전환 퍼널 블루프린트 (impact 추가 향상)
+human_edge corpus 현재: T1(이론) + D1(진단) + S1(전략) — 4-doc 타입 중 3개 완성
+남은 iter 후보:
+  T4 falsification — 반증 기준 + 문화 경계 + 대체 설명
+  V1 experiment — Pain of Payment × Mental Accounting A/B 실험 디자인
+
+Score trajectory: 0.89 → 0.92 → 0.94 (+0.05 accumulated) | plateau_count=0 | evolution_count=2
+Budget: live-inf 무제한, 자율 continue 모드 지속
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
