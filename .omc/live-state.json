@@ -1,25 +1,26 @@
 {
-  "current_iteration": 9,
+  "current_iteration": 10,
   "last_outcome": "success",
   "last_phase_reached": "phase_3",
   "started_at": "2026-04-16T14:54:00Z",
-  "best_score": 0.95,
-  "current_score": 0.95,
+  "best_score": 0.955,
+  "current_score": 0.955,
   "score_variance": 0.03,
   "plateau_count": 0,
-  "evolution_count": 9,
+  "evolution_count": 10,
   "score_history": [
-    {"iteration": 1, "score": 0.89, "goal": "T1 foundation"},
-    {"iteration": 2, "score": 0.92, "goal": "D1 diagnostic"},
-    {"iteration": 3, "score": 0.94, "goal": "S1 playbook"},
-    {"iteration": 4, "score": 0.95, "goal": "T4 falsification"},
-    {"iteration": 5, "score": 0.96, "goal": "V1 experiment"},
-    {"iteration": 6, "score": 0.94, "goal": "adversarial review → citation audit + AI-era primitives", "regression_reason": "honest downgrade"},
-    {"iteration": 7, "score": 0.945, "goal": "L7 Regulatory Focus"},
-    {"iteration": 8, "score": 0.95, "goal": "L8 Self-Perception Bem 1972"},
-    {"iteration": 9, "score": 0.95, "goal": "L9 Currid-Halkett inconspicuous consumption"}
+    {"iteration": 1, "score": 0.89},
+    {"iteration": 2, "score": 0.92},
+    {"iteration": 3, "score": 0.94},
+    {"iteration": 4, "score": 0.95},
+    {"iteration": 5, "score": 0.96},
+    {"iteration": 6, "score": 0.94, "regression": "honest downgrade"},
+    {"iteration": 7, "score": 0.945, "L7": "Regulatory Focus"},
+    {"iteration": 8, "score": 0.95, "L8": "Self-Perception"},
+    {"iteration": 9, "score": 0.95, "L9": "Currid-Halkett"},
+    {"iteration": 10, "score": 0.955, "L5": "S1 empirical caveats"}
   ],
   "cost_history": [],
   "wave1_complete": true,
-  "known_limitations": ["L4 open", "L5 open", "L6 open", "L7 completed", "L8 completed", "L9 completed"]
+  "known_limitations": ["L4 open (κ study)", "L5 completed", "L6 OK (Bonferroni correct)"]
 }

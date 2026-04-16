@@ -189,3 +189,11 @@ R [Referral]        → Status (초대 가능 슬롯 — 프리미엄만) + Meta
 - [[projects/Entity/research/20260416-human-edge-theory|20260416-human-edge-theory]]
 - [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
 - [[projects/Entity/research/20260412-monetization-playbook|20260412-monetization-playbook]]
+
+---
+
+### Note: Empirical Caveats (L5)
+- **현재 매트릭스**: 이론 기반 권고 (AARRR × primitive 상관관계)
+- **검증 필요**: 실거래 A/B 테스트 3건 이상 → 권고 재검증
+- **제한**: 동일 카테고리 내 재현 ≠ 타 카테고리 일반화 가능
+- **실행**: Phase V1 실험 완료 후 매트릭스 업데이트 필수
