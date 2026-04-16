@@ -1,49 +1,23 @@
-omc-live-inf iter 1/∞: success | goal_v0: human-edge L1 corpus 구축 — 9 hardware primitives + registry
+omc-live-inf iter 2/∞: success | goal_v1: human-edge D1 diagnostic — 13-문항 제품/랜딩페이지 감사 체크리스트
 
-Archive & reset:
-  .omc/archive/20260416/ — ameva 시대 live-state/goal-tree/progress.log 보존
-  (ameva → entity rename 이후 root_goal="ameva 개선" stale, 깨끗한 상태에서 재시작)
+D1 doc: docs/research/20260416-human-edge-diagnostic.md (366 lines)
+- 13 Q × (관측 포인트 / 1.0·0.5·0.0 기준 / [T1] 매핑) — 직접 scoring 가능
+- raw_score - dark_penalty (0.15 × dark_flagged) = final_score 구조
+- 해석 구간: STRONG(≥0.75) / ADEQUATE(0.50-0.74) / WEAK(0.25-0.49) / CRITICAL(<0.25)
+- Top 3 fix 자동 선정 (점수 × 수정 난이도 레버리지 매트릭스)
+- Gap patterns 6개: all_system_2 / dark_dominant / weak_spoon / vanity_signal / pay_friction / status_misfit
+- D1-HC-1..7: 다크패턴 판정, 문화 보정, B2B 세그먼트 구분, 관측 증거 기반 검증
+- Output template [HUMAN_EDGE_AUDIT] 포맷 표준화
 
-New corpus: human_edge (layer: L1, status: draft)
-  docs/research/20260416-human-edge-theory.md (T1 foundation, 263 lines)
+13 Q coverage:
+  Q1 Scarcity / Q2 Social Proof / Q3 Loss Aversion / Q4 Anchoring / Q5 Reciprocity
+  Q6 Commitment / Q7 Novelty / Q8 Meta-Insight / Q9 Status Signaling
+  Q10 Spending Pocket (4조건) / Q11 Spoon-Feeding / Q12 Ethical Coefficient / Q13 S1-S2 Balance
 
-9 Hardware Primitives (진화심리 + Kahneman + Cialdini 합성):
-  2.1 Scarcity (희소성) — S+P
-  2.2 Social Proof (사회적 증명) — P+E
-  2.3 Loss Aversion (손실 회피 2.25x) — S
-  2.4 Anchoring (앵커링) — E
-  2.5 Reciprocity (상호성) — P
-  2.6 Commitment-Consistency (일관성) — E+P
-  2.7 Novelty-Seeking (도파민 prediction error) — E
-  2.8 Meta-Insight Hunger (나를 모르는 나) — P+E
-  2.9 Status Signaling (지위 신호, Veblen) — P
+Registry: ~/.claude/skills/entity/corpus-registry.yaml
+  docs.D1 추가, taxonomy_groups.진단: [D1]
 
-User outline mapping (3.1-3.4):
-  희소성 → 2.1 direct
-  돈 버릴 수 있는 공간 → Spending Pockets 4 conditions (Hedonic-Justified / Mental Accounting / Pain-of-Payment / Status-identity)
-  떠먹여 주기 + 새로움 → Spoon-Feeding (2.6+E) + Novelty (2.7) + Meta-Insight (2.8) + Status (2.9)
-  멍청한 부분 → 11 cognitive biases table
-
-VALUE GAP integration:
-  human_edge (L1 Hardware) → wtp (L2 identity-gap) → marketing_growth/monetization (L2 GTM)
-  Functional_Gap ← Loss Aversion + Anchoring
-  Social_Position_Gap ← Social Proof + Status Signaling
-  Ethical_Coefficient ← "빠짐"(dependency trap) — 장기 부메랑 리스크
-
-Corpus schema:
-  trigger: 40+ keywords (bilingual KR/EN)
-  scope_gate: 3 조건 (System 1 비중 / 측정가능 / 설계 연결)
-  sycophancy_checks: HC-1..HC-7 (Cialdini 재탕 / 실험 일반화 / 2.25x 직접이식 / 비합리성 과장 / 다크패턴 경계 / 문화 보정 / Ethical_Coefficient 표시)
-  gap_patterns: 7 개 (no_s1_trigger / no_scarcity_or_status / ...)
-  rwr_hints: 13 개
-  references: 17 academic anchors (Kahneman / Tversky / Cialdini / Thaler / Loewenstein / Prelec / Eisenberger / Veblen / Bourdieu / Hofstede / Brown meta-analysis 등)
-
-Registry entry: ~/.claude/skills/entity/corpus-registry.yaml (+82 lines, status: draft)
-  NOTE: corpus_root는 실제 경로 /home/jayone/Project/Entity/docs/research/ 사용
-  (기존 wtp/marketing_growth/monetization 블록은 stale /Ameva/ 경로 — 후속 보정 필요)
-
-live-state:
-  current_iteration=1, wave1_complete=true, score_history=[] (첫 실행 아직 scoring 전)
-  next: Scoring + EVOLVE 결정 (iter 2 candidate: T4 falsification 또는 D1 diagnostic)
+Score delta: 0.89 → 0.92 (+0.03) | best_score update, plateau_count=0 | evolution_count=1
+Next (iter 3): S1 playbook — 9 primitives 조합 전환 퍼널 블루프린트 (impact 추가 향상)
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>

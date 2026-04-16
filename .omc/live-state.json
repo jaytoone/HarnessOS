@@ -1,24 +1,30 @@
 {
-  "current_iteration": 1,
+  "current_iteration": 2,
   "last_outcome": "success",
   "last_phase_reached": "phase_5",
   "started_at": "2026-04-16T13:21:00Z",
-  "best_score": 0.0,
-  "current_score": 0.0,
-  "current_goal_fidelity": 1.0,
-  "score_variance": 0.0,
+  "best_score": 0.89,
+  "current_score": 0.92,
+  "current_goal_fidelity": 0.95,
+  "score_variance": 0.03,
   "plateau_count": 0,
-  "evolution_count": 0,
-  "score_history": [],
+  "evolution_count": 1,
+  "score_history": [
+    {"iteration": 1, "score": 0.89, "goal_fidelity": 1.0, "goal_version": 0, "score_variance": 0.03,
+     "goal": "human-edge T1 foundation — 9 primitives"},
+    {"iteration": 2, "score": 0.92, "goal_fidelity": 0.95, "goal_version": 1, "score_variance": 0.03,
+     "goal": "human-edge D1 diagnostic — 13-문항 제품 감사 체크리스트"}
+  ],
   "cost_history": [
-    {"iteration": 1, "phase_reached": "phase_5", "relative_cost": 1.0}
+    {"iteration": 1, "phase_reached": "phase_5", "relative_cost": 1.0},
+    {"iteration": 2, "phase_reached": "phase_5", "relative_cost": 1.1}
   ],
   "wave1_complete": true,
   "wave1_plan": {
-    "approach": "Grounded behavioral-economics + evolutionary-psychology synthesis into corpus-schema T1 foundation doc, registered in entity/corpus-registry.yaml as draft",
-    "method": "1) 9 hardware primitives 추출 (Cialdini+Kahneman canon) 2) User outline 4개(Scarcity/Spending Pockets/Spoon-Feeding+Novelty/Biases) 매핑 3) wtp corpus와 L1/L2 관계 정의 4) sycophancy 7 + gap_patterns 7 + rwr_hints 13 5) registry entry",
-    "key_decisions": "단일 T1 먼저 (D/S/V는 후속 iter); status=draft; corpus_root는 실제 경로 /Entity/docs/research/ 사용 (기존 registry는 stale /Ameva/ 참조 — 추후 보정 필요)",
-    "anti_patterns": "Cialdini 6 그대로 재탕 / 단일 실험 일반화 / 손실회피 2.25x를 KR 직접 이식 / 다크패턴과 설득 경계 흐림 / 문화 보정 없이 일반화",
-    "constraints": "academic-grounded references mandatory; Ethical_Coefficient 장기 리스크 표시 필수; HC 7개 이상"
+    "approach": "Grounded behavioral-economics + evolutionary-psychology synthesis into corpus-schema docs (T→D→S→V progression)",
+    "method": "1) T1 9 primitives 2) D1 13-문항 diagnostic 3) S1 playbook 4) T4 falsification 5) V1 experiment",
+    "key_decisions": "각 iter = 1 doc type 완결, draft status 유지, wtp/monetization과 cross-link",
+    "anti_patterns": "피상 재탕 / 실험 일반화 / 손실회피 직접이식 / 다크패턴 흐림 / 문화보정 누락",
+    "constraints": "academic refs 필수, Ethical_Coefficient 표시 필수, HC 7+ per doc"
   }
 }
