@@ -1,7 +1,33 @@
-housekeeping: post-commit hook side effects
+omc-live-inf iter 6/∞: partial | adversarial review 기반 L3→L4 개선 (citation audit + AI-era primitives)
 
-- BM25 index rebuild (.omc/decision_corpus.json)
-- Obsidian wikilinks auto-appended (human-edge T1/T4/D1/S1/V1 + agent_research digest)
-- DOC_INDEX.md incremental update
+Critique 응답 — 10 결함 중 L1/L2/L3 부분 해결:
+  L1 Citation fabrication 정정:
+    - T1 §2.3: "Brown 2022 Nature HB 1.4-1.8x" → Brown/Imai/Vieider/Camerer 2024 JEL, λ=1.955 + Walasek 2025 symmetric λ≈1.07
+    - T4 §2.2: "Milkman 2023 Nature 615 p=0.12" 제거 → Milkman 2021 PNAS 47,306명 +5% 정정
+    - T4 §2.3: Brown 2022 Nature HB 오인용 정정
+    - References 블록 corrected + Walasek/Bakshy/Kozyreva 추가
+
+  L2 AI-era primitives 추가 (T1 §2.10~2.12):
+    2.10 Algorithmic Amplification (Bakshy 2015, Kozyreva 2023 Nature HB)
+    2.11 Para-Social Presence (Horton-Wohl 1956 / Lee 2023 JCR 인플루언서 11× WTP)
+    2.12 LLM-Mediated Choice (Adobe 2025 Q1 4.4× 체류)
+
+  L3 S/P/E overclaim 수정: "진화심리학 합의" → "본 corpus 분류 framework — canonical 아님, Tooby-Cosmides/Buss/Cacioppo 대체 분류 존재"
+
+  L10 Known Limitations & Audit Status 섹션 추가: 10 결함 각각 상태 명시 (partial/open/fixed)
+
+미해결 (L4~L9):
+  L4 D1 rubric calibration (κ study 필요)
+  L5 S1 매트릭스 empirical caveat 미첨부
+  L6 V1 통계 (Bonferroni 오적용) 미수정
+  L7 Regulatory Focus Theory 미통합
+  L8 Self-Perception (Bem 1972) Commitment 미통합
+  L9 Currid-Halkett 2017 inconspicuous consumption 미반영
+
+Honest downgrade: iter 5 best_score 0.96 → iter 6 current_score 0.94
+  이유: iter 1~5 자체 scoring이 inflated. critique 노출된 L1(citation fabrication)만으로도
+  전문가 credibility -0.05 감점이 정직함. best_score 0.96은 historical 유지, 실질 품질은 0.94.
+
+Level: L3 강한 쪽 → L4 문턱 (승격에는 systematic citation audit 100% + V1 실거래 데이터 필요)
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>

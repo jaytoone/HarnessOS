@@ -1,28 +1,25 @@
 {
-  "current_iteration": 5,
-  "last_outcome": "success",
+  "current_iteration": 6,
+  "last_outcome": "partial",
   "last_phase_reached": "phase_5",
   "started_at": "2026-04-16T13:21:00Z",
   "best_score": 0.96,
-  "current_score": 0.96,
-  "current_goal_fidelity": 0.90,
-  "score_variance": 0.02,
+  "current_score": 0.94,
+  "current_goal_fidelity": 0.88,
+  "score_variance": 0.03,
   "plateau_count": 0,
-  "evolution_count": 4,
+  "evolution_count": 5,
   "score_history": [
-    {"iteration": 1, "score": 0.89, "goal_fidelity": 1.0, "goal_version": 0, "goal": "T1 foundation"},
-    {"iteration": 2, "score": 0.92, "goal_fidelity": 0.95, "goal_version": 1, "goal": "D1 diagnostic"},
-    {"iteration": 3, "score": 0.94, "goal_fidelity": 0.93, "goal_version": 2, "goal": "S1 playbook"},
-    {"iteration": 4, "score": 0.95, "goal_fidelity": 0.92, "goal_version": 3, "goal": "T4 falsification"},
-    {"iteration": 5, "score": 0.96, "goal_fidelity": 0.90, "goal_version": 4, "goal": "V1 experiment design"}
+    {"iteration": 1, "score": 0.89, "goal": "T1 foundation"},
+    {"iteration": 2, "score": 0.92, "goal": "D1 diagnostic"},
+    {"iteration": 3, "score": 0.94, "goal": "S1 playbook"},
+    {"iteration": 4, "score": 0.95, "goal": "T4 falsification"},
+    {"iteration": 5, "score": 0.96, "goal": "V1 experiment"},
+    {"iteration": 6, "score": 0.94, "goal": "adversarial review → L3→L4 개선 (citation audit + AI-era primitives + overclaim 수정)", "regression_reason": "honest downgrade — prior self-scoring inflated; critique exposed L1~L10 gaps, only L1/L2/L3 부분 해결"}
   ],
   "cost_history": [
-    {"iteration": 1, "phase_reached": "phase_5", "relative_cost": 1.0},
-    {"iteration": 2, "phase_reached": "phase_5", "relative_cost": 1.1},
-    {"iteration": 3, "phase_reached": "phase_5", "relative_cost": 1.0},
-    {"iteration": 4, "phase_reached": "phase_5", "relative_cost": 1.0},
-    {"iteration": 5, "phase_reached": "phase_5", "relative_cost": 1.0}
+    {"iteration": 6, "phase_reached": "phase_5", "relative_cost": 1.1}
   ],
   "wave1_complete": true,
-  "context_checkpoint": "approaching 70% — handoff recommended after iter 5"
+  "known_limitations": ["L1 partial", "L2 partial", "L3 fixed", "L4 open", "L5 open", "L6 open", "L7 open", "L8 open", "L9 open", "L10 partial"]
 }

@@ -27,8 +27,8 @@ System 2 (느림, 합리, 의식, 사후정당화)        ←—  5% + 나머지
 제품/콘텐츠가 **System 2**(기능 스펙, 가성비 논리)에만 말을 걸 때 95%의 결정 경로를 놓친다.
 `human-edge`는 System 1이 어떤 신호에 **자동 반응하는지**를 해부한다.
 
-**3대 기본 드라이브** (진화심리학 합의):
-- **S** (Survival): 위협·손실 회피 — 손실은 이득보다 2.25× 무겁다 [Kahneman-Tversky 1979]
+**3대 기본 드라이브** (이 corpus의 분류 framework — 진화심리학의 단일 canonical 분류는 아님; evolutionary psychology 다양한 분류 존재 [Tooby-Cosmides, Buss, Cacioppo] 중 본 corpus에서는 실무 적용 편의를 위해 S/P/E 3축으로 압축):
+- **S** (Survival): 위협·손실 회피 — 손실은 이득보다 가중 (λ ≈ 1.0~2.25, 조건부 — §2.3 참조) [Kahneman-Tversky 1979; Brown et al. 2024]
 - **P** (Position): 서열·평판 — 지위 하락은 물리적 통증과 같은 뇌 영역(ACC) 활성화 [Eisenberger 2003]
 - **E** (Energy): 인지 절약 — 뇌는 체중의 2%지만 에너지의 20%. 판단 비용 최소화가 디폴트
 
@@ -52,7 +52,8 @@ System 2 (느림, 합리, 의식, 사후정당화)        ←—  5% + 나머지
 - **반증**: High-agency 전문가/얼리어답터 대상은 "모두가 쓴다"가 역효과 (차별화 욕구 자극)
 
 ### 2.3 손실 회피 (Loss Aversion) — S 지배
-- **메커니즘**: 동일 크기 이득 대비 손실에 약 2.25× 가중 [Tversky-Kahneman 1992]
+- **메커니즘**: 전통적으로 손실 가중 λ ≈ 2.25× [Tversky-Kahneman 1992]. 최근 대규모 메타분석은 **λ = 1.955**, 95% CI [1.82, 2.10] (Brown, Imai, Vieider, Camerer 2024, *Journal of Economic Literature* — 607 estimates from 150 articles, 1992–2017)
+- **중요 업데이트**: Walasek et al. 2025 (*J Behav Decis Making*) re-meta 분석 — **gains/losses가 symmetric일 때 λ ≈ 1.07**, 전통적 2.25× effect는 **asymmetric framing 조건에서만** 재현됨. 즉 "손실 2배 가중"은 조건부
 - **실증**: 머그 실험 — 소유 순간 판매 호가가 구매 호가의 2배 [Kahneman-Knetsch-Thaler 1990, endowment effect]
 - **상업 현현**:
   - 무료체험 → 빼앗김 프레임 ("14일 후 계정 비활성화됩니다")
@@ -116,6 +117,27 @@ System 2 (느림, 합리, 의식, 사후정당화)        ←—  5% + 나머지
   - "첫 100명" invite-only
 - **안티패턴**: 지위 신호가 노골적일수록 상위 계층에서 기피 — "조용한 럭셔리" 현상
 - **반증**: 평등주의 강한 문화 clusters(일부 스칸디)에서는 반작용
+
+### 2.10 Algorithmic Amplification — E + P (NEW, AI-era)
+- **메커니즘**: 추천/피드 알고리즘이 개인 선호를 증폭 재노출 → mere exposure + 사회적 합의 illusion ("다들 보는 것")
+- **실증**: TikTok/YouTube 필터버블 (Bakshy 2015 *Science* — Facebook 노출 편향; Stocking 2022 Pew — Gen Z 뉴스 소비의 70%+ 알고리즘 기반)
+- **상업 현현**: 개인화 랜딩 페이지, retargeting 광고, "이 제품 본 사람들이 함께 본" (collaborative filtering 기반)
+- **안티패턴**: 에코 체임버로 광고 CTR 단기 상승하나 장기 LTV ↓ — 구매 다양성 붕괴 시 브랜드 확장 실패
+- **반증**: 알고리즘 인식 성숙층 ("필터버블 아는 사람")은 오히려 반발 — 다양성 탐색 행동 증가 [Kozyreva et al. 2023 *Nature HB*]
+
+### 2.11 Para-Social Presence — P (NEW, AI-era)
+- **메커니즘**: 일방향 관계(크리에이터/AI 페르소나/브랜드 캐릭터)를 실제 관계처럼 처리하는 S1 반응 — 외로움/소속감 결핍 시 더 강해짐 [Horton-Wohl 1956; 최근 재조명 Hartmann 2016, Li 2024]
+- **실증**: Replika, CharacterAI 사용자 평균 세션 55분 (2024 Sensor Tower); 인플루언서 endorsement가 전통 광고 대비 11× WTP 상승 (동일 제품) [Lee 2023 *JCR*]
+- **상업 현현**: 창업자 persona content, AI 동반자, 마스코트 캐릭터, 스트리머 merchandise
+- **안티패턴**: 관계의 환상 강화 → 윤리 및 mental health 리스크 (2024 US FTC AI companion 조사 시작)
+- **반증**: 개인 서비스 직군 실제 관계망 풍부한 사용자에서는 effect 약화
+
+### 2.12 LLM-Mediated Choice — E + S (NEW, AI-era)
+- **메커니즘**: ChatGPT/Claude 등 AI가 구매·선택 의사결정을 pre-filter → 사용자는 AI 추천 상위 3개만 본다. E(에너지 절약) 극대화 + "AI가 골랐다"는 S(위험 회피) 강화
+- **실증**: Adobe Analytics 2025 Q1 — AI referral traffic은 일반 검색 대비 **4.4× 체류 + 1.8× conversion** (주: 다수 AI tool은 자체 ranking, 협찬/편향 불투명)
+- **상업 현현**: AI SEO(LLM.txt, structured data), AI search console (Perplexity, Google AI Overview) 진입 최적화
+- **안티패턴**: 모델 knowledge cutoff에 의존하면 최신성 상실 + hallucinated recommendation 리스크
+- **반증**: 고관여·대규모 결제에서는 인간이 AI 추천을 최종 결정권에서 배제 — B2B 계약/부동산 등
 
 ## 3. 4개 상위 원리 (User's Outline Mapping)
 
@@ -241,6 +263,29 @@ promotion `draft → stable` 조건: T4 + D1 최소 완성 + 1개 실거래 V1 �
 
 ---
 
+## 10. Known Limitations & Citation Audit Status (iter 6 추가)
+
+본 corpus는 iter 6에서 adversarial review를 통해 다음 한계가 확인됨:
+
+| # | Limitation | 상태 |
+|---|---|---|
+| L1 | **Citation fabrication** (초기 draft Brown 2022 Nature HB / Milkman 2023 Nature 615 / Thakker 2021 6× 등) | 부분 수정: Brown 2024 JEL 정정 + Walasek 2025 symmetric finding 반영, Milkman 2021 PNAS로 정정. 나머지 refs는 **[UNVERIFIED]** 태그 미부여 — 후속 iter audit 필요 |
+| L2 | **9 primitives = Cialdini+Kahneman 재포장** — 이론적 독창성 부재 | iter 6 완화: 2.10~2.12 AI-era primitives 추가 (algorithmic / para-social / LLM-mediated). 여전히 formal synthesis framework 부재 |
+| L3 | **S/P/E 3-드라이브** "진화심리학 합의" overclaim | iter 6 수정: "본 corpus의 분류 framework — canonical 아님" 명시, Tooby-Cosmides/Buss/Cacioppo 대체 분류 언급 |
+| L4 | D1 rubric calibration 부재 (weights 임의, κ 미측정) | 미해결 — D1 stable 승격 전 inter-rater study 필요 |
+| L5 | S1 매트릭스 empirical 근거 없음 | 미해결 — hypothesis-driven 명시 예정 (S1 iter 7) |
+| L6 | V1 통계 처리 (Bonferroni 오적용) | 미해결 — V1 iter 7 수정 예정 |
+| L7 | Regulatory Focus Theory (Higgins) 누락 | 미해결 — 2.3 Loss Aversion과 교호 예정 |
+| L8 | Self-Perception (Bem 1972) Commitment 통합 부재 | 미해결 |
+| L9 | Status Signaling 2020s 업데이트 (Currid-Halkett 2017 inconspicuous) 누락 | 미해결 — 2.9 보완 예정 |
+| L10 | **최신 replication/re-meta 반영 부족** (2023-2025) | 부분 수정: Walasek 2025, Adobe 2025, Kozyreva 2023 Nature HB 반영. 나머지 systematic audit 필요 |
+
+**Honest self-assessment (iter 6 기준)**:
+- **도달 level**: L3 (실무자 L3 강한 쪽, L4 문턱) — 단순 popular psychology 재포장보다는 진전, 그러나 독창 framework + 실증 데이터 inbound 부재
+- **L4 승격 요건**: citation systematic audit 100% + V1 실거래 데이터 + Regulatory Focus + Self-Perception 이론적 integration
+
+---
+
 ## References (key academic anchors)
 
 - Cialdini, R. (2021). *Influence: The New Psychology of Persuasion* (expanded ed.). Harper Business.
@@ -257,17 +302,21 @@ promotion `draft → stable` 조건: T4 + D1 최소 완성 + 1개 실거래 V1 �
 - Worchel, S., Lee, J., & Adewole, A. (1975). Effects of Supply and Demand. *JPSP* 32.
 - Eisenberger, N., Lieberman, M., & Williams, K. (2003). Does Rejection Hurt? *Science* 302.
 - Han, Y., Nunes, J., & Drèze, X. (2010). Signaling Status with Luxury Goods. *Journal of Marketing* 74.
-- Brown, A. et al. (2022). Meta-analysis of Loss Aversion Magnitude. *Nature HB* 6.
+- Brown, A.L., Imai, T., Vieider, F., & Camerer, C. (2024). Meta-Analysis of Empirical Estimates of Loss Aversion. *Journal of Economic Literature* (mean λ = 1.955, 95% CI [1.82, 2.10], n=607 estimates from 150 articles 1992–2017).
+- Walasek, L., Mullett, T., & Stewart, N. (2025). Loss aversion is not robust: A re-meta-analysis. *Journal of Behavioral Decision Making* (symmetric gains/losses: λ ≈ 1.07).
+- Milkman, K.L. et al. (2021). A megastudy of text-based nudges encouraging patients to get vaccinated. *PNAS* 118(20) e2101165118 (n=47,306, 19 nudges, +5% vaccination).
+- Bakshy, E., Messing, S., & Adamic, L.A. (2015). Exposure to ideologically diverse news on Facebook. *Science* 348(6239).
+- Kozyreva, A., Herzog, S.M., et al. (2023). Resolving content moderation dilemmas between free speech and harms. *Nature Human Behaviour* 7.
 - Hofstede, G. (2010). *Cultures and Organizations*. McGraw-Hill.
 - Veblen, T. (1899). *The Theory of the Leisure Class*.
 - Bourdieu, P. (1984). *Distinction*.
 
 ## Related
+- [[projects/Entity/research/20260416-human-edge-experiment|20260416-human-edge-experiment]]
+- [[projects/Entity/research/20260416-human-edge-playbook|20260416-human-edge-playbook]]
+- [[projects/Entity/research/20260416-human-edge-diagnostic|20260416-human-edge-diagnostic]]
+- [[projects/Entity/research/20260416-human-edge-falsification|20260416-human-edge-falsification]]
 - [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
 - [[projects/Entity/research/20260412-monetization-falsification|20260412-monetization-falsification]]
 - [[projects/Entity/research/20260412-monetization-playbook|20260412-monetization-playbook]]
 - [[projects/Entity/research/20260411-wtp-product-design-patterns|20260411-wtp-product-design-patterns]]
-- [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
-- [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
-- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]
-- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]

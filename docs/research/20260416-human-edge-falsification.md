@@ -28,13 +28,13 @@ date: 2026-04-16
 ### 2.2 Social Proof — ●●● strong (단, 경계 있음)
 - **견고 영역**: 낯선 영역 + 불확실 + 타인 관찰 가능
 - **약화 영역**: 전문가 자신감 높은 도메인 (역효과 — 대중과 차별화 욕구)
-- **Replication 실패**: 2023 Milkman et al. mega-study — 백신 접종 독려 메시지 22종 중 peer social proof 효과 p=0.12, 일반 crowd 프레임은 거의 무효
+- **실증 현장 megastudy**: Milkman et al. 2021 (*PNAS* 118(20)) — 47,306명 대상 19개 text-nudge, **평균 5% vaccine 접종률 증가**. 2022 *PNAS* 후속(680,000명 pharmacy)에서 효과 크기 유사. social proof 단독 효과는 개별 message ranking에 따라 크게 달라지며, **모든 nudge가 효과 있는 것은 아님** (대부분 null / 일부 marginal). 이전 draft에 인용된 "2023 Nature p=0.12" 출처는 **검증 실패 — 제거**
 - **대체 설명**: Goldstein 호텔 수건 효과 일부는 **descriptive norm** 때문 아니라 **메시지 현저성** 가설 — 어떤 메시지든 받으면 수건 재사용 ↑ 기저율 존재
 
-### 2.3 Loss Aversion — ○ contested (2.25× 신화)
-- **원래 수치**: 실험실 Kahneman-Tversky 1992, n=25 대학생, 2.25× 계수
-- **최근 메타분석** (Brown et al. 2022, Nature HB): 실거래 상황 loss-gain ratio 중앙값 1.4~1.8×, 일부 도메인에서 무효
-- **Replication 실패**: 주식 투자 의사결정 (n=8000 실거래): 기대 loss aversion 감지 불가. 보유 지속은 disposition effect(본전 회복 욕구)로 더 잘 설명
+### 2.3 Loss Aversion — ● weak ~ ●● contested (조건부)
+- **원래 수치**: Kahneman-Tversky 1992, 2.25× 계수 (실험실)
+- **정정된 메타분석** (Brown, Imai, Vieider, Camerer **2024**, *Journal of Economic Literature* — 이전 draft의 "2022 Nature HB"는 잘못된 인용, 정정함): 607 estimates × 150 articles, 1992-2017. **mean λ = 1.955, 95% CI [1.82, 2.10]** — 전통적 2.25보다 약간 낮지만 "2배 가중" 큰 틀은 유지
+- **결정적 업데이트** (Walasek et al. 2025, *J Behav Decis Making*, re-meta): **gains/losses가 symmetric (동일 크기 범위)일 때 λ ≈ 1.07** 로 loss aversion이 거의 사라짐. 기존 meta 평균의 대부분은 **asymmetric framing** (손실이 이득보다 작은 조건) artifact였을 가능성. "loss aversion은 조건부로만 robust" — 이는 corpus 차원의 재평가 신호
 - **대체 설명**: 많은 loss aversion 관찰은 **reference point manipulation** 효과 — loss/gain 프레임이 아니라 기준점 설정이 결정 변수
 
 ### 2.4 Anchoring — ●●● strong
