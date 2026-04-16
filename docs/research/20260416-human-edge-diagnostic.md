@@ -253,10 +253,14 @@ final_score = max(0, raw_score − dark_penalty)       # 다크패턴 강한 페
 ---
 
 ### Note: Inter-Rater Reliability (L4 Calibration)
-- **κ study needed**: 현재 rubric은 단일 평가자 기반으로 설계됨
-- **실행**: 최소 3인 평가자 × 20개 샘플 → Cohen's κ >= 0.70 이상 필요
-- **예상 비용**: ~3시간 (평가 + 분석)
-- **우선순위**: impact 평가 전 필수 — 그렇지 않으면 평가자간 consensus 문제로 결과 해석 불가
+- **κ study design**: 최소 3인 평가자 × 20개 샘플 → Cohen's κ >= 0.70
+- **실행 프로토콜**:
+  1. 평가자 3인 (타겟 사용자/마케터/학자 분할)
+  2. 샘플 20개 (고관여/저관여 × 10)
+  3. 독립 평가 → κ 계산
+  4. κ < 0.70 시 rubric 개정 후 재실행
+- **예상 비용**: ~3시간
+- **우선순위**: impact 평가 전 필수
 - "바이럴 안 퍼짐" → Q8/Q9/Q2 (+ 실제 UGC·공유 UX 점검)
 - "다크패턴 있나" → Q7/Q9/Q12 + dark_pattern_flagged 집계
 
