@@ -330,4 +330,4 @@ promotion `draft → stable` 조건: T4 + D1 최소 완성 + 1개 실거래 V1 �
 - [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
 - [[projects/Entity/research/20260411-wtp-decision-playbook|20260411-wtp-decision-playbook]]
 - [[projects/Entity/research/20260411-wtp-product-design-patterns|20260411-wtp-product-design-patterns]]
-- [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
+- [[projects/Entity/research/20260411-wtp-meta-review|20260411-wtp-meta-review]]
