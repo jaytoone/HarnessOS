@@ -67,3 +67,11 @@ Abstract: We introduce compute-grounded reasoning (CGR), a design paradigm for s
 8. [Spatial Atlas: Compute-Grounded Reasoning for Spatial-Aware Research Agent Benchmarks](https://arxiv.org/abs/2604.12102) — arXiv cs.AI (rel=10.0)
 9. [AutoSurrogate: An LLM-Driven Multi-Agent Framework for Autonomous Construction of Deep Learning Surrogate Models in Subsurface Flow](https://arxiv.org/abs/2604.11945) — arXiv cs.LG (rel=10.0)
 10. [The A-R Behavioral Space: Execution-Level Profiling of Tool-Using Language Model Agents in Organizational Deployment](https://arxiv.org/abs/2604.12116) — arXiv cs.AI (rel=10.0)
+
+## Related
+- [[projects/Entity/research/20260331-autonomous-skill-selection-research|20260331-autonomous-skill-selection-research]]
+- [[projects/Entity/research/20260323-hypothesis-driven-agent-research|20260323-hypothesis-driven-agent-research]]
+- [[projects/Entity/research/20260331-skill-selection-implementation-templates|20260331-skill-selection-implementation-templates]]
+- [[projects/Entity/research/20260412-skill-as-tool-vertical-ai|20260412-skill-as-tool-vertical-ai]]
+- [[projects/Entity/research/20260331-skill-selection-quick-reference|20260331-skill-selection-quick-reference]]
+- [[projects/Entity/research/paper-frame-category-aware-strategy|paper-frame-category-aware-strategy]]

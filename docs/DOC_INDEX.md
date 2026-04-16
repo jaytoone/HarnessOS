@@ -1,6 +1,8 @@
 # Document Index
 
 ## Research
+- [2026-04-15 Gemma 4 vs Claude Sonnet 4.6 코딩/툴활용 비교 — LiveCodeBench, SWE-bench, tau2-bench, MCP-Atlas, 용도별 추천](research/20260415-gemma4-vs-sonnet46-coding-tooluse-comparison.md)
+- [2026-04-15 AI Agent Swarm Intelligence 정량화 평가 방법 리서치 — SwarmBench, MultiAgentBench, Classical SI vs LLM 비교](research/20260415-ai-agent-swarm-intelligence-evaluation.md)
 - [2026-04-14 ameva-inf 스킬 설계 Spec — omc 독립, Swarm Intelligence(Explorer-Reasoner-Auditor), 4D Corpus Quality Oracle](research/20260414-ameva-loop-skill-spec.md)
 - [2026-04-12 Vertical AI Skill-as-Tool 방법론 — SoK 4-tuple, 하이브리드 라우팅, Entity 적용 로드맵](research/20260412-skill-as-tool-vertical-ai.md)
 - [2026-04-12 Marketing/Growth Corpus Draft — K-factor, Growth Loops, Viral Coefficient, PLG (ameva corpus builder Step 2)](research/20260412-marketing-growth-corpus-draft.md)

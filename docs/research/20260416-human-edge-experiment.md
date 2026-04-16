@@ -145,8 +145,6 @@ V1 결과 기반 다음 실험:
 각 V는 pre-registered 2×2 factorial + 동일 HC 체크리스트.
 
 ---
-
-## Related
 - [T1] 20260416-human-edge-theory.md — 2.3 Loss Aversion, 3.2 Spending Pockets (실험 배경)
 - [T4] 20260416-human-edge-falsification.md — §3 Alternative Explanations, §4 Dead-zone (설계 제약)
 - [D1] 20260416-human-edge-diagnostic.md — Q10 Spending Pocket (실험 조작 변수와 연결)
@@ -159,3 +157,13 @@ V1 결과 기반 다음 실험:
 - Thaler, R. (1985). Mental Accounting and Consumer Choice. *Marketing Science* 4.
 - Gelman, A., & Loken, E. (2014). The Statistical Crisis in Science (on pre-registration / garden of forking paths). *American Scientist* 102.
 - Simmons, J., Nelson, L., & Simonsohn, U. (2011). False-Positive Psychology. *Psychological Science* 22.
+
+## Related
+- [[projects/Entity/research/20260416-human-edge-falsification|20260416-human-edge-falsification]]
+- [[projects/Entity/research/20260416-human-edge-theory|20260416-human-edge-theory]]
+- [[projects/Entity/research/20260416-human-edge-playbook|20260416-human-edge-playbook]]
+- [[projects/Entity/research/20260416-human-edge-diagnostic|20260416-human-edge-diagnostic]]
+- [[projects/Entity/research/20260411-wtp-social-amplifier-experiment-v2|20260411-wtp-social-amplifier-experiment-v2]]
+- [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
+- [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
+- [[projects/Entity/research/20260412-monetization-falsification|20260412-monetization-falsification]]

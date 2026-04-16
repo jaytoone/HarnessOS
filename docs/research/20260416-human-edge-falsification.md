@@ -181,8 +181,6 @@ primitives 적용 전 확인: 참조 연구의 표본이 KR/타겟 시장과 일
 - "효과 있을 거 같아" → ES 정량 제시 + A/B 실측 요구
 
 ---
-
-## Related
 - [T1] 20260416-human-edge-theory.md — 9 primitives 원리 (T4가 반증 레이어 제공)
 - [D1] 20260416-human-edge-diagnostic.md — 감사 결과에 T4 경계 검증 적용
 - [S1] 20260416-human-edge-playbook.md — S1 실행 전 T4 dead-zone 통과 필수
@@ -198,3 +196,13 @@ primitives 적용 전 확인: 참조 연구의 표본이 KR/타겟 시장과 일
 - Kupor, D. & Tormala, Z. (2019). Persuasion, Interrupted. *JCR* 46.
 - Han, Y., Nunes, J., & Drèze, X. (2010). Signaling Status with Luxury Goods. *JMR* 74.
 - Bem, D. (1972). Self-Perception Theory. *Advances in Experimental Social Psychology* 6.
+
+## Related
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
+- [[projects/Entity/research/20260416-human-edge-playbook|20260416-human-edge-playbook]]
+- [[projects/Entity/research/20260416-human-edge-diagnostic|20260416-human-edge-diagnostic]]
+- [[projects/Entity/research/20260416-human-edge-theory|20260416-human-edge-theory]]
+- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
+- [[projects/Entity/research/20260412-monetization-playbook|20260412-monetization-playbook]]
+- [[projects/Entity/research/20260411-wtp-falsification-criteria|20260411-wtp-falsification-criteria]]

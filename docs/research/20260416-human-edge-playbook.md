@@ -174,10 +174,18 @@ R [Referral]        → Status (초대 가능 슬롯 — 프리미엄만) + Meta
 - "가격 안 먹힘" → Revenue 컬럼 (Anchoring 3단 + Social Proof 사례 + Loss Aversion 환불보장)
 
 ---
-
-## Related
 - [T1] 20260416-human-edge-theory.md — 9 primitives 원리
 - [D1] 20260416-human-edge-diagnostic.md — 13-문항 감사 (S1 배포 전후 진단 기준)
 - [X-GROUNDED: wtp.S1] 20260411-wtp-seed-cohort-strategy.md — cohort 설계 교차
 - [X-GROUNDED: marketing_growth.S1] 20260412-marketing-growth-loop-playbook.md — viral loop archetype
 - [X-GROUNDED: monetization.S1] 20260412-monetization-playbook.md — pricing 플레이북 (Revenue 컬럼 교차)
+
+## Related
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
+- [[projects/Entity/research/20260412-marketing-growth-loop-playbook|20260412-marketing-growth-loop-playbook]]
+- [[projects/Entity/research/20260412-marketing-growth-diagnostic|20260412-marketing-growth-diagnostic]]
+- [[projects/Entity/research/20260416-human-edge-diagnostic|20260416-human-edge-diagnostic]]
+- [[projects/Entity/research/20260412-marketing-growth-theory|20260412-marketing-growth-theory]]
+- [[projects/Entity/research/20260416-human-edge-theory|20260416-human-edge-theory]]
+- [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
+- [[projects/Entity/research/20260412-monetization-playbook|20260412-monetization-playbook]]

@@ -278,9 +278,14 @@ related: [T1] human-edge-theory / [wtp.D3] bbaijjim audit (Ethical_Coefficient �
 ```
 
 ---
-
-## Related
 - [T1] 20260416-human-edge-theory.md — 9 primitives + user outline mapping
 - [X-GROUNDED: wtp.T2] 20260411-wtp-theory-v2.md — D(WTP) 공식, L1-L5 identity gap
 - [X-GROUNDED: wtp.D3] 20260411-wtp-bbaijjim-audit-framework.md — Ethical_Coefficient audit
 - [X-GROUNDED: monetization.D1] 20260412-monetization-diagnostic.md — 가격 모델 진단 (Q4/Q10 교차)
+
+## Related
+- [[projects/Entity/research/20260416-human-edge-theory|20260416-human-edge-theory]]
+- [[projects/Entity/research/20260411-wtp-bbaijjim-audit-framework|20260411-wtp-bbaijjim-audit-framework]]
+- [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
+- [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]

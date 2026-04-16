@@ -261,3 +261,13 @@ promotion `draft → stable` 조건: T4 + D1 최소 완성 + 1개 실거래 V1 �
 - Hofstede, G. (2010). *Cultures and Organizations*. McGraw-Hill.
 - Veblen, T. (1899). *The Theory of the Leisure Class*.
 - Bourdieu, P. (1984). *Distinction*.
+
+## Related
+- [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
+- [[projects/Entity/research/20260412-monetization-falsification|20260412-monetization-falsification]]
+- [[projects/Entity/research/20260412-monetization-playbook|20260412-monetization-playbook]]
+- [[projects/Entity/research/20260411-wtp-product-design-patterns|20260411-wtp-product-design-patterns]]
+- [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
+- [[projects/Entity/research/20260411-wtp-career-mirror-mvp|20260411-wtp-career-mirror-mvp]]
+- [[projects/Entity/research/20260411-wtp-demand-genesis-theory|20260411-wtp-demand-genesis-theory]]
+- [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]
