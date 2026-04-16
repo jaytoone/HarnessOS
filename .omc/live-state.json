@@ -1,30 +1,25 @@
 {
-  "current_iteration": 3,
+  "current_iteration": 4,
   "last_outcome": "success",
   "last_phase_reached": "phase_5",
   "started_at": "2026-04-16T13:21:00Z",
-  "best_score": 0.94,
-  "current_score": 0.94,
-  "current_goal_fidelity": 0.93,
+  "best_score": 0.95,
+  "current_score": 0.95,
+  "current_goal_fidelity": 0.92,
   "score_variance": 0.02,
   "plateau_count": 0,
-  "evolution_count": 2,
+  "evolution_count": 3,
   "score_history": [
-    {"iteration": 1, "score": 0.89, "goal_fidelity": 1.0, "goal_version": 0, "score_variance": 0.03, "goal": "T1 foundation — 9 primitives"},
-    {"iteration": 2, "score": 0.92, "goal_fidelity": 0.95, "goal_version": 1, "score_variance": 0.03, "goal": "D1 diagnostic — 13-문항 감사"},
-    {"iteration": 3, "score": 0.94, "goal_fidelity": 0.93, "goal_version": 2, "score_variance": 0.02, "goal": "S1 playbook — AARRR × 9 primitives 매트릭스"}
+    {"iteration": 1, "score": 0.89, "goal_fidelity": 1.0, "goal_version": 0, "goal": "T1 foundation"},
+    {"iteration": 2, "score": 0.92, "goal_fidelity": 0.95, "goal_version": 1, "goal": "D1 diagnostic"},
+    {"iteration": 3, "score": 0.94, "goal_fidelity": 0.93, "goal_version": 2, "goal": "S1 playbook"},
+    {"iteration": 4, "score": 0.95, "goal_fidelity": 0.92, "goal_version": 3, "goal": "T4 falsification"}
   ],
   "cost_history": [
     {"iteration": 1, "phase_reached": "phase_5", "relative_cost": 1.0},
     {"iteration": 2, "phase_reached": "phase_5", "relative_cost": 1.1},
-    {"iteration": 3, "phase_reached": "phase_5", "relative_cost": 1.0}
+    {"iteration": 3, "phase_reached": "phase_5", "relative_cost": 1.0},
+    {"iteration": 4, "phase_reached": "phase_5", "relative_cost": 1.0}
   ],
-  "wave1_complete": true,
-  "wave1_plan": {
-    "approach": "Grounded behavioral-economics + evolutionary-psychology synthesis into corpus-schema docs (T→D→S→V progression)",
-    "method": "1) T1 9 primitives 2) D1 13-문항 diagnostic 3) S1 AARRR playbook 4) T4 falsification 5) V1 experiment",
-    "key_decisions": "각 iter = 1 doc type, draft 유지, wtp/monetization/marketing_growth cross-link",
-    "anti_patterns": "피상 재탕 / 실험 일반화 / 손실회피 직접이식 / 다크패턴 흐림 / 문화보정 누락 / 모든 단계에 모든 primitive 과잉 배치",
-    "constraints": "academic refs + HC 7+ + Ethical_Coefficient 표시 + Kill Switch 지표 실측 기반"
-  }
+  "wave1_complete": true
 }

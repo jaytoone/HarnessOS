@@ -1,26 +1,39 @@
-omc-live-inf iter 3/∞: success | goal_v2: human-edge S1 playbook — 9 primitives × AARRR 전환 퍼널 블루프린트
+omc-live-inf iter 4/∞: success | goal_v3: human-edge T4 falsification — 반증 기준 + 문화 경계 + 대체 설명
 
-S1 doc: docs/research/20260416-human-edge-playbook.md (~210 lines)
-- 9 primitives × 5 AARRR stages 레버리지 매트릭스 (● 주력 / ○ 보조 / — 기피)
-- 3 시나리오 블루프린트:
-    A) B2B SaaS — Social Proof + Commitment 3단 + Status(팀 리더보드) + Anchoring 3단
-    B) D2C Consumer (KR 집단주의) — 한정판 + UGC + 친구 레이어 + 무료배송 임계
-    C) Community/Knowledge — 진단 퀴즈 + 기여 레벨 + 프리미엄 인사이더
-- 카피 발화 예시 5개 (Bad vs Good 페어)
-- Kill Switch 6개: 환불율/NPS/K-factor/브랜드검색/unsubscribe/유료전환 하락 시 어떤 레버 제거
-- Primary metric 9개 (primitive별 측정 기준)
-- S1-HC-1..7: 모든 단계 과잉 배치 / 프리셋 오적용 / KR 직역 / Kill Switch 가정 / 다크패턴 포장 / cross-grounding 누락 / 단일 성공사례 외삽
-- Gap patterns 5: all_stages_same_lever / funnel_no_meta / referral_loss_pressure / activation_anchor_waste / kill_switch_missing
+T4 doc: docs/research/20260416-human-edge-falsification.md (~195 lines)
+
+1. Replication Integrity (primitive별 실증 견고성):
+   2.1 Scarcity ●● / 2.2 Social Proof ●●● (경계) / 2.3 Loss Aversion ○ contested (2.25× 신화 반박)
+   2.4 Anchoring ●●● / 2.5 Reciprocity ●● / 2.6 Commitment ●● / 2.7 Novelty ●●●
+   2.8 Meta-Insight ●● / 2.9 Status Signaling ●●● (세그먼트 반전)
+   - 각 primitive에 replication 실패 / 대체 설명 첨부
+
+2. 문화 경계 (Hofstede 3축):
+   IDV 개인주의(US/NL) vs 집단주의(KR/JP) — Commitment vs Social Proof 가중 반전
+   PDI 권력거리 — Authority vs Peer Social Proof 우위 반전
+   UAI 불확실성 회피 — Loss Aversion vs Novelty 우위 반전
+   WEIRD 편향 경고: 학술 실험 80%+가 서구 대학생 → 효과 크기 할인 0.3-0.7x
+
+3. 4가지 대체 설명 (귀속 오류):
+   Confounding by Quality Signal / Selection Effect / Expectation (Placebo) / Novelty Artifact (Hawthorne)
+
+4. Dead-zone 조건 9개 (primitive별 무효 구간)
+
+5. 2020-2025 업데이트:
+   감소: Authority, 상업적 Reciprocity, 가짜 Scarcity
+   강해짐: Meta-Insight (AI 개인화), peer Social Proof (UGC/TikTok), 커뮤니티 Status
+   새 경계: 2024 EU DSA / KR 소비자법 개정 — 다크패턴 규제
+
+6. T4-HC-1..7: replication 실패 제시 / 효과크기 세그먼트 명시 / 대체설명 고려 / dead-zone 측정가능 / WEIRD 검토 / 2020s 업데이트 / 반증 불가능 주장 회피
 
 Registry: ~/.claude/skills/entity/corpus-registry.yaml
-  docs.S1 추가, taxonomy_groups.전략: [S1]
+  docs.T4 추가, taxonomy_groups.이론: [T1, T4]
 
-human_edge corpus 현재: T1(이론) + D1(진단) + S1(전략) — 4-doc 타입 중 3개 완성
-남은 iter 후보:
-  T4 falsification — 반증 기준 + 문화 경계 + 대체 설명
-  V1 experiment — Pain of Payment × Mental Accounting A/B 실험 디자인
+human_edge corpus: T1 (이론) + T4 (반증) + D1 (진단) + S1 (전략) — 4/5 완성
+남은: V1 (experiment — Pain of Payment × Mental Accounting A/B)
 
-Score trajectory: 0.89 → 0.92 → 0.94 (+0.05 accumulated) | plateau_count=0 | evolution_count=2
-Budget: live-inf 무제한, 자율 continue 모드 지속
+Score trajectory: 0.89 → 0.92 → 0.94 → 0.95 (+0.06 누적) | plateau_count=0 | evolution_count=3
+Delta 0.01 (< epsilon 0.05) but best_score still updated (strict improvement)
+T→D→S→T 4-doc 완성, draft → stable 승격 조건 중 V1 실데이터 inbound만 남음
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
