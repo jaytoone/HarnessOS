@@ -1,0 +1,13 @@
+{
+  "root_goal": "ameva 개선",
+  "original_goal": "ameva 개선",
+  "level": 0,
+  "sub_goals": [],
+  "evolution_count": 0,
+  "evolution_history": [],
+  "reward_spec": {
+    "primary_metric": "task completion",
+    "threshold": "all acceptance criteria met"
+  },
+  "history": []
+}
