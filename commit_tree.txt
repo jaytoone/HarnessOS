@@ -1,14 +1,29 @@
-ameva: 동작 검증 3갭 수정 — Session Resume 조건 + Step 6 FAIL log + Resume Step 범위
+inhale+exhale: agent_research digest → 3 evolution artifacts (CGR / Long-Horizon Mirage / Solver-Sampler Mismatch)
 
-갭1: Session Resume Check 조건 count>=1 → count>=2
-  (첫 miss에서 blocking Step1~6 + auto_corpus_triggered=true 기록 → >=1은 항상 false)
-  Resume 대상: step6_pass=false 케이스 또는 count>=2 누적
+/inhale agent_research (2026-04-16):
+  docs/research/digests/20260416-agent_research.md — 10 items, all relevance ≥ 8.5
+  Sources: arXiv cs.AI/cs.LG, Alignment Forum, HN, Chrome Reading List, PyTorchKR
 
-갭2: Step 6 FAIL 분기에 corpus-miss-log.json 업데이트 추가
-  step6_pass/routing_precision/doc_count/high_tier/failed_criteria 기록
-  (다음 세션 재시도 시 실패 원인 파악 가능)
+/exhale → 3 proposed artifacts (registry rows appended to .omc/evolution-registry.jsonl):
 
-갭3: Session Resume 백그라운드 실행 코드를 'Step 2~6' 명시
-  (이전: 'Step 2 실행' — Step 6 포함 여부 불명확)
+1) Spatial Atlas / Compute-Grounded Reasoning (arXiv:2604.12102)
+   experiments/stuck_agent/cgr_compute_grounded_reasoning_design.md
+   mode=experiment, status=proposed, verification=paired_wilcoxon
+   Target: QG26 ACTION-UNCERTAIN dominance — CGR dispatch layer in corpus_router
+   H1: CGR-extended QG reduces ACTION-UNCERTAIN rate ≥30% without score regression
 
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+2) Long-Horizon Task Mirage (arXiv:2604.11978)
+   experiments/hypothesis_validation/long_horizon_mirage_live_inf.md
+   mode=hypothesis, status=proposed, verification=chi_square_goodness_of_fit
+   Target: live-inf convergence plateau asymmetry (control 0.835→1.000 / treatment 0.835→0.954)
+   H1: plateau concentrated in ≥1 Mirage category accumulating with skill_patch injection
+
+3) Solver-Sampler Mismatch (arXiv:2604.11840)
+   experiments/hypothesis_validation/solver_sampler_mismatch_biz_synthesis.md
+   mode=hypothesis, status=proposed, verification=kruskal_wallis_h_test
+   Target: biz-synthesis/MAD assumption "stronger model → better simulation"
+   H1: MAD round diversity non-monotonic in model strength (Opus < Sonnet)
+
+.omc/decision_corpus.json — auto-regenerated BM25 index (no manual edit).
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
