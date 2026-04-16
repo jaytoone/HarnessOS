@@ -159,10 +159,10 @@ V1 결과 기반 다음 실험:
 - Simmons, J., Nelson, L., & Simonsohn, U. (2011). False-Positive Psychology. *Psychological Science* 22.
 
 ## Related
+- [[projects/Entity/research/20260416-human-edge-diagnostic|20260416-human-edge-diagnostic]]
 - [[projects/Entity/research/20260416-human-edge-falsification|20260416-human-edge-falsification]]
 - [[projects/Entity/research/20260416-human-edge-theory|20260416-human-edge-theory]]
 - [[projects/Entity/research/20260416-human-edge-playbook|20260416-human-edge-playbook]]
-- [[projects/Entity/research/20260416-human-edge-diagnostic|20260416-human-edge-diagnostic]]
 - [[projects/Entity/research/20260411-wtp-social-amplifier-experiment-v2|20260411-wtp-social-amplifier-experiment-v2]]
 - [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
 - [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]

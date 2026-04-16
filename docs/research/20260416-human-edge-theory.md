@@ -313,10 +313,10 @@ promotion `draft → stable` 조건: T4 + D1 최소 완성 + 1개 실거래 V1 �
 
 ## Related
 - [[projects/Entity/research/20260416-human-edge-experiment|20260416-human-edge-experiment]]
-- [[projects/Entity/research/20260416-human-edge-playbook|20260416-human-edge-playbook]]
 - [[projects/Entity/research/20260416-human-edge-diagnostic|20260416-human-edge-diagnostic]]
 - [[projects/Entity/research/20260416-human-edge-falsification|20260416-human-edge-falsification]]
+- [[projects/Entity/research/20260416-human-edge-playbook|20260416-human-edge-playbook]]
 - [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
-- [[projects/Entity/research/20260412-monetization-falsification|20260412-monetization-falsification]]
-- [[projects/Entity/research/20260412-monetization-playbook|20260412-monetization-playbook]]
+- [[projects/Entity/research/20260411-wtp-decision-playbook|20260411-wtp-decision-playbook]]
 - [[projects/Entity/research/20260411-wtp-product-design-patterns|20260411-wtp-product-design-patterns]]
+- [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]

@@ -288,4 +288,7 @@ related: [T1] human-edge-theory / [wtp.D3] bbaijjim audit (Ethical_Coefficient ê
 - [[projects/Entity/research/20260411-wtp-bbaijjim-audit-framework|20260411-wtp-bbaijjim-audit-framework]]
 - [[projects/Entity/research/20260412-monetization-theory|20260412-monetization-theory]]
 - [[projects/Entity/research/20260412-monetization-diagnostic|20260412-monetization-diagnostic]]
+- [[projects/Entity/research/20260416-human-edge-experiment|20260416-human-edge-experiment]]
+- [[projects/Entity/research/20260416-human-edge-playbook|20260416-human-edge-playbook]]
+- [[projects/Entity/research/20260416-human-edge-falsification|20260416-human-edge-falsification]]
 - [[projects/Entity/research/20260412-marketing-growth-corpus-draft|20260412-marketing-growth-corpus-draft]]

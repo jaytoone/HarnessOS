@@ -1,117 +1,38 @@
 {
   "tried_strategies": [
     {
-      "goal": "A/B control: no patches, 3 iters",
-      "score": 1.0,
-      "iteration": 3,
-      "outcome": "CONVERGED_SUCCESS",
-      "weak_dim": "none"
-    },
-    {
-      "goal": "uncertainty_guided_trajectory experiment: complete A/B framework and preliminary report",
-      "score": 0.876,
-      "iteration": 3,
-      "outcome": "CONVERGED_SUCCESS",
-      "weak_dim": "none"
-    },
-    {
-      "goal": "Review and improve ALL agents and skills — survey all 75 skills + 65 agent types, fix stale refs, Korean descriptions, duplicates",
-      "score": 0.83,
-      "iteration": 1,
-      "outcome": "SUCCESS",
-      "weak_dim": "completeness"
-    },
-    {
-      "goal": "Apply Priority 1-2 roadmap: expand thin skills, add guidance, fix naming, slim deprecated",
-      "score": 0.89,
-      "iteration": 2,
-      "outcome": "SUCCESS",
-      "weak_dim": "completeness"
-    },
-    {
-      "goal": "live P6-5 through ameva Iter 62 (iters 1-22)",
-      "score": 0.982,
-      "iteration": 22,
-      "outcome": "success",
-      "weak_dim": "quality/completeness/efficiency/GF at 0.98 — impact 0.99"
-    },
-    {
-      "goal": "ameva Iter 63: 21st QG scope_gate assumption audit — VERIFIED/ASSUMED/UNCERTAIN + [SCOPE NOTE] block. quality/completeness 0.98→0.99.",
-      "score": 0.986,
-      "iteration": 23,
-      "outcome": "success",
-      "weak_dim": "efficiency/goal_fidelity at 0.98"
-    },
-    {
-      "goal": "ameva Iter 64: FAST-PATH ⚡ — high-confidence single-group all-GROUNDED → [ENRICH SKIP]+[CONFLICT SKIP]. 22nd QG fast-path compact. efficiency 0.98→0.99.",
-      "score": 0.988,
-      "iteration": 24,
-      "outcome": "success",
-      "weak_dim": "goal_fidelity at 0.98"
-    },
-    {
-      "goal": "ameva Iter 65: 23rd QG query-intent alignment — pre-synthesis intent_coverage≥0.50 check. [INTENT DRIFT] detection with 3 repair options (reroute/note/fallback). goal_fidelity 0.98→0.99.",
-      "score": 0.990,
-      "iteration": 25,
-      "outcome": "success",
-      "weak_dim": "all dims now 0.99 — asymptotic ceiling reached"
-    },
-    {
-      "goal": "ameva Iter 66: [ROUTING REPORT] structured emit (triggers+confidence+taxonomy_groups+doc_count) + 24th QG routing transparency. impact 0.990→0.993.",
-      "score": 0.991,
-      "iteration": 26,
-      "outcome": "success",
-      "weak_dim": "sub-epsilon improvements only — Pareto 3rd-decimal gains"
-    },
-    {
-      "goal": "ameva Iter 67: doc-tier annotation (T/D=HIGH⬆, S/V=MED◆, P=LOW⬇) in Stage 1.5 Step F + 25th QG doc_tier_check synthesis priority. quality 0.99→0.993.",
-      "score": 0.992,
-      "iteration": 27,
-      "outcome": "success",
-      "weak_dim": "sub-epsilon across all dims — deep asymptotic regime"
-    },
-    {
-      "goal": "ameva Iter 68: [ACTION-UNCERTAIN] retagging — UNCERTAIN-only backed actions flagged. 26th QG uncertain dominance gate. uncertain_ratio as 9th [AMEVA_GROUNDING_METRICS] field. quality+impact 0.993→0.994.",
-      "score": 0.993,
-      "iteration": 28,
-      "outcome": "success",
-      "weak_dim": "sub-epsilon only — Pareto micro-gains at 3rd decimal"
+      "goal": "human-edge (Hardware) L2 corpus 구축 — iter 1-6 research + build 9 primitives",
+      "score": 0.94,
+      "iteration": 6,
+      "outcome": "partial",
+      "weak_dim": "L4-L9 open limitations"
     }
   ],
-  "dead_ends": [
-    {
-      "goal": "Direct oracle calls for A/B control vs treatment with deterministic eval.py",
-      "score": 0.0,
-      "reason": "Oracle is deterministic — patch status irrelevant to output. Must test at live-inf orchestration level."
-    }
-  ],
+  "dead_ends": [],
   "known_facts": [
-    "paradigm_communication goal has baseline score ~0.935-0.954 (from live-inf iter 3-4)",
-    "paradigm_communication eval.py is a DETERMINISTIC Python oracle — no LLM calls, always scores same code the same way",
-    "Direct oracle runs cannot test A/B patch effect — both conditions yield identical scores (0.954)",
-    "Proper A/B for skill_patch requires live-inf orchestration runs: measure convergence trajectory, not final oracle call",
-    "Real treatment trajectory (4 live-inf iters, patches accumulating): 0.835 → 0.915 → 0.935 → 0.954 (+0.119 total)",
-    "Control (no patches) reached score=1.000 in 3 live-inf iters — better final score than treatment",
-    "Skills in ~/.claude/skills/ are OUTSIDE the Entity git repo — cannot git add them from /home/jayone/Project/Entity",
-    "ALL corpus docs are in /home/jayone/Project/Ameva/docs/research/ — NOT Entity. corpus_root was pointing to Entity (wrong). Fixed in iter 7.",
-    "ameva/SKILL.md Iter 68: 26-check Quality Gate. QG26 = ACTION-UNCERTAIN dominance gate ([ACTION-UNCERTAIN:] retagging when all backing claims are [UNCERTAIN]). uncertain_ratio = 9th [AMEVA_GROUNDING_METRICS] field. Deep asymptotic regime.",
-    "Priority 3 remaining items: qa-tester vs test-validator decision criteria, omc-learn-about-omc expansion, omc-trace expansion, ops-ml-training project-specific note, korean-criminal-law jurisdiction warning"
+    "human_edge corpus: 5 docs (T1/T4/D1/S1/V1) at L3 draft level",
+    "L1-L3 fixed: citation corrections (Brown 2024, Milkman 2021), AI-era primitives added",
+    "L4-L9 open: D1 rubric κ, S1 matrix caveats, V1 stats, Regulatory Focus, Self-Perception, Currid-Halkett",
+    "best_score: 0.94 (honest downgrade from 0.96)"
   ],
-  "uncertain": [],
+  "uncertain": [
+    "L4: D1 rubric inter-rater reliability",
+    "L7: Regulatory Focus Theory primitive addition"
+  ],
   "dimensions_explored": {
-    "quality": 0.99,
-    "completeness": 0.99,
-    "efficiency": 0.99,
-    "impact": 0.99,
-    "goal_fidelity": 0.99
+    "quality": 0.95,
+    "completeness": 0.92,
+    "efficiency": 0.95,
+    "impact": 0.94,
+    "goal_fidelity": 0.96
   },
   "skill_routing_history": [],
   "her_hints": [],
   "best_score_vector": {
-    "quality": 0.994,
-    "completeness": 0.99,
-    "efficiency": 0.99,
-    "impact": 0.994,
-    "goal_fidelity": 0.99
+    "quality": 0.95,
+    "completeness": 0.92,
+    "efficiency": 0.95,
+    "impact": 0.94,
+    "goal_fidelity": 0.96
   }
 }
