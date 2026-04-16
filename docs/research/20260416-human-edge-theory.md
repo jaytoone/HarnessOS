@@ -82,6 +82,7 @@ System 2 (느림, 합리, 의식, 사후정당화)        ←—  5% + 나머지
 ### 2.6 정합성/일관성 (Commitment-Consistency) — E + P
 - **메커니즘**: 과거 말·행동과 일치하게 행동하려는 자동 정렬 — 판단 비용 절약
 - **실증**: 잔디 운전주의 간판 동의 요청 (저커밋) → 2주 후 큰 간판 설치 요청 동의율 76% vs 대조군 17% [Freedman-Fraser 1966]
+- **Self-Perception 보강 (Bem 1972, NEW L8)**: 타인 관찰에서 자기 인식 유추 — "나는 X를 하는 사람이야" 자기정의 후 행동 자연 발생 [Bem 1972, *Advances in Experimental Social Psychology* 6]
 - **상업 현현**:
   - Micro-commit 계단: 이메일 → 무료가입 → 카드등록 → 결제
   - 자기 정체성 선언 유도("저는 생산성을 중시하는 사람입니다")
