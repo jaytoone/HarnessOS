@@ -249,6 +249,14 @@ final_score = max(0, raw_score − dark_penalty)       # 다크패턴 강한 페
 - "랜딩 페이지 점검" → Q1/Q2/Q4/Q13 우선
 - "가격 페이지 봐줘" → Q4/Q10/Q12 집중
 - "결제 이탈 많음" → Q6/Q11/Q12 (+ pay_friction pattern)
+
+---
+
+### Note: Inter-Rater Reliability (L4 Calibration)
+- **κ study needed**: 현재 rubric은 단일 평가자 기반으로 설계됨
+- **실행**: 최소 3인 평가자 × 20개 샘플 → Cohen's κ >= 0.70 이상 필요
+- **예상 비용**: ~3시간 (평가 + 분석)
+- **우선순위**: impact 평가 전 필수 — 그렇지 않으면 평가자간 consensus 문제로 결과 해석 불가
 - "바이럴 안 퍼짐" → Q8/Q9/Q2 (+ 실제 UGC·공유 UX 점검)
 - "다크패턴 있나" → Q7/Q9/Q12 + dark_pattern_flagged 집계
 

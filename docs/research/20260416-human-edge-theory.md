@@ -139,6 +139,17 @@ System 2 (느림, 합리, 의식, 사후정당화)        ←—  5% + 나머지
 - **안티패턴**: 모델 knowledge cutoff에 의존하면 최신성 상실 + hallucinated recommendation 리스크
 - **반증**: 고관여·대규모 결제에서는 인간이 AI 추천을 최종 결정권에서 배제 — B2B 계약/부동산 등
 
+### 2.13 규제 초점 (Regulatory Focus) — S + P (NEW, L7 Integration)
+- **메커니즘**: 사람마다 **촉진 초점(promotion focus)** vs **예방 초점(prevention focus)** 으로 목표 접근 방식이 다름. 촉진 초점은利得 추구, 예방 초점은 손실 회피에 민감 [Higgins 1997, *JPSP* 73(3)]
+- **실증**: 동일 제품/메시지가 프레임에 따라 efficacy 2배 차이 — "당신의 가능성을 실현" (촉진) vs "안정 그대로 유지" (예방) [Higgins 2000, *Psychological Review*]
+- **상업 현현**:
+  - 촉진 타겟: "成长", "成就", "实现可能性" — 비전/가능성 프레이밍
+  - 예방 타겟: "安全", "損失回避", "責任" — 의무/안전 프레이밍
+  - 동일 제품 2버전 카피: A/B 테스트로 초점 매칭
+- **안티패턴**: 초점 불일치 — 촉진 유형에 예방 프레이밍(or vice versa)하면 오히려 효과 ↓
+- **반증**: 장기 관계/신뢰 구축에서는 초점 유연성(promotion+prevention 병행)이 단일 초점보다 효과적 [ Cesario & Higgins 2008]
+- **검증 필요**: 현재 정량 연구太少 → L7로 분류
+
 ## 3. 4개 상위 원리 (User's Outline Mapping)
 
 User 요청에서 제시된 4개 기둥을 위 9 primitives로 그라운딩:

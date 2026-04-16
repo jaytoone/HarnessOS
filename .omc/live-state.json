@@ -1,25 +1,25 @@
 {
-  "current_iteration": 6,
-  "last_outcome": "partial",
-  "last_phase_reached": "phase_5",
-  "started_at": "2026-04-16T13:21:00Z",
-  "best_score": 0.96,
-  "current_score": 0.94,
-  "current_goal_fidelity": 0.88,
+  "current_iteration": 7,
+  "last_outcome": "in_progress",
+  "last_phase_reached": "phase_2",
+  "started_at": "2026-04-16T14:54:00Z",
+  "best_score": 0.94,
+  "current_score": 0.945,
   "score_variance": 0.03,
   "plateau_count": 0,
-  "evolution_count": 5,
+  "evolution_count": 7,
   "score_history": [
     {"iteration": 1, "score": 0.89, "goal": "T1 foundation"},
     {"iteration": 2, "score": 0.92, "goal": "D1 diagnostic"},
     {"iteration": 3, "score": 0.94, "goal": "S1 playbook"},
     {"iteration": 4, "score": 0.95, "goal": "T4 falsification"},
     {"iteration": 5, "score": 0.96, "goal": "V1 experiment"},
-    {"iteration": 6, "score": 0.94, "goal": "adversarial review → L3→L4 개선 (citation audit + AI-era primitives + overclaim 수정)", "regression_reason": "honest downgrade — prior self-scoring inflated; critique exposed L1~L10 gaps, only L1/L2/L3 부분 해결"}
+    {"iteration": 6, "score": 0.94, "goal": "adversarial review → citation audit + AI-era primitives", "regression_reason": "honest downgrade"},
+    {"iteration": 7, "score": 0.945, "goal": "L4-L9 limitations — L7 Regulatory Focus Theory added", "progress": "primitive 2.13 added + T4 falsification updated"}
   ],
   "cost_history": [
-    {"iteration": 6, "phase_reached": "phase_5", "relative_cost": 1.1}
+    {"iteration": 7, "phase_reached": "phase_2", "relative_cost": 1.0}
   ],
   "wave1_complete": true,
-  "known_limitations": ["L1 partial", "L2 partial", "L3 fixed", "L4 open", "L5 open", "L6 open", "L7 open", "L8 open", "L9 open", "L10 partial"]
+  "known_limitations": ["L4 open", "L5 open", "L6 open", "L7 in_progress", "L8 open", "L9 open"]
 }

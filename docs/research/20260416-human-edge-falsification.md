@@ -188,6 +188,12 @@ primitives 적용 전 확인: 참조 연구의 표본이 KR/타겟 시장과 일
 - [X-GROUNDED: marketing_growth.T4] 20260412-marketing-growth-falsification.md — 바이럴 반증 교차
 - [X-GROUNDED: monetization.T4] 20260412-monetization-falsification.md — 가격 반증 교차
 
+### 2.13 Regulatory Focus — ●○ needs validation (L7)
+- **견고**: 이론적 근거 충실 (Higgins 1997/2000), 실증 replication 제한적이나 존재
+- **약화**: 정량 메타분석 부족, framed messaging 효과에 문화 의존성
+- **대체 설명**: 동일 효과는 이미 Loss Aversion/Reciprocity으로 설명 가능 → 중복Primitive疑虑
+- **검증 필요**: 상이한 초점에 다른 메시지 효과 입증 필요
+
 ## References (falsification-relevant)
 - Open Science Collaboration (2015). Reproducibility Project: Psychology. *Science* 349.
 - Henrich, J., Heine, S., & Norenzayan, A. (2010). The weirdest people in the world? *BBS* 33.
