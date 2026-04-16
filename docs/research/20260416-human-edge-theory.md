@@ -111,7 +111,8 @@ System 2 (느림, 합리, 의식, 사후정당화)        ←—  5% + 나머지
 
 ### 2.9 지위/정체성 신호 (Status Signaling) — P 지배
 - **메커니즘**: 소비는 자원 전시 + 집단 정체성 표식 [Veblen 1899, Bourdieu 1984]
-- **실증**: 명품 로고 크기 — 소득과 음의 상관, "아는 사람만 아는" 소비가 고소득층 차별화 [Han-Nunes-Drèze 2010]
+- **실증**: 명품 로고 크기 — 소득과 음의 상관 [Han-Nunes-Drèze 2010]
+- **inconspicuous consumption 보강 (Currid-Halkett 2017, L9)**: 상위 계층은 "과시" 아닌 "품질"支付 — 로고 없는 제품,minimal 패키지,친구에게 소개却不张扬. "아는 사람만 아는" 소비가 지위 신호로 작용 [Currid-Halkett 2017, *JMR* 54(2)]
 - **상업 현현**:
   - 브랜드 위계, 한정판(P+희소성 결합)
   - 커뮤니티 배지/레벨/Tier (Discord/Superpath 등)
