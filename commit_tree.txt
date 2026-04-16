@@ -1,39 +1,33 @@
-omc-live-inf iter 4/∞: success | goal_v3: human-edge T4 falsification — 반증 기준 + 문화 경계 + 대체 설명
+omc-live-inf iter 5/∞: success | goal_v4: human-edge V1 experiment — Pain of Payment × Mental Accounting 2x2 factorial A/B (corpus 5-doc 완결)
 
-T4 doc: docs/research/20260416-human-edge-falsification.md (~195 lines)
+V1 doc: docs/research/20260416-human-edge-experiment.md (~175 lines)
+- 2x2 factorial design: Pain of Payment(표준/원클릭) × Mental Accounting Frame(없음/투자프레임)
+- Power analysis: n=400/cell (power 0.8, α 0.05, 최소검출 3%p on baseline 15%)
+- Pre-registered gates: HARKing 차단 + peeking 금지 + analysis plan 잠금 (Bonferroni 6 pairwise)
+- T4 §3 4가지 대체설명 통제 매핑 (confounding / selection / expectation / artifact)
+- 윤리/규제: 2024 KR 소비자법 + GDPR + Ethical_Coefficient audit
+- Acceptance 매트릭스 4단계 (D≥A×1.25+interaction / D>A+3%p / additive only / null result)
+- V1-HC-1..7: 달성가능 n / pre-reg / 2-way ANOVA / 규제 / peeking / 실패도 자산화 / WEIRD
+- V2~V4 후속 로드맵 (Scarcity×SocialProof / LossAversion×Anchoring / Commitment×MetaInsight)
 
-1. Replication Integrity (primitive별 실증 견고성):
-   2.1 Scarcity ●● / 2.2 Social Proof ●●● (경계) / 2.3 Loss Aversion ○ contested (2.25× 신화 반박)
-   2.4 Anchoring ●●● / 2.5 Reciprocity ●● / 2.6 Commitment ●● / 2.7 Novelty ●●●
-   2.8 Meta-Insight ●● / 2.9 Status Signaling ●●● (세그먼트 반전)
-   - 각 primitive에 replication 실패 / 대체 설명 첨부
-
-2. 문화 경계 (Hofstede 3축):
-   IDV 개인주의(US/NL) vs 집단주의(KR/JP) — Commitment vs Social Proof 가중 반전
-   PDI 권력거리 — Authority vs Peer Social Proof 우위 반전
-   UAI 불확실성 회피 — Loss Aversion vs Novelty 우위 반전
-   WEIRD 편향 경고: 학술 실험 80%+가 서구 대학생 → 효과 크기 할인 0.3-0.7x
-
-3. 4가지 대체 설명 (귀속 오류):
-   Confounding by Quality Signal / Selection Effect / Expectation (Placebo) / Novelty Artifact (Hawthorne)
-
-4. Dead-zone 조건 9개 (primitive별 무효 구간)
-
-5. 2020-2025 업데이트:
-   감소: Authority, 상업적 Reciprocity, 가짜 Scarcity
-   강해짐: Meta-Insight (AI 개인화), peer Social Proof (UGC/TikTok), 커뮤니티 Status
-   새 경계: 2024 EU DSA / KR 소비자법 개정 — 다크패턴 규제
-
-6. T4-HC-1..7: replication 실패 제시 / 효과크기 세그먼트 명시 / 대체설명 고려 / dead-zone 측정가능 / WEIRD 검토 / 2020s 업데이트 / 반증 불가능 주장 회피
+human_edge corpus 완결:
+  taxonomy_groups:
+    이론: [T1, T4]    — 9 primitives + 반증 기준
+    진단: [D1]        — 13-문항 감사
+    전략: [S1]        — 9 × AARRR 매트릭스 + 3 시나리오
+    검증: [V1]        — 2x2 factorial 사전등록 실험
 
 Registry: ~/.claude/skills/entity/corpus-registry.yaml
-  docs.T4 추가, taxonomy_groups.이론: [T1, T4]
+  docs.V1 추가, taxonomy_groups.검증: [V1]
 
-human_edge corpus: T1 (이론) + T4 (반증) + D1 (진단) + S1 (전략) — 4/5 완성
-남은: V1 (experiment — Pain of Payment × Mental Accounting A/B)
+Score trajectory: 0.89 → 0.92 → 0.94 → 0.95 → 0.96 (+0.07 누적) | evolution_count=4
+Delta 0.01 3연속 (0.02→0.01→0.01) — context budget approaching 70%
+→ 다음 턴 handoff report 생성 후 세션 마감 예정
+  (user 명시 stop 없이 context_budget_pct 도달 시 skill spec Step 3b 트리거)
 
-Score trajectory: 0.89 → 0.92 → 0.94 → 0.95 (+0.06 누적) | plateau_count=0 | evolution_count=3
-Delta 0.01 (< epsilon 0.05) but best_score still updated (strict improvement)
-T→D→S→T 4-doc 완성, draft → stable 승격 조건 중 V1 실데이터 inbound만 남음
+Corpus promotion 조건 (draft → stable):
+  1. V1 실데이터 inbound (4주 실행 후 결과) — 미확보
+  2. 최소 1개 실거래 A/B 통과 — 미확보
+  → 현재 status=draft 유지, V1 실행 완료 시 재검토
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
