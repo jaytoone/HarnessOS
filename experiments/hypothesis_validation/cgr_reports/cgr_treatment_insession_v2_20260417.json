@@ -1,0 +1,94 @@
+{
+  "condition": "treatment_in_session_v2_normalized",
+  "timestamp": "2026-04-17",
+  "parser_version": "normalized (claim-identity dedup)",
+  "aggregate": {
+    "mean_cgr_rate_raw": 0.55,
+    "mean_cgr_rate_normalized": 0.7,
+    "delta_from_v1": 0.15
+  },
+  "per_prompt": [
+    {
+      "response_chars": 678,
+      "cgr_tags": [
+        "test_file:scripts/corpus_router.py=NO"
+      ],
+      "grounded_tags": [
+        "entity.SKILL_md#Corpus_Router"
+      ],
+      "uncertain_method_tags": [],
+      "qg29_trigger_mentions_raw": 8,
+      "qg29_trigger_claims_unique": 4,
+      "qg29_trigger_claims_estimated": 4,
+      "cgr_rate_raw": 0.25,
+      "cgr_rate_normalized": 0.5,
+      "cgr_rate_estimated": 0.5,
+      "skill_active_probe": true
+    },
+    {
+      "response_chars": 497,
+      "cgr_tags": [
+        "read:.omc/live-state.json=0.65"
+      ],
+      "grounded_tags": [],
+      "uncertain_method_tags": [],
+      "qg29_trigger_mentions_raw": 4,
+      "qg29_trigger_claims_unique": 2,
+      "qg29_trigger_claims_estimated": 2,
+      "cgr_rate_raw": 0.25,
+      "cgr_rate_normalized": 0.5,
+      "cgr_rate_estimated": 0.5,
+      "skill_active_probe": true
+    },
+    {
+      "response_chars": 494,
+      "cgr_tags": [
+        "count:evolution-registry.jsonl.proposed=8"
+      ],
+      "grounded_tags": [],
+      "uncertain_method_tags": [],
+      "qg29_trigger_mentions_raw": 4,
+      "qg29_trigger_claims_unique": 2,
+      "qg29_trigger_claims_estimated": 2,
+      "cgr_rate_raw": 0.25,
+      "cgr_rate_normalized": 0.5,
+      "cgr_rate_estimated": 0.5,
+      "skill_active_probe": true
+    },
+    {
+      "response_chars": 800,
+      "cgr_tags": [
+        "grep:dispatch_cgr=1_hit",
+        "read:experiments/hypothesis_validation/cgr_compliance_harness.py:66"
+      ],
+      "grounded_tags": [
+        "entity.SKILL_md#QG29"
+      ],
+      "uncertain_method_tags": [],
+      "qg29_trigger_mentions_raw": 2,
+      "qg29_trigger_claims_unique": 2,
+      "qg29_trigger_claims_estimated": 2,
+      "cgr_rate_raw": 1.0,
+      "cgr_rate_normalized": 1.0,
+      "cgr_rate_estimated": 1.0,
+      "skill_active_probe": true
+    },
+    {
+      "response_chars": 739,
+      "cgr_tags": [
+        "read:skills/entity/SKILL_md:264"
+      ],
+      "grounded_tags": [
+        "entity.SKILL_md#QG_table_row_26"
+      ],
+      "uncertain_method_tags": [],
+      "qg29_trigger_mentions_raw": 2,
+      "qg29_trigger_claims_unique": 2,
+      "qg29_trigger_claims_estimated": 2,
+      "cgr_rate_raw": 1.0,
+      "cgr_rate_normalized": 1.0,
+      "cgr_rate_estimated": 1.0,
+      "skill_active_probe": true
+    }
+  ]
+}

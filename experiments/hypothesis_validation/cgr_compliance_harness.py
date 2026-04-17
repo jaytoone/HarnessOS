@@ -131,23 +131,62 @@ def invoke_entity(prompt: str, timeout: int = 90) -> str:
         return f"[ERROR] {exc}"
 
 
+def _normalize_trigger(raw: str) -> str:
+    """Canonicalize a trigger string so repeated mentions collapse into one claim.
+
+    - file paths: lowercase, strip leading `./`, collapse whitespace
+    - numeric claims (score=0.65, best_score=0.75): keep metric name + value pair
+    - line references (line 264): normalize to 'line:N'
+    - version refs (version 1.2.3): normalize to 'version:N'
+    """
+    s = raw.strip().lower()
+    if s.startswith("./"):
+        s = s[2:]
+    s = re.sub(r"\s+", " ", s)
+    # Line reference
+    m = re.match(r"line\s+(\d+)", s)
+    if m:
+        return f"line:{m.group(1)}"
+    # Version reference
+    m = re.match(r"version\s+([\d.]+)", s)
+    if m:
+        return f"version:{m.group(1)}"
+    return s
+
+
 def analyze_response(response: str) -> dict:
-    """Extract tag counts + compliance estimate from a single response."""
+    """Extract tag counts + compliance estimates from a single response.
+
+    Emits TWO metrics:
+    - raw_cgr_rate: naive tagged/triggers ratio (honest, but inflates denominator
+      when the same claim is mentioned multiple times)
+    - normalized_cgr_rate: denominator uses distinct claim identities
+      (one file path mentioned 3× counts as 1 claim); this is the interpretable
+      compliance metric.
+    """
     cgr = RE_CGR.findall(response)
     grounded = RE_GROUNDED.findall(response)
     uncertain = RE_UNCERTAIN_METHOD.findall(response)
-    triggers = RE_TRIGGER.findall(response)
+    triggers_raw = RE_TRIGGER.findall(response)
 
-    total_triggers = len(triggers)
+    # Claim-identity dedup: group repeated mentions of the same file/metric/line
+    unique_claims = {_normalize_trigger(t) for t in triggers_raw}
+
+    total_triggers_raw = len(triggers_raw)
+    total_claims_unique = len(unique_claims)
     tagged_count = len(cgr) + len(grounded) + len(uncertain)
 
-    # cgr_rate_estimated: proportion of trigger claims that appear to be tagged.
-    # Over-count guard: responses may include more tags than raw triggers
-    # (one tag can cover multiple mentions) — clamp to [0, 1].
-    if total_triggers == 0:
-        cgr_rate = 0.0 if tagged_count == 0 else 1.0  # no triggers, any tags → perfect
+    # Raw rate (legacy, documented as under-counting)
+    if total_triggers_raw == 0:
+        raw_rate = 1.0 if tagged_count > 0 else 0.0
     else:
-        cgr_rate = min(1.0, tagged_count / total_triggers)
+        raw_rate = min(1.0, tagged_count / total_triggers_raw)
+
+    # Normalized rate (claim-identity dedup applied to denominator)
+    if total_claims_unique == 0:
+        normalized_rate = 1.0 if tagged_count > 0 else 0.0
+    else:
+        normalized_rate = min(1.0, tagged_count / total_claims_unique)
 
     skill_active = any(tok in response for tok in SKILL_ACTIVE_TOKENS)
 
@@ -156,8 +195,12 @@ def analyze_response(response: str) -> dict:
         "cgr_tags": cgr,
         "grounded_tags": grounded,
         "uncertain_method_tags": uncertain,
-        "qg29_trigger_claims_estimated": total_triggers,
-        "cgr_rate_estimated": round(cgr_rate, 3),
+        "qg29_trigger_mentions_raw": total_triggers_raw,
+        "qg29_trigger_claims_unique": total_claims_unique,
+        "qg29_trigger_claims_estimated": total_claims_unique,  # back-compat key
+        "cgr_rate_raw": round(raw_rate, 3),
+        "cgr_rate_normalized": round(normalized_rate, 3),
+        "cgr_rate_estimated": round(normalized_rate, 3),  # back-compat key (now uses normalized)
         "skill_active_probe": skill_active,
     }
 
