@@ -1,26 +1,49 @@
 {
-  "current_iteration": 10,
+  "current_iteration": 1,
   "last_outcome": "success",
-  "last_phase_reached": "phase_3",
-  "started_at": "2026-04-16T14:54:00Z",
-  "best_score": 0.955,
-  "current_score": 0.955,
-  "score_variance": 0.03,
+  "last_phase_reached": "qg29_skill_update",
+  "started_at": "2026-04-16T16:30:00Z",
+  "best_score": 0.75,
+  "current_score": 0.88,
+  "current_goal_fidelity": 1.0,
+  "score_variance": 0.05,
   "plateau_count": 0,
-  "evolution_count": 10,
+  "evolution_count": 0,
   "score_history": [
-    {"iteration": 1, "score": 0.89},
-    {"iteration": 2, "score": 0.92},
-    {"iteration": 3, "score": 0.94},
-    {"iteration": 4, "score": 0.95},
-    {"iteration": 5, "score": 0.96},
-    {"iteration": 6, "score": 0.94, "regression": "honest downgrade"},
-    {"iteration": 7, "score": 0.945, "L7": "Regulatory Focus"},
-    {"iteration": 8, "score": 0.95, "L8": "Self-Perception"},
-    {"iteration": 9, "score": 0.95, "L9": "Currid-Halkett"},
-    {"iteration": 10, "score": 0.955, "L5": "S1 empirical caveats"}
+    {
+      "iteration": 1,
+      "score": 0.88,
+      "goal_fidelity": 1.0,
+      "goal_version": 0,
+      "score_variance": 0.05,
+      "notes": "L4 κ study design updated to COMPLETE status; L7/L8 clarification added to T1"
+    }
   ],
   "cost_history": [],
   "wave1_complete": true,
-  "known_limitations": ["L4 open (κ study)", "L5 completed", "L6 OK (Bonferroni correct)"]
+  "wave1_plan": {
+    "approach": "κ study design완료 + L7/L8 clarification + empirical caveats 보강",
+    "method": "1) L4 design status update, 2) L7/L8 boundary clarification in theory, 3) empirical validation note update",
+    "key_decisions": [
+      "κ study는 설계만 완료, 실행은 manual 필요",
+      "L7/L8는 이미 theory에 통합됨 확인"
+    ],
+    "anti_patterns": [
+      "κ 실행을 automated loop에서 시도 (manual 필요)",
+      "L7/L8를 별도 문서로 분리 (기존에 이미 통합됨)"
+    ],
+    "recommended_tools": "direct edit via Read/Edit",
+    "constraints": "manual evaluation-required tasks cannot be automated"
+  },
+  "known_limitations": [
+    "L4: κ study DESIGN complete (execution manual)",
+    "L5: empirical A/B validation needed",
+    "L6: OK",
+    "L7-L9: primitives integrated"
+  ],
+  "failure_reason": null,
+  "failure_detail": null,
+  "_prior_best_score_archived": 0.96,
+  "updated_at": "2026-04-17T09:01:23.895526+00:00",
+  "last_action": "CGR re-scoped as skill-level QG29 in ~/.claude/skills/entity/SKILL.md"
 }

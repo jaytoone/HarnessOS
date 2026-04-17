@@ -54,18 +54,27 @@ dispatched compute call whose result becomes the grounded evidence.
   - Latency ≤ 2× baseline.
 - **Statistical test**: paired Wilcoxon signed-rank on per-task ACTION-UNCERTAIN counts.
 
-### Implementation Plan
-1. `scripts/corpus_router.py` — add `dispatch_cgr(claim, confidence)` returning `(compute_id, result)`.
-2. `scripts/quality_gate.py` (or ameva/SKILL.md QG26 block) — extend classifier to recognize
-   `[CGR:compute_id]` as grounded.
-3. `experiments/hypothesis_validation/ameva_benchmark.py` — add `--cgr-enabled` flag.
-4. Run 22-task benchmark in both conditions; log to `.omc/evolution-registry.jsonl`.
+### Implementation Plan — REVISED 2026-04-17
 
-### Expected Outcome
-ACTION-UNCERTAIN rate drops 30–50%; score holds or improves modestly; latency 1.3–1.8×.
-If latency > 2×, fall back to CGR-on-high-confidence-INFERRED-only (threshold tuning).
+**Original plan assumed Python infrastructure (`scripts/corpus_router.py`, `scripts/quality_gate.py`) that does not exist in this repo.** Re-scoped to skill-level implementation matching Entity's actual architecture (prompt-level Quality Gate, not Python classifier).
+
+**Shipped (2026-04-17):**
+1. `~/.claude/skills/entity/SKILL.md` — added **QG29 (CGR Compute Grounding)** as 29th check. Triggers on any model assertion about codebase/environment/test state; repair paths: (a) execute compute → retag `[CGR:tool:target]`, (b) retag `[UNCERTAIN: method=<specific>]`.
+2. `~/.claude/skills/entity/SKILL.md` — QG table row 29 added; heading "27 checks" → "29 checks"; `[ENTITY_GROUNDING_METRICS]` footer extended with `cgr_rate` (target ≥ 0.80).
+3. Skill frontmatter description updated: "27-check" → "29-check Quality Gate (QG29 = CGR compute grounding)".
+
+**Deferred (requires runtime evidence, not in this iteration):**
+- Benchmark measurement. The 22-task ameva benchmark runs against a Python harness (`experiments/hypothesis_validation/ameva_benchmark.py`), but Entity's QG is evaluated at skill invocation time — there is no Python hook to toggle. Measurement requires either (a) a manual control/treatment session-pair comparison, or (b) a bench harness that invokes `/entity` as a subprocess and scrapes the response for `[CGR:]` tags.
+
+### Expected Outcome (post-skill-update)
+Entity responses that reference files, test results, scores, or env state will now carry `[CGR:compute_id]` tags after genuine tool execution, or `[UNCERTAIN: method]` when deferred. `cgr_rate` footer field makes compliance observable in every response.
+
+### Measurement Path Forward
+1. Run `/entity` on a codebase-claim query with and without QG29 awareness (control = pre-2026-04-17 snapshot; treatment = current).
+2. Count: claims matching QG29 triggers / claims carrying `[CGR:]` or `[GROUNDED:]` or `[UNCERTAIN: method]` tags.
+3. Target: cgr_rate ≥ 0.80 on treatment, uncertain_ratio ≤ 0.40.
 
 ## Open Risks
-- CGR dispatch could mask genuine uncertainty (overconfidence) if compute returns a plausible-but-wrong
-  value. Mitigation: CGR results themselves pass through a secondary grounding check.
-- Determinism: CGR calls must be reproducible for benchmark comparability.
+- **Fabricated CGR receipts**: model emits `[CGR:grep:X]` without actually running grep. Mitigation: QG29 FAIL criterion — tag must reference an actual tool call *in the current turn*.
+- **Self-enforcement is imperfect**: skill-level QG relies on the model reading and following its own rubric. Cross-prompt or oracle-based measurement needed to verify compliance (the very problem CGR tries to fix — recursive).
+- **Budget exhaustion**: 3 CGR calls/response may be too low for audit-heavy tasks; fallback to `[UNCERTAIN: method]` must not degrade output quality.

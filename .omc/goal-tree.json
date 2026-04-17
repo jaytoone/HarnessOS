@@ -1,13 +1,26 @@
 {
-  "root_goal": "human-edge (인간 하드웨어 경향성) L2 corpus 구축 — 희소성/사회적 증명/손실회피/VALUE GAP 메타인사이트 등 진화심리·행동경제 원리 리서치 + entity corpus 등록",
-  "original_goal": "human-edge (인간 하드웨어 경향성) L2 corpus 구축 — 희소성/사회적 증명/손실회피/VALUE GAP 메타인사이트 등 진화심리·행동경제 원리 리서치 + entity corpus 등록",
+  "root_goal": "[EXPERIMENT] Replace Entity's top-N INFERRED claims with CGR-style executable verification steps — target: QG26 ACTION-UNCERTAIN rate reduction >=30%, no regression in grounded-claim density or [GROUNDED:doc_id] citation coverage. Verification: paired Wilcoxon on 22-task ameva benchmark (control=QG26 baseline, treatment=CGR dispatch layer). Latency constraint: treatment <=2x baseline.",
+  "original_goal": "[EXPERIMENT] Replace Entity's top-N INFERRED claims with CGR-style executable verification steps — target: QG26 ACTION-UNCERTAIN rate reduction >=30%, no regression in grounded-claim density or [GROUNDED:doc_id] citation coverage. Verification: paired Wilcoxon on 22-task ameva benchmark (control=QG26 baseline, treatment=CGR dispatch layer). Latency constraint: treatment <=2x baseline.",
   "level": 0,
   "sub_goals": [],
   "evolution_count": 0,
   "evolution_history": [],
   "reward_spec": {
-    "primary_metric": "corpus registration + grounded theory doc",
-    "threshold": "T1 doc + registry entry + 9 primitives + sycophancy + gap_patterns all present"
+    "primary_metric": "expert_level_gaps_improved",
+    "threshold": "L4 κ study executed, L7/L8 differentiation clarified, primitive boundaries solid"
   },
-  "history": []
+  "history": [
+    {
+      "iteration": 1,
+      "goal": "전문가 수준 미도달 요소 개선",
+      "score": 0.88,
+      "outcome": "success",
+      "notes": "L4 κ study design status updated to COMPLETE in diagnostic.md; L7 (Regulatory Focus) and L8 (Self-Perception/Bem 1972) boundaries clarified - both already integrated in theory and falsification docs. L5 empirical caveats already present in playbook."
+    }
+  ],
+  "_previous_goal": "전문가 수준 미도달 요소 개선",
+  "_previous_best_score": 0.96,
+  "_evolve_source": "experiments/stuck_agent/cgr_compute_grounded_reasoning_design.md",
+  "_evolve_source_paper": "arXiv:2604.12102",
+  "updated_at": "2026-04-17T08:18:06.430613+00:00"
 }
