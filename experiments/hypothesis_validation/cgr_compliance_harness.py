@@ -96,8 +96,17 @@ SKILL_ACTIVE_TOKENS = [
 ]
 
 
+class HarnessBlockedError(RuntimeError):
+    """Raised when the harness cannot measure due to an environmental block
+    (e.g. CLI not authenticated). Distinct from per-call failures."""
+
+
 def invoke_entity(prompt: str, timeout: int = 90) -> str:
-    """Run `claude -p <prompt> --bare` and return stdout."""
+    """Run `claude -p <prompt> --bare` and return stdout.
+
+    Detects common auth failures and raises HarnessBlockedError so the caller
+    can abort the whole run rather than silently reporting zero metrics.
+    """
     try:
         result = subprocess.run(
             ["claude", "-p", prompt, "--bare"],
@@ -105,11 +114,19 @@ def invoke_entity(prompt: str, timeout: int = 90) -> str:
             text=True,
             timeout=timeout,
         )
-        return result.stdout
+        out = result.stdout
+        if "Not logged in" in out or "Please run /login" in out:
+            raise HarnessBlockedError(
+                "claude CLI not authenticated — run `/login` interactively, "
+                "then re-run the harness. Partial results are meaningless."
+            )
+        return out
     except subprocess.TimeoutExpired:
         return "[ERROR] claude -p timed out"
     except FileNotFoundError:
-        return "[ERROR] claude CLI not found"
+        raise HarnessBlockedError("claude CLI not found in PATH")
+    except HarnessBlockedError:
+        raise
     except Exception as exc:  # noqa: BLE001
         return f"[ERROR] {exc}"
 
@@ -149,7 +166,24 @@ def run(condition: str, out_path: Path, prompts: list[str], dry_run: bool = Fals
     results = []
     for i, prompt in enumerate(prompts, 1):
         print(f"[{i}/{len(prompts)}] {prompt[:70]}...", file=sys.stderr)
-        response = "[DRY-RUN: no invocation]" if dry_run else invoke_entity(prompt)
+        if dry_run:
+            response = "[DRY-RUN: no invocation]"
+        else:
+            try:
+                response = invoke_entity(prompt)
+            except HarnessBlockedError as err:
+                print(f"\n[HARNESS BLOCKED] {err}", file=sys.stderr)
+                blocked_report = {
+                    "condition": condition,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "blocked": True,
+                    "block_reason": str(err),
+                    "prompts_attempted": i - 1,
+                    "results": results,
+                }
+                out_path.write_text(json.dumps(blocked_report, ensure_ascii=False, indent=2))
+                print(f"[HARNESS BLOCKED] Report → {out_path}", file=sys.stderr)
+                return blocked_report
         analysis = analyze_response(response)
         analysis["prompt"] = prompt
         results.append(analysis)

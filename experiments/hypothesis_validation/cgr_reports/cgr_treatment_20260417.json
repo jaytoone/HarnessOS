@@ -1,0 +1,8 @@
+{
+  "condition": "treatment",
+  "timestamp": "2026-04-17T11:14:30.501936+00:00",
+  "blocked": true,
+  "block_reason": "claude CLI not authenticated — run `/login` interactively, then re-run the harness. Partial results are meaningless.",
+  "prompts_attempted": 0,
+  "results": []
+}
