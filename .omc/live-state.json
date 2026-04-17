@@ -1,9 +1,9 @@
 {
-  "current_iteration": 1,
-  "last_outcome": "success",
-  "last_phase_reached": "qg29_skill_update",
+  "current_iteration": 2,
+  "last_outcome": "partial",
+  "last_phase_reached": "classifier_built_sample_biased",
   "started_at": "2026-04-16T16:30:00Z",
-  "best_score": 0.75,
+  "best_score": 0.65,
   "current_score": 0.88,
   "current_goal_fidelity": 1.0,
   "score_variance": 0.05,
@@ -44,6 +44,6 @@
   "failure_reason": null,
   "failure_detail": null,
   "_prior_best_score_archived": 0.96,
-  "updated_at": "2026-04-17T09:01:23.895526+00:00",
-  "last_action": "CGR re-scoped as skill-level QG29 in ~/.claude/skills/entity/SKILL.md"
+  "updated_at": "2026-04-17T09:11:44.541970+00:00",
+  "last_action": "Built mirage_classifier.py, applied to episodes.jsonl (n=5, 2 classified). Sample biased toward successes — H1 cannot be tested without per-iteration failure data."
 }

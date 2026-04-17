@@ -1,0 +1,122 @@
+{
+  "timestamp": "2026-04-17T09:11:07.568908+00:00",
+  "episodes_path": ".omc/episodes.jsonl",
+  "episodes_total": 5,
+  "episodes_classified": 2,
+  "episodes_unclassified": 3,
+  "mode": "heuristic_only",
+  "distribution": {
+    "perception": {
+      "count": 2,
+      "fraction": 1.0
+    },
+    "planning": {
+      "count": 0,
+      "fraction": 0.0
+    },
+    "memory": {
+      "count": 0,
+      "fraction": 0.0
+    },
+    "execution": {
+      "count": 0,
+      "fraction": 0.0
+    },
+    "recovery": {
+      "count": 0,
+      "fraction": 0.0
+    }
+  },
+  "dominant_category": "perception",
+  "h1_preliminary": {
+    "dominant_category": "perception",
+    "dominant_fraction": 1.0,
+    "threshold": 0.4,
+    "supported_preliminary": true,
+    "sample_size": 2,
+    "statistical_power": "insufficient",
+    "note": "Full chi-square test requires total >= 25 (5 per category × 5 categories)."
+  },
+  "per_episode": [
+    {
+      "ts": "2026-03-25T00:00:00Z",
+      "task_desc": "3개 개선사항 패치: (1)omc-live 구조화 판단+uncertain escalation (2)omc-episode-memory 압축 선택 ",
+      "outcome": "success",
+      "category": null,
+      "method": "heuristic",
+      "heuristic_hits": {
+        "perception": 0,
+        "planning": 0,
+        "memory": 0,
+        "execution": 0,
+        "recovery": 0
+      },
+      "heuristic_confidence": 0.0,
+      "llm_category": null
+    },
+    {
+      "ts": "2026-03-25T01:00:00Z",
+      "task_desc": "평론 도출 3개 개선안 패치: (1)omc-live 출력 파서+UNCERTAIN 폴백 (2)omc-episode-memory UUID dedup",
+      "outcome": "success",
+      "category": null,
+      "method": "heuristic",
+      "heuristic_hits": {
+        "perception": 0,
+        "planning": 0,
+        "memory": 0,
+        "execution": 0,
+        "recovery": 0
+      },
+      "heuristic_confidence": 0.0,
+      "llm_category": null
+    },
+    {
+      "ts": "2026-03-26T10:05:00Z",
+      "task_desc": "live skill 루프 실험 - iteration 1 failure 시뮬레이션",
+      "outcome": "failure",
+      "category": "perception",
+      "method": "heuristic",
+      "heuristic_hits": {
+        "perception": 1,
+        "planning": 0,
+        "memory": 0,
+        "execution": 1,
+        "recovery": 0
+      },
+      "heuristic_confidence": 0.0,
+      "llm_category": null
+    },
+    {
+      "ts": "2026-03-26T10:15:00Z",
+      "task_desc": "live skill 루프 실험 - iteration 2 success (Output Parser patched)",
+      "outcome": "success",
+      "category": "perception",
+      "method": "heuristic",
+      "heuristic_hits": {
+        "perception": 1,
+        "planning": 0,
+        "memory": 0,
+        "execution": 0,
+        "recovery": 0
+      },
+      "heuristic_confidence": 1.0,
+      "llm_category": null
+    },
+    {
+      "ts": "2026-03-26T12:05:00Z",
+      "task_desc": "live skill stats 표시 검증 테스트",
+      "outcome": "success",
+      "category": null,
+      "method": "heuristic",
+      "heuristic_hits": {
+        "perception": 0,
+        "planning": 0,
+        "memory": 0,
+        "execution": 0,
+        "recovery": 0
+      },
+      "heuristic_confidence": 0.0,
+      "llm_category": null
+    }
+  ]
+}
