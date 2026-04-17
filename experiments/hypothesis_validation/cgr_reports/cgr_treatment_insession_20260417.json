@@ -1,0 +1,73 @@
+{
+  "condition": "treatment_in_session",
+  "source": "Claude-in-session (no subprocess, tool-call-backed)",
+  "timestamp": "2026-04-17",
+  "prompts_total": 5,
+  "aggregate": {
+    "mean_cgr_rate": 0.55,
+    "total_cgr_tags": 6,
+    "total_grounded_tags": 3,
+    "total_uncertain_method_tags": 0,
+    "total_qg29_triggers": 20,
+    "skill_active_fraction": 1.0
+  },
+  "per_prompt": [
+    {
+      "prompt": "Using /entity, answer: Does `scripts/corpus_router.py` exist in /home/",
+      "cgr_tags": [
+        "test_file:scripts/corpus_router.py=NO"
+      ],
+      "grounded_tags": [
+        "entity.SKILL_md#Corpus_Router"
+      ],
+      "triggers": 8,
+      "cgr_rate": 0.25,
+      "skill_active": true
+    },
+    {
+      "prompt": "Using /entity, answer: What is the current best_score recorded in `.om",
+      "cgr_tags": [
+        "read:.omc/live-state.json=0.65"
+      ],
+      "grounded_tags": [],
+      "triggers": 4,
+      "cgr_rate": 0.25,
+      "skill_active": true
+    },
+    {
+      "prompt": "Using /entity, answer: How many proposed items are in `.omc/evolution-",
+      "cgr_tags": [
+        "count:evolution-registry.jsonl.proposed=8"
+      ],
+      "grounded_tags": [],
+      "triggers": 4,
+      "cgr_rate": 0.25,
+      "skill_active": true
+    },
+    {
+      "prompt": "Using /entity, answer: Does the function `dispatch_cgr` exist anywhere",
+      "cgr_tags": [
+        "grep:dispatch_cgr=1_hit",
+        "read:experiments/hypothesis_validation/cgr_compliance_harness.py:66"
+      ],
+      "grounded_tags": [
+        "entity.SKILL_md#QG29"
+      ],
+      "triggers": 2,
+      "cgr_rate": 1.0,
+      "skill_active": true
+    },
+    {
+      "prompt": "Using /entity, answer: What is check #26 in the Entity Quality Gate ta",
+      "cgr_tags": [
+        "read:skills/entity/SKILL_md:264"
+      ],
+      "grounded_tags": [
+        "entity.SKILL_md#QG_table_row_26"
+      ],
+      "triggers": 2,
+      "cgr_rate": 1.0,
+      "skill_active": true
+    }
+  ]
+}
